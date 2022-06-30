@@ -16,7 +16,7 @@ type ImportResponse struct{}
 
 func ImportHandler(w http.ResponseWriter, r *http.Request) {
 	handle(w, r, func(req ImportRequest) (ImportResponse, error) {
-		err := service.ProcessBook(r.Context(), req.Book, req.Materials)
+		err := service.InitialProcessBook(r.Context(), req.Book, req.Materials)
 
 		return ImportResponse{}, err
 	})

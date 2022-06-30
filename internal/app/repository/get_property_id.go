@@ -2,14 +2,15 @@ package repository
 
 import (
 	"context"
+	"fmt"
 	"metallplace/internal/pkg/db"
 )
 
-func GetPropertyId(ctx context.Context, propertyName string) (int, error) {
+func (r *Repository) GetPropertyId(ctx context.Context, propertyName string) (int, error) {
 	var id int
-	row, err := db.FromContext(ctx).Query(`SELECT property FROM source WHERE name=$1`, propertyName)
+	row, err := db.FromContext(ctx).QueryRow(`SELECT id FROM property WHERE name=$1`, propertyName)
 	if err != nil {
-		return 0, err
+		return 0, fmt.Errorf("Can't get property id %w", err)
 	}
 
 	err = row.Scan(&id)

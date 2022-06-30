@@ -1,7 +1,0 @@
-POST localhost:8080/import
-Content-Type: application/json
-
-{
-  "book": "ee",
-  "materials":
-}
