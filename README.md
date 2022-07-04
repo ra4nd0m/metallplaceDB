@@ -39,5 +39,5 @@ Material_Property - связывает материал и его свойств
 Material_Value - значение определенного свойства материала, взятого из определенного источника
 Material_Source - связывает материалы, источник, рынок торгов и валюту торгов
 
-![metallplace@localhost](https://user-images.githubusercontent.com/73790397/177200249-0f049e37-8a0c-41d3-abc5-1a79e4ca81b6.png =100x20)
+![metallplace@localhost](https://user-images.githubusercontent.com/73790397/177200249-0f049e37-8a0c-41d3-abc5-1a79e4ca81b6.png =100x)
 
