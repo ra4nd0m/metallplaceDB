@@ -20,11 +20,11 @@
 - getMaterials - возвращает существующие уникальные связки Материал - Источник - Рынок - Валюта продажи в формате JSON
 - getPrice - возвращает фид цены определенной связки за определенный промежуток. На вход принимает id связки, дату нижней и верхней границы (несторогое сравнение)
  
-  POST localhost:8080/getPrice
-  Content-Type: application/json
+      POST localhost:8080/getPrice
+      Content-Type: application/json
 
-  {
-    "material_source_id": 1,
-    "start": "2017-01-04",
-    "finish": "2017-04-05"
-  }
+      {
+        "material_source_id": 1,
+        "start": "2017-01-04",
+        "finish": "2017-04-05"
+      }
