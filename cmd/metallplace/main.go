@@ -23,7 +23,8 @@ func main() {
 		route   string
 		handler http.HandlerFunc
 	}{
-		{route: "/import", handler: handler.ImportHandler},
+		{route: "/getPrice", handler: handler.PriceHandler},
+		{route: "/getMaterials", handler: handler.GetMaterialHandler},
 	} {
 		http.HandleFunc(rec.route, DbMiddleware(rec.handler))
 	}

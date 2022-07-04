@@ -3,13 +3,17 @@ module metallplace
 go 1.18
 
 require (
+	github.com/blockloop/scan v1.3.0
+	github.com/feiin/ploto v0.3.5
 	github.com/lib/pq v1.10.6
 	github.com/spf13/viper v1.11.0
 	github.com/xuri/excelize/v2 v2.6.0
 )
 
 require (
+	github.com/feiin/sqlstring v0.2.1 // indirect
 	github.com/fsnotify/fsnotify v1.5.1 // indirect
+	github.com/google/uuid v1.3.0 // indirect
 	github.com/hashicorp/hcl v1.0.0 // indirect
 	github.com/magiconair/properties v1.8.6 // indirect
 	github.com/mitchellh/mapstructure v1.4.3 // indirect

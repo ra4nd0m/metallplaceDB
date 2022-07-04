@@ -15,6 +15,8 @@ type IRepository interface {
 	GetMaterialSourceId(ctx context.Context, materialName string, sourceName string) (int, error)
 	GetPropertyId(ctx context.Context, propertyName string) (int, error)
 	GetSourceId(ctx context.Context, sourceName string) (int, error)
+	GetPricesForPeriod(ctx context.Context, materialSourceId int, start string, finish string) ([]model.Price, error)
+	GetMaterialList(ctx context.Context) ([]model.MaterialShortInfo, error)
 }
 
 type Service struct {

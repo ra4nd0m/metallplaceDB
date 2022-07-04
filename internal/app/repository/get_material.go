@@ -20,3 +20,18 @@ func (r *Repository) GetMaterialId(ctx context.Context, materialName string) (in
 
 	return id, nil
 }
+
+func (r *Repository) GetMaterialName(ctx context.Context, materialId int) (string, error) {
+	var name string
+	row, err := db.FromContext(ctx).QueryRow(`SELECT name FROM material WHERE id=$1`, materialId)
+	if err != nil {
+		return "", fmt.Errorf("Can't get material name %w", err)
+	}
+
+	err = row.Scan(&name)
+	if err != nil {
+		return "", fmt.Errorf("Can't get material name with row.Scan() %w", err)
+	}
+
+	return name, nil
+}

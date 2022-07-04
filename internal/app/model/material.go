@@ -1,5 +1,7 @@
 package model
 
+import "time"
+
 type Property struct {
 	Name   string
 	Column string
@@ -15,4 +17,17 @@ type Material struct {
 	Unit       string
 	DateColumn string
 	Properties []Property
+}
+
+type MaterialShortInfo struct {
+	Id     int
+	Name   string
+	Source string
+	Market string
+	Unit   string
+}
+
+type Price struct {
+	Date  time.Time
+	Value float64
 }
