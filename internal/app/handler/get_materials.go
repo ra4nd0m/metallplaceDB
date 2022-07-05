@@ -6,8 +6,7 @@ import (
 	"net/http"
 )
 
-type GetMaterialsRequest struct {
-}
+type GetMaterialsRequest struct{}
 
 type GetMaterialsResponse struct {
 	List []model.MaterialShortInfo `json:"list"`

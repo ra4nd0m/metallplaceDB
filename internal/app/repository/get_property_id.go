@@ -6,6 +6,7 @@ import (
 	"metallplace/internal/pkg/db"
 )
 
+// GetPropertyId Get property id by property name
 func (r *Repository) GetPropertyId(ctx context.Context, propertyName string) (int, error) {
 	var id int
 	row, err := db.FromContext(ctx).QueryRow(`SELECT id FROM property WHERE name=$1`, propertyName)

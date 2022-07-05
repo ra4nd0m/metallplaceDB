@@ -9,9 +9,11 @@ import (
 	"time"
 )
 
+// InitialImport Importing data from book, using layout written by hand
 func (s *Service) InitialImport(ctx context.Context, book *excelize.File, materials []model.Material) error {
 	dateLayout := "2-Jan-06"
 
+	// Going through input material list layout
 	for _, material := range materials {
 		err := s.repo.AddMaterialAndSource(ctx, material)
 		if err != nil {
@@ -23,6 +25,7 @@ func (s *Service) InitialImport(ctx context.Context, book *excelize.File, materi
 			return err
 		}
 
+		// Going through material's properties
 		for _, property := range material.Properties {
 			row := property.Row
 			for {
@@ -31,6 +34,7 @@ func (s *Service) InitialImport(ctx context.Context, book *excelize.File, materi
 					return err
 				}
 
+				// Calculating date cell, and formatting it
 				dateCell := material.DateColumn + strconv.Itoa(row)
 				style, _ := book.NewStyle(`{"number_format":15}`)
 				book.SetCellStyle(material.Sheet, dateCell, dateCell, style)
@@ -44,6 +48,7 @@ func (s *Service) InitialImport(ctx context.Context, book *excelize.File, materi
 					return err
 				}
 
+				// Parsing date
 				createdOn, err := time.Parse(dateLayout, dateStr)
 				if err != nil {
 					return fmt.Errorf("Can't parce date [%v,%v] '%v' (%v): %w", material.Sheet, dateCell, dateStr, dateType, err)
@@ -53,6 +58,7 @@ func (s *Service) InitialImport(ctx context.Context, book *excelize.File, materi
 					break
 				}
 
+				// Checking type of value: string or decimal
 				var valueStr string
 				var valueDecimal float64
 				if property.Kind == "decimal" {

@@ -7,8 +7,10 @@ import (
 	"time"
 )
 
+// AddValue Adding property value to the specific material combo (material-source-market-unit)
 func (r *Repository) AddValue(ctx context.Context, materialName string, sourceName string,
 	propertyName string, valueFloat float64, valueStr string, createdOn time.Time) error {
+
 	materialSourceId, err := r.GetMaterialSourceId(ctx, materialName, sourceName)
 	if err != nil {
 		return fmt.Errorf("Can't get source id %w", err)

@@ -7,6 +7,7 @@ import (
 	"metallplace/internal/pkg/db"
 )
 
+// AddMaterialAndSource Adding source and product name if not exists, the tying them by id in Material_Source
 func (r *Repository) AddMaterialAndSource(ctx context.Context, material model.Material) error {
 	_, err := db.FromContext(ctx).Exec(
 		`INSERT INTO source (name, url) VALUES ($1, $1) ON CONFLICT (name) DO UPDATE SET url=$1`, material.Source)

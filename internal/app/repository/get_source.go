@@ -6,6 +6,7 @@ import (
 	"metallplace/internal/pkg/db"
 )
 
+// GetSourceId Get id by name
 func (r *Repository) GetSourceId(ctx context.Context, sourceName string) (int, error) {
 	var id int
 	row, err := db.FromContext(ctx).QueryRow(`SELECT id FROM source WHERE name=$1`, sourceName)
@@ -21,6 +22,7 @@ func (r *Repository) GetSourceId(ctx context.Context, sourceName string) (int, e
 	return id, nil
 }
 
+// GetSourceName Get name by id
 func (r *Repository) GetSourceName(ctx context.Context, sourceId int) (string, error) {
 	var name string
 	row, err := db.FromContext(ctx).QueryRow(`SELECT name FROM source WHERE id=$1`, sourceId)

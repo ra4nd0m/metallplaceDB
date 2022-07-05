@@ -6,6 +6,7 @@ import (
 	"metallplace/internal/pkg/db"
 )
 
+// GetMaterialSourceId Get unique material-source combo by material and source name
 func (r *Repository) GetMaterialSourceId(ctx context.Context, materialName string, sourceName string) (int, error) {
 	var id int
 	materialId, err := r.GetMaterialId(ctx, materialName)

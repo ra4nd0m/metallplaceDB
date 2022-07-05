@@ -7,6 +7,7 @@ import (
 	"metallplace/internal/pkg/db"
 )
 
+// AddProperties Adding and tying materials and properties
 func (r *Repository) AddProperties(ctx context.Context, material model.Material, properties []model.Property) error {
 	for _, property := range properties {
 

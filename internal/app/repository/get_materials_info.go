@@ -7,6 +7,7 @@ import (
 	"metallplace/internal/pkg/db"
 )
 
+// GetMaterialList Get list of all material-source-market-unit existing combos
 func (r *Repository) GetMaterialList(ctx context.Context) ([]model.MaterialShortInfo, error) {
 	var materialList []model.MaterialShortInfo
 	var materialId int

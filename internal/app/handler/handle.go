@@ -6,6 +6,7 @@ import (
 	"net/http"
 )
 
+// Unmarshal request, do work fn(), then marshall response into JSON anf return
 func handle[REQ any, RESP any](w http.ResponseWriter, r *http.Request, fn func(req REQ) (RESP, error)) {
 	var req REQ
 	body, err := ioutil.ReadAll(r.Body)

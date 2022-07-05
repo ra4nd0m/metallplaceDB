@@ -7,6 +7,7 @@ import (
 	"metallplace/internal/pkg/db"
 )
 
+// GetPricesForPeriod Get price feed of specific material for some time frame
 func (r *Repository) GetPricesForPeriod(ctx context.Context, materialSourceId int, start string, finish string) ([]model.Price, error) {
 	var priceFeed []model.Price
 	var price model.Price

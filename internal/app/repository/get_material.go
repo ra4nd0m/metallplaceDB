@@ -6,6 +6,7 @@ import (
 	"metallplace/internal/pkg/db"
 )
 
+// GetMaterialId Get material id by material name
 func (r *Repository) GetMaterialId(ctx context.Context, materialName string) (int, error) {
 	var id int
 	row, err := db.FromContext(ctx).QueryRow(`SELECT id FROM material WHERE name=$1`, materialName)
@@ -21,6 +22,7 @@ func (r *Repository) GetMaterialId(ctx context.Context, materialName string) (in
 	return id, nil
 }
 
+// GetMaterialName Get material name by material id
 func (r *Repository) GetMaterialName(ctx context.Context, materialId int) (string, error) {
 	var name string
 	row, err := db.FromContext(ctx).QueryRow(`SELECT name FROM material WHERE id=$1`, materialId)
