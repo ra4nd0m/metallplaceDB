@@ -6,9 +6,6 @@ create table material
     name varchar not null
 );
 
-alter table material
-    owner to ivan;
-
 create unique index material_name_uindex
     on material (name);
 

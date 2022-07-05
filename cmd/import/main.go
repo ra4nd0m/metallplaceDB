@@ -16,7 +16,7 @@ import (
 var conn *sql.DB
 
 func main() {
-	cfg, err := config.LoadConfig("./")
+	cfg, err := config.LoadConfig()
 	if err != nil {
 		log.Fatal("cannot load cfg:", err)
 	}

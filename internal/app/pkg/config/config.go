@@ -1,31 +1,37 @@
 package config
 
 import (
-	"github.com/spf13/viper"
+	"github.com/joho/godotenv"
 	"log"
+	"os"
+	"strconv"
 )
 
 type Config struct {
-	DBHost     string `mapstructure:"DB_HOST"`
-	DBPort     int    `mapstructure:"DB_PORT"`
-	DBUser     string `mapstructure:"DB_USER"`
-	DBPassword string `mapstructure:"DB_PASSWORD"`
-	DBName     string `mapstructure:"DB_NAME"`
-	HttpPort   string `mapstructure:"HTTP_PORT"`
+	DBHost     string
+	DBPort     int
+	DBUser     string
+	DBPassword string
+	DBName     string
+	HttpPort   string
 }
 
-func LoadConfig(path string) (config Config, err error) {
-	viper.AddConfigPath(path)
-	viper.SetConfigName("app")
-	viper.SetConfigType("env")
-
-	viper.AutomaticEnv()
-
-	err = viper.ReadInConfig()
+func LoadConfig() (Config, error) {
+	err := godotenv.Load()
 	if err != nil {
-		log.Printf("cannot find config file %v, %v\n", err, viper.ConfigFileUsed())
+		log.Printf("Error loading .env file")
 	}
 
-	err = viper.Unmarshal(&config)
-	return
+	port, _ := strconv.Atoi(os.Getenv("DB_PORT"))
+	config := Config{
+		DBHost:     os.Getenv("DB_HOST"),
+		DBPort:     port,
+		DBUser:     os.Getenv("DB_USER"),
+		DBPassword: os.Getenv("DB_PASSWORD"),
+		DBName:     os.Getenv("DB_NAME"),
+		HttpPort:   os.Getenv("HTTP_PORT"),
+	}
+
+	log.Printf("config: %#v\n", config)
+	return config, nil
 }

@@ -1,0 +1,42 @@
+version: "3"
+services:
+  app:
+    image: metallplace-app:latest
+    build:
+      context: ./
+      dockerfile: ./deploy/Dockerfile
+    container_name: metallplace-app
+    ports:
+      - 8080:80
+    environment:
+      HTTP_PORT: 80
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_USER: metallplace
+      DB_PASSWORD: password
+      DB_NAME: metallplace
+    depends_on:
+      - db
+    networks:
+      - default
+
+  db:
+    image: postgres:13
+    container_name: metallplace-postgres
+    volumes:
+      - dbdata:/var/lib/postgresql/data
+    ports:
+      - 54320:5432
+    environment:
+      POSTGRES_USER: metallplace
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: metallplace
+    networks:
+      - default
+
+volumes:
+  dbdata:
+
+networks:
+  default:
+    driver: bridge
