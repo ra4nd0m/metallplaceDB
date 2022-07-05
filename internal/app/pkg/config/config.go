@@ -2,6 +2,7 @@ package config
 
 import (
 	"github.com/spf13/viper"
+	"log"
 )
 
 type Config struct {
@@ -22,7 +23,7 @@ func LoadConfig(path string) (config Config, err error) {
 
 	err = viper.ReadInConfig()
 	if err != nil {
-		return
+		log.Printf("cannot find config file %v, %v\n", err, viper.ConfigFileUsed())
 	}
 
 	err = viper.Unmarshal(&config)

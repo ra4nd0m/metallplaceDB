@@ -19,6 +19,10 @@ func main() {
 
 	conn = db.New(cfg.DBHost, cfg.DBPort, cfg.DBUser, cfg.DBPassword, cfg.DBName)
 
+	if err := db.MigrateUp("internal/migrations", cfg.DBHost, cfg.DBPort, cfg.DBUser, cfg.DBPassword, cfg.DBName); err != nil {
+		log.Fatal("cannot migrate", err)
+	}
+
 	for _, rec := range [...]struct {
 		route   string
 		handler http.HandlerFunc
