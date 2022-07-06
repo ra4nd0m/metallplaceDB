@@ -10,19 +10,26 @@ import (
 )
 
 // InitialImport Importing data from book, using layout written by hand
-func (s *Service) InitialImport(ctx context.Context, book *excelize.File, materials []model.Material) error {
+func (s *Service) InitialImport(ctx context.Context, materials []model.Material) error {
 	dateLayout := "2-Jan-06"
+
+	book, err := excelize.OpenFile("var/analytics.xlsx")
+	if err != nil {
+		return fmt.Errorf("cannot open exel file %w", err)
+	}
 
 	// Going through input material list layout
 	for _, material := range materials {
-		err := s.repo.AddMaterialAndSource(ctx, material)
+		err := s.repo.AddUniqueMaterial(ctx, material.Name, material.Source, material.Market, material.Unit)
 		if err != nil {
 			return err
 		}
 
-		err = s.repo.AddProperties(ctx, material, material.Properties)
-		if err != nil {
-			return err
+		for _, property := range material.Properties {
+			err = s.repo.AddProperties(ctx, material.Name, property)
+			if err != nil {
+				return err
+			}
 		}
 
 		// Going through material's properties

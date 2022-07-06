@@ -7,8 +7,8 @@ import (
 )
 
 type IRepository interface {
-	AddMaterialAndSource(ctx context.Context, material model.Material) error
-	AddProperties(ctx context.Context, material model.Material, properties []model.Property) error
+	AddUniqueMaterial(ctx context.Context, materialName string, materialSource string, materialMarket string, materialUnit string) error
+	AddProperties(ctx context.Context, materialName string, property model.Property) error
 	AddValue(ctx context.Context, materialName string, sourceName string,
 		propertyName string, valueFloat float64, valueStr string, createdOn time.Time) error
 	GetMaterialId(ctx context.Context, materialName string) (int, error)

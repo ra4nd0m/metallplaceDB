@@ -1,0 +1,19 @@
+package handler
+
+import (
+	"net/http"
+)
+
+type InitImportResponse struct {
+	Success bool
+}
+
+func (h Handler) InitImport(w http.ResponseWriter, r *http.Request) {
+	handle(w, r, func(_ any) (AddUniqueMaterialResponse, error) {
+		err := servi
+		if err != nil {
+			return AddUniqueMaterialResponse{false}, err
+		}
+		return AddUniqueMaterialResponse{true}, err
+	})
+}

@@ -1,10 +1,23 @@
 package handler
 
 import (
+	"context"
 	"encoding/json"
 	"io/ioutil"
 	"net/http"
 )
+
+type IService interface {
+	AddUniqueMaterial(ctx context.Context, materialName string, materialSource string, materialMarket string, materialUnit string) error
+}
+
+type Handler struct {
+	service IService
+}
+
+func New(srv IService) *Handler {
+	return &Handler{service: srv}
+}
 
 // Unmarshal request, do work fn(), then marshall response into JSON anf return
 func handle[REQ any, RESP any](w http.ResponseWriter, r *http.Request, fn func(req REQ) (RESP, error)) {

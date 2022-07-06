@@ -16,7 +16,7 @@ type PriceResponse struct {
 	PriceFeed []model.Price `json:"price_feed"`
 }
 
-func PriceHandler(w http.ResponseWriter, r *http.Request) {
+func (h Handler) PriceHandler(w http.ResponseWriter, r *http.Request) {
 	handle(w, r, func(req PriceRequest) (PriceResponse, error) {
 		priceFeed, err := repository.New().GetPricesForPeriod(r.Context(), req.MaterialSourceId, req.Start, req.Finish)
 		return PriceResponse{priceFeed}, err

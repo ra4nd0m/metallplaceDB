@@ -5,6 +5,8 @@ services:
     build:
       context: ./
       dockerfile: ./deploy/Dockerfile
+      args:
+        version: dev
     container_name: metallplace-app
     ports:
       - 8080:80

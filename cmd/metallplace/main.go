@@ -5,6 +5,8 @@ import (
 	"log"
 	"metallplace/internal/app/handler"
 	"metallplace/internal/app/pkg/config"
+	"metallplace/internal/app/repository"
+	"metallplace/internal/app/service"
 	"metallplace/internal/pkg/db"
 	"net/http"
 )
@@ -23,12 +25,18 @@ func main() {
 		log.Fatal("cannot migrate", err)
 	}
 
+	repo := repository.New()
+	srv := service.New(repo)
+	hdl := handler.New(srv)
+
 	for _, rec := range [...]struct {
 		route   string
 		handler http.HandlerFunc
 	}{
-		{route: "/getPrice", handler: handler.PriceHandler},
-		{route: "/getMaterials", handler: handler.GetMaterialHandler},
+		{route: "/getPrice", handler: hdl.PriceHandler},
+		{route: "/getMaterials", handler: hdl.GetMaterialHandler},
+		{route: "/addValue", handler: hdl.AddValueHandler},
+		{route: "/addUniqueMaterial", handler: hdl.AddUniqueMaterial},
 	} {
 		http.HandleFunc(rec.route, DbMiddleware(rec.handler))
 	}
