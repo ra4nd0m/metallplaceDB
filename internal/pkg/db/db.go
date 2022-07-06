@@ -49,7 +49,7 @@ func New(host string, port int, user, password, name string) *sql.DB {
 	if err != nil {
 		log.Fatal("cannot connect to db:", err)
 	}
-	db.SetMaxOpenConns(5)
+	db.SetMaxOpenConns(50)
 
 	return db
 }

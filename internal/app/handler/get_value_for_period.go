@@ -2,7 +2,6 @@ package handler
 
 import (
 	"metallplace/internal/app/model"
-	"metallplace/internal/app/repository"
 	"net/http"
 )
 
@@ -16,9 +15,9 @@ type PriceResponse struct {
 	PriceFeed []model.Price `json:"price_feed"`
 }
 
-func (h Handler) PriceHandler(w http.ResponseWriter, r *http.Request) {
+func (h Handler) GetValueForPeriodHandler(w http.ResponseWriter, r *http.Request) {
 	handle(w, r, func(req PriceRequest) (PriceResponse, error) {
-		priceFeed, err := repository.New().GetPricesForPeriod(r.Context(), req.MaterialSourceId, req.Start, req.Finish)
+		priceFeed, err := h.service.GetMaterialValueForPeriod(r.Context(), req.MaterialSourceId, req.Start, req.Finish)
 		return PriceResponse{priceFeed}, err
 	})
 }

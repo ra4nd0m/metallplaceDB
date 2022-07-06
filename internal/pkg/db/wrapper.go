@@ -25,11 +25,14 @@ func (d *Db) Rollback() error {
 	return nil
 }
 func (d *Db) QueryRow(query string, args ...any) (*sql.Row, error) {
-	rows := d.DB.QueryRow(query, args...)
-	if rows.Err() != nil {
-		return nil, rows.Err()
+	row := d.DB.QueryRow(query, args...)
+	if row.Err() == sql.ErrNoRows {
+		return nil, nil
 	}
-	return rows, nil
+	if row.Err() != nil {
+		return nil, row.Err()
+	}
+	return row, nil
 }
 
 type Tx struct {
@@ -40,9 +43,12 @@ func (tx *Tx) BeginTx(ctx context.Context, opts *sql.TxOptions) (*sql.Tx, error)
 	return tx.Tx, nil
 }
 func (tx *Tx) QueryRow(query string, args ...any) (*sql.Row, error) {
-	rows := tx.Tx.QueryRow(query, args...)
-	if rows.Err() != nil {
-		return nil, rows.Err()
+	row := tx.Tx.QueryRow(query, args...)
+	if row.Err() == sql.ErrNoRows {
+		return nil, nil
 	}
-	return rows, nil
+	if row.Err() != nil {
+		return nil, row.Err()
+	}
+	return row, nil
 }

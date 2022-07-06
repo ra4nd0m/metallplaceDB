@@ -2,7 +2,6 @@ package handler
 
 import (
 	"metallplace/internal/app/model"
-	"metallplace/internal/app/repository"
 	"net/http"
 )
 
@@ -14,7 +13,7 @@ type GetMaterialsResponse struct {
 
 func (h Handler) GetMaterialHandler(w http.ResponseWriter, r *http.Request) {
 	handle(w, r, func(req GetMaterialsRequest) (GetMaterialsResponse, error) {
-		list, err := repository.New().GetMaterialList(r.Context())
+		list, err := h.service.GetMaterialList(r.Context())
 		return GetMaterialsResponse{list}, err
 	})
 }

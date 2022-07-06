@@ -9,6 +9,7 @@ import (
 	"metallplace/internal/app/service"
 	"metallplace/internal/pkg/db"
 	"net/http"
+	"time"
 )
 
 var conn *sql.DB
@@ -29,20 +30,27 @@ func main() {
 	srv := service.New(repo)
 	hdl := handler.New(srv)
 
+	server := &http.Server{
+		Addr:         ":" + cfg.HttpPort,
+		ReadTimeout:  600 * time.Second,
+		WriteTimeout: 600 * time.Second,
+	}
+
 	for _, rec := range [...]struct {
 		route   string
 		handler http.HandlerFunc
 	}{
-		{route: "/getPrice", handler: hdl.PriceHandler},
+		{route: "/getValueForPeriod", handler: hdl.GetValueForPeriodHandler},
 		{route: "/getMaterials", handler: hdl.GetMaterialHandler},
 		{route: "/addValue", handler: hdl.AddValueHandler},
 		{route: "/addUniqueMaterial", handler: hdl.AddUniqueMaterial},
+		{route: "/initImport", handler: hdl.InitImport},
 	} {
 		http.HandleFunc(rec.route, DbMiddleware(rec.handler))
 	}
 
 	log.Printf("Server started on port %s \n", cfg.HttpPort)
-	err = http.ListenAndServe(":"+cfg.HttpPort, nil)
+	err = server.ListenAndServe()
 	if err != nil {
 		log.Fatal(err.Error())
 	}

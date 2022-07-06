@@ -4,13 +4,14 @@ import (
 	"context"
 	"fmt"
 	"github.com/xuri/excelize/v2"
+	"log"
 	"metallplace/internal/app/model"
 	"strconv"
 	"time"
 )
 
 // InitialImport Importing data from book, using layout written by hand
-func (s *Service) InitialImport(ctx context.Context, materials []model.Material) error {
+func (s *Service) InitialImport(ctx context.Context) error {
 	dateLayout := "2-Jan-06"
 
 	book, err := excelize.OpenFile("var/analytics.xlsx")
@@ -18,22 +19,29 @@ func (s *Service) InitialImport(ctx context.Context, materials []model.Material)
 		return fmt.Errorf("cannot open exel file %w", err)
 	}
 
-	// Going through input material list layout
+	materials := model.InitMaterials
+
+	// Going through init_materials list layout
 	for _, material := range materials {
-		err := s.repo.AddUniqueMaterial(ctx, material.Name, material.Source, material.Market, material.Unit)
+		materialId, err := s.AddUniqueMaterial(ctx, material.Name, material.Source, material.Market, material.Unit)
 		if err != nil {
 			return err
 		}
 
+		log.Printf("Added material %s with id %d", material.Name, materialId)
+
 		for _, property := range material.Properties {
-			err = s.repo.AddProperties(ctx, material.Name, property)
+			propertyId, err := s.repo.AddProperty(ctx, property)
 			if err != nil {
 				return err
 			}
+
+			err = s.repo.AddMaterialProperty(ctx, materialId, propertyId)
 		}
 
 		// Going through material's properties
 		for _, property := range material.Properties {
+			log.Printf("\tProcessing property %s", property.Name)
 			row := property.Row
 			for {
 				value, err := book.GetCellValue(material.Sheet, property.Column+strconv.Itoa(row))
@@ -62,6 +70,7 @@ func (s *Service) InitialImport(ctx context.Context, materials []model.Material)
 				}
 
 				if value == "" {
+					fmt.Println("")
 					break
 				}
 
@@ -77,13 +86,15 @@ func (s *Service) InitialImport(ctx context.Context, materials []model.Material)
 					valueStr = value
 				}
 
-				err = s.repo.AddValue(ctx, material.Name, material.Source, property.Name,
-					valueDecimal, valueStr, createdOn)
+				err = s.AddValue(ctx, material.Name, material.Source, property.Name, valueDecimal, valueStr, createdOn)
 				if err != nil {
 					return err
 				}
 
 				row++
+				if row%100 == 0 {
+					fmt.Print("#")
+				}
 			}
 		}
 	}

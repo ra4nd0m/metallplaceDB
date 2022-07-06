@@ -17,7 +17,7 @@ type AddUniqueMaterialResponse struct {
 
 func (h Handler) AddUniqueMaterial(w http.ResponseWriter, r *http.Request) {
 	handle(w, r, func(req AddUniqueMaterialRequest) (AddUniqueMaterialResponse, error) {
-		err := h.service.AddUniqueMaterial(r.Context(), req.MaterialName, req.MaterialSource, req.MaterialMarket, req.MaterialUnit)
+		_, err := h.service.AddUniqueMaterial(r.Context(), req.MaterialName, req.MaterialSource, req.MaterialMarket, req.MaterialUnit)
 		if err != nil {
 			return AddUniqueMaterialResponse{false}, err
 		}

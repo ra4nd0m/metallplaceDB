@@ -5,10 +5,22 @@ import (
 	"fmt"
 	"metallplace/internal/app/model"
 	"metallplace/internal/pkg/db"
+	"time"
 )
 
-// GetPricesForPeriod Get price feed of specific material for some time frame
-func (r *Repository) GetPricesForPeriod(ctx context.Context, materialSourceId int, start string, finish string) ([]model.Price, error) {
+func (r *Repository) AddMaterialValue(ctx context.Context, materialSourceId, propertyId int, valueFloat float64, valueStr string, createdOn time.Time) error {
+	_, err := db.FromContext(ctx).Exec(`
+				INSERT INTO material_value (material_source_id, property_id, value_decimal, value_str, created_on)
+				VALUES ($1, $2, $3, $4, $5)
+				ON CONFLICT DO NOTHING`, materialSourceId, propertyId, valueFloat, valueStr, createdOn)
+	if err != nil {
+		return fmt.Errorf("Can't add value %w", err)
+	}
+
+	return nil
+}
+
+func (r *Repository) GetMaterialValueForPeriod(ctx context.Context, materialSourceId int, start string, finish string) ([]model.Price, error) {
 	var priceFeed []model.Price
 	var price model.Price
 

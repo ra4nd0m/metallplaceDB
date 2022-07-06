@@ -6,6 +6,15 @@ import (
 	"metallplace/internal/pkg/db"
 )
 
+func (r *Repository) AddSource(ctx context.Context, materialSource string) error {
+	_, err := db.FromContext(ctx).Exec(
+		`INSERT INTO source (name, url) VALUES ($1, $1) ON CONFLICT (name) DO UPDATE SET url=$1`, materialSource)
+	if err != nil {
+		return fmt.Errorf("Can't add source %w", err)
+	}
+	return nil
+}
+
 // GetSourceId Get id by name
 func (r *Repository) GetSourceId(ctx context.Context, sourceName string) (int, error) {
 	var id int
