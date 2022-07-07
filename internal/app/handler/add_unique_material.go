@@ -5,19 +5,19 @@ import (
 )
 
 type AddUniqueMaterialRequest struct {
-	MaterialName   string
-	MaterialSource string
-	MaterialMarket string
-	MaterialUnit   string
+	Name   string `json:"name"`
+	Source string `json:"source"`
+	Market string `json:"market"`
+	Unit   string `json:"unit"`
 }
 
 type AddUniqueMaterialResponse struct {
-	Success bool
+	Success bool `json:"success"`
 }
 
 func (h Handler) AddUniqueMaterialHandler(w http.ResponseWriter, r *http.Request) {
 	handle(w, r, func(req AddUniqueMaterialRequest) (AddUniqueMaterialResponse, error) {
-		_, err := h.service.AddUniqueMaterial(r.Context(), req.MaterialName, req.MaterialSource, req.MaterialMarket, req.MaterialUnit)
+		_, err := h.service.AddUniqueMaterial(r.Context(), req.Name, req.Source, req.Market, req.Unit)
 		if err != nil {
 			return AddUniqueMaterialResponse{false}, err
 		}

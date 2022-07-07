@@ -5,7 +5,7 @@ import (
 )
 
 type InitImportResponse struct {
-	Success bool
+	Success bool `json:"success"`
 }
 
 func (h Handler) InitImport(w http.ResponseWriter, r *http.Request) {

@@ -6,12 +6,12 @@ import (
 )
 
 type AddValueRequest struct {
-	MaterialName string
-	SourceName   string
-	PropertyName string
-	ValueFloat   float64
-	ValueStr     string
-	CreatedOn    time.Time
+	MaterialName string    `json:"material_name"`
+	SourceName   string    `json:"source_name"`
+	PropertyName string    `json:"property_name"`
+	ValueFloat   float64   `json:"value_float"`
+	ValueStr     string    `json:"value_str"`
+	CreatedOn    time.Time `json:"created_on"`
 }
 
 type AddValueResponse struct {
