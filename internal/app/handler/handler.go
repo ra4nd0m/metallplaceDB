@@ -12,9 +12,9 @@ import (
 
 type IService interface {
 	AddMaterialProperty(ctx context.Context, materialId, propertyId int) error
-	AddUniqueMaterial(ctx context.Context, materialName string, sourceName string, materialMarket string, materialUnit string) (int, error)
 	AddValue(ctx context.Context, materialName string, sourceName string,
 		propertyName string, valueFloat float64, valueStr string, createdOn time.Time) error
+	AddUniqueMaterial(ctx context.Context, materialName string, sourceName string, materialMarket string, materialUnit string) (int, error)
 	InitialImport(ctx context.Context) error
 	GetMaterialList(ctx context.Context) ([]model.MaterialShortInfo, error)
 	GetMaterialValueForPeriod(ctx context.Context, materialSourceId int, start string, finish string) ([]model.Price, error)

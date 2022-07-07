@@ -18,7 +18,7 @@ type IRepository interface {
 	AddMaterialSource(ctx context.Context, materialName, sourceName, materialMarket, materialUnit string) error
 	GetMaterialSourceId(ctx context.Context, materialName string, sourceName string) (int, error)
 
-	AddMaterialValue(ctx context.Context, materialSourceId, propertyId int, valueFloat float64, valueStr string, createdOn time.Time) error
+	AddMaterialValue(ctx context.Context, materialName, sourceName, propertyName string, valueFloat float64, valueStr string, createdOn time.Time) error
 	GetMaterialValueForPeriod(ctx context.Context, materialSourceId int, start string, finish string) ([]model.Price, error)
 
 	AddProperty(ctx context.Context, property model.Property) (int, error)

@@ -15,6 +15,7 @@ func (s *Service) InitialImport(ctx context.Context) error {
 	dateLayout := "2-Jan-06"
 
 	book, err := excelize.OpenFile("var/analytics.xlsx")
+	//book, err := excelize.OpenFile("var/testEx.xlsx")
 	if err != nil {
 		return fmt.Errorf("cannot open exel file %w", err)
 	}
@@ -49,6 +50,11 @@ func (s *Service) InitialImport(ctx context.Context) error {
 					return err
 				}
 
+				if value == "" {
+					fmt.Println("")
+					break
+				}
+
 				// Calculating date cell, and formatting it
 				dateCell := material.DateColumn + strconv.Itoa(row)
 				style, _ := book.NewStyle(`{"number_format":15}`)
@@ -69,11 +75,6 @@ func (s *Service) InitialImport(ctx context.Context) error {
 					return fmt.Errorf("Can't parce date [%v,%v] '%v' (%v): %w", material.Sheet, dateCell, dateStr, dateType, err)
 				}
 
-				if value == "" {
-					fmt.Println("")
-					break
-				}
-
 				// Checking type of value: string or decimal
 				var valueStr string
 				var valueDecimal float64
@@ -86,7 +87,7 @@ func (s *Service) InitialImport(ctx context.Context) error {
 					valueStr = value
 				}
 
-				err = s.AddValue(ctx, material.Name, material.Source, property.Name, valueDecimal, valueStr, createdOn)
+				err = s.repo.AddMaterialValue(ctx, material.Name, material.Source, property.Name, valueDecimal, valueStr, createdOn)
 				if err != nil {
 					return err
 				}
