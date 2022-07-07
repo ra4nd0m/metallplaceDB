@@ -15,27 +15,33 @@ import (
 var conn *sql.DB
 
 func main() {
+	// Loading config
 	cfg, err := config.LoadConfig()
 	if err != nil {
 		log.Fatal("cannot load cfg:", err)
 	}
 
+	// Creating connection to DB
 	conn = db.New(cfg.DBHost, cfg.DBPort, cfg.DBUser, cfg.DBPassword, cfg.DBName)
 
+	// DB migration
 	if err := db.MigrateUp("internal/migrations", cfg.DBHost, cfg.DBPort, cfg.DBUser, cfg.DBPassword, cfg.DBName); err != nil {
 		log.Fatal("cannot migrate", err)
 	}
 
+	// Creating instances and setting inheritance
 	repo := repository.New()
 	srv := service.New(repo)
 	hdl := handler.New(srv)
 
+	// Setting timeout for the server
 	server := &http.Server{
 		Addr:         ":" + cfg.HttpPort,
 		ReadTimeout:  600 * time.Second,
 		WriteTimeout: 600 * time.Second,
 	}
 
+	// Linking addresses and handlers
 	for _, rec := range [...]struct {
 		route   string
 		handler http.HandlerFunc
@@ -43,7 +49,7 @@ func main() {
 		{route: "/getValueForPeriod", handler: hdl.GetValueForPeriodHandler},
 		{route: "/getMaterials", handler: hdl.GetMaterialHandler},
 		{route: "/addValue", handler: hdl.AddValueHandler},
-		{route: "/addUniqueMaterial", handler: hdl.AddUniqueMaterial},
+		{route: "/addUniqueMaterial", handler: hdl.AddUniqueMaterialHandler},
 		{route: "/initImport", handler: hdl.InitImport},
 	} {
 		http.HandleFunc(rec.route, DbMiddleware(rec.handler))

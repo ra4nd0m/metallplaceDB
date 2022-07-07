@@ -6,6 +6,7 @@ import (
 	"time"
 )
 
+// IRepository Interface for basic operation with DB
 type IRepository interface {
 	AddMaterial(ctx context.Context, materialName string) (int, error)
 	GetMaterialList(ctx context.Context) ([]model.MaterialShortInfo, error)

@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/xuri/excelize/v2"
-	"log"
+	log "log"
 	"metallplace/internal/app/model"
 	"strconv"
 	"time"
@@ -30,6 +30,7 @@ func (s *Service) InitialImport(ctx context.Context) error {
 
 		log.Printf("Added material %s with id %d", material.Name, materialId)
 
+		// Adding and tying properties
 		for _, property := range material.Properties {
 			propertyId, err := s.repo.AddProperty(ctx, property)
 			if err != nil {
@@ -39,9 +40,8 @@ func (s *Service) InitialImport(ctx context.Context) error {
 			err = s.repo.AddMaterialProperty(ctx, materialId, propertyId)
 		}
 
-		// Going through material's properties
+		// Going through material's properties, and reading property values
 		for _, property := range material.Properties {
-			log.Printf("\tProcessing property %s", property.Name)
 			row := property.Row
 			for {
 				value, err := book.GetCellValue(material.Sheet, property.Column+strconv.Itoa(row))
@@ -98,6 +98,6 @@ func (s *Service) InitialImport(ctx context.Context) error {
 			}
 		}
 	}
-
+	fmt.Print("Import finished!")
 	return nil
 }

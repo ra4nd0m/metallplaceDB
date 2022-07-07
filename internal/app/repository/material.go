@@ -8,14 +8,16 @@ import (
 	"metallplace/internal/pkg/db"
 )
 
+// AddMaterial and get its id back
 func (r *Repository) AddMaterial(ctx context.Context, materialName string) (int, error) {
-	id, err := r.GetMaterialId(ctx, materialName)
+	var id int
+	tryId, err := r.GetMaterialId(ctx, materialName)
 	if err != nil {
 		return 0, fmt.Errorf("Cant get material id %w", err)
 	}
 
-	if id != 0 {
-		return id, nil
+	if tryId != 0 {
+		return tryId, nil
 	}
 
 	row, err := db.FromContext(ctx).QueryRow(
@@ -103,5 +105,6 @@ func (r *Repository) GetMaterialList(ctx context.Context) ([]model.MaterialShort
 		materialList = append(materialList, model.MaterialShortInfo{id, materialName, sourceName, market, unit})
 	}
 
+	rows.Close()
 	return materialList, nil
 }

@@ -5,13 +5,15 @@ import (
 	"fmt"
 )
 
-// AddUniqueMaterial Adding source and product name if not exists, the tying them by id in Material_Source
+// AddUniqueMaterial adding material with unique set of data (name - source - market - unit of sale)
 func (s *Service) AddUniqueMaterial(ctx context.Context, materialName string, sourceName string, materialMarket string, materialUnit string) (int, error) {
+	// Adding source
 	err := s.repo.AddSource(ctx, sourceName)
 	if err != nil {
 		return 0, fmt.Errorf("Can't add source %w", err)
 	}
 
+	// Adding material and getting id of it
 	materialId, err := s.repo.AddMaterial(ctx, materialName)
 	if err != nil {
 		return 0, fmt.Errorf("Can't add material %w", err)

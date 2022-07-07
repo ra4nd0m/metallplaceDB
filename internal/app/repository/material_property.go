@@ -6,6 +6,7 @@ import (
 	"metallplace/internal/pkg/db"
 )
 
+// AddMaterialProperty Tie material and property by id
 func (r *Repository) AddMaterialProperty(ctx context.Context, materialId int, propertyId int) error {
 	_, err := db.FromContext(ctx).Exec(`INSERT INTO material_property (material_id, property_id) VALUES ($1, $2) ON CONFLICT (material_id, property_id) DO NOTHING`,
 		materialId, propertyId)

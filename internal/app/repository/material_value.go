@@ -8,11 +8,11 @@ import (
 	"time"
 )
 
+// AddMaterialValue Adding value to certain property of a product for a certain date
 func (r *Repository) AddMaterialValue(ctx context.Context, materialSourceId, propertyId int, valueFloat float64, valueStr string, createdOn time.Time) error {
 	_, err := db.FromContext(ctx).Exec(`
 				INSERT INTO material_value (material_source_id, property_id, value_decimal, value_str, created_on)
-				VALUES ($1, $2, $3, $4, $5)
-				ON CONFLICT DO NOTHING`, materialSourceId, propertyId, valueFloat, valueStr, createdOn)
+				VALUES ($1, $2, $3, $4, $5) ON CONFLICT DO NOTHING`, materialSourceId, propertyId, valueFloat, valueStr, createdOn)
 	if err != nil {
 		return fmt.Errorf("Can't add value %w", err)
 	}

@@ -5,7 +5,7 @@ import (
 	"fmt"
 )
 
-// AddMaterialProperty Adding and tying materials and properties
+// AddMaterialProperty Tying materials and properties
 func (s *Service) AddMaterialProperty(ctx context.Context, materialId, propertyId int) error {
 
 	err := s.repo.AddMaterialProperty(ctx, materialId, propertyId)
