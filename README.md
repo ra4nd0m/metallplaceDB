@@ -32,7 +32,7 @@
 - initialImport - добавляет начальные записи (надо доработать)
 - getValueForPeriod - возвращает фид цены определенной связки за определенный промежуток. На вход принимает id связки, дату нижней и верхней границы (несторогое сравнение)
 
-        POST localhost:8080/getValueForPeriod
+        GET localhost:8080/getValueForPeriod
         Content-Type: application/json
 
         {
