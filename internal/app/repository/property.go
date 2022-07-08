@@ -8,7 +8,7 @@ import (
 	"metallplace/internal/pkg/db"
 )
 
-func (r *Repository) AddProperty(ctx context.Context, property model.Property) (int, error) {
+func (r *Repository) AddPropertyIfNotExists(ctx context.Context, property model.PropertyShortInfo) (int, error) {
 	id, err := r.GetPropertyId(ctx, property.Name)
 	if err != nil {
 		return 0, fmt.Errorf("Cant get property id %w", err)

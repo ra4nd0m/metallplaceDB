@@ -14,8 +14,8 @@ import (
 func (s *Service) InitialImport(ctx context.Context) error {
 	dateLayout := "2-Jan-06"
 
-	book, err := excelize.OpenFile("var/analytics.xlsx")
-	//book, err := excelize.OpenFile("var/testEx.xlsx")
+	//book, err := excelize.OpenFile("var/analytics.xlsx")
+	book, err := excelize.OpenFile("var/testEx.xlsx")
 	if err != nil {
 		return fmt.Errorf("cannot open exel file %w", err)
 	}
@@ -33,7 +33,7 @@ func (s *Service) InitialImport(ctx context.Context) error {
 
 		// Adding and tying properties
 		for _, property := range material.Properties {
-			propertyId, err := s.repo.AddProperty(ctx, property)
+			propertyId, err := s.repo.AddPropertyIfNotExists(ctx, model.PropertyShortInfo{Name: property.Name, Kind: property.Kind})
 			if err != nil {
 				return err
 			}

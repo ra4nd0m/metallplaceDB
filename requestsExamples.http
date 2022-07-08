@@ -1,0 +1,58 @@
+GET localhost:8080/getValueForPeriod
+Content-Type: application/json
+
+{
+  "material_source_id": 86,
+  "start": "2018-01-04",
+  "finish": "2022-04-05"
+}
+
+###
+GET localhost:8080/getMaterials
+Content-Type: application/json
+
+{
+}
+
+###
+POST localhost:8080/initImport
+Content-Type: application/json
+
+{
+}
+
+###
+POST localhost:8080/addUniqueMaterial
+Content-Type: application/json
+
+{
+  "name": "Test Material",
+  "source": "Test Source",
+  "market": "Test Market",
+  "unit": "Test Unit"
+}
+###
+POST localhost:8080/addValue
+Content-Type: application/json
+
+{
+  "material_name": "Material 2",
+  "source_name": "website 2",
+  "property_name": "med_price",
+  "value_float": "100",
+  "value_str": "",
+  "created_on": "2015-10-15T14:00:13Z"
+}
+
+###
+POST localhost:8080/addValue
+Content-Type: application/json
+
+{
+  "material_name": "Material 2",
+  "source_name": "website 2",
+  "property_name": "Test Property String",
+  "value_float": "",
+  "value_str": "string val",
+  "created_on": "2015-12-15T14:00:13Z"
+}

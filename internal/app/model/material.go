@@ -19,6 +19,11 @@ type Material struct {
 	Properties []Property
 }
 
+type PropertyShortInfo struct {
+	Name string
+	Kind string
+}
+
 type MaterialShortInfo struct {
 	Id     int
 	Name   string

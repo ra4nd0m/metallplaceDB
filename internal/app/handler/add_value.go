@@ -21,7 +21,13 @@ type AddValueResponse struct {
 
 func (h Handler) AddValueHandler(w http.ResponseWriter, r *http.Request) {
 	handle(w, r, func(req AddValueRequest) (AddValueResponse, error) {
-		valueFloat, err := strconv.ParseFloat(req.ValueFloat, 64)
+		var valueFloat float64
+		var err error
+
+		if req.ValueFloat != "" {
+			valueFloat, err = strconv.ParseFloat(req.ValueFloat, 64)
+		}
+
 		if err != nil {
 			return AddValueResponse{false}, err
 		}
