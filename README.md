@@ -2,7 +2,8 @@
 
 #### Запуск
 
-Необходимо установить Docker Compose.
+Необходимо установить [Docker Compose](https://docs.docker.com/compose/install/).
+
 Далее в файле docker-compose.yaml задать следующие характеристики:
 
 - DB_HOST - хост БД
@@ -26,22 +27,47 @@
 
 #### Сервер
 
-Сервер реализует следующие хендлеры:
+Сервер реализует следующие адреса:
 - getMaterials - возвращает существующие уникальные связки Материал - Источник - Рынок - Валюта продажи в формате JSON
-- getPrice - возвращает фид цены определенной связки за определенный промежуток. На вход принимает id связки, дату нижней и верхней границы (несторогое сравнение)
+- initialImport - добавляет начальные записи (надо доработать)
+- getValueForPeriod - возвращает фид цены определенной связки за определенный промежуток. На вход принимает id связки, дату нижней и верхней границы (несторогое сравнение)
 
-      POST localhost:8080/getPrice
-      Content-Type: application/json
+        POST localhost:8080/getValueForPeriod
+        Content-Type: application/json
 
-      {
-        "material_source_id": 1,
-        "start": "2017-01-04",
-        "finish": "2017-04-05"
-      }
+        {
+          "material_source_id": 86,
+          "start": "2018-01-04",
+          "finish": "2022-04-05"
+        }
+
 
 - addValue - добавляет значение свойству определенной уникальной связки. На вход принимает id уникальной связки материала, id свойсва, значение свойства, и дату фиксирования
+
+        POST localhost:8080/addValue
+        Content-Type: application/json
+
+        {
+          "material_name": "Material 2",
+          "source_name": "website 2",
+          "property_name": "med_price",
+          "value_float": "99999",
+          "value_str": "",
+          "created_on": "2015-09-15T14:00:13Z"
+        }
+
 - addUniqueMaterial - добавляет уникальную связку материала. На вход принимает название материала, источник, рынок торгов и валюту
-- initialImport - добавляет начальные записи (надо доработать)
+
+        POST localhost:8080/addUniqueMaterial
+        Content-Type: application/json
+
+        {
+          "name": "Test Material",
+          "source": "Test Source",
+          "market": "Test Market",
+          "unit": "Test Unit"
+        }
+
 
 #### Структура БД
 
