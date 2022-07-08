@@ -15,8 +15,6 @@ func (r *Repository) AddMaterialValue(ctx context.Context, materialName, sourceN
 		return fmt.Errorf("can't get source id %w", err)
 	}
 
-	fmt.Printf("MATERIAL_SOURCE ID: %d\n", materialSourceId)
-
 	propertyId, err := r.GetPropertyId(ctx, propertyName)
 	if err != nil {
 		return err
@@ -24,7 +22,7 @@ func (r *Repository) AddMaterialValue(ctx context.Context, materialName, sourceN
 
 	_, err = db.FromContext(ctx).Exec(`
 				INSERT INTO material_value (material_source_id, property_id, value_decimal, value_str, created_on)
-				VALUES ($1, $2, $3, $4, $5) ON CONFLICT DO NOTHING`, materialSourceId, propertyId, valueFloat, valueStr, createdOn)
+				VALUES ($1, $2, $3, $4, $5) ON CONFLICT DO NOTHING RETURNING id`, materialSourceId, propertyId, valueFloat, valueStr, createdOn)
 	if err != nil {
 		return fmt.Errorf("Can't add value %w", err)
 	}

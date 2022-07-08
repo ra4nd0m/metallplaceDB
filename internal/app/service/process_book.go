@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	"github.com/xuri/excelize/v2"
-	log "log"
 	"metallplace/internal/app/model"
 	"strconv"
 	"time"
@@ -14,8 +13,7 @@ import (
 func (s *Service) InitialImport(ctx context.Context) error {
 	dateLayout := "2-Jan-06"
 
-	//book, err := excelize.OpenFile("var/analytics.xlsx")
-	book, err := excelize.OpenFile("var/testEx.xlsx")
+	book, err := excelize.OpenFile("var/analytics.xlsx")
 	if err != nil {
 		return fmt.Errorf("cannot open exel file %w", err)
 	}
@@ -29,7 +27,7 @@ func (s *Service) InitialImport(ctx context.Context) error {
 			return err
 		}
 
-		log.Printf("Added material %s with id %d", material.Name, materialId)
+		fmt.Println("Adding material " + material.Name)
 
 		// Adding and tying properties
 		for _, property := range material.Properties {
@@ -43,6 +41,7 @@ func (s *Service) InitialImport(ctx context.Context) error {
 
 		// Going through material's properties, and reading property values
 		for _, property := range material.Properties {
+			fmt.Println(property.Name)
 			row := property.Row
 			for {
 				value, err := book.GetCellValue(material.Sheet, property.Column+strconv.Itoa(row))
@@ -51,7 +50,6 @@ func (s *Service) InitialImport(ctx context.Context) error {
 				}
 
 				if value == "" {
-					fmt.Println("")
 					break
 				}
 
@@ -97,6 +95,7 @@ func (s *Service) InitialImport(ctx context.Context) error {
 					fmt.Print("#")
 				}
 			}
+			fmt.Println("")
 		}
 	}
 	fmt.Print("Import finished!")

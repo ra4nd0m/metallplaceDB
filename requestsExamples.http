@@ -54,5 +54,5 @@ Content-Type: application/json
   "property_name": "Test Property String",
   "value_float": "",
   "value_str": "string val",
-  "created_on": "2015-12-15T14:00:13Z"
+  "created_on": "2015-02-15T14:00:13Z"
 }
