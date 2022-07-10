@@ -36,8 +36,8 @@ POST localhost:8080/addValue
 Content-Type: application/json
 
 {
-  "material_name": "Material 2",
-  "source_name": "website 2",
+  "material_name": "Test Material",
+  "source_name": "Test Source",
   "property_name": "med_price",
   "value_float": "100",
   "value_str": "",
@@ -49,8 +49,8 @@ POST localhost:8080/addValue
 Content-Type: application/json
 
 {
-  "material_name": "Material 2",
-  "source_name": "website 2",
+  "material_name": "Test Material",
+  "source_name": "Test Source",
   "property_name": "Test Property String",
   "value_float": "",
   "value_str": "string val",
