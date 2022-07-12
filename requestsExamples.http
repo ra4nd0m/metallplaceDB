@@ -8,18 +8,12 @@ Content-Type: application/json
 }
 
 ###
-GET localhost:8080/getMaterials
-Content-Type: application/json
+POST localhost:8080/getMaterials
 
-{
-}
 
 ###
 POST localhost:8080/initImport
-Content-Type: application/json
 
-{
-}
 
 ###
 POST localhost:8080/addUniqueMaterial

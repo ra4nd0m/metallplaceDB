@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"metallplace/internal/app/model"
 	"net/http"
+	"reflect"
 	"time"
 )
 
@@ -28,6 +29,10 @@ func New(srv IService) *Handler {
 	return &Handler{service: srv}
 }
 
+func isNil(i interface{}) bool {
+	return i == nil || reflect.ValueOf(i).IsNil()
+}
+
 // Unmarshal request, do work fn(), then marshall response into JSON anf return
 func handle[REQ any, RESP any](w http.ResponseWriter, r *http.Request, fn func(req REQ) (RESP, error)) {
 	var req REQ
@@ -37,10 +42,12 @@ func handle[REQ any, RESP any](w http.ResponseWriter, r *http.Request, fn func(r
 		return
 	}
 
-	err = json.Unmarshal(body, &req)
-	if err != nil {
-		http.Error(w, fmt.Sprintf("%+v", err), http.StatusBadRequest)
-		return
+	if isNil(req) != true {
+		err = json.Unmarshal(body, &req)
+		if err != nil {
+			http.Error(w, fmt.Sprintf("%+v", err), http.StatusBadRequest)
+			return
+		}
 	}
 
 	resp, err := fn(req)
