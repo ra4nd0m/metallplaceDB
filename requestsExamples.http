@@ -2,8 +2,8 @@ GET localhost:8080/getValueForPeriod
 Content-Type: application/json
 
 {
-  "material_source_id": 86,
-  "start": "2018-01-04",
+  "material_source_id": 1,
+  "start": "1999-01-04",
   "finish": "2022-04-05"
 }
 
@@ -13,7 +13,13 @@ POST localhost:8080/getMaterials
 
 ###
 POST localhost:8080/initImport
+Content-Type: application/json
 
+{
+  "material_source_id": 86,
+  "start": "2018-01-04",
+  "finish": "2022-04-05"
+}
 
 ###
 POST localhost:8080/addUniqueMaterial

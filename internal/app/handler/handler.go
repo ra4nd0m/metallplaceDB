@@ -30,7 +30,14 @@ func New(srv IService) *Handler {
 }
 
 func isNil(i interface{}) bool {
-	return i == nil || reflect.ValueOf(i).IsNil()
+	if i == nil {
+		return true
+	}
+	switch reflect.TypeOf(i).Kind() {
+	case reflect.Ptr, reflect.Map, reflect.Array, reflect.Chan, reflect.Slice:
+		return reflect.ValueOf(i).IsNil()
+	}
+	return false
 }
 
 // Unmarshal request, do work fn(), then marshall response into JSON anf return
