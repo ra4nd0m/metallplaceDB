@@ -55,6 +55,8 @@ func main() {
 		http.HandleFunc(rec.route, DbMiddleware(rec.handler))
 	}
 
+	fs := http.FileServer(http.Dir("/home/ivan/go/projects/metallplace/web"))
+	http.Handle("/", http.StripPrefix("/", fs))
 	log.Printf("Server started on port %s \n", cfg.HttpPort)
 	err = server.ListenAndServe()
 	if err != nil {

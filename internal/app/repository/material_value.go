@@ -34,9 +34,14 @@ func (r *Repository) GetMaterialValueForPeriod(ctx context.Context, materialSour
 	var priceFeed []model.Price
 	var price model.Price
 
+	propertyId, err := r.GetPropertyId(ctx, "med_price")
+	if err != nil {
+		return nil, fmt.Errorf("Can't get property id %w", err)
+	}
+
 	rows, err := db.FromContext(ctx).Query(`SELECT created_on, value_decimal 
-		FROM material_value WHERE material_source_id=$1 AND created_on >= $2 AND 
-			created_on <= $3`, materialSourceId, start, finish)
+		FROM material_value WHERE material_source_id=$1 AND property_id=$4 AND created_on >= $2 AND 
+			created_on <= $3`, materialSourceId, start, finish, propertyId)
 	if err != nil {
 		return nil, fmt.Errorf("Can't get material price %w", err)
 	}

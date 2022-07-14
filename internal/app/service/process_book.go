@@ -13,14 +13,14 @@ import (
 func (s *Service) InitialImport(ctx context.Context) error {
 	dateLayout := "2-Jan-06"
 
-	//book, err := excelize.OpenFile("var/analytics.xlsx")
-	book, err := excelize.OpenFile("var/testEx.xlsx")
+	book, err := excelize.OpenFile("var/analytics.xlsx")
+	//book, err := excelize.OpenFile("var/testEx.xlsx")
 	if err != nil {
 		return fmt.Errorf("cannot open exel file %w", err)
 	}
 
-	//materials := model.InitMaterials
-	materials := model.TestMaterials
+	materials := model.InitMaterials
+	//materials := model.TestMaterials
 
 	// Going through init_materials list layout
 	for _, material := range materials {
