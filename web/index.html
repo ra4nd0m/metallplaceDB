@@ -15,21 +15,22 @@
 
         <div class="row mt-5">
             <div class="offset-4 col-4 shadow p-3 mb-2 bg-white  rounded">
-                <h3 class="mb-42">StatTracker v0.0.1</h3>
+                <h3 class="mb-42">StatTracker v0.0.2</h3>
                 <div class="container"></div>
                     <div class="mb-3">
                         <select id="materialSelect" class="form-select mb-3"></select>
-                        <input id="startDate" type="date" class="form-control mb-3" value="2017-01-01">
-                        <input id="finishDate" type="date" class="form-control mb-3" value="2022-08-01">
+                        <input id="startDate" type="date" class="form-control mb-3">
+                        <input id="finishDate" type="date" class="form-control mb-3">
                     </div>
-                    <button class="btn btn-primary js-send-btn shadow-none">График</button>
-                    <button class="btn btn-primary js-send-btn shadow-none">Таблица 5</button>
-                    <button class="btn btn-primary js-send-btn shadow-none">Таблица 10</button>
+                    <button class="btn btn-primary js-send-btn shadow-none" id="chartBtn">График</button>
+                    <button class="btn btn-primary js-send-btn shadow-none" id="tableLast5">Таблица 1 н.</button>
+                    <button class="btn btn-primary js-send-btn shadow-none" id="tableLast10">Таблица 2 н.</button>
             </div>
         </div>
 
         <div class="mt-5">
             <canvas id="chartCanvas" width="200" height="70"></canvas>
+            <table class="table table-bordered" id="table5"></table>
         </div>
     </div>
 </body>
