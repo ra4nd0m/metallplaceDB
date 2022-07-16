@@ -51,6 +51,7 @@ func main() {
 		{route: "/addValue", handler: hdl.AddValueHandler},
 		{route: "/addUniqueMaterial", handler: hdl.AddUniqueMaterialHandler},
 		{route: "/initImport", handler: hdl.InitImport},
+		{route: "/getNLastValues", handler: hdl.GetNLastValues},
 	} {
 		http.HandleFunc(rec.route, DbMiddleware(rec.handler))
 	}

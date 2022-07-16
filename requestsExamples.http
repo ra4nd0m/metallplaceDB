@@ -8,6 +8,16 @@ Content-Type: application/json
 }
 
 ###
+GET localhost:8080/getNLastValues
+Content-Type: application/json
+
+{
+  "material_source_id": 1,
+  "n_values": 5
+}
+
+
+###
 GET localhost:8080/getMaterials
 
 

@@ -51,7 +51,8 @@ class App {
                 datasets: [{
                     label: 'Price',
                     data: data,
-                    backgroundColor: 'rgba(255, 0, 0, 0.1)'
+                    backgroundColor: '#576F72',
+                    pointBackgroundColor: '#576F72'
                 }]
             },
         })

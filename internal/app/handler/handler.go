@@ -19,6 +19,7 @@ type IService interface {
 	InitialImport(ctx context.Context) error
 	GetMaterialList(ctx context.Context) ([]model.MaterialShortInfo, error)
 	GetMaterialValueForPeriod(ctx context.Context, materialSourceId int, start string, finish string) ([]model.Price, error)
+	GetNLastValues(ctx context.Context, materialSourceId int, nRows int) ([]model.Price, error)
 }
 
 type Handler struct {

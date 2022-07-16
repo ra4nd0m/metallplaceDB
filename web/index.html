@@ -7,22 +7,24 @@
     integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <script src="js/app.js?1"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.8.0/chart.min.js" integrity="sha512-sW/w8s4RWTdFFSduOTGtk4isV1+190E/GghVffMA9XczdJ2MDzSzLEubKAs5h0wzgSJOQTRYyaz73L3d6RtJSg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
+    <link rel="stylesheet" href="stylesheet.css">
     <link rel="icon" href="icon.ico">
 </head>
 <body>
     <div class="container">
 
         <div class="row mt-5">
-            <div class="offset-4 col-4">
+            <div class="offset-4 col-4 shadow p-3 mb-2 bg-white  rounded">
                 <h3 class="mb-42">StatTracker v0.0.1</h3>
                 <div class="container"></div>
                     <div class="mb-3">
                         <select id="materialSelect" class="form-select mb-3"></select>
                         <input id="startDate" type="date" class="form-control mb-3" value="2017-01-01">
-                        <input id="finishDate" type="date" class="form-control mb-3" value="2022-06-01">
+                        <input id="finishDate" type="date" class="form-control mb-3" value="2022-08-01">
                     </div>
-                    <button class="btn btn-primary js-send-btn">Show</button>
+                    <button class="btn btn-primary js-send-btn shadow-none">График</button>
+                    <button class="btn btn-primary js-send-btn shadow-none">Таблица 5</button>
+                    <button class="btn btn-primary js-send-btn shadow-none">Таблица 10</button>
             </div>
         </div>
 
