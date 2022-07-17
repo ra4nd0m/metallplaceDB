@@ -33,7 +33,6 @@ class App {
     }
 
     loadChart = async () => {
-        this.canvas.style.display = "display"
         this.table.style.display = "none"
         const ctx = this.canvas.getContext('2d');
         const response = await this.getValueForPeriod(
@@ -46,7 +45,7 @@ class App {
         const data = [];
 
         response.forEach(item => {
-            labels.push(item.Date.substring(0, 10))
+            labels.push(rusDate(item.Date.substring(0, 10)))
             data.push(item.Value)
         })
 
