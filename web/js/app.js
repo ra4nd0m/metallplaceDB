@@ -55,6 +55,13 @@ class App {
         }
         this.myChart = new Chart(ctx, {
             type: 'line',
+            options: {
+                elements: {
+                    point:{
+                        radius: 0
+                    }
+                }
+            },
             data: {
                 labels: labels,
                 datasets: [{

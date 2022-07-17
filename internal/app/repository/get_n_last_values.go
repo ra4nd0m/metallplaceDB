@@ -11,7 +11,7 @@ func (r *Repository) GetNLastValues(ctx context.Context, materialSourceId int, n
 	var priceFeed []model.Price
 	var price model.Price
 
-	propertyId, err := r.GetPropertyId(ctx, "med_price")
+	propertyId, err := r.GetPropertyId(ctx, "Средняя цена")
 	if err != nil {
 		return nil, fmt.Errorf("cfnt get propertyId: %v", err)
 	}

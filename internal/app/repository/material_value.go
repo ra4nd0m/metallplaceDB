@@ -34,7 +34,7 @@ func (r *Repository) GetMaterialValueForPeriod(ctx context.Context, materialSour
 	var priceFeed []model.Price
 	var price model.Price
 
-	propertyId, err := r.GetPropertyId(ctx, "med_price")
+	propertyId, err := r.GetPropertyId(ctx, "Средняя цена")
 	if err != nil {
 		return nil, fmt.Errorf("Can't get property id %w", err)
 	}
