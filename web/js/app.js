@@ -61,6 +61,7 @@ class App {
                     label: 'Price',
                     data: data,
                     backgroundColor: '#576F72',
+                    borderColor: '#576F72',
                     pointBackgroundColor: '#576F72'
                 }]
             },
