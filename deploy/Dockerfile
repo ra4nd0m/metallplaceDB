@@ -26,6 +26,7 @@ USER metallplace
 
 COPY --chown=metallplace --from=builder /app/bin/metallplace /app
 COPY --chown=metallplace --from=builder /app/internal/migrations /app/internal/migrations
+COPY --chown=metallplace --from=builder /app/web /app/web
 COPY --chown=metallplace --from=builder /app/var /app/var
 
 CMD ["/app/metallplace"]

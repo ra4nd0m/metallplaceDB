@@ -56,14 +56,18 @@ func main() {
 		http.HandleFunc(rec.route, DbMiddleware(rec.handler))
 	}
 
-	fs := http.FileServer(http.Dir("/home/ivan/go/projects/metallplace/web"))
-	http.Handle("/", http.StripPrefix("/", fs))
+	bindFrontend()
 	log.Printf("Server started on port %s \n", cfg.HttpPort)
 	err = server.ListenAndServe()
 	if err != nil {
 		log.Fatal(err.Error())
 	}
 
+}
+
+func bindFrontend() {
+	fs := http.FileServer(http.Dir("./web"))
+	http.Handle("/", http.StripPrefix("/", fs))
 }
 
 func DbMiddleware(next http.HandlerFunc) http.HandlerFunc {

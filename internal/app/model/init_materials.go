@@ -48,7 +48,7 @@ var InitMaterials = []Material{
 		"steelmint.com",
 		"-",
 		"USD/т",
-		"A",
+		"B",
 		[]Property{
 			{"Мин цена", "D", 159, "decimal"},
 			{"Макс цена", "E", 159, "decimal"},
@@ -83,7 +83,7 @@ var InitMaterials = []Material{
 		"steelmint.com",
 		"Глобальный",
 		"USD/т",
-		"A",
+		"B",
 		[]Property{
 			{"Средняя цена", "F", 3, "decimal"},
 		},
@@ -297,6 +297,39 @@ var InitMaterials = []Material{
 		"A",
 		[]Property{
 			{"Средняя цена", "L", 212, "decimal"},
+		},
+	},
+
+	{"09.Запасы",
+		"Запасы Mn руд в портах Китая",
+		"-",
+		"-",
+		"млн тонн",
+		"B",
+		[]Property{
+			{"Запас", "F", 3, "decimal"},
+		},
+	},
+
+	{"09.Запасы",
+		"Запасы Cr руд в портах Китая",
+		"-",
+		"-",
+		"млн тонн",
+		"B",
+		[]Property{
+			{"Запас", "L", 3, "decimal"},
+		},
+	},
+
+	{"09.Запасы",
+		"Запасы Fe руд в портах Китая",
+		"-",
+		"-",
+		"млн тонн",
+		"B",
+		[]Property{
+			{"Запас", "R", 3, "decimal"},
 		},
 	},
 }
