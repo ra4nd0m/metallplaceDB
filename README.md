@@ -27,7 +27,7 @@
 
 #### Сервер
 
-Сервер реализует следующие адреса:
+Сервер реализует следующие обработчики:
 - getMaterials - возвращает существующие уникальные связки Материал - Источник - Рынок - Валюта продажи в формате JSON
 - initialImport - добавляет начальные записи (надо доработать)
 - getValueForPeriod - возвращает фид цены определенной связки за определенный промежуток. На вход принимает id связки, дату нижней и верхней границы (несторогое сравнение)
@@ -39,6 +39,12 @@
           "material_source_id": 86,
           "start": "2018-01-04",
           "finish": "2022-04-05"
+        }
+    
+    Возвращает
+    
+        type PriceResponse struct {
+            PriceFeed []model.Price `json:"price_feed"`
         }
 
 
@@ -66,6 +72,16 @@
           "source": "Test Source",
           "market": "Test Market",
           "unit": "Test Unit"
+        }
+        
+- getNLastValues - получает последние N записей по materialSourceId
+
+        GET localhost:8080/getNLastValues
+        Content-Type: application/json
+
+        {
+          "material_source_id": 1,
+          "n_values": 5
         }
 
 
