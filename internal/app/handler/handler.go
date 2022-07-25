@@ -13,7 +13,7 @@ import (
 
 type IService interface {
 	AddMaterialProperty(ctx context.Context, materialId, propertyId int) error
-	AddValue(ctx context.Context, materialName string, sourceName string,
+	AddValue(ctx context.Context, materialSourceId int,
 		propertyName string, valueFloat float64, valueStr string, createdOn time.Time) error
 	AddUniqueMaterial(ctx context.Context, materialName string, sourceName string, materialMarket string, materialUnit string) (int, error)
 	InitialImport(ctx context.Context) error

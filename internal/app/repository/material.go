@@ -2,30 +2,26 @@ package repository
 
 import (
 	"context"
-	"database/sql"
 	"fmt"
+	"github.com/jackc/pgx/v4"
 	"metallplace/internal/app/model"
-	"metallplace/internal/pkg/db"
+	"metallplace/pkg/gopkg-db"
 )
 
 // AddMaterial and get its id back
 func (r *Repository) AddMaterial(ctx context.Context, materialName string) (int, error) {
-	var id int
-	tryId, err := r.GetMaterialId(ctx, materialName)
+	id, err := r.GetMaterialId(ctx, materialName)
 	if err != nil {
 		return 0, fmt.Errorf("Cant get material id %w", err)
 	}
 
-	if tryId != 0 {
-		return tryId, nil
+	if id != 0 {
+		return id, nil
 	}
 
-	row, err := db.FromContext(ctx).QueryRow(
+	row := db.FromContext(ctx).QueryRow(ctx,
 		`INSERT INTO material (name) VALUES ($1) ON CONFLICT DO NOTHING RETURNING id`,
 		materialName)
-	if err != nil {
-		return 0, fmt.Errorf("Can't add material %w", err)
-	}
 
 	err = row.Scan(&id)
 	if err != nil {
@@ -38,17 +34,10 @@ func (r *Repository) AddMaterial(ctx context.Context, materialName string) (int,
 // GetMaterialId Get material id by material name
 func (r *Repository) GetMaterialId(ctx context.Context, materialName string) (int, error) {
 	var id int
-	row, err := db.FromContext(ctx).QueryRow(`SELECT id FROM material WHERE name=$1`, materialName)
-	if err != nil {
-		return 0, fmt.Errorf("Can't get material id %w", err)
-	}
+	row := db.FromContext(ctx).QueryRow(ctx, `SELECT id FROM material WHERE name=$1`, materialName)
 
-	if row == nil {
-		return 0, nil
-	}
-
-	err = row.Scan(&id)
-	if err == sql.ErrNoRows {
+	err := row.Scan(&id)
+	if err == pgx.ErrNoRows {
 		return 0, nil
 	}
 	if err != nil {
@@ -61,12 +50,9 @@ func (r *Repository) GetMaterialId(ctx context.Context, materialName string) (in
 // GetMaterialName Get material name by material id
 func (r *Repository) GetMaterialName(ctx context.Context, materialId int) (string, error) {
 	var name string
-	row, err := db.FromContext(ctx).QueryRow(`SELECT name FROM material WHERE id=$1`, materialId)
-	if err != nil {
-		return "", fmt.Errorf("Can't get material name %w", err)
-	}
+	row := db.FromContext(ctx).QueryRow(ctx, `SELECT name FROM material WHERE id=$1`, materialId)
 
-	err = row.Scan(&name)
+	err := row.Scan(&name)
 	if err != nil {
 		return "", fmt.Errorf("Can't get material name with row.Scan() %w", err)
 	}
@@ -83,7 +69,7 @@ func (r *Repository) GetMaterialList(ctx context.Context) ([]model.MaterialShort
 	var unit string
 	var id int
 
-	rows, err := db.FromContext(ctx).Query(`SELECT id, material_id, source_id, target_market, unit FROM material_source`)
+	rows, err := db.FromContext(ctx).Query(ctx, `SELECT id, material_id, source_id, target_market, unit FROM material_source`)
 	if err != nil {
 		return nil, fmt.Errorf("Can't get material_source rows %w", err)
 	}
@@ -105,6 +91,5 @@ func (r *Repository) GetMaterialList(ctx context.Context) ([]model.MaterialShort
 		materialList = append(materialList, model.MaterialShortInfo{id, materialName, sourceName, market, unit})
 	}
 
-	rows.Close()
 	return materialList, nil
 }

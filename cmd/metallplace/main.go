@@ -1,18 +1,17 @@
 package main
 
 import (
-	"database/sql"
 	"log"
 	"metallplace/internal/app/handler"
 	"metallplace/internal/app/pkg/config"
 	"metallplace/internal/app/repository"
 	"metallplace/internal/app/service"
-	"metallplace/internal/pkg/db"
+	"metallplace/pkg/gopkg-db"
 	"net/http"
 	"time"
 )
 
-var conn *sql.DB
+var conn db.IClient
 
 func main() {
 	// Loading config
@@ -22,12 +21,7 @@ func main() {
 	}
 
 	// Creating connection to DB
-	conn = db.New(cfg.DBHost, cfg.DBPort, cfg.DBUser, cfg.DBPassword, cfg.DBName)
-
-	// DB migration
-	if err := db.MigrateUp("internal/migrations", cfg.DBHost, cfg.DBPort, cfg.DBUser, cfg.DBPassword, cfg.DBName); err != nil {
-		log.Fatal("cannot migrate", err)
-	}
+	conn, err = db.New(cfg.DBHost, cfg.DBPort, cfg.DBUser, cfg.DBPassword, cfg.DBName)
 
 	// Creating instances and setting inheritance
 	repo := repository.New()
@@ -72,6 +66,8 @@ func bindFrontend() {
 
 func DbMiddleware(next http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		next(w, r.WithContext(db.AddToContext(r.Context(), &db.Db{conn})))
+		ctx := r.Context()
+		r = r.WithContext(db.AddToContext(ctx, conn))
+		next.ServeHTTP(w, r)
 	}
 }

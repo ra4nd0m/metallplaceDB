@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 	"metallplace/internal/app/model"
-	"metallplace/internal/pkg/db"
+	"metallplace/pkg/gopkg-db"
 )
 
 func (r *Repository) GetNLastValues(ctx context.Context, materialSourceId int, nValues int) ([]model.Price, error) {
@@ -16,7 +16,7 @@ func (r *Repository) GetNLastValues(ctx context.Context, materialSourceId int, n
 		return nil, fmt.Errorf("cfnt get propertyId: %v", err)
 	}
 
-	rows, err := db.FromContext(ctx).Query(
+	rows, err := db.FromContext(ctx).Query(ctx,
 		"SELECT * FROM "+
 			"("+
 			"SELECT created_on, value_decimal "+

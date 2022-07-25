@@ -48,8 +48,7 @@
         Content-Type: application/json
 
         {
-          "material_name": "Material 2",
-          "source_name": "website 2",
+          "maerial_source_id": 1,
           "property_name": "med_price",
           "value_float": "99999",
           "value_str": "",

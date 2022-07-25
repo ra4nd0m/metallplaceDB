@@ -40,8 +40,7 @@ POST localhost:8080/addValue
 Content-Type: application/json
 
 {
-  "material_name": "Test Material",
-  "source_name": "Test Source",
+  "material_source_id": 1,
   "property_name": "med_price",
   "value_float": "100",
   "value_str": "",

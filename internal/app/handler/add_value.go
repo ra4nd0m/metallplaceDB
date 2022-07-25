@@ -7,12 +7,11 @@ import (
 )
 
 type AddValueRequest struct {
-	MaterialName string    `json:"material_name"`
-	SourceName   string    `json:"source_name"`
-	PropertyName string    `json:"property_name"`
-	ValueFloat   string    `json:"value_float"`
-	ValueStr     string    `json:"value_str"`
-	CreatedOn    time.Time `json:"created_on"`
+	MaterialSourceId int       `json:"material_source_id"`
+	PropertyName     string    `json:"property_name"`
+	ValueFloat       string    `json:"value_float"`
+	ValueStr         string    `json:"value_str"`
+	CreatedOn        time.Time `json:"created_on"`
 }
 
 type AddValueResponse struct {
@@ -31,7 +30,8 @@ func (h Handler) AddValueHandler(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			return AddValueResponse{false}, err
 		}
-		err = h.service.AddValue(r.Context(), req.MaterialName, req.SourceName,
+
+		err = h.service.AddValue(r.Context(), req.MaterialSourceId,
 			req.PropertyName, valueFloat, req.ValueStr, req.CreatedOn)
 		if err != nil {
 			return AddValueResponse{false}, err

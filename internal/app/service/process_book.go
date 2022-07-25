@@ -20,7 +20,8 @@ func (s *Service) InitialImport(ctx context.Context) error {
 	}
 
 	materials := model.InitMaterials
-	//materials := model.TestMaterials
+
+	//err = db.ExecTx(ctx, func(ctx context.Context) error {
 
 	// Going through init_materials list layout
 	for _, material := range materials {
@@ -87,7 +88,17 @@ func (s *Service) InitialImport(ctx context.Context) error {
 					valueStr = value
 				}
 
-				err = s.repo.AddMaterialValue(ctx, material.Name, material.Source, property.Name, valueDecimal, valueStr, createdOn)
+				err = s.repo.AddMaterialSource(ctx, material.Name, material.Source, material.Market, material.Unit)
+				if err != nil {
+					return fmt.Errorf("cann not add material source id: %v", err)
+				}
+
+				materialSourceId, err := s.repo.GetMaterialSourceId(ctx, material.Name, material.Source, material.Market, material.Unit)
+				if err != nil {
+					return fmt.Errorf("cann not get material source id: %v", err)
+				}
+
+				err = s.repo.AddMaterialValue(ctx, materialSourceId, property.Name, valueDecimal, valueStr, createdOn)
 				if err != nil {
 					return err
 				}
@@ -100,6 +111,14 @@ func (s *Service) InitialImport(ctx context.Context) error {
 			fmt.Println("")
 		}
 	}
+
+	//	return nil
+	//})
+
+	if err != nil {
+		fmt.Println("cant exec init import tx: %v", err)
+	}
+
 	fmt.Print("Import finished!")
 	return nil
 }
