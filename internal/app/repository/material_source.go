@@ -3,6 +3,7 @@ package repository
 import (
 	"context"
 	"fmt"
+	"metallplace/internal/app/model"
 	"metallplace/pkg/gopkg-db"
 )
 
@@ -57,4 +58,34 @@ func (r *Repository) GetMaterialSourceId(ctx context.Context, materialName, sour
 	}
 
 	return id, nil
+}
+
+func (r *Repository) GetMaterialSource(ctx context.Context, id int) (model.MaterialShortInfo, error) {
+	var materialId int
+	var sourceId int
+	var market string
+	var unit string
+
+	row, err := db.FromContext(ctx).Query(ctx, `SELECT material_id, source_id, target_market, unit 
+		FROM material_source WHERE id=$1`, id)
+	if err != nil {
+		return model.MaterialShortInfo{}, fmt.Errorf("can't get material_source rows %w", err)
+	}
+
+	err = row.Scan(&materialId, &sourceId, &market, &unit)
+	if err != nil {
+		return model.MaterialShortInfo{}, fmt.Errorf("can't get scan row %w", err)
+	}
+
+	materialName, err := r.GetMaterialName(ctx, materialId)
+	if err != nil {
+		return model.MaterialShortInfo{}, fmt.Errorf("can't get material name %w", err)
+	}
+
+	sourceName, err := r.GetSourceName(ctx, sourceId)
+	if err != nil {
+		return model.MaterialShortInfo{}, fmt.Errorf("can't get source name %w", err)
+	}
+
+	return model.MaterialShortInfo{Id: id, Name: materialName, Source: sourceName, Market: market, Unit: unit}, nil
 }

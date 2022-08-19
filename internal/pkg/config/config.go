@@ -14,6 +14,7 @@ type Config struct {
 	DBPassword string
 	DBName     string
 	HttpPort   string
+	HttpHost   string
 }
 
 func LoadConfig() (Config, error) {
@@ -30,6 +31,7 @@ func LoadConfig() (Config, error) {
 		DBPassword: os.Getenv("DB_PASSWORD"),
 		DBName:     os.Getenv("DB_NAME"),
 		HttpPort:   os.Getenv("HTTP_PORT"),
+		HttpHost:   os.Getenv("HTTP_HOST"),
 	}
 
 	log.Printf("config: %#v\n", config)

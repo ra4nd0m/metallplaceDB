@@ -25,14 +25,9 @@ func (r *Repository) AddMaterialValue(ctx context.Context, materialSourceId int,
 	return nil
 }
 
-func (r *Repository) GetMaterialValueForPeriod(ctx context.Context, materialSourceId int, start string, finish string) ([]model.Price, error) {
+func (r *Repository) GetMaterialValueForPeriod(ctx context.Context, materialSourceId, propertyId int, start string, finish string) ([]model.Price, error) {
 	var priceFeed []model.Price
 	var price model.Price
-
-	propertyId, err := r.GetPropertyId(ctx, "Средняя цена")
-	if err != nil {
-		return nil, fmt.Errorf("Can't get property id %w", err)
-	}
 
 	rows, err := db.FromContext(ctx).Query(ctx, `SELECT created_on, value_decimal 
 		FROM material_value WHERE material_source_id=$1 AND property_id=$4 AND created_on >= $2 AND 

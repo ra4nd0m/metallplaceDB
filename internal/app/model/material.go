@@ -36,3 +36,7 @@ type Price struct {
 	Date  time.Time
 	Value float64
 }
+
+type PriceFeed struct {
+	Feed []Price
+}

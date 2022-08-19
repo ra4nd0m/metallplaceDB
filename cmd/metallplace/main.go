@@ -3,9 +3,10 @@ package main
 import (
 	"log"
 	"metallplace/internal/app/handler"
-	"metallplace/internal/app/pkg/config"
+	"metallplace/internal/app/model"
 	"metallplace/internal/app/repository"
 	"metallplace/internal/app/service"
+	"metallplace/internal/pkg/config"
 	"metallplace/pkg/gopkg-db"
 	"net/http"
 	"time"
@@ -25,7 +26,7 @@ func main() {
 
 	// Creating instances and setting inheritance
 	repo := repository.New()
-	srv := service.New(repo)
+	srv := service.New(cfg, repo)
 	hdl := handler.New(srv)
 
 	// Setting timeout for the server
@@ -46,6 +47,8 @@ func main() {
 		{route: "/addUniqueMaterial", handler: hdl.AddUniqueMaterialHandler},
 		{route: "/initImport", handler: hdl.InitImport},
 		{route: "/getNLastValues", handler: hdl.GetNLastValues},
+
+		{route: model.ChartRoutePrefix, handler: hdl.GetChartHandler},
 	} {
 		http.HandleFunc(rec.route, DbMiddleware(rec.handler))
 	}
