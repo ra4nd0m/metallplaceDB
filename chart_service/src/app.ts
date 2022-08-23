@@ -36,7 +36,7 @@ type YDataSet = {
 }
 
 const getChart = async (XLabelSet: string[], YDataSets: YDataSet[], options: ChartOptions): Promise<Buffer> => {
-    const width = 450; //px
+    const width = 700; //px
     const height = 300; //px
     const canvasRenderService = new ChartJSNodeCanvas({width, height, chartJsFactory});
     let datasets: Dataset[] = [];
@@ -76,7 +76,7 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
                 x: {
                     offset: true,
                     ticks: {
-                        //display: false,
+                        display: false,
                         autoSkip: false,
                         maxRotation: 90,
                     }
@@ -89,6 +89,8 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
         }
     }
     if (options.labels) {
+        // @ts-ignore
+        conf.options.scales.x.ticks.display = true
         // @ts-ignore
         conf.plugins.push(ChartDataLabels)
         // @ts-ignore
