@@ -1,36 +1,26 @@
 package handler
 
 import (
-	"errors"
-	"fmt"
+	"github.com/gorilla/mux"
 	"metallplace/internal/app/model"
 	"net/http"
-	"os"
+	"strings"
 )
 
-type GetChartRequest struct {
-	FileName string `json:"file_name"`
-}
-
-type GetChartResponse struct {
-	Path string `json:"path"`
-}
-
 func (h Handler) GetChartHandler(w http.ResponseWriter, r *http.Request) {
-	handle(w, r, func(req GetChartRequest) (GetChartResponse, error) {
-		path := "./var/chart_service/" + req.FileName
-		if _, err := os.Stat(path); errors.Is(err, os.ErrNotExist) {
-			chartPack, err := model.NewChartPack(req.FileName)
-			if err != nil {
-				return GetChartResponse{}, fmt.Errorf("cant pack request to struct: %w", err)
-			}
+	vars := mux.Vars(r)
+	chartPack, err := model.NewChartPack(strings.TrimRight(vars["specs"], "."))
+	if err != nil {
+		http.Error(w, "cant pack request to struct", http.StatusBadRequest)
+		return
+	}
 
-			_, err = h.service.GetChart(r.Context(), chartPack)
-			if err != nil {
-				return GetChartResponse{}, fmt.Errorf("cant pack generate chart_service: %w", err)
-			}
-		}
+	bytes, err := h.service.GetCachedChart(r.Context(), chartPack)
+	if err != nil {
+		http.Error(w, "cant get img bytes: "+err.Error(), http.StatusBadRequest)
+		return
+	}
 
-		return GetChartResponse{Path: path}, nil
-	})
+	_, _ = w.Write(bytes)
+
 }

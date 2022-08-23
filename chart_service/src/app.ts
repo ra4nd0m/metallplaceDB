@@ -1,11 +1,18 @@
 import {ChartConfiguration} from "chart.js";
 import ChartDataLabels from 'chartjs-plugin-datalabels';
+import {Request} from "express";
+import {Response} from "express/ts4.0";
+import {LabelOptions} from "chartjs-plugin-datalabels/types/options";
 
 const express = require('express')
-const fs = require('fs');
 const {ChartJSNodeCanvas} = require('chartjs-node-canvas');
-const app = express()
+let app = express()
 const port = 3000
+
+const bodyParser = require('body-parser');
+app.use(bodyParser.json()); // for parsing application/json
+app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
+
 
 const chartJsFactory = () => {
     const Chart = require('chart.js');
@@ -13,15 +20,6 @@ const chartJsFactory = () => {
     delete require.cache[require.resolve('chart.js')];
     delete require.cache[require.resolve('chartjs-plugin-datalabels')];
     return Chart;
-}
-
-
-type Feed = {
-    prices: Price[]
-}
-type Price = {
-    date: string,
-    value: number,
 }
 
 type Dataset = {
@@ -32,139 +30,106 @@ type Dataset = {
     borderColor: string
 }
 
-const getChart = async (feedArray: Feed[], nameArray: string[]) => {
-    const width = 700; //px
+type YDataSet = {
+    label: string,
+    data: number[]
+}
+
+const getChart = async (XLabelSet: string[], YDataSets: YDataSet[], options: ChartOptions): Promise<Buffer> => {
+    const width = 450; //px
     const height = 300; //px
     const canvasRenderService = new ChartJSNodeCanvas({width, height, chartJsFactory});
-    let dateArray: string[] = []
-    let feeds: number[][] = [];
     let datasets: Dataset[] = [];
 
-    // Date labels: X axis
-    feedArray[0].prices.forEach(item => {
-        dateArray.push(item.date)
-    })
-
-    // Price values: Y axis
-    feedArray.forEach(feed => {
-        let prices: number[] = [];
-        feed.prices.forEach(price => {
-            prices.push(price.value);
-        })
-
-        feeds.push(prices);
-    })
-
     // Creating dataset lines: material - price feed
-    let nameCnt = 0;
-    feeds.forEach(feed => {
-        console.log("Pushing ", nameArray[nameCnt])
+    YDataSets.forEach(set => {
+        console.log("Pushing ", set.label)
         datasets.push({
-            label: nameArray[nameCnt],
-            data: feed,
+            label: set.label,
+            data: set.data,
             lineTension: 0.1,
             fill: false,
-            borderColor: 'white'
+            borderColor: 'rgb(55, 74, 116)',
         });
-        nameCnt++;
     })
 
-    // Cfg for drawing chart
-    const configuration: ChartConfiguration = {
+    const configuration: ChartConfiguration = getChartConf(datasets, XLabelSet, options)
+    return await canvasRenderService.renderToBuffer(configuration);
+}
+
+type ChartOptions = {
+    labels?: Partial<LabelOptions>,
+    fontSize?: number,
+}
+
+function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOptions): ChartConfiguration {
+    const fontSize = options.fontSize || 12
+    const conf: ChartConfiguration = {
         type: 'line',
-        plugins: [ChartDataLabels],
+        plugins: [],
         data: {
             labels: dateArray,
             datasets: datasets,
-
         },
         options: {
-            plugins: {
-                datalabels: {
-                    borderRadius: 4,
-                    color: 'white',
-                    anchor: 'end',
-                    align: 'top',
-                    formatter: Math.round
+            scales: {
+                x: {
+                    offset: true,
+                    ticks: {
+                        //display: false,
+                        autoSkip: false,
+                        maxRotation: 90,
+                    }
+                },
+                y: {
+                    offset: true,
                 }
+            },
+            plugins: {},
+        }
+    }
+    if (options.labels) {
+        // @ts-ignore
+        conf.plugins.push(ChartDataLabels)
+        // @ts-ignore
+        conf.options.plugins = {
+            datalabels: {
+                borderRadius: 4,
+                backgroundColor: 'gray',
+                color: 'white',
+                anchor: 'end',
+                align: 'top',
+                textAlign: 'center',
+                font: {
+                    size: fontSize
+                },
+                clamp: true,
+                ...options.labels,
             }
         }
-    };
-
-    const imageBuffer = await canvasRenderService.renderToBuffer(configuration);
-
-    //console.log(imageBuffer.toString('base64'))
-    fs.writeFileSync('mychart.png', imageBuffer);
+    }
+    return conf
 }
 
-// app.get('/get', (req: Request , res: Response) => {
-//
-//     res.send(getChart())
-// })
-//
-// app.listen(port, () => {
-//     console.log(`Example app listening on port ${port}`)
-// })
-//
+app.get('/test', (req: Request , res: Response) => {
+    getChart(xData, yData, {labels: {}})
+        .then(buf => res.send(`<img src="data:image/png;base64, ${buf.toString('base64')}"\>`))
+        .catch(reason => res.send(JSON.stringify(reason)))
+})
 
-let json =
-    [
-        {
-            "date": "01.01.2000",
-            "value": 12
-        },
-        {
-            "date": "02.01.2000",
-            "value": 14
-        },
-        {
-            "date": "03.01.2000",
-            "value": 10
-        },
+app.post('/gen', (req: Request, res: Response) => {
+    console.log(req.body.buffer)
+    getChart(req.body.x_label_set, req.body.y_data_set, req.body.chart_options)
+        .then(buf => res.send(buf))
+        .catch(reason => res.send(JSON.stringify(reason)))
+})
 
-        {
-            "date": "04.01.2000",
-            "value": 9
-        },
-        {
-            "date": "05.01.2000",
-            "value": 12
-        },
-        {
-            "date": "06.01.2000",
-            "value": 11
-        },
-    ]
+ app.listen(port, () => {
+     console.log(`Example app listening on port ${port}`)
+ })
 
-let json2 =
-    [
-        {
-            "date": "01.01.2000",
-            "value": 132
-        },
-        {
-            "date": "02.01.2000",
-            "value": 114
-        },
-        {
-            "date": "03.01.2000",
-            "value": 103
-        },
+let yData: YDataSet[] = []
+yData.push({label: "Сталь 1", data: [23, 54, 65, 75, 63]})
+yData.push({label: "Сталь 2", data: [10, 23, 13, 18, 20]})
+const xData = ["01-01-2000", "02-01-2000", "03-01-2000", "04-01-2000", "05-01-2000"]
 
-        {
-            "date": "04.01.2000",
-            "value": 99
-        },
-        {
-            "date": "05.01.2000",
-            "value": 100
-        },
-        {
-            "date": "06.01.2000",
-            "value": 211
-        },
-    ]
-
-const materials = ["Material1", "Material2"]
-
-getChart([{prices: json}, {prices: json2}], materials).then(() => console.log("Complete"))

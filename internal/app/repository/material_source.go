@@ -66,13 +66,10 @@ func (r *Repository) GetMaterialSource(ctx context.Context, id int) (model.Mater
 	var market string
 	var unit string
 
-	row, err := db.FromContext(ctx).Query(ctx, `SELECT material_id, source_id, target_market, unit 
+	row := db.FromContext(ctx).QueryRow(ctx, `SELECT material_id, source_id, target_market, unit 
 		FROM material_source WHERE id=$1`, id)
-	if err != nil {
-		return model.MaterialShortInfo{}, fmt.Errorf("can't get material_source rows %w", err)
-	}
 
-	err = row.Scan(&materialId, &sourceId, &market, &unit)
+	err := row.Scan(&materialId, &sourceId, &market, &unit)
 	if err != nil {
 		return model.MaterialShortInfo{}, fmt.Errorf("can't get scan row %w", err)
 	}

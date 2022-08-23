@@ -1,9 +1,9 @@
 package main
 
 import (
+	"github.com/gorilla/mux"
 	"log"
 	"metallplace/internal/app/handler"
-	"metallplace/internal/app/model"
 	"metallplace/internal/app/repository"
 	"metallplace/internal/app/service"
 	"metallplace/internal/pkg/config"
@@ -26,7 +26,8 @@ func main() {
 
 	// Creating instances and setting inheritance
 	repo := repository.New()
-	srv := service.New(cfg, repo)
+	//chart := chartclient.New(cfg.ChartService.Host, cfg.ChartService.Port)
+	srv := service.New(cfg, repo) // , chart)
 	hdl := handler.New(srv)
 
 	// Setting timeout for the server
@@ -35,6 +36,8 @@ func main() {
 		ReadTimeout:  600 * time.Second,
 		WriteTimeout: 600 * time.Second,
 	}
+
+	router := mux.NewRouter()
 
 	// Linking addresses and handlers
 	for _, rec := range [...]struct {
@@ -47,13 +50,13 @@ func main() {
 		{route: "/addUniqueMaterial", handler: hdl.AddUniqueMaterialHandler},
 		{route: "/initImport", handler: hdl.InitImport},
 		{route: "/getNLastValues", handler: hdl.GetNLastValues},
-
-		{route: model.ChartRoutePrefix, handler: hdl.GetChartHandler},
+		{route: "/getChart/{specs}", handler: hdl.GetChartHandler},
 	} {
-		http.HandleFunc(rec.route, DbMiddleware(rec.handler))
+		router.HandleFunc(rec.route, DbMiddleware(rec.handler))
 	}
+	http.Handle("/", router)
 
-	bindFrontend()
+	//bindFrontend()
 	log.Printf("Server started on port %s \n", cfg.HttpPort)
 	err = server.ListenAndServe()
 	if err != nil {

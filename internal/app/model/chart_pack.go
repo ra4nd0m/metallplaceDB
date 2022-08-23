@@ -7,13 +7,14 @@ import (
 	"time"
 )
 
-const ChartRoutePrefix = "/chart_service/"
+const ChartRoutePostfix = ".png"
 
 type ChartPack struct {
 	MaterialIdList []int
 	PropertyId     int
 	Start          time.Time
 	Finish         time.Time
+	NeedLabels     bool
 }
 
 func (c ChartPack) ToUrl() string {
@@ -28,12 +29,17 @@ func (c ChartPack) ToUrl() string {
 
 	fn += "_" + strconv.Itoa(c.PropertyId)
 	fn += "_" + c.Start.Format("2006-01-02") + c.Finish.Format("2006-01-02")
+	needLabels := "0"
+	if c.NeedLabels {
+		needLabels = "1"
+	}
+	fn += "_" + needLabels
 
-	return ChartRoutePrefix + fn
+	return fn + ChartRoutePostfix
 }
 
 func NewChartPack(url string) (ChartPack, error) {
-	fn := strings.TrimLeft(ChartRoutePrefix, url)
+	fn := strings.TrimRight(url, ChartRoutePostfix)
 	var c ChartPack
 	cnt := strings.Split(fn, "_")
 
@@ -55,17 +61,21 @@ func NewChartPack(url string) (ChartPack, error) {
 	}
 	c.PropertyId = propertyId
 
-	start, err := time.Parse("2006-01-02", cnt[2])
+	start, err := time.Parse("01-02-2006", cnt[2])
 	if err != nil {
 		return ChartPack{}, fmt.Errorf("cant parse start time: %w", err)
 	}
 	c.Start = start
 
-	finish, err := time.Parse("2006-01-02", cnt[3])
+	finish, err := time.Parse("01-02-2006", cnt[3])
 	if err != nil {
 		return ChartPack{}, fmt.Errorf("cant parse finish time: %w", err)
 	}
 	c.Finish = finish
+
+	if cnt[4] == "1" {
+		c.NeedLabels = true
+	}
 
 	return c, nil
 }
