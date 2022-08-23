@@ -11,7 +11,6 @@ const port = 3000
 
 const bodyParser = require('body-parser');
 app.use(bodyParser.json()); // for parsing application/json
-app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 
 
 const chartJsFactory = () => {
@@ -76,7 +75,6 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
                 x: {
                     offset: true,
                     ticks: {
-                        display: false,
                         autoSkip: false,
                         maxRotation: 90,
                     }
@@ -89,8 +87,6 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
         }
     }
     if (options.labels) {
-        // @ts-ignore
-        conf.options.scales.x.ticks.display = true
         // @ts-ignore
         conf.plugins.push(ChartDataLabels)
         // @ts-ignore
@@ -120,7 +116,6 @@ app.get('/test', (req: Request , res: Response) => {
 })
 
 app.post('/gen', (req: Request, res: Response) => {
-    console.log(req.body.buffer)
     getChart(req.body.x_label_set, req.body.y_data_set, req.body.chart_options)
         .then(buf => res.send(buf))
         .catch(reason => res.send(JSON.stringify(reason)))
