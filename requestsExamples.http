@@ -48,7 +48,7 @@ Content-Type: application/json
 }
 
 ###
-GET localhost:8080/getChart/4043_1_01-01-2021_01-01-2022_0.png
+GET localhost:8080/getChart/4043_1_11-01-2021_01-01-2022_1.png
 
 ###
 POST localhost:3000/gen

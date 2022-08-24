@@ -7,6 +7,7 @@ import (
 	"metallplace/internal/app/repository"
 	"metallplace/internal/app/service"
 	"metallplace/internal/pkg/config"
+	"metallplace/pkg/chartclient"
 	"metallplace/pkg/gopkg-db"
 	"net/http"
 	"time"
@@ -26,8 +27,8 @@ func main() {
 
 	// Creating instances and setting inheritance
 	repo := repository.New()
-	//chart := chartclient.New(cfg.ChartService.Host, cfg.ChartService.Port)
-	srv := service.New(cfg, repo) // , chart)
+	chart := chartclient.New(cfg.ChartHost, cfg.ChartPort)
+	srv := service.New(cfg, repo, chart)
 	hdl := handler.New(srv)
 
 	// Setting timeout for the server

@@ -4,6 +4,7 @@ import (
 	"context"
 	"metallplace/internal/app/model"
 	"metallplace/internal/pkg/config"
+	"metallplace/pkg/chartclient"
 	"time"
 )
 
@@ -32,11 +33,16 @@ type IRepository interface {
 	GetSourceName(ctx context.Context, sourceId int) (string, error)
 }
 
-type Service struct {
-	cfg  config.Config
-	repo IRepository
+type IChartClient interface {
+	GetChart(req chartclient.Request) ([]byte, error)
 }
 
-func New(cfg config.Config, r IRepository) *Service {
-	return &Service{cfg, r}
+type Service struct {
+	cfg   config.Config
+	repo  IRepository
+	chart IChartClient
+}
+
+func New(cfg config.Config, r IRepository, chart IChartClient) *Service {
+	return &Service{cfg, r, chart}
 }

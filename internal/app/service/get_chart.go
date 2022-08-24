@@ -41,7 +41,7 @@ func (s *Service) GetChart(ctx context.Context, chartPack model.ChartPack) ([]by
 		isFirst = false
 	}
 
-	bytes, err := chartclient.GetChart(req)
+	bytes, err := s.chart.GetChart(req)
 	if err != nil {
 		return nil, fmt.Errorf("cant get chart bytes: %w", err)
 	}
