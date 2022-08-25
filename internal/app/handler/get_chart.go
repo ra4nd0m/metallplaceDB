@@ -21,6 +21,8 @@ func (h Handler) GetChartHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	w.Header().Set("Content-Type", "image/png")
+
 	_, _ = w.Write(bytes)
 
 }

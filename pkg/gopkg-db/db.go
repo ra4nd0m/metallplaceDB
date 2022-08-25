@@ -44,14 +44,14 @@ func New(host string, port int, user, password, name string, options ...Option) 
 		return nil, fmt.Errorf("Unable to connect to database: %w", err)
 	}
 
-	dbLog := &dbLog{}
-	config.ConnConfig.Logger = dbLog
+	//dbLog := &dbLog{}
+	//config.ConnConfig.Logger = dbLog
 
 	pool.Pool, err = pgxpool.ConnectConfig(context.Background(), config)
 	if err != nil {
 		return nil, fmt.Errorf("Unable to connect to database: %w", err)
 	}
-	dbLog.db = pool.Pool
+	//dbLog.db = pool.Pool
 	log.Printf("Use database %s@%s:%d/%s (conn size %v)\n", user, host, port, name, pool.size)
 
 	// migrations
