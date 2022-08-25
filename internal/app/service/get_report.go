@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"html/template"
 	"io/ioutil"
-	"metallplace/internal/pkg/genpdf"
 	"os"
 )
 
@@ -31,7 +30,7 @@ func (s *Service) GetReport(date string) ([]byte, error) {
 		return nil, fmt.Errorf("cant generate html from tmpl: %w", err)
 	}
 
-	err = genpdf.GetPDFFromHTML(b, path)
+	err = s.conv.GetPDFFromHTML(b, path)
 	if err != nil {
 		return nil, fmt.Errorf("cant convert html to pdf: %w", err)
 	}

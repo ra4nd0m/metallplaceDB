@@ -1,6 +1,7 @@
 package service
 
 import (
+	"bytes"
 	"context"
 	"metallplace/internal/app/model"
 	"metallplace/internal/pkg/config"
@@ -37,12 +38,17 @@ type IChartClient interface {
 	GetChart(req chartclient.Request) ([]byte, error)
 }
 
+type IConverter interface {
+	GetPDFFromHTML(htmlBytes bytes.Buffer, path string) error
+}
+
 type Service struct {
 	cfg   config.Config
 	repo  IRepository
 	chart IChartClient
+	conv  IConverter
 }
 
-func New(cfg config.Config, r IRepository, chart IChartClient) *Service {
-	return &Service{cfg, r, chart}
+func New(cfg config.Config, r IRepository, chart IChartClient, conv IConverter) *Service {
+	return &Service{cfg, r, chart, conv}
 }

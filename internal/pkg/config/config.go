@@ -13,10 +13,15 @@ type Config struct {
 	DBUser     string
 	DBPassword string
 	DBName     string
-	HttpPort   string
-	HttpHost   string
-	ChartHost  string
-	ChartPort  int
+
+	HttpPort string
+	HttpHost string
+
+	ChartHost string
+	ChartPort int
+
+	ConvHost string
+	ConvPort int
 }
 
 func LoadConfig() (Config, error) {
@@ -27,6 +32,7 @@ func LoadConfig() (Config, error) {
 
 	DbPort, _ := strconv.Atoi(os.Getenv("DB_PORT"))
 	ChartPort, _ := strconv.Atoi(os.Getenv("CHART_PORT"))
+	ConvPort, _ := strconv.Atoi(os.Getenv("CONV_PORT"))
 	config := Config{
 		DBHost:     os.Getenv("DB_HOST"),
 		DBPort:     DbPort,
@@ -37,6 +43,8 @@ func LoadConfig() (Config, error) {
 		HttpHost:   os.Getenv("HTTP_HOST"),
 		ChartHost:  os.Getenv("CHART_HOST"),
 		ChartPort:  ChartPort,
+		ConvHost:   os.Getenv("CONV_HOST"),
+		ConvPort:   ConvPort,
 	}
 
 	log.Printf("config: %#v\n", config)

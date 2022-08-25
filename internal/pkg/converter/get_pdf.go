@@ -1,4 +1,4 @@
-package genpdf
+package converter
 
 import (
 	"bytes"
@@ -8,10 +8,20 @@ import (
 	"mime/multipart"
 	"net/http"
 	"os"
+	"strconv"
 	"time"
 )
 
-func GetPDFFromHTML(htmlBytes bytes.Buffer, fn string) error {
+type Converter struct {
+	Host string
+	Port int
+}
+
+func New(host string, port int) *Converter {
+	return &Converter{Host: host, Port: port}
+}
+
+func (c *Converter) GetPDFFromHTML(htmlBytes bytes.Buffer, path string) error {
 	client := &http.Client{
 		Timeout: time.Second * 10,
 	}
@@ -22,7 +32,7 @@ func GetPDFFromHTML(htmlBytes bytes.Buffer, fn string) error {
 	io.Copy(part, bytes.NewReader(htmlBytes.Bytes()))
 	writer.Close()
 
-	req, err := http.NewRequest("POST", "http://localhost:8081/convert?auth=key", body)
+	req, err := http.NewRequest("POST", "http://"+c.Host+":"+strconv.Itoa(c.Port)+"/convert?auth=key", body)
 	if err != nil {
 		return fmt.Errorf("cant create request: %w", err)
 	}
@@ -37,7 +47,7 @@ func GetPDFFromHTML(htmlBytes bytes.Buffer, fn string) error {
 		return fmt.Errorf("request failed with response code: %d, %s", rsp.StatusCode, str)
 	}
 
-	file, err := os.Create(fn)
+	file, err := os.Create(path)
 	if err != nil {
 		return fmt.Errorf("cant create pdf file: %w", err)
 	}
