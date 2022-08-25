@@ -51,6 +51,9 @@ Content-Type: application/json
 GET localhost:8080/getChart/4043_1_11-01-2021_01-01-2022_1.png
 
 ###
+GET localhost:8080/getReport/01-01-2021.pdf
+
+###
 POST localhost:3000/gen
 Content-Type: application/json
 

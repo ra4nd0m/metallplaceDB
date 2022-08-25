@@ -52,6 +52,7 @@ func main() {
 		{route: "/initImport", handler: hdl.InitImport},
 		{route: "/getNLastValues", handler: hdl.GetNLastValues},
 		{route: "/getChart/{specs}", handler: hdl.GetChartHandler},
+		{route: "/getReport/{date}", handler: hdl.GetReportHandler},
 	} {
 		router.HandleFunc(rec.route, DbMiddleware(rec.handler))
 	}

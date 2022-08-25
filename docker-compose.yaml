@@ -1,44 +1,44 @@
 version: "3"
 services:
-  app:
-    image: metallplace-app:latest
-    build:
-      context: ./
-      dockerfile: ./deploy/Dockerfile
-      args:
-        version: dev
-    container_name: metallplace-app
-    ports:
-      - 8080:80
-    environment:
-      HTTP_PORT: 80
-      DB_HOST: db
-      DB_PORT: 5432
-      DB_USER: metallplace
-      DB_PASSWORD: password
-      DB_NAME: metallplace
-    depends_on:
-      - db
-    networks:
-      - default
-
-  db:
-    image: postgres:13
-    container_name: metallplace-postgres
-    volumes:
-      - dbdata:/var/lib/postgresql/data
-    ports:
-      - 54320:5432
-    environment:
-      POSTGRES_USER: metallplace
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: metallplace
-    networks:
-      - default
+#  app:
+#    image: metallplace-app:latest
+#    build:
+#      context: ./
+#      dockerfile: ./deploy/Dockerfile
+#      args:
+#        version: dev
+#    container_name: metallplace-app
+#    ports:
+#      - 8080:80
+#    environment:
+#      HTTP_PORT: 80
+#      DB_HOST: db
+#      DB_PORT: 5432
+#      DB_USER: metallplace
+#      DB_PASSWORD: password
+#      DB_NAME: metallplace
+#    depends_on:
+#      - db
+#    networks:
+#      - default
+#
+#  db:
+#    image: postgres:13
+#    container_name: metallplace-postgres
+#    volumes:
+#      - dbdata:/var/lib/postgresql/data
+#    ports:
+#      - 54320:5432
+#    environment:
+#      POSTGRES_USER: metallplace
+#      POSTGRES_PASSWORD: password
+#      POSTGRES_DB: metallplace
+#    networks:
+#      - default
 
   pdf:
     image: arachnysdocker/athenapdf-service
-    container_name: metallplace-pdf
+    container_name: metallplace-pdf2
     ports:
       - 8081:8080
     extra_hosts:
@@ -46,16 +46,16 @@ services:
     environment:
       WEAVER_AUTH_KEY: key
 
-  chart:
-    image: metallplace-chart:latest
-    build:
-      context: ./chart_service
-      dockerfile: ./deploy/Dockerfile
-    container_name: metallplace-chart
-    ports:
-      - 3000:3000
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
+#  chart:
+#    image: metallplace-chart:latest
+#    build:
+#      context: ./chart_service
+#      dockerfile: ./deploy/Dockerfile
+#    container_name: metallplace-chart
+#    ports:
+#      - 3000:3000
+#    extra_hosts:
+#      - "host.docker.internal:host-gateway"
 
 volumes:
   dbdata:
