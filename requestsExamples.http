@@ -48,7 +48,10 @@ Content-Type: application/json
 }
 
 ###
-GET http://localhost:8080/getChart/6548_1_11-01-2020_01-01-2022_0.png
+GET http://localhost:8080/getChart/8758-9589_1_11-01-2021_01-01-2022_0.png
+
+###
+GET http://localhost:8080/getChart/8758_01_12-01-2021_01-01-2022_1.png
 
 ###
 GET localhost:8080/getReport/01-01-2021.pdf

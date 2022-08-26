@@ -84,6 +84,7 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
                 }
             },
             plugins: {},
+
         }
     }
     if (options.labels) {
