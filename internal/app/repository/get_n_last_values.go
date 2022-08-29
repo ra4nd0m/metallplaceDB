@@ -7,14 +7,9 @@ import (
 	"metallplace/pkg/gopkg-db"
 )
 
-func (r *Repository) GetNLastValues(ctx context.Context, materialSourceId int, nValues int) ([]model.Price, error) {
+func (r *Repository) GetNLastValues(ctx context.Context, materialSourceId, propertyId int, nValues int) ([]model.Price, error) {
 	var priceFeed []model.Price
 	var price model.Price
-
-	propertyId, err := r.GetPropertyId(ctx, "Средняя цена")
-	if err != nil {
-		return nil, fmt.Errorf("cfnt get propertyId: %v", err)
-	}
 
 	rows, err := db.FromContext(ctx).Query(ctx,
 		"SELECT * FROM "+
