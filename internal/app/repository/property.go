@@ -45,3 +45,7 @@ func (r *Repository) GetPropertyId(ctx context.Context, propertyName string) (in
 
 	return id, nil
 }
+
+func (r *Repository) GetPropertyList(ctx context.Context) {
+
+}

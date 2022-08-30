@@ -2,11 +2,24 @@
 <html>
 <head>
     <title>Test Page</title>
+    <style>
+        div {
+            page-break-after: always;
+            max-width: 100px;
+            height: 100px;
+            background-color: powderblue;
+        }
+    </style>
 </head>
 <body>
-<p>
-    Chart:
-</p>
-<img src="{{ .Chart1}}"/>
+
+<div>
+    <img src="{{ .Chart1}}"/>
+</div>
+
+<div>
+    <img src="{{ .Chart1}}"/>
+</div>
+
 </body>
 </html>

@@ -37,7 +37,7 @@ services:
 #      - default
 
   pdf:
-    image: arachnysdocker/athenapdf-service
+    image: chrisgarrett/athenapdf-service-base
     container_name: metallplace-pdf2
     ports:
       - 8081:8080
