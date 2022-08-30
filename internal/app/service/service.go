@@ -16,7 +16,7 @@ type IRepository interface {
 	GetMaterialId(ctx context.Context, materialName string) (int, error)
 	GetMaterialName(ctx context.Context, materialId int) (string, error)
 
-	AddMaterialProperty(ctx context.Context, materialId int, propertyId int) error
+	AddMaterialProperty(ctx context.Context, materialSourceId int, propertyId int) error
 
 	AddMaterialSource(ctx context.Context, materialName, sourceName, materialMarket, materialUnit string) error
 	GetMaterialSourceId(ctx context.Context, materialName, sourceName, market, unit string) (int, error)
@@ -28,6 +28,8 @@ type IRepository interface {
 
 	AddPropertyIfNotExists(ctx context.Context, property model.PropertyShortInfo) (int, error)
 	GetPropertyId(ctx context.Context, propertyName string) (int, error)
+	GetPropertyKind(ctx context.Context, propertyId int) (string, error)
+	GetPropertyList(ctx context.Context, materialSourceId int) ([]model.PropertyShortInfo, error)
 
 	AddSource(ctx context.Context, materialSource string) error
 	GetSourceId(ctx context.Context, sourceName string) (int, error)

@@ -48,13 +48,14 @@ func main() {
 		handler http.HandlerFunc
 	}{
 		{route: "/getValueForPeriod", handler: hdl.GetValueForPeriodHandler},
-		{route: "/getMaterials", handler: hdl.GetMaterialHandler},
+		{route: "/getMaterialList", handler: hdl.GetMaterialListHandler},
 		{route: "/addValue", handler: hdl.AddValueHandler},
 		{route: "/addUniqueMaterial", handler: hdl.AddUniqueMaterialHandler},
 		{route: "/initImport", handler: hdl.InitImport},
 		{route: "/getNLastValues", handler: hdl.GetNLastValues},
 		{route: "/getChart/{specs}", handler: hdl.GetChartHandler},
 		{route: "/getReport/{date}", handler: hdl.GetReportHandler},
+		{route: "/getPropertyList", handler: hdl.GetPropertyListHandler},
 	} {
 		router.HandleFunc(rec.route, DbMiddleware(rec.handler))
 	}

@@ -12,7 +12,7 @@ import (
 )
 
 type IService interface {
-	AddMaterialProperty(ctx context.Context, materialId, propertyId int) error
+	AddMaterialProperty(ctx context.Context, materialSourceId, propertyId int) error
 	AddValue(ctx context.Context, materialSourceId int,
 		propertyName string, valueFloat float64, valueStr string, createdOn time.Time) error
 	AddUniqueMaterial(ctx context.Context, materialName string, sourceName string, materialMarket string, materialUnit string) (int, error)
@@ -26,6 +26,8 @@ type IService interface {
 
 	GetReport(date string) ([]byte, error)
 	GetCachedReport(date string) ([]byte, error)
+
+	GetPropertyList(ctx context.Context, materialSourceId int) ([]model.PropertyShortInfo, error)
 }
 
 type Handler struct {

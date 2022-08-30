@@ -6,9 +6,9 @@ import (
 )
 
 // AddMaterialProperty Tying materials and properties
-func (s *Service) AddMaterialProperty(ctx context.Context, materialId, propertyId int) error {
+func (s *Service) AddMaterialProperty(ctx context.Context, materialSourceId, propertyId int) error {
 
-	err := s.repo.AddMaterialProperty(ctx, materialId, propertyId)
+	err := s.repo.AddMaterialProperty(ctx, materialSourceId, propertyId)
 	if err != nil {
 		return fmt.Errorf("Can't tie material id %w", err)
 	}

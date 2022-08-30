@@ -6,6 +6,9 @@ create table material
     name varchar not null
 );
 
+alter table material
+    owner to ivan;
+
 create unique index material_name_uindex
     on material (name);
 
@@ -34,20 +37,6 @@ create table source
 create unique index source_name_uindex
     on source (name);
 
-create table material_property
-(
-    id          serial
-        constraint material_property_pk
-            primary key,
-    material_id integer not null
-        constraint material_property_material_fk
-            references material,
-    property_id integer not null
-        constraint material_property_property_fk
-            references property,
-    unique (material_id, property_id)
-);
-
 create table material_source
 (
     id            serial
@@ -64,6 +53,23 @@ create table material_source
     target_market varchar not null,
     unit          varchar not null,
     unique (material_id, source_id, target_market, unit)
+);
+
+alter table material_source
+    owner to ivan;
+
+create table material_property
+(
+    id                 serial
+        constraint material_property_pk
+            primary key,
+    material_source_id integer not null
+        constraint material_property_material_source_id_fk
+            references material_source,
+    property_id        integer not null
+        constraint material_property_property_fk
+            references property,
+    unique (material_source_id, property_id)
 );
 
 create unique index material_source_uniq

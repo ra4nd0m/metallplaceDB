@@ -77,7 +77,7 @@ class App {
     }
 
     getMaterial = () => {
-        return fetch('/getMaterials')
+        return fetch('/getMaterialList')
             .then(x => x.json())
     }
 

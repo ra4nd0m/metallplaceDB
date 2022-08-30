@@ -26,7 +26,7 @@ func (s *Service) InitialImport(ctx context.Context) error {
 
 		// Going through init_materials list layout
 		for _, material := range materials {
-			materialId, err := s.AddUniqueMaterial(ctx, material.Name, material.Source, material.Market, material.Unit)
+			materialSourceId, err := s.AddUniqueMaterial(ctx, material.Name, material.Source, material.Market, material.Unit)
 			if err != nil {
 				return err
 			}
@@ -40,7 +40,7 @@ func (s *Service) InitialImport(ctx context.Context) error {
 					return err
 				}
 
-				err = s.repo.AddMaterialProperty(ctx, materialId, propertyId)
+				err = s.repo.AddMaterialProperty(ctx, materialSourceId, propertyId)
 			}
 
 			// Going through material's properties, and reading property values
@@ -87,11 +87,6 @@ func (s *Service) InitialImport(ctx context.Context) error {
 						}
 					} else {
 						valueStr = value
-					}
-
-					err = s.repo.AddMaterialSource(ctx, material.Name, material.Source, material.Market, material.Unit)
-					if err != nil {
-						return fmt.Errorf("cann not add material source id: %v", err)
 					}
 
 					materialSourceId, err := s.repo.GetMaterialSourceId(ctx, material.Name, material.Source, material.Market, material.Unit)

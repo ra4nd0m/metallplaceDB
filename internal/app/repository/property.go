@@ -30,6 +30,19 @@ func (r *Repository) AddPropertyIfNotExists(ctx context.Context, property model.
 	return id, nil
 }
 
+// TBA
+func (r *Repository) GetPropertyName(ctx context.Context, id int) (string, error) {
+	var name string
+	row := db.FromContext(ctx).QueryRow(ctx, `SELECT name FROM property WHERE id=$1`, id)
+
+	err := row.Scan(&name)
+	if err != nil {
+		return "", fmt.Errorf("cant get property name with row.Scan() %w", err)
+	}
+
+	return name, nil
+}
+
 // GetPropertyId Get property id by property name
 func (r *Repository) GetPropertyId(ctx context.Context, propertyName string) (int, error) {
 	var id int
@@ -40,12 +53,48 @@ func (r *Repository) GetPropertyId(ctx context.Context, propertyName string) (in
 		return 0, nil
 	}
 	if err != nil {
-		return 0, err
+		return 0, fmt.Errorf("cant scan property id from row", err)
 	}
 
 	return id, nil
 }
 
-func (r *Repository) GetPropertyList(ctx context.Context) {
+//GetPropertyList Returns property list for unique material
+func (r *Repository) GetPropertyList(ctx context.Context, materialSourceId int) ([]model.PropertyShortInfo, error) {
+	var propertyList []model.PropertyShortInfo
+	var propertyId int
+	rows, err := db.FromContext(ctx).Query(ctx, `SELECT property_id FROM material_property WHERE material_source_id=$1`, materialSourceId)
+	if err != nil {
+		return nil, fmt.Errorf("Can't get property_id rows %w", err)
+	}
 
+	defer rows.Close()
+
+	for rows.Next() {
+		rows.Scan(&propertyId)
+		propertyName, err := r.GetPropertyName(ctx, propertyId)
+		if err != nil {
+			return nil, fmt.Errorf("cant get property name: %w", err)
+		}
+		propertyKind, err := r.GetPropertyKind(ctx, propertyId)
+		if err != nil {
+			return nil, fmt.Errorf("cant get type in GetPropertyList: %w", err)
+		}
+		propertyList = append(propertyList, model.PropertyShortInfo{Id: propertyId, Name: propertyName, Kind: propertyKind})
+	}
+
+	return propertyList, nil
+}
+
+// GetPropertyKind Gets kind by property id
+func (r *Repository) GetPropertyKind(ctx context.Context, propertyId int) (string, error) {
+	var propertyType string
+
+	row := db.FromContext(ctx).QueryRow(ctx, `SELECT kind FROM property WHERE id=$1`, propertyId)
+	err := row.Scan(&propertyType)
+	if err != nil {
+		return "", fmt.Errorf("cant get property type: %w", err)
+	}
+
+	return propertyType, nil
 }

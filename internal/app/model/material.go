@@ -20,6 +20,7 @@ type Material struct {
 }
 
 type PropertyShortInfo struct {
+	Id   int
 	Name string
 	Kind string
 }

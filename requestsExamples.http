@@ -18,8 +18,15 @@ Content-Type: application/json
 
 
 ###
-GET localhost:8080/getMaterials
+GET localhost:8080/getMaterialList
 
+###
+GET localhost:8080/getPropertyList
+Content-Type: application/json
+
+{
+  "material_source_id": 2
+}
 
 ###
 POST localhost:8080/initImport
