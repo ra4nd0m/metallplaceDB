@@ -4,7 +4,7 @@ class App {
         this.propertyMap = new Map();
 
         this.materialSourceSelect = document.getElementById('materialSourceSelect')
-        this.propertySelect = document.getElementById('propertySelectSelect')
+        this.propertySelect = document.getElementById('propertySelect')
         this.valueInput = document.getElementById('valueInput')
         this.addRecordBtn = document.getElementById('addRecordBtn')
 
@@ -21,8 +21,12 @@ class App {
                     this.materialSourceSelect.appendChild(opt);
                     this.materialMap.set(item.Id, item);
                 })
+                this.loadProperty(this.materialSourceSelect.value)
             });
-        this.loadProperty()
+
+        this.materialSourceSelect.addEventListener("change", () => {
+            this.loadProperty(this.materialSourceSelect.value)
+        })
     }
 
     getMaterial = () => {
@@ -30,7 +34,7 @@ class App {
             .then(x => x.json())
     }
 
-    getProperty = () => {
+    getProperty = (id) => {
         return fetch("/getPropertyList",
            {
                 headers: {
@@ -38,14 +42,15 @@ class App {
                 },
                 method: "POST",
                 body: JSON.stringify({
-                    material_source_id: this.materialSourceSelect.value
+                    material_source_id: id
                 })
             }
         ).then(x => x.json())
     }
 
-    loadProperty = () => {
-        this.getProperty().
+    loadProperty = (id) => {
+        this.removeOptions(this.propertySelect)
+        this.getProperty(id).
         then(properties =>{
             properties.list.forEach(item => {
                 const opt = document.createElement('option');
@@ -56,6 +61,13 @@ class App {
             })
         });
     }
+
+     removeOptions = (selectElement) => {
+        let i, L = selectElement.options.length - 1;
+        for(i = L; i >= 0; i--) {
+            selectElement.remove(i);
+        }
+    }
 }
 
 
@@ -64,5 +76,3 @@ window.addEventListener('load', () => {
     app.run();
 });
 
-this.materialSourceSelect.addEventListener("selectionchange", () => {
-})

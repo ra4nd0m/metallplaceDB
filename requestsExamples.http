@@ -25,7 +25,7 @@ GET localhost:8080/getPropertyList
 Content-Type: application/json
 
 {
-  "material_source_id": 2
+  "material_source_id": "2"
 }
 
 ###
