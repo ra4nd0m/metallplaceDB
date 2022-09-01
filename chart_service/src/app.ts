@@ -35,8 +35,8 @@ type YDataSet = {
 }
 
 const getChart = async (XLabelSet: string[], YDataSets: YDataSet[], options: ChartOptions): Promise<Buffer> => {
-    const width = 100; //px
-    const height = 300; //px
+    const width = 700; //px
+    const height = 400; //px
     const canvasRenderService = new ChartJSNodeCanvas({width, height, chartJsFactory});
     let datasets: Dataset[] = [];
 
@@ -58,11 +58,10 @@ const getChart = async (XLabelSet: string[], YDataSets: YDataSet[], options: Cha
 
 type ChartOptions = {
     labels?: Partial<LabelOptions>,
-    fontSize?: number,
 }
 
 function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOptions): ChartConfiguration {
-    const fontSize = options.fontSize || 12
+    const fontSize = 12
     const conf: ChartConfiguration = {
         type: 'line',
         plugins: [],
@@ -75,8 +74,8 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
                 x: {
                     offset: true,
                     ticks: {
-                        autoSkip: false,
-                        maxRotation: 90,
+                        autoSkip: true,
+                        maxRotation: 80,
                     }
                 },
                 y: {
@@ -118,8 +117,12 @@ app.get('/test', (req: Request , res: Response) => {
 
 app.post('/gen', (req: Request, res: Response) => {
     getChart(req.body.x_label_set, req.body.y_data_set, req.body.chart_options)
-        .then(buf => res.send(buf))
-        .catch(reason => res.send(JSON.stringify(reason)))
+        .then(buf =>
+            res.send(buf)
+        )
+        .catch(reason =>
+            res.send(JSON.stringify(reason))
+        )
 })
 
  app.listen(port, () => {

@@ -1,0 +1,18 @@
+{
+  "name": "docx-gen",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "start:dev": "node src/app.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.27.2",
+    "docx": "^7.4.1",
+    "image-size": "^1.0.2",
+    "node-fetch": "^2.6.7",
+    "xhr2": "^0.2.1"
+  }
+}
