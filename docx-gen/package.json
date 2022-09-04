@@ -10,8 +10,10 @@
   "license": "ISC",
   "dependencies": {
     "axios": "^0.27.2",
+    "date-fns": "^2.29.2",
     "docx": "^7.4.1",
     "image-size": "^1.0.2",
+    "moment": "^2.29.4",
     "node-fetch": "^2.6.7",
     "xhr2": "^0.2.1"
   }

@@ -1,4 +1,4 @@
-import {ChartConfiguration} from "chart.js";
+import {Chart, ChartConfiguration} from "chart.js";
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import {Request} from "express";
 import {Response} from "express/ts4.0";
@@ -11,7 +11,6 @@ const port = 3000
 
 const bodyParser = require('body-parser');
 app.use(bodyParser.json()); // for parsing application/json
-
 
 const chartJsFactory = () => {
     const Chart = require('chart.js');
@@ -35,8 +34,8 @@ type YDataSet = {
 }
 
 const getChart = async (XLabelSet: string[], YDataSets: YDataSet[], options: ChartOptions): Promise<Buffer> => {
-    const width = 700; //px
-    const height = 400; //px
+    const width = 900; //px
+    const height = 450; //px
     const canvasRenderService = new ChartJSNodeCanvas({width, height, chartJsFactory});
     let datasets: Dataset[] = [];
 
@@ -51,7 +50,7 @@ const getChart = async (XLabelSet: string[], YDataSets: YDataSet[], options: Cha
             borderColor: 'rgb(55, 74, 116)',
         });
     })
-
+    Chart.defaults.font.size = 25;
     const configuration: ChartConfiguration = getChartConf(datasets, XLabelSet, options)
     return await canvasRenderService.renderToBuffer(configuration);
 }
@@ -62,7 +61,8 @@ type ChartOptions = {
 
 function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOptions): ChartConfiguration {
     const fontSize = 12
-    const conf: ChartConfiguration = {
+
+    const conf: any = {
         type: 'line',
         plugins: [],
         data: {
@@ -80,9 +80,21 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
                 },
                 y: {
                     offset: true,
+                    ticks: {
+                        autoSkip: true,
+                    }
                 }
             },
-            plugins: {},
+            plugins: {
+                legend: {
+                        labels: {
+                            // This more specific font property overrides the global property
+                            font: {
+                                size: 33
+                            }
+                    }
+                }
+            },
 
         }
     }
