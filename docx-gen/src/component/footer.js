@@ -9,28 +9,27 @@ module.exports = function(title) {
                     size: 100,
                     type: docx.WidthType.PERCENTAGE,
                 },
+                columnWidths: [5, 1],
                 borders: docx.TableBorders.NONE,
                 rows: [
                     new docx.TableRow({
 
                         children: [
                             new docx.TableCell({
-                                width: {
-                                    size: 100,
-                                    type: docx.WidthType.PERCENTAGE
-                                },
                                 children: [new docx.Paragraph(title)],
                             }),
                             new docx.TableCell({
                                 children: [
-                                    new docx.Paragraph({
+                                    new docx.Paragraph(
+                                    {
                                         alignment: docx.AlignmentType.RIGHT,
                                         children: [
                                             new TextRun({
                                                 children: ["Страница | ", docx.PageNumber.CURRENT],
                                             }),
                                         ],
-                                    }),
+                                    }
+                                    ),
                                 ],
                             }),
                         ],

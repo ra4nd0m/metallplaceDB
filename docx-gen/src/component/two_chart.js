@@ -1,26 +1,31 @@
 const docx = require("docx");
-const {TextRun} = require("docx");
-const chart = require("../client/chart");
-const oneChart = require("./one_chart")
-module.exports = function twoChart(url1, url2, width, height){
+const chartBlock = require("./chart_block")
+
+const {TableCellMarginNil} = require("./const");
+module.exports = async function twoChart(url1, url2){
+    const block1 = await chartBlock(url1)
+    const block2 = await chartBlock(url2)
     return new docx.Table({
         width: {
             size: 100,
             type: docx.WidthType.PERCENTAGE,
         },
+        columnWidths: [20, 1, 20],
         borders: docx.TableBorders.NONE,
         rows: [
             new docx.TableRow({
                 children: [
                     new docx.TableCell({
+                        margins: TableCellMarginNil,
                         children: [
-                            oneChart(url1, width, height)
+                            block1
                         ],
                     }),
-
+                    new docx.TableCell({children: []}),
                     new docx.TableCell({
+                        margins: TableCellMarginNil,
                         children: [
-                            oneChart(url2, width, height)
+                            block2
                         ],
                     }),
 

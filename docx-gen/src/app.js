@@ -8,8 +8,8 @@ const oneChart = require("./component/one_chart")
 const twoChart = require("./component/two_chart")
 const weekDates = getWeekDates()
 const rusMonth = ["января","фервраля","марта","апреля","мая","июня","июля","августа","сентября","октября","ноября","декабря"]
-const footerTitle = `Отчетный период: ${weekDates.first.day} ${rusMonth[weekDates.first.month]} - 
-                    ${weekDates.last.day} ${rusMonth[weekDates.last.month]} ${weekDates.last.year} года (${getWeekNumber()} неделя)`
+const footerTitle = `Отчетный период: ${weekDates.first.day} ${rusMonth[weekDates.first.month]} - `+
+    `${weekDates.last.day} ${rusMonth[weekDates.last.month]} ${weekDates.last.year} года (${getWeekNumber()} неделя)`
 
 async function genDocX() {
     return new docx.Document({
@@ -22,16 +22,14 @@ async function genDocX() {
                 children: [
                     new docx.Paragraph({
                         children: [
-                            twoChart(
+                            await twoChart(
                             'http://localhost:8080/getChart/2_2_11-01-2021_01-01-2022_0.png',
-                            'http://localhost:8080/getChart/2_2_11-01-2021_01-01-2022_0.png',
-                            240,
-                            120)
+                            'http://localhost:8080/getChart/2_2_11-01-2021_01-01-2022_0.png',)
                         ]
                     }),
                     new docx.Paragraph({
                         spacing: {before: 2000},
-                        children: [oneChart('http://localhost:8080/getChart/2_2_11-01-2021_01-01-2022_0.png', 240, 120), new docx.PageBreak()]
+                        children: [await oneChart('http://localhost:8080/getChart/2_2_11-01-2021_01-01-2022_0.png'), new docx.PageBreak()]
                     }),
                     new docx.Paragraph("Second Page"),
                 ],

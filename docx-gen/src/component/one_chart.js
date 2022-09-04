@@ -1,57 +1,32 @@
 const docx = require("docx");
-const {TextRun} = require("docx");
-const chart = require("../client/chart");
+const chartBlock = require("./chart_block")
 
-module.exports = function oneChart(url, width, height){
+const {TableCellMarginNil} = require("./const");
+module.exports = async function oneChart(url){
+    const block = await chartBlock(url)
     return new docx.Table({
         width: {
             size: 100,
             type: docx.WidthType.PERCENTAGE,
         },
+        columnWidths: [10.5 , 20, 10.5],
         borders: docx.TableBorders.NONE,
         rows: [
             new docx.TableRow({
                 children: [
+
+                    new docx.TableCell({children: []}),
                     new docx.TableCell({
+                        margins: TableCellMarginNil,
                         children: [
-                            new docx.Paragraph({
-                                alignment: docx.AlignmentType.RIGHT,
-                                children: [
-                                    new TextRun({
-                                        children: ["Последняя цена"],
-                                    }),
-                                ],
-                            }),
+                            block
                         ],
                     }),
-
-                    new docx.TableCell({
-                        children: [
-                            new docx.Paragraph({
-                                alignment: docx.AlignmentType.RIGHT,
-                                children: [
-                                    new TextRun({
-                                        children: ["Изм. цены"],
-                                    }),
-                                ],
-                            }),
-                        ],
-                    }),
-
+                    new docx.TableCell({children: []})
                 ],
             }),
 
-            new docx.TableRow({
-                children: [
-                    new docx.TableCell({
-                        children: [
-                            new docx.Paragraph({
-                                children: [chart(url, width, height)]
-                            })
-                        ],
-                    }),
-                ]
-            })
+
         ],
     })
 }
