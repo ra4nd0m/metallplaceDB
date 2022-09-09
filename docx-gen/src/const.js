@@ -4,7 +4,7 @@ const {GetWeekNumber} = require("./utils/date_operations")
 const RusMonth = ["января","фервраля","марта","апреля","мая","июня","июля","августа","сентября","октября","ноября","декабря"]
 
 module.exports.TableCellMarginNil = {top: 0, left: 0, bottom: 0, right: 0, marginUnitType: docx.WidthType.NIL};
-module.exports.SpacingDefault = {before: 3400};
+module.exports.SpacingDefault =2500;
 module.exports.FontFamily = "Arial";
 module.exports.HeaderTitle = "Обзор рынка сырья, стали и ферросплавов";
 module.exports.RusMonth = RusMonth;

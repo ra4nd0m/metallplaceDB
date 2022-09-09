@@ -1,6 +1,7 @@
 const docx = require("docx");
 const chartBlock = require("./chart_block")
 
+
 const {TableCellMarginNil} = require("../const");
 module.exports = async function twoChart(url1, url2){
     const block1 = await chartBlock(url1, false)
