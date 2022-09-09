@@ -34,8 +34,8 @@ type MaterialShortInfo struct {
 }
 
 type Price struct {
-	Date  time.Time
-	Value float64
+	Date  time.Time `json:"date"`
+	Value float64   `json:"value"`
 }
 
 type PriceFeed struct {

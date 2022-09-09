@@ -54,6 +54,7 @@ func main() {
 		{route: "/getChart/{specs}", handler: hdl.GetChartHandler},
 		{route: "/getReport/{date}", handler: hdl.GetReportHandler},
 		{route: "/getPropertyList", handler: hdl.GetPropertyListHandler},
+		{route: "/getMaterialInfo", handler: hdl.GetMaterialSourceInfo},
 	} {
 		router.HandleFunc(rec.route, DbMiddleware(rec.handler))
 	}

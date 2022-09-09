@@ -1,5 +1,7 @@
 const docx = require("docx");
 const {TextRun} = require("docx");
+const paragraph = require("../atom/paragraph")
+const {FontFamily, LineWidth, LineColor} = require("../const");
 
 module.exports = function(title) {
     return new docx.Footer({
@@ -10,21 +12,26 @@ module.exports = function(title) {
                     type: docx.WidthType.PERCENTAGE,
                 },
                 columnWidths: [5, 1],
-                borders: docx.TableBorders.NONE,
+                borders: {
+                    top: {style: docx.BorderStyle.DASHED, size: LineWidth, color: LineColor},
+                    right: {size: 0},
+                    left: {size: 0},
+                    bottom: {size: 0},
+                },
                 rows: [
                     new docx.TableRow({
-
                         children: [
                             new docx.TableCell({
-                                children: [new docx.Paragraph(title)],
+                                children: [paragraph(title)],
                             }),
                             new docx.TableCell({
                                 children: [
-                                    new docx.Paragraph(
+                                    paragraph(
                                     {
                                         alignment: docx.AlignmentType.RIGHT,
                                         children: [
                                             new TextRun({
+                                                font: FontFamily,
                                                 children: ["Страница | ", docx.PageNumber.CURRENT],
                                             }),
                                         ],

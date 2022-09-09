@@ -19,6 +19,7 @@ type IService interface {
 	InitialImport(ctx context.Context) error
 	GetMaterialList(ctx context.Context) ([]model.MaterialShortInfo, error)
 	GetMaterialValueForPeriod(ctx context.Context, materialSourceId, propertyId int, start string, finish string) ([]model.Price, error)
+	GetMaterialSourceInfo(ctx context.Context, id int) (model.MaterialShortInfo, error)
 	GetNLastValues(ctx context.Context, materialSourceId, propertyId int, nValues int) ([]model.Price, error)
 
 	GetChart(ctx context.Context, chartPack model.ChartPack) ([]byte, error)
