@@ -24,7 +24,7 @@ func (s *Service) GetChart(ctx context.Context, chartPack model.ChartPack) ([]by
 
 		start := chartPack.Start.Format("2006-01-02")
 		finish := chartPack.Finish.Format("2006-01-02")
-		feed, err := s.repo.GetMaterialValueForPeriod(ctx, id, chartPack.PropertyId, start, finish)
+		feed, _, err := s.repo.GetMaterialValueForPeriod(ctx, id, chartPack.PropertyId, start, finish)
 		if err != nil {
 			return nil, fmt.Errorf("cant get material_value: %w", err)
 		}

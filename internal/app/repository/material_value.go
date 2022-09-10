@@ -25,25 +25,33 @@ func (r *Repository) AddMaterialValue(ctx context.Context, materialSourceId int,
 	return nil
 }
 
-func (r *Repository) GetMaterialValueForPeriod(ctx context.Context, materialSourceId, propertyId int, start string, finish string) ([]model.Price, error) {
+func (r *Repository) GetMaterialValueForPeriod(ctx context.Context, materialSourceId, propertyId int, start string, finish string) ([]model.Price, float64, error) {
 	var priceFeed []model.Price
 	var price model.Price
+	var prevPrice float64
 
 	rows, err := db.FromContext(ctx).Query(ctx, `SELECT created_on, value_decimal 
 		FROM material_value WHERE material_source_id=$1 AND property_id=$4 AND created_on >= $2 AND 
 			created_on <= $3 ORDER BY created_on ASC`, materialSourceId, start, finish, propertyId)
 	if err != nil {
-		return nil, fmt.Errorf("Can't get material price %w", err)
+		return nil, 0, fmt.Errorf("Can't get material price %w", err)
 	}
 	defer rows.Close()
 
 	for rows.Next() {
 		err := rows.Scan(&price.Date, &price.Value)
 		if err != nil {
-			return nil, fmt.Errorf("Can't read from rows in get_prices %w", err)
+			return nil, 0, fmt.Errorf("Can't read from rows in get_prices %w", err)
 		}
 		priceFeed = append(priceFeed, price)
 	}
 
-	return priceFeed, nil
+	row := db.FromContext(ctx).QueryRow(ctx, `SELECT value_decimal 
+		FROM material_value WHERE material_source_id=$1 AND property_id=$3 AND created_on < $2 LIMIT 1`, materialSourceId, start, propertyId)
+	err = row.Scan(&prevPrice)
+	if err != nil {
+		return nil, 0, fmt.Errorf("Can't get prev price %w", err)
+	}
+
+	return priceFeed, prevPrice, nil
 }

@@ -22,7 +22,7 @@ type IRepository interface {
 	GetMaterialSource(ctx context.Context, id int) (model.MaterialShortInfo, error)
 
 	AddMaterialValue(ctx context.Context, materialSourceId int, propertyName string, valueFloat float64, valueStr string, createdOn time.Time) error
-	GetMaterialValueForPeriod(ctx context.Context, materialSourceId, propertyId int, start string, finish string) ([]model.Price, error)
+	GetMaterialValueForPeriod(ctx context.Context, materialSourceId, propertyId int, start string, finish string) ([]model.Price, float64, error)
 	GetNLastValues(ctx context.Context, materialSourceId, propertyId int, nValues int) ([]model.Price, error)
 
 	AddPropertyIfNotExists(ctx context.Context, property model.PropertyShortInfo) (int, error)

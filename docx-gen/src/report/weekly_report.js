@@ -43,7 +43,7 @@ module.exports = class WeeklyReport {
                                     'http://localhost:8080/getChart/5_2_01-01-2021_01-01-2022_0.png',)
                             ]
                         }),
-                        new docx.Paragraph({children:[new docx.PageBreak()]}),
+                        new docx.Paragraph({children: [new docx.PageBreak()]}),
                         paragraph({
                             children: [
                                 await twoChart(
@@ -69,7 +69,7 @@ module.exports = class WeeklyReport {
                         }),
 
 
-                     new docx.Paragraph({children:[new docx.PageBreak()]}),
+                        new docx.Paragraph({children: [new docx.PageBreak()]}),
                         h3("Сталь"),
                         paragraph({
                             children: [
@@ -95,7 +95,7 @@ module.exports = class WeeklyReport {
                             children: [await oneChartText('http://localhost:8080/getChart/2_2_11-01-2021_01-01-2022_0.png')]
                         }),
 
-                        new docx.Paragraph({children:[new docx.PageBreak()]}),
+                        new docx.Paragraph({children: [new docx.PageBreak()]}),
                         h2("Таблицы"),
                         paragraph({
                             children: [await singleTable(2, 5)]

@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"github.com/go-playground/validator/v10"
 	"io/ioutil"
 	"metallplace/internal/app/model"
 	"net/http"
@@ -18,7 +19,7 @@ type IService interface {
 	AddUniqueMaterial(ctx context.Context, materialName string, sourceName string, materialMarket string, materialUnit string) (int, error)
 	InitialImport(ctx context.Context) error
 	GetMaterialList(ctx context.Context) ([]model.MaterialShortInfo, error)
-	GetMaterialValueForPeriod(ctx context.Context, materialSourceId, propertyId int, start string, finish string) ([]model.Price, error)
+	GetMaterialValueForPeriod(ctx context.Context, materialSourceId, propertyId int, start string, finish string) ([]model.Price, float64, error)
 	GetMaterialSourceInfo(ctx context.Context, id int) (model.MaterialShortInfo, error)
 	GetNLastValues(ctx context.Context, materialSourceId, propertyId int, nValues int) ([]model.Price, error)
 
@@ -65,6 +66,12 @@ func handle[REQ any, RESP any](w http.ResponseWriter, r *http.Request, fn func(r
 			http.Error(w, fmt.Sprintf("%+v", err), http.StatusBadRequest)
 			return
 		}
+	}
+
+	validate := validator.New()
+	if err := validate.Struct(req); err != nil {
+		http.Error(w, fmt.Sprintf("%+v", err), http.StatusBadRequest)
+		return
 	}
 
 	resp, err := fn(req)
