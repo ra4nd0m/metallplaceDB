@@ -13,7 +13,7 @@ const singleTable = require("../component/table_single");
 const singleTableMinimax = require("../component/table_single_minimax");
 const tableDoubleWithWeekAvg = require("../component/table_double_week_avg");
 const tableMaterialMinimax = require("../component/table_material_minimax")
-const {GetWeekDates, GetWeekNumber} = require("../utils/date_operations")
+const {GetWeekDates} = require("../utils/date_operations")
 
 
 module.exports = class WeeklyReport {

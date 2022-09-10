@@ -12,6 +12,7 @@ function priceBlock(unit) {
             type: docx.WidthType.PERCENTAGE,
         },
         borders: TableNoOuterBorders,
+
         rows: [
             new docx.TableRow({
                 children: [
@@ -20,9 +21,9 @@ function priceBlock(unit) {
             }),
             new docx.TableRow({
                 children: [
-                    new docx.TableCell({children: [paragraphCentred(`мин`)]}),
-                    new docx.TableCell({children: [paragraphCentred(`макс`)]}),
-                    new docx.TableCell({children: [paragraphCentred(`сред`)]}),
+                    new docx.TableCell({margins: TableCellMarginNil,children: [paragraphCentred(`мин`)]}),
+                    new docx.TableCell({margins: TableCellMarginNil,children: [paragraphCentred(`макс`)]}),
+                    new docx.TableCell({margins: TableCellMarginNil,children: [paragraphCentred(`сред`)]}),
                 ]
             })
         ]
@@ -52,13 +53,14 @@ module.exports = async function singleTableMinimax(materialId, n) {
                     new docx.TableCell({
                         columnSpan: 3,
                         margins: TableCellMarginNil,
-                        children: [text(resMat.data.info.Name)]
+                        children: [paragraphCentred(resMat.data.info.Name)]
                     })
                 ]
             }),
             new docx.TableRow({
                 children: [
                     new docx.TableCell({
+                        margins: TableCellMarginNil,
                         children: [
                             paragraph({
                                 alignment: docx.AlignmentType.CENTER,

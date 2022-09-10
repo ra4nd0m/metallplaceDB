@@ -1,6 +1,7 @@
 const m = require("moment");
 
 module.exports.GetWeekDates = function getWeekDates(){
+
     const firstDay = m().startOf("isoWeek").toDate();
     const lastDay = m().endOf("isoWeek").toDate();
 
@@ -18,10 +19,15 @@ module.exports.GetWeekDates = function getWeekDates(){
     }
 }
 
-module.exports.GetWeekNumber = function getWeekNumber(){
+module.exports.GetWeekNumber = function getWeekNumber(num){
     const currentDate = new Date();
     const startDate = new Date(currentDate.getFullYear(), 0, 1);
     const days = Math.floor((currentDate - startDate) / (24 * 60 * 60 * 1000));
     return Math.ceil(days / 7);
+}
+
+module.exports.FormatDayMonth = function formatDayMonth(num){
+    if (num <= 9) return `0${num}`
+    return num
 }
 

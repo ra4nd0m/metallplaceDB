@@ -47,7 +47,7 @@ func (r *Repository) GetMaterialValueForPeriod(ctx context.Context, materialSour
 	}
 
 	row := db.FromContext(ctx).QueryRow(ctx, `SELECT value_decimal 
-		FROM material_value WHERE material_source_id=$1 AND property_id=$3 AND created_on < $2 LIMIT 1`, materialSourceId, start, propertyId)
+		FROM material_value WHERE material_source_id=$1 AND property_id=$3 AND created_on < $2 ORDER BY created_on DESC LIMIT 1`, materialSourceId, start, propertyId)
 	err = row.Scan(&prevPrice)
 	if err != nil {
 		return nil, 0, fmt.Errorf("Can't get prev price %w", err)

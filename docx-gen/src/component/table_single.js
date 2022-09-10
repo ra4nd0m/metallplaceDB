@@ -2,11 +2,17 @@ const docx = require("docx");
 const text = require("../atom/text")
 const paragraph = require("../atom/paragraph")
 const axios = require("axios");
+const {GetWeekDates, FormatDayMonth} = require("../utils/date_operations");
+const tableBody = require("../atom/table_single_body")
 
 module.exports = async function singleTable(materialId, propertyId, n){
+    const dates = GetWeekDates()
+    const from = `${dates.first.year}-${FormatDayMonth(dates.first.month)}-${FormatDayMonth(dates.first.day)}`
+    const to = `${dates.last.year}-${FormatDayMonth(dates.last.month)}-${FormatDayMonth(dates.last.day)}`
 
     const resMat = await axios.post("http://localhost:8080/getMaterialInfo",  { id: materialId })
-    const feed = await axios.post("http://localhost:8080/getNLastValues", { material_source_id: materialId, property_id: propertyId, n_values:n})
+    const resBody = await axios.post("http://localhost:8080/getValueForPeriod", { material_source_id: 2, property_id: 2, start: '2022-01-03', finish: '2022-01-09'})
+
     return new docx.Table({
         width: {
             size: 100,
@@ -63,7 +69,7 @@ module.exports = async function singleTable(materialId, propertyId, n){
                     }),
                 ]
             }),
-            //...tableBody(feed.data.price_feed),
+            ...tableBody(resBody.data),
         ]
     })
 }
