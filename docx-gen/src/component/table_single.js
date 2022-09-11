@@ -11,7 +11,7 @@ module.exports = async function singleTable(materialId, propertyId, n){
     const to = `${dates.last.year}-${FormatDayMonth(dates.last.month)}-${FormatDayMonth(dates.last.day)}`
 
     const resMat = await axios.post("http://localhost:8080/getMaterialInfo",  { id: materialId })
-    const resBody = await axios.post("http://localhost:8080/getValueForPeriod", { material_source_id: 2, property_id: 2, start: '2022-01-03', finish: '2022-01-09'})
+    const resBody = await axios.post("http://localhost:8080/getValueForPeriod", { material_source_id: materialId, property_id: propertyId, start: '2022-01-03', finish: '2022-01-09'})
 
     return new docx.Table({
         width: {

@@ -65,6 +65,6 @@ Content-Type: application/json
 }
 
 ###
-GET http://localhost:8080/getChart/2_2_11-13-2021_01-01-2022_0.png
+GET http://localhost:8080/getChart/2_2_11-13-2021_01-01-2022_1.png
 
 

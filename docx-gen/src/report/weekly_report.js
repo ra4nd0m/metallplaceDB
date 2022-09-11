@@ -1,19 +1,18 @@
 const docx = require("docx");
 const footer = require("../component/footer");
-const header = require("../component/header")
-const text = require("../atom/text")
+const header = require("../component/header");
 const h2 = require("../atom/heading2");
 const h3 = require("../atom/heading3");
 const paragraph = require("../atom/paragraph");
 const twoChart = require("../component/two_chart");
-const {SpacingDefault, FooterTitle, HeaderTitle} = require("../const");
+const {FooterTitle, HeaderTitle, MinPriceId, MaxPriceId, MedPriceId} = require("../const");
 const oneChartText = require("../component/one_chart_text");
 const oneChart = require("../component/one_chart");
 const singleTable = require("../component/table_single");
 const singleTableMinimax = require("../component/table_single_minimax");
 const tableDoubleWithWeekAvg = require("../component/table_double_week_avg");
-const tableMaterialMinimax = require("../component/table_material_minimax")
-const {GetWeekDates} = require("../utils/date_operations")
+const tableMaterialMinimax = require("../component/table_material_minimax");
+const {GetWeekDates} = require("../utils/date_operations");
 
 
 module.exports = class WeeklyReport {
@@ -92,13 +91,13 @@ module.exports = class WeeklyReport {
 
 
                         paragraph({
-                            children: [await oneChartText('http://localhost:8080/getChart/2_2_11-01-2021_01-01-2022_0.png')]
+                            children: [await oneChartText('http://localhost:8080/getChart/2_2_01-01-2021_01-10-2021_1.png')]
                         }),
 
                         new docx.Paragraph({children: [new docx.PageBreak()]}),
                         h2("Таблицы"),
                         paragraph({
-                            children: [await singleTable(2, 5)]
+                            children: [await singleTable(2, MedPriceId)]
                         }),
                         paragraph({
                             children: [await tableDoubleWithWeekAvg(2, 3)]
@@ -106,9 +105,9 @@ module.exports = class WeeklyReport {
                         paragraph({
                             children: [await tableMaterialMinimax()]
                         }),
-                        paragraph({
-                            children: [await singleTableMinimax(2)]
-                        }),
+
+                            await singleTableMinimax(6, MinPriceId,  MaxPriceId, MedPriceId)
+
                     ],
                 },
             ],

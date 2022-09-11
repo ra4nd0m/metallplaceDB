@@ -60,9 +60,10 @@ type ChartOptions = {
 }
 
 function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOptions): ChartConfiguration {
-    const fontSize = 12
+    const labelFontSize = 12
+    const axesFontSize = 25
 
-    const conf: any = {
+    const conf: ChartConfiguration = {
         type: 'line',
         plugins: [],
         data: {
@@ -74,15 +75,20 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
                 x: {
                     offset: true,
                     ticks: {
+                        font: { size: axesFontSize },
                         autoSkip: true,
-                        maxRotation: 80,
+                        maxRotation: 0,
+                        maxTicksLimit: 5
                     }
                 },
                 y: {
                     offset: true,
                     ticks: {
+                        font: { size: axesFontSize },
+                        maxTicksLimit: 8,
+                        maxRotation: 0,
                         autoSkip: true,
-                    }
+                    },
                 }
             },
             plugins: {
@@ -103,6 +109,7 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
         conf.plugins.push(ChartDataLabels)
         // @ts-ignore
         conf.options.plugins = {
+            ...conf.options?.plugins,
             datalabels: {
                 borderRadius: 4,
                 backgroundColor: 'gray',
@@ -111,7 +118,7 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
                 align: 'top',
                 textAlign: 'center',
                 font: {
-                    size: fontSize
+                    size: labelFontSize
                 },
                 clamp: true,
                 ...options.labels,

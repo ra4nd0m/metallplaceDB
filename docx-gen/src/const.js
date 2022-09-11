@@ -10,6 +10,9 @@ module.exports.HeaderTitle = "Обзор рынка сырья, стали и ф
 module.exports.RusMonth = RusMonth;
 module.exports.LineWidth = 20;
 module.exports.LineColor = "d3d3d3";
+module.exports.MinPriceId = 3;
+module.exports.MaxPriceId = 4;
+module.exports.MedPriceId = 2;
 module.exports.FooterTitle = function (weekDates){
         return `Отчетный период: ${weekDates.first.day} ${RusMonth[weekDates.first.month]} - `+
             `${weekDates.last.day} ${RusMonth[weekDates.last.month]} ${weekDates.last.year} года (${GetWeekNumber()} неделя)`

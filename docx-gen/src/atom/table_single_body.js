@@ -1,5 +1,6 @@
 const docx = require("docx");
 const paragraphCentred = require("../atom/paragraph_centred")
+const getChange = require("../utils/get_change")
 
 module.exports = function (input) {
     let rows = [];
@@ -28,20 +29,3 @@ module.exports = function (input) {
     return rows
 }
 
-function getChange(feed, i, prevPrice, getPercent) {
-    let change
-    i === 0 ? change = feed[i].value - prevPrice : change = feed[i].value - feed[i - 1].value
-    if (getPercent) {
-        let percent = Math.round(change / prevPrice * 1000) / 10
-        if (percent > 0) return `+${percent}`;
-        if (percent < 0) return percent;
-        return "-";
-    } else {
-        change = Math.round(change * 100) / 100
-        if (change > 0) return `+${change}`;
-        if (change < 0) return change;
-        return "-";
-    }
-
-
-}
