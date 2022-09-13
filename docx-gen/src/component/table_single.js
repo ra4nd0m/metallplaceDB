@@ -5,7 +5,7 @@ const axios = require("axios");
 const {GetWeekDates, FormatDayMonth} = require("../utils/date_operations");
 const tableBody = require("../atom/table_single_body")
 
-module.exports = async function singleTable(materialId, propertyId, n){
+module.exports = async function singleTable(materialId, propertyId){
     const dates = GetWeekDates()
     const from = `${dates.first.year}-${FormatDayMonth(dates.first.month)}-${FormatDayMonth(dates.first.day)}`
     const to = `${dates.last.year}-${FormatDayMonth(dates.last.month)}-${FormatDayMonth(dates.last.day)}`

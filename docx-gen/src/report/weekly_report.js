@@ -10,7 +10,7 @@ const oneChartText = require("../component/one_chart_text");
 const oneChart = require("../component/one_chart");
 const singleTable = require("../component/table_single");
 const singleTableMinimax = require("../component/table_single_minimax");
-const tableDoubleWithWeekAvg = require("../component/table_double_week_avg");
+const tableDoubleAvg = require("../component/table_double_avg");
 const tableMaterialMinimax = require("../component/table_material_minimax");
 const {GetWeekDates} = require("../utils/date_operations");
 
@@ -23,6 +23,9 @@ module.exports = class WeeklyReport {
             'http://localhost:8080/getChart/9_2_01-01-2021_01-01-2022_0.png',)
 
         return new docx.Document({
+            features: {
+                updateFields: true,
+            },
             sections: [
                 {
                     properties: {},
@@ -33,6 +36,7 @@ module.exports = class WeeklyReport {
                         default: header(HeaderTitle)
                     },
                     children: [
+                        new docx.Paragraph({children: [new docx.PageBreak()]}),
                         h2("Краткая сводка цен по мировому рынку"),
                         h3("Сырьевые материалы"),
                         paragraph({
@@ -42,7 +46,6 @@ module.exports = class WeeklyReport {
                                     'http://localhost:8080/getChart/5_2_01-01-2021_01-01-2022_0.png',)
                             ]
                         }),
-                        new docx.Paragraph({children: [new docx.PageBreak()]}),
                         paragraph({
                             children: [
                                 await twoChart(
@@ -69,6 +72,7 @@ module.exports = class WeeklyReport {
 
 
                         new docx.Paragraph({children: [new docx.PageBreak()]}),
+                        h2("Рынок сырьевых материалов"),
                         h3("Сталь"),
                         paragraph({
                             children: [
@@ -91,7 +95,7 @@ module.exports = class WeeklyReport {
 
 
                         paragraph({
-                            children: [await oneChartText('http://localhost:8080/getChart/2_2_01-01-2021_01-10-2021_1.png')]
+                            children: [await oneChartText('http://localhost:8080/getChart/2_2_01-01-2021_01-06-2021_1.png')]
                         }),
 
                         new docx.Paragraph({children: [new docx.PageBreak()]}),
@@ -99,14 +103,14 @@ module.exports = class WeeklyReport {
                         paragraph({
                             children: [await singleTable(2, MedPriceId)]
                         }),
-                        paragraph({
-                            children: [await tableDoubleWithWeekAvg(2, 3)]
-                        }),
+
+                        await tableDoubleAvg(2, 3, MedPriceId),
+
                         paragraph({
                             children: [await tableMaterialMinimax()]
                         }),
 
-                            await singleTableMinimax(6, MinPriceId,  MaxPriceId, MedPriceId)
+                        await singleTableMinimax(6, MinPriceId, MaxPriceId, MedPriceId)
 
                     ],
                 },

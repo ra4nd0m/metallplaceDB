@@ -7,7 +7,7 @@ import (
 	"metallplace/pkg/gopkg-db"
 )
 
-func (r *Repository) GetNLastValues(ctx context.Context, materialSourceId, propertyId int, nValues int) ([]model.Price, error) {
+func (r *Repository) GetNLastValues(ctx context.Context, materialSourceId, propertyId int, nValues int, finish string) ([]model.Price, error) {
 	var priceFeed []model.Price
 	var price model.Price
 
@@ -16,11 +16,11 @@ func (r *Repository) GetNLastValues(ctx context.Context, materialSourceId, prope
 			"("+
 			"SELECT created_on, value_decimal "+
 			"FROM material_value "+
-			"WHERE material_source_id=$1 AND property_id=$2 "+
+			"WHERE material_source_id=$1 AND property_id=$2 AND created_on <= $4"+
 			"ORDER BY created_on "+
 			"DESC LIMIT $3 "+
 			") AS last_n_values "+
-			"ORDER BY created_on ASC", materialSourceId, propertyId, nValues)
+			"ORDER BY created_on ASC", materialSourceId, propertyId, nValues, finish)
 
 	if err != nil {
 		return nil, fmt.Errorf("Can't get n last material prices %w", err)

@@ -9,13 +9,14 @@ Content-Type: application/json
 }
 
 ###
-GET localhost:8080/getNLastValues
+POST localhost:8080/getNLastValues
 Content-Type: application/json
 
 {
   "material_source_id": 2,
   "property_id": 2,
-  "n_values": 5
+  "n_values": 2,
+  "finish": "2021-01-06"
 }
 
 ###
