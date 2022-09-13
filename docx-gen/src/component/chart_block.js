@@ -18,7 +18,7 @@ module.exports = async function chartBlock(url, isBig) {
         columnWidths: [3, 1],
         borders: docx.TableBorders.NONE,
         rows: [
-            ... infoRow,
+            ...infoRow,
 
             new docx.TableRow({
                 children: [
@@ -39,7 +39,7 @@ module.exports = async function chartBlock(url, isBig) {
 
 
 async function getInfo(isBig, url){
-    if(isBig){
+    if(!isBig){
 
         url = url.substring("http://localhost:8080/getChart/".length, url.length)
         const urlParams = url.split("_");
@@ -48,15 +48,18 @@ async function getInfo(isBig, url){
         const finish = urlParams[3].split("-")
         const date = `${finish[2]}-${finish[0]}-${finish[1]}`
         const prices = await axios.post("http://localhost:8080/getNLastValues", {
-            material_source_id: materialId,
-            property_id: propertyId,
+            material_source_id: Number(materialId),
+            property_id: Number(propertyId),
             n_values: 2,
             finish: date
         })
 
-        const lastPrice = prices.price_feed[1].value
-        const percent = Math.round((prices.price_feed[1].value - prices.price_feed[0].value) / prices.price_feed[0].value * 1000) / 10
-        return new docx.TableRow({
+        const lastPrice = prices.data.price_feed[1].value
+        let percent = Math.round((prices.data.price_feed[1].value - prices.data.price_feed[0].value) / prices.data.price_feed[0].value * 1000) / 10
+        if (percent > 0){
+            percent = `+${percent}`
+        }
+        return [new docx.TableRow({
             children: [
                 new docx.TableCell({
                     margins: TableCellMarginNil,
@@ -82,7 +85,7 @@ async function getInfo(isBig, url){
                 }),
 
             ],
-        })
+        })]
     }
     return []
 }
