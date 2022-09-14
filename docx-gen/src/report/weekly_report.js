@@ -1,6 +1,7 @@
 const docx = require("docx");
 const footer = require("../component/footer");
 const header = require("../component/header");
+const h1 = require("../atom/heading1");
 const h2 = require("../atom/heading2");
 const h3 = require("../atom/heading3");
 const paragraph = require("../atom/paragraph");
@@ -36,7 +37,11 @@ module.exports = class WeeklyReport {
                         default: header(HeaderTitle)
                     },
                     children: [
+                        h1("ЕЖЕНЕДЕЛЬНЫЙ ОТЧЕТ"),
                         new docx.Paragraph({children: [new docx.PageBreak()]}),
+                        h3(""),
+                        new docx.Paragraph({children: [new docx.PageBreak()]}),
+
                         h2("Краткая сводка цен по мировому рынку"),
                         h3("Сырьевые материалы"),
                         paragraph({
