@@ -8,6 +8,8 @@ module.exports = function (min, max, med) {
     const pfMax = max.price_feed
     const pfMed = med.price_feed
     for (let i = 0; i < pfMed.length; i++) {
+        const changeUnits = getChange(pfMed, i, med.prev_price, false);
+        const changePercents = getChange(pfMed, i, med.prev_price, true);
         rows.push(
             new docx.TableRow({
                 children: [
@@ -24,10 +26,10 @@ module.exports = function (min, max, med) {
                         children: [paragraphCentred(pfMed[i].value)]
                     }),
                     new docx.TableCell({
-                        children: [paragraphCentred(getChange(pfMed, i, med.prev_price, false))]
+                        children: [paragraphCentred(changeUnits.Text, changeUnits.Color)]
                     }),
                     new docx.TableCell({
-                        children: [paragraphCentred(getChange(pfMed, i, med.prev_price, true))]
+                        children: [paragraphCentred(changePercents.Text, changePercents.Color)]
                     }),
                 ]
             })

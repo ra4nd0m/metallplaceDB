@@ -2,8 +2,9 @@ const docx = require("docx");
 const {TextRun} = require("docx");
 const chart = require("../client/chart");
 const paragraph = require("../atom/paragraph")
+const paragraphCentred = require("../atom/paragraph_centred")
 const text = require("../atom/text")
-const {TableCellMarginNil} = require("../const");
+const {TableCellMarginNil, Green, Red, ColorDefault} = require("../const");
 const axios = require("axios");
 
 module.exports = async function chartBlock(url, isBig) {
@@ -40,7 +41,6 @@ module.exports = async function chartBlock(url, isBig) {
 
 async function getInfo(isBig, url){
     if(!isBig){
-
         url = url.substring("http://localhost:8080/getChart/".length, url.length)
         const urlParams = url.split("_");
         const materialId = urlParams[0]
@@ -55,10 +55,9 @@ async function getInfo(isBig, url){
         })
 
 
-
         const lastPrice = prices.data.price_feed[1].value
         let percent = Math.round((prices.data.price_feed[1].value - prices.data.price_feed[0].value) / prices.data.price_feed[0].value * 1000) / 10
-        percent = percent > 0 ? `+${percent}%` : (percent ? percent + '%' : '-')
+        percent = percent > 0 ? paragraphCentred(`+${percent}%`, Green) : (percent ? paragraphCentred(percent + '%', Red) : paragraphCentred('-', ColorDefault))
         return [new docx.TableRow({
             children: [
                 new docx.TableCell({
@@ -77,10 +76,7 @@ async function getInfo(isBig, url){
                 new docx.TableCell({
                     margins: TableCellMarginNil,
                     children: [
-                        paragraph({
-                            alignment: docx.AlignmentType.CENTER,
-                            children: [text(percent)],
-                        }),
+                       percent,
                     ],
                 }),
 
@@ -88,4 +84,7 @@ async function getInfo(isBig, url){
         })]
     }
     return []
+}
+function getColor(num){
+
 }

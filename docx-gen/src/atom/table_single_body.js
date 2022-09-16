@@ -6,6 +6,8 @@ module.exports = function (input) {
     let rows = [];
     const pf = input.price_feed
     for (let i = 0; i < pf.length; i++) {
+        const changeUnits = getChange(pf, i, input.prev_price, false);
+        const changePercents = getChange(pf, i, input.prev_price, true);
         rows.push(
             new docx.TableRow({
                 children: [
@@ -16,10 +18,10 @@ module.exports = function (input) {
                         children: [paragraphCentred(pf[i].value)]
                     }),
                     new docx.TableCell({
-                        children: [paragraphCentred(getChange(pf, i, input.prev_price, false))]
+                        children: [paragraphCentred(changeUnits.Text, changeUnits.Color)]
                     }),
                     new docx.TableCell({
-                        children: [paragraphCentred(getChange(pf, i, input.prev_price, true))]
+                        children: [paragraphCentred(changePercents.Text, changePercents.Color)]
                     }),
                 ]
             })

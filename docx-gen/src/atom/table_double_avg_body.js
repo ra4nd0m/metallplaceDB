@@ -33,6 +33,8 @@ module.exports = function (feed1, feed2) {
     const pf1 = feed1.price_feed
     const pf2 = feed2.price_feed
     for (let i = 0; i < pf1.length; i++) {
+        const changeUnits = getChange(pf1, i, feed1.prev_price, false);
+        const changePercents = getChange(pf1, i, feed1.prev_price, true);
         rows.push(
             new docx.TableRow({
                 children: [
@@ -44,10 +46,10 @@ module.exports = function (feed1, feed2) {
                         children: [paragraphCentred(pf1[i].value)]
                     }),
                     new docx.TableCell({
-                        children: [paragraphCentred(getChange(pf1, i, feed1.prev_price, false))]
+                        children: [paragraphCentred(changeUnits.Text, changeUnits.Color)]
                     }),
                     new docx.TableCell({
-                        children: [paragraphCentred(getChange(pf1, i, feed1.prev_price, true))]
+                        children: [paragraphCentred(changePercents.Text, changePercents.Color)]
                     }),
 
                     new docx.TableCell({
