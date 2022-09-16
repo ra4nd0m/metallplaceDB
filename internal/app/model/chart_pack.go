@@ -15,6 +15,7 @@ type ChartPack struct {
 	Start          time.Time
 	Finish         time.Time
 	NeedLabels     bool
+	Type           string
 }
 
 func (c ChartPack) ToUrl() string {
@@ -34,6 +35,7 @@ func (c ChartPack) ToUrl() string {
 		needLabels = "1"
 	}
 	fn += "_" + needLabels
+	fn += "_" + c.Type
 
 	return fn + ChartRoutePostfix
 }
@@ -76,6 +78,8 @@ func NewChartPack(url string) (ChartPack, error) {
 	if cnt[4] == "1" {
 		c.NeedLabels = true
 	}
+
+	c.Type = cnt[5]
 
 	return c, nil
 }

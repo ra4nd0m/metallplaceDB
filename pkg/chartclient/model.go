@@ -12,7 +12,6 @@ type YDataSet struct {
 }
 
 type Options struct {
-	NeedLabels bool `json:"labels"`
-	Width      int  `json:"width"`
-	Height     int  `json:"height"`
+	NeedLabels bool   `json:"labels"`
+	Type       string `json:"type"`
 }

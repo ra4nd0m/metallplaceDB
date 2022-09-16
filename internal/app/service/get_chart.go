@@ -38,6 +38,7 @@ func (s *Service) GetChart(ctx context.Context, chartPack model.ChartPack) ([]by
 
 		req.YDataSet = append(req.YDataSet, dataset)
 		req.Options.NeedLabels = chartPack.NeedLabels
+		req.Options.Type = chartPack.Type
 		isFirst = false
 	}
 

@@ -57,6 +57,7 @@ const getChart = async (XLabelSet: string[], YDataSets: YDataSet[], options: Cha
 
 type ChartOptions = {
     labels?: Partial<LabelOptions>,
+    type?: string,
 }
 
 function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOptions): ChartConfiguration {
@@ -125,6 +126,7 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
             }
         }
     }
+    if(options.type == 'bar') conf.type = 'bar'
     return conf
 }
 

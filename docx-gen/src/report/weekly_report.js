@@ -20,8 +20,8 @@ module.exports = class WeeklyReport {
 
     async generate() {
         const pic = await twoChart(
-            'http://localhost:8080/getChart/7_2_01-01-2021_01-01-2022_0.png',
-            'http://localhost:8080/getChart/9_2_01-01-2021_01-01-2022_0.png',)
+            'http://localhost:8080/getChart/7_2_01-01-2021_01-01-2022_0_line.png',
+            'http://localhost:8080/getChart/9_2_01-01-2021_01-01-2022_0_line.png',)
 
         return new docx.Document({
             features: {
@@ -47,22 +47,22 @@ module.exports = class WeeklyReport {
                         paragraph({
                             children: [
                                 await twoChart(
-                                    'http://localhost:8080/getChart/2_2_01-01-2021_01-01-2022_0.png',
-                                    'http://localhost:8080/getChart/5_2_01-01-2021_01-01-2022_0.png',)
+                                    'http://localhost:8080/getChart/2_2_01-01-2021_01-01-2022_0_line.png',
+                                    'http://localhost:8080/getChart/5_2_01-01-2021_01-01-2022_0_line.png',)
                             ]
                         }),
                         paragraph({
                             children: [
                                 await twoChart(
-                                    'http://localhost:8080/getChart/6_2_01-01-2021_01-01-2022_0.png',
-                                    'http://localhost:8080/getChart/4_2_01-01-2021_01-01-2022_0.png',)
+                                    'http://localhost:8080/getChart/6_2_01-01-2021_01-01-2022_0_line.png',
+                                    'http://localhost:8080/getChart/4_2_01-01-2021_01-01-2022_0_line.png',)
                             ]
                         }),
                         paragraph({
                             children: [
                                 await twoChart(
-                                    'http://localhost:8080/getChart/7_2_01-01-2021_01-01-2022_0.png',
-                                    'http://localhost:8080/getChart/9_2_01-01-2021_01-01-2022_0.png',)
+                                    'http://localhost:8080/getChart/7_2_01-01-2021_01-01-2022_0_line.png',
+                                    'http://localhost:8080/getChart/9_2_01-01-2021_01-01-2022_0_line.png',)
 
                             ]
                         }),
@@ -70,8 +70,8 @@ module.exports = class WeeklyReport {
                         paragraph({
                             children: [
                                 await twoChart(
-                                    'http://localhost:8080/getChart/7_2_01-01-2021_01-01-2022_0.png',
-                                    'http://localhost:8080/getChart/9_2_01-01-2021_01-01-2022_0.png',)
+                                    'http://localhost:8080/getChart/7_2_01-01-2021_01-01-2022_0_line.png',
+                                    'http://localhost:8080/getChart/9_2_01-01-2021_01-01-2022_0_line.png',)
                             ]
                         }),
 
@@ -82,25 +82,26 @@ module.exports = class WeeklyReport {
                         paragraph({
                             children: [
                                 await twoChart(
-                                    'http://localhost:8080/getChart/10_2_01-01-2021_01-01-2022_0.png',
-                                    'http://localhost:8080/getChart/11_2_01-01-2021_01-01-2022_0.png',),
+                                    'http://localhost:8080/getChart/10_2_01-01-2021_01-01-2022_0_line.png',
+                                    'http://localhost:8080/getChart/11_2_01-01-2021_01-01-2022_0_line.png',),
                             ]
                         }),
 
                         paragraph({
                             children: [
                                 await twoChart(
-                                    'http://localhost:8080/getChart/10_2_01-01-2021_01-01-2022_0.png',
-                                    'http://localhost:8080/getChart/11_2_01-01-2021_01-01-2022_0.png',)
+                                    'http://localhost:8080/getChart/10_2_01-01-2021_01-01-2022_0_line.png',
+                                    'http://localhost:8080/getChart/11_2_01-01-2021_01-01-2022_0_line.png',)
                             ]
                         }),
                         paragraph({
-                            children: [await oneChart('http://localhost:8080/getChart/13_2_11-01-2021_01-01-2022_0.png')]
+                            children: [await oneChart('http://localhost:8080/getChart/13_2_11-01-2021_01-01-2022_0_line.png')]
                         }),
-
-
                         paragraph({
-                            children: [await oneChartText('http://localhost:8080/getChart/2_2_01-01-2021_01-06-2021_1.png')]
+                            children: [await oneChartText('http://localhost:8080/getChart/13_2_11-01-2021_01-01-2022_0_bar.png')]
+                        }),
+                        paragraph({
+                            children: [await oneChartText('http://localhost:8080/getChart/2_2_01-01-2021_01-06-2021_1_line.png')]
                         }),
 
                         new docx.Paragraph({children: [new docx.PageBreak()]}),
