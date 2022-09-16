@@ -47,6 +47,7 @@ async function getInfo(isBig, url){
         const propertyId = urlParams[1]
         const finish = urlParams[3].split("-")
         const date = `${finish[2]}-${finish[0]}-${finish[1]}`
+        const materialInfo = await axios.post("http://localhost:8080/getMaterialInfo", {id: Number(materialId)})
         const prices = await axios.post("http://localhost:8080/getNLastValues", {
             material_source_id: Number(materialId),
             property_id: Number(propertyId),
@@ -57,7 +58,7 @@ async function getInfo(isBig, url){
 
         const lastPrice = prices.data.price_feed[1].value
         let percent = Math.round((prices.data.price_feed[1].value - prices.data.price_feed[0].value) / prices.data.price_feed[0].value * 1000) / 10
-        percent = percent > 0 ? paragraphCentred(`+${percent}%`, Green) : (percent ? paragraphCentred(percent + '%', Red) : paragraphCentred('-', ColorDefault))
+        percent = percent > 0 ? paragraphCentred(`+${percent}% н/н`, Green) : (percent ? paragraphCentred(percent + '% н/н', Red) : paragraphCentred('- н/н', ColorDefault))
         return [new docx.TableRow({
             children: [
                 new docx.TableCell({
@@ -67,7 +68,7 @@ async function getInfo(isBig, url){
                             alignment: docx.AlignmentType.RIGHT,
                             spacing: {before: 0},
                             children: [
-                                text(lastPrice)
+                                text(lastPrice + " " + materialInfo.data.info.Unit)
                             ],
                         }),
                     ],
@@ -84,7 +85,4 @@ async function getInfo(isBig, url){
         })]
     }
     return []
-}
-function getColor(num){
-
 }
