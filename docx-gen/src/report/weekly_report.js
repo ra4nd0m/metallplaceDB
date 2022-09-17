@@ -13,6 +13,7 @@ const singleTable = require("../component/table_single");
 const singleTableMinimax = require("../component/table_single_minimax");
 const tableDoubleAvg = require("../component/table_double_avg");
 const tableMaterialMinimax = require("../component/table_material_minimax");
+const doubleTableMinimax = require("../component/table_double_minimax")
 const {GetWeekDates} = require("../utils/date_operations");
 
 
@@ -116,7 +117,8 @@ module.exports = class WeeklyReport {
                             children: [await tableMaterialMinimax()]
                         }),
 
-                        await singleTableMinimax(6, MinPriceId, MaxPriceId, MedPriceId)
+                        await singleTableMinimax(6),
+                        await doubleTableMinimax(6,6 )
 
                     ],
                 },
