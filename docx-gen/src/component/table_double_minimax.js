@@ -1,5 +1,6 @@
 const docx = require("docx");
 const text = require("../atom/text")
+const textTh = require("../atom/text_th")
 const paragraph = require("../atom/paragraph")
 const axios = require("axios");
 const {TableNoOuterBorders, TableCellMarginNil, MinPriceId, MaxPriceId, MedPriceId} = require("../const");
@@ -18,14 +19,14 @@ function priceBlock(unit) {
         rows: [
             new docx.TableRow({
                 children: [
-                    new docx.TableCell({columnSpan: 3, children: [paragraphCentred(`Цена, ${unit}`)]})
+                    new docx.TableCell({columnSpan: 3, children: [textTh(`Цена, ${unit}`)]})
                 ]
             }),
             new docx.TableRow({
                 children: [
-                    new docx.TableCell({margins: TableCellMarginNil,children: [paragraphCentred(`мин`)]}),
-                    new docx.TableCell({margins: TableCellMarginNil,children: [paragraphCentred(`макс`)]}),
-                    new docx.TableCell({margins: TableCellMarginNil,children: [paragraphCentred(`сред`)]}),
+                    new docx.TableCell({margins: TableCellMarginNil,children: [textTh(`мин`)]}),
+                    new docx.TableCell({margins: TableCellMarginNil,children: [textTh(`макс`)]}),
+                    new docx.TableCell({margins: TableCellMarginNil,children: [textTh(`сред`)]}),
                 ]
             })
         ]
@@ -52,29 +53,27 @@ module.exports = async function doubleTableMinimax(materialId1, materialId2) {
             size: 100,
             type: docx.WidthType.PERCENTAGE,
         },
-        columnWidths: [1,1,1,1,1,1,1],
+        columnWidths: [2,3,1,1,3,1,1],
         rows: [
             new docx.TableRow({
                 children: [
                     new docx.TableCell({
                         rowSpan: 2,
                         children: [
-                            paragraph({
-                                alignment: docx.AlignmentType.CENTER,
-                                children: [text("Дата")]
-                            })
+
+                          textTh("Дата")
                         ]
                     }),
                     new docx.TableCell({
                         columnSpan: 3,
                         margins: TableCellMarginNil,
-                        children: [paragraphCentred(resMat1.data.info.Name)]
+                        children: [textTh(resMat1.data.info.Name)]
                     }),
 
                     new docx.TableCell({
                         columnSpan: 3,
                         margins: TableCellMarginNil,
-                        children: [paragraphCentred(resMat2.data.info.Name)]
+                        children: [textTh(resMat2.data.info.Name)]
                     })
                 ]
             }),
@@ -90,20 +89,14 @@ module.exports = async function doubleTableMinimax(materialId1, materialId2) {
                         ]
                     }),
                     new docx.TableCell({
-                        children: [
-                            paragraph({
-                                alignment: docx.AlignmentType.CENTER,
-                                children: [text(`Изм. ${resMat1.data.info.Unit}`)]
-                            })
-                        ]
+
+                                children: [textTh(`Изм. ${resMat1.data.info.Unit}`)]
+
                     }),
                     new docx.TableCell({
-                        children: [
-                            paragraph({
-                                alignment: docx.AlignmentType.CENTER,
-                                children: [text("Изм. %")]
-                            })
-                        ]
+
+                                children: [textTh("Изм. %")]
+
                     }),
 
                     new docx.TableCell({
@@ -116,20 +109,14 @@ module.exports = async function doubleTableMinimax(materialId1, materialId2) {
                         ]
                     }),
                     new docx.TableCell({
-                        children: [
-                            paragraph({
-                                alignment: docx.AlignmentType.CENTER,
-                                children: [text(`Изм. ${resMat2.data.info.Unit}`)]
-                            })
-                        ]
+
+                                children: [textTh(`Изм. ${resMat2.data.info.Unit}`)]
+
                     }),
                     new docx.TableCell({
-                        children: [
-                            paragraph({
-                                alignment: docx.AlignmentType.CENTER,
-                                children: [text("Изм. %")]
-                            })
-                        ]
+
+                                children: [textTh("Изм. %")]
+
                     }),
                 ]
             }),
@@ -141,7 +128,7 @@ module.exports = async function doubleTableMinimax(materialId1, materialId2) {
             size: 100,
             type: docx.WidthType.PERCENTAGE,
         },
-        columnWidths: [3, 1, 1, 1, 3, 3, 1, 1, 1, 3, 3],
+        columnWidths: [2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
         rows: tableBody(minBody1.data, maxBody1.data, medBody1.data, minBody2.data, maxBody2.data, medBody2.data),
     })
 
