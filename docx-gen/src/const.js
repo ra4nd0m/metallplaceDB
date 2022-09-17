@@ -13,6 +13,7 @@ module.exports.LineColor = "d3d3d3";
 module.exports.MinPriceId = 3;
 module.exports.MaxPriceId = 4;
 module.exports.MedPriceId = 2;
+module.exports.StockId = 5;
 module.exports.Green = "00ff00"
 module.exports.Red = "ff0000"
 module.exports.ColorDefault = "000000"

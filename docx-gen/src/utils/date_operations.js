@@ -1,9 +1,11 @@
-const m = require("moment");
+const {endOfWeek, startOfWeek} = require("date-fns");
 
-module.exports.GetWeekDates = function getWeekDates(){
-
-    const firstDay = m().startOf("isoWeek").toDate();
-    const lastDay = m().endOf("isoWeek").toDate();
+module.exports.GetWeekDates = function getWeekDates(date){
+    if(date === undefined){
+        date = Date.now()
+    }
+    const firstDay = startOfWeek(date, {weekStartsOn: 1});
+    const lastDay = endOfWeek(date, {weekStartsOn: 1});
 
     return {
         first: {
