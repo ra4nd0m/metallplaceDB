@@ -151,10 +151,73 @@ module.exports = class WeeklyReport {
                         await tableDoubleAvg(2, 3, MedPriceId),
 
                         new docx.Paragraph({children: [new docx.PageBreak()]}),
+                        h3("Уголь и кокс"),
+
+                        paragraph({
+                            children: [await oneChartText(`http://localhost:8080/getChart/7-8_${MedPriceId}_01-01-2022_01-20-2022_1_line.png`)]
+                        }),
+                        await tableDoubleAvg(7, 8, MedPriceId),
+                        paragraph({
+                            children: [await oneChartText(`http://localhost:8080/getChart/9_${MedPriceId}_01-01-2022_02-05-2022_1_line.png`)]
+                        }),
+                        new docx.Paragraph({children: [new docx.PageBreak()]}),
+                        h3(""),
+
+
+                        await singleTable(9,MedPriceId),
+                        h3("Лом черных металлов"),
+                        paragraph({
+                            children: [await oneChartText(`http://localhost:8080/getChart/4_${MedPriceId}_01-01-2022_01-20-2022_1_line.png`)]
+                        }),
+                        await singleTableMinimax(4),
+                        await tableMaterialMinimax(),
+                        new docx.Paragraph({children: [new docx.PageBreak()]}),
+
+
+                        h3("Чугун"),
+                        paragraph({
+                            children: [await oneChartText(`http://localhost:8080/getChart/6_${MedPriceId}_01-01-2022_02-05-2022_1_line.png`)]
+                        }),
+                        await singleTableMinimax(6),
+                        await tableMaterialMinimax(),
+                        new docx.Paragraph({children: [new docx.PageBreak()]}),
+
+
+                        h2("Рынок стали"),
+                        h3("Полуфабрикаты"),
+                        paragraph({
+                            children: [await oneChartText(`http://localhost:8080/getChart/10-12_${MedPriceId}_01-01-2022_02-03-2022_1_line.png`)]
+                        }),
+                        await doubleTableMinimax(10, 12),
+                        paragraph({
+                            children: [await tableMaterialMinimax()]
+                        }),
+                        new docx.Paragraph({children: [new docx.PageBreak()]}),
+
+
+                         h3("Сортовой прокат"),
+                         paragraph({
+                             children: [await oneChartText(`http://localhost:8080/getChart/11_${MedPriceId}_01-01-2022_02-03-2022_1_line.png`)]
+                         }),
+                         await singleTableMinimax(11),
+                         paragraph({
+                             children: [await tableMaterialMinimax()]
+                         }),
+                         new docx.Paragraph({children: [new docx.PageBreak()]}),
+                         h3(""),
+                        // paragraph({
+                        //     children: [await oneChartText(`http://localhost:8080/getChart/15_${MedPriceId}_01-01-2022_02-03-2022_1_line.png`)]
+                        // }),
+                        // await singleTable(15),
+
+
+
+                        new docx.Paragraph({children: [new docx.PageBreak()]}),
                         h2("Остальные таблицы"),
                         paragraph({
                             children: [await singleTable(2, MedPriceId)]
                         }),
+
 
 
 
