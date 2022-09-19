@@ -21,12 +21,19 @@ module.exports.GetWeekDates = function getWeekDates(date){
     }
 }
 
-module.exports.GetWeekNumber = function getWeekNumber(num){
-    const currentDate = new Date();
-    const startDate = new Date(currentDate.getFullYear(), 0, 1);
-    const days = Math.floor((currentDate - startDate) / (24 * 60 * 60 * 1000));
+module.exports.GetWeekNumber = function getWeekNumber(date){
+    const startDate = new Date(date.getFullYear(), 0, 1);
+    const days = Math.floor((date - startDate) / (24 * 60 * 60 * 1000));
     return Math.ceil(days / 7);
 }
+
+
+
+// module.exports.GetMonthRange = function getMonthRange(date){
+//     let first = date
+//     first.setMonth(first.setMonth - 1)
+//     return `${first.getDate()}-${first.getMonth()}-${first.getFullYear()}_${date.getDate()}-${date.getMonth()}-${date.getFullYear()}`
+// }
 
 module.exports.FormatDayMonth = function formatDayMonth(num){
     if (num <= 9) return `0${num}`

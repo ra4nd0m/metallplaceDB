@@ -6,7 +6,7 @@ const h2 = require("../atom/heading2");
 const h3 = require("../atom/heading3");
 const paragraph = require("../atom/paragraph");
 const twoChart = require("../component/two_chart");
-const {FooterTitle, HeaderTitle, MinPriceId, MaxPriceId, MedPriceId, StockId} = require("../const");
+const { HeaderTitle, MedPriceId, StockId, RusMonth} = require("../const");
 const oneChartText = require("../component/one_chart_text");
 const oneChart = require("../component/one_chart");
 const singleTable = require("../component/table_single");
@@ -14,16 +14,27 @@ const singleTableMinimax = require("../component/table_single_minimax");
 const tableDoubleAvg = require("../component/table_double_avg");
 const tableMaterialMinimax = require("../component/table_material_minimax");
 const doubleTableMinimax = require("../component/table_double_minimax")
-const {GetWeekDates} = require("../utils/date_operations");
-const {med} = require
+const {GetWeekDates, GetWeekNumber, FormatDayMonth} = require("../utils/date_operations");
 
+function getFooterTitle(curDate){
+    const weekDates = GetWeekDates(curDate)
+    return `Отчетный период: ${weekDates.first.day} ${RusMonth[weekDates.first.month]} - `+
+        `${weekDates.last.day} ${RusMonth[weekDates.last.month]} ${weekDates.last.year} года (${GetWeekNumber(curDate)} неделя)`
+}
+
+function getMonthRange(date){
+    const weekDates = GetWeekDates(date)
+    const last = new Date(Date.UTC(weekDates.last.year, weekDates.last.month, weekDates.last.day - 2))
+    let first = new Date(Date.UTC(weekDates.last.year, weekDates.last.month, weekDates.last.day - 2))
+    first.setMonth(first.getMonth() - 1)
+
+    return `${FormatDayMonth(first.getMonth()+1)}-${FormatDayMonth(first.getDate())}-${first.getFullYear()}_`+
+    `${FormatDayMonth(last.getMonth()+1)}-${FormatDayMonth(last.getDate())}-${last.getFullYear()}`
+}
 
 module.exports = class WeeklyReport {
 
-    async generate() {
-        const pic = await twoChart(
-            `http://localhost:8080/getChart/7_${MedPriceId}_01-01-2021_01-01-2022_0_line.png`,
-            `http://localhost:8080/getChart/9_${MedPriceId}_01-01-2021_01-01-2022_0_line.png`,)
+    async generate(date) {
 
         return new docx.Document({
             features: {
@@ -33,13 +44,14 @@ module.exports = class WeeklyReport {
                 {
                     properties: {},
                     footers: {
-                        default: footer(FooterTitle(GetWeekDates())),
+                        default: footer(getFooterTitle(date)),
                     },
                     headers: {
                         default: header(HeaderTitle)
                     },
                     children: [
                         h1("ЕЖЕНЕДЕЛЬНЫЙ ОТЧЕТ"),
+                        paragraph(getMonthRange(date)),
                         new docx.Paragraph({children: [new docx.PageBreak()]}),
                         h3(""),
                         new docx.Paragraph({children: [new docx.PageBreak()]}),
@@ -176,7 +188,7 @@ module.exports = class WeeklyReport {
 
                         h3("Чугун"),
                         paragraph({
-                            children: [await oneChartText(`http://localhost:8080/getChart/6_${MedPriceId}_01-01-2022_02-05-2022_1_line.png`)]
+                            children: [await oneChartText(`http://localhost:8080/getChart/6_${MedPriceId}_${getMonthRange(date)}_1_line.png`)]
                         }),
                         await singleTableMinimax(6),
                         await tableMaterialMinimax(),
@@ -196,7 +208,7 @@ module.exports = class WeeklyReport {
 
 
                          h3("Сортовой прокат"),
-                         paragraph({
+                         paragraph({ //арматура FOB
                              children: [await oneChartText(`http://localhost:8080/getChart/11_${MedPriceId}_01-01-2022_02-03-2022_1_line.png`)]
                          }),
                          await singleTableMinimax(11),
@@ -205,10 +217,42 @@ module.exports = class WeeklyReport {
                          }),
                          new docx.Paragraph({children: [new docx.PageBreak()]}),
                          h3(""),
+                        paragraph({ //арматура А1
+                            children: [await oneChartText(`http://localhost:8080/getChart/16_${MedPriceId}_01-01-2022_02-03-2022_1_line.png`)]
+                        }),
+
+                        h3("Плоский прокат"),
+                        paragraph({ // рулон гк рулон хк FOB
+                            children: [await oneChartText(`http://localhost:8080/getChart/10-12_${MedPriceId}_01-01-2022_02-03-2022_1_line.png`)]
+                        }),
+                        new docx.Paragraph({children: [new docx.PageBreak()]}),
+
+                        h3(""),
+                        await doubleTableMinimax(10, 12), // рулон гк рулон хк FOB
+                        paragraph({ // рулон гк рулон хк EXW
+                            children: [await oneChartText(`http://localhost:8080/getChart/16-17_${MedPriceId}_01-01-2022_02-03-2022_1_line.png`)]
+                        }),
+                        //await tableDoubleAvg(16, 17, MedPriceId), // рулон гк рулон хк EXW
+                        new docx.Paragraph({children: [new docx.PageBreak()]}),
+
+                        h3(""),
+                        await tableMaterialMinimax(),
+                        new docx.Paragraph({children: [new docx.PageBreak()]}),
+
+                        h3("Рынок ферросплавов и руд"),
+                        paragraph("Тут странная таблица, позже добавлю"),
+                        h3("Ферромарганец и силикон"),
+                        paragraph({ // FeMn76, SiMn65
+                            children: [await oneChartText(`http://localhost:8080/getChart/18-20_${MedPriceId}_01-01-2022_02-03-2022_1_line.png`)]
+                        }),
+                        await doubleTableMinimax(18, 20),
+                        paragraph("...И еще пару страниц далее"),
+
+
                         // paragraph({
                         //     children: [await oneChartText(`http://localhost:8080/getChart/15_${MedPriceId}_01-01-2022_02-03-2022_1_line.png`)]
                         // }),
-                        // await singleTable(15),
+                       //  await singleTable(15),
 
 
 
@@ -217,8 +261,6 @@ module.exports = class WeeklyReport {
                         paragraph({
                             children: [await singleTable(2, MedPriceId)]
                         }),
-
-
 
 
                         paragraph({

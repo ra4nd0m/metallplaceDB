@@ -19,10 +19,6 @@ module.exports.Red = "ff0000"
 module.exports.ColorDefault = "000000"
 module.exports.FontSizeTd = 10
 module.exports.FontSizeTh = 18
-module.exports.FooterTitle = function (weekDates){
-        return `Отчетный период: ${weekDates.first.day} ${RusMonth[weekDates.first.month]} - `+
-            `${weekDates.last.day} ${RusMonth[weekDates.last.month]} ${weekDates.last.year} года (${GetWeekNumber()} неделя)`
-    }
 const NONE_BORDER = {
     style: docx.BorderStyle.NONE,
     size: 0,

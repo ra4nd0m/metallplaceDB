@@ -41,14 +41,14 @@ module.exports = async function tableDoubleWithWeekAvg(materialId1, materialId2,
     const resBody1 = await axios.post("http://localhost:8080/getValueForPeriod", {
         material_source_id: materialId1,
         property_id: propertyId,
-        start: '2022-01-03',
-        finish: '2022-01-09'
+        start: '2022-05-03',
+        finish: '2022-05-09'
     })
     const resBody2 = await axios.post("http://localhost:8080/getValueForPeriod", {
         material_source_id: materialId2,
         property_id: propertyId,
-        start: '2022-01-03',
-        finish: '2022-01-09'
+        start: '2022-05-03',
+        finish: '2022-05-09'
     })
     const header = new docx.Table({
         width: {
