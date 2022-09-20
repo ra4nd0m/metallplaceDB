@@ -7,6 +7,7 @@ const {TableNoOuterBorders, TableCellMarginNil, MinPriceId, MaxPriceId, MedPrice
 const paragraphCentred = require("../atom/paragraph_centred");
 const {GetWeekDates, FormatDayMonth} = require("../utils/date_operations");
 const tableBody = require("../atom/table_double_minimax_body")
+const {formatDateDb} = require("../utils/date");
 
 function priceBlock(unit) {
     return new docx.Table({
@@ -33,15 +34,14 @@ function priceBlock(unit) {
     })
 }
 
-module.exports = async function doubleTableMinimax(materialId1, materialId2) {
-    const dates = GetWeekDates()
-    const from = `${dates.first.year}-${FormatDayMonth(dates.first.month)}-${FormatDayMonth(dates.first.day)}`
-    const to = `${dates.last.year}-${FormatDayMonth(dates.last.month)}-${FormatDayMonth(dates.last.day)}`
+module.exports = async function doubleTableMinimax(materialId1, materialId2, dates) {
+    const from = formatDateDb(dates[0])
+    const to = formatDateDb(dates[1])
 
     const resMat1 = await axios.post("http://localhost:8080/getMaterialInfo", {id: materialId1})
-    const minBody1 = await axios.post("http://localhost:8080/getValueForPeriod", { material_source_id: materialId1, property_id: MinPriceId, start: '2022-01-03', finish: '2022-02-09'})
-    const maxBody1 = await axios.post("http://localhost:8080/getValueForPeriod", { material_source_id: materialId1, property_id: MaxPriceId, start: '2022-01-03', finish: '2022-02-09'})
-    const medBody1 = await axios.post("http://localhost:8080/getValueForPeriod", { material_source_id: materialId1, property_id: MedPriceId, start: '2022-01-03', finish: '2022-02-09'})
+    const minBody1 = await axios.post("http://localhost:8080/getValueForPeriod", { material_source_id: materialId1, property_id: MinPriceId, start: from, finish: to})
+    const maxBody1 = await axios.post("http://localhost:8080/getValueForPeriod", { material_source_id: materialId1, property_id: MaxPriceId, start: from, finish: to})
+    const medBody1 = await axios.post("http://localhost:8080/getValueForPeriod", { material_source_id: materialId1, property_id: MedPriceId, start: from, finish: to})
 
     const resMat2= await axios.post("http://localhost:8080/getMaterialInfo", {id: materialId2})
     const minBody2 = await axios.post("http://localhost:8080/getValueForPeriod", { material_source_id: materialId2, property_id: MinPriceId, start: '2022-01-03', finish: '2022-02-09'})

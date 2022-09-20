@@ -4,11 +4,11 @@ const paragraphCentred = require("../atom/paragraph_centred");
 const text = require("../atom/text");
 const {TableCellMarginNil, TableNoOuterBorders} = require("../const");
 const axios = require("axios");
-
-const tableBody = require("../atom/table_double_avg_body");
+const {GetWeekDates, FormatDayMonth} = require("../utils/date_operations");
+const tableBody = require("../atom/table_double_body");
 const {formatDateDb} = require("../utils/date");
 
-const {TableRow, TableCell} = docx;
+const {TableRow, TableCell, Paragraph} = docx;
 
 function headerMaterial(name, unit) {
     return new docx.Table({
@@ -55,7 +55,7 @@ module.exports = async function tableDoubleWithWeekAvg(materialId1, materialId2,
             size: 100,
             type: docx.WidthType.PERCENTAGE,
         },
-        columnWidths: [1, 2, 2, 2],
+        columnWidths: [1, 2, 2],
         rows: [
             new TableRow({
                 children: [
@@ -68,33 +68,8 @@ module.exports = async function tableDoubleWithWeekAvg(materialId1, materialId2,
                         margins: TableCellMarginNil,
                         children: [headerMaterial(resMat2.data.info.Name, resMat2.data.info.Unit)]
                     }),
-                    new TableCell({
-                        margins: TableCellMarginNil,
-                        children: [paragraphCentred(`Средняя ${resMat1.data.info.Unit}`)]
-                    }),
                 ],
             }),
-
-
-            // new TableRow({
-            //     children: [
-            //         new TableCell({children: [new Paragraph("0,0")], rowSpan: 2}),
-            //         new TableCell({children: [new Paragraph("0,1")], columnSpan: 3}),
-            //         new TableCell({children: [new Paragraph("0,4")], columnSpan: 3}),
-            //         new TableCell({children: [new Paragraph("0,7")], rowSpan: 2}),
-            //     ],
-            // }),
-            // new TableRow({
-            //     children: [
-            //         new TableCell({children: [new Paragraph("1,1")]}),
-            //         new TableCell({children: [new Paragraph("1,2")]}),
-            //         new TableCell({children: [new Paragraph("1,3")]}),
-            //         new TableCell({children: [new Paragraph("1,4")]}),
-            //         new TableCell({children: [new Paragraph("1,5")]}),
-            //         new TableCell({children: [new Paragraph("1,6")]}),
-            //     ],
-            // }),
-
         ]
     })
 
@@ -103,7 +78,7 @@ module.exports = async function tableDoubleWithWeekAvg(materialId1, materialId2,
             size: 100,
             type: docx.WidthType.PERCENTAGE,
         },
-        columnWidths: [3, 2, 2, 2, 2, 2, 2, 3, 3],
+        columnWidths: [3, 2, 2, 2, 2, 2, 2],
         rows: tableBody(resBody1.data, resBody2.data),
     })
 

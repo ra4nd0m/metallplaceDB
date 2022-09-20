@@ -4,14 +4,17 @@ const paragraph = require("../atom/paragraph")
 const axios = require("axios");
 const {GetWeekDates, FormatDayMonth} = require("../utils/date_operations");
 const tableBody = require("../atom/table_single_body")
+const {GetWeekRange} = require("../utils/date_ranges");
 
-module.exports = async function singleTable(materialId, propertyId){
-    const dates = GetWeekDates()
-    const from = `${dates.first.year}-${FormatDayMonth(dates.first.month)}-${FormatDayMonth(dates.first.day)}`
-    const to = `${dates.last.year}-${FormatDayMonth(dates.last.month)}-${FormatDayMonth(dates.last.day)}`
+module.exports = async function singleTable(materialId, propertyId, dates){
+    const first = new Date(dates[0])
+    const last = new Date(dates[1])
+
+    const from = `${first.getFullYear()}-${FormatDayMonth(first.getMonth() + 1)}-${FormatDayMonth(first.getDate())}`
+    const to = `${last.getFullYear()}-${FormatDayMonth(last.getMonth() + 1)}-${FormatDayMonth(last.getDate())}`
 
     const resMat = await axios.post("http://localhost:8080/getMaterialInfo",  { id: materialId })
-    const resBody = await axios.post("http://localhost:8080/getValueForPeriod", { material_source_id: materialId, property_id: propertyId, start: '2022-06-03', finish: '2022-06-09'})
+    const resBody = await axios.post("http://localhost:8080/getValueForPeriod", { material_source_id: materialId, property_id: propertyId, start: from, finish: to})
 
     return new docx.Table({
         width: {

@@ -6,6 +6,7 @@ const {TableNoOuterBorders, TableCellMarginNil, MinPriceId, MaxPriceId, MedPrice
 const paragraphCentred = require("../atom/paragraph_centred");
 const {GetWeekDates, FormatDayMonth} = require("../utils/date_operations");
 const tableBody = require("../atom/table_single_minimax_body")
+const {formatDateDb} = require("../utils/date");
 
 function priceBlock(unit) {
     return new docx.Table({
@@ -32,15 +33,14 @@ function priceBlock(unit) {
     })
 }
 
-module.exports = async function singleTableMinimax(materialId) {
-    const dates = GetWeekDates()
-    const from = `${dates.first.year}-${FormatDayMonth(dates.first.month)}-${FormatDayMonth(dates.first.day)}`
-    const to = `${dates.last.year}-${FormatDayMonth(dates.last.month)}-${FormatDayMonth(dates.last.day)}`
+module.exports = async function singleTableMinimax(materialId, dates) {
+    const from = formatDateDb(dates[0])
+    const to = formatDateDb(dates[1])
 
     const resMat = await axios.post("http://localhost:8080/getMaterialInfo", {id: materialId})
-    const minBody = await axios.post("http://localhost:8080/getValueForPeriod", { material_source_id: materialId, property_id: MinPriceId, start: '2022-01-03', finish: '2022-02-09'})
-    const maxBody = await axios.post("http://localhost:8080/getValueForPeriod", { material_source_id: materialId, property_id: MaxPriceId, start: '2022-01-03', finish: '2022-02-09'})
-    const medBody = await axios.post("http://localhost:8080/getValueForPeriod", { material_source_id: materialId, property_id: MedPriceId, start: '2022-01-03', finish: '2022-02-09'})
+    const minBody = await axios.post("http://localhost:8080/getValueForPeriod", { material_source_id: materialId, property_id: MinPriceId, start: from, finish: to})
+    const maxBody = await axios.post("http://localhost:8080/getValueForPeriod", { material_source_id: materialId, property_id: MaxPriceId, start: from, finish: to})
+    const medBody = await axios.post("http://localhost:8080/getValueForPeriod", { material_source_id: materialId, property_id: MedPriceId, start: from, finish: to})
     const header = new docx.Table({
         width: {
             size: 100,

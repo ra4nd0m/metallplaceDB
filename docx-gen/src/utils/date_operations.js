@@ -1,6 +1,6 @@
 const {endOfWeek, startOfWeek} = require("date-fns");
 
-module.exports.GetWeekDates = function getWeekDates(date){
+module.exports.GetWeekDates = function (date){
     if(date === undefined){
         date = Date.now()
     }
@@ -21,7 +21,7 @@ module.exports.GetWeekDates = function getWeekDates(date){
     }
 }
 
-module.exports.GetWeekNumber = function getWeekNumber(date){
+module.exports.GetWeekNumber = function (date){
     const startDate = new Date(date.getFullYear(), 0, 1);
     const days = Math.floor((date - startDate) / (24 * 60 * 60 * 1000));
     return Math.ceil(days / 7);
@@ -35,7 +35,7 @@ module.exports.GetWeekNumber = function getWeekNumber(date){
 //     return `${first.getDate()}-${first.getMonth()}-${first.getFullYear()}_${date.getDate()}-${date.getMonth()}-${date.getFullYear()}`
 // }
 
-module.exports.FormatDayMonth = function formatDayMonth(num){
+module.exports.FormatDayMonth = function (num){
     if (num <= 9) return `0${num}`
     return num
 }
