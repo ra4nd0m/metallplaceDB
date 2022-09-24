@@ -1,6 +1,6 @@
 package model
 
-var InitMaterials = []Material{
+var InitMaterialsVertical = []Material{
 	{"01.ЖРС",
 		"ЖРС (62%), Platts",
 		"ferroalloynet.com",
@@ -16,7 +16,7 @@ var InitMaterials = []Material{
 		"Глобальный",
 		"USD/t",
 		"A",
-		[]Property{{"Средняя цена", "E", 3, "decimal"}},
+		[]Property{{"Средняя цена", "L", 3, "decimal"}},
 	},
 
 	{"02.Лом",

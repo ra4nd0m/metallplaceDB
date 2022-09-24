@@ -1,7 +1,7 @@
 const docx = require("docx");
 const {TableNoOuterBorders, TableCellMarginNil} = require("../const");
 const paragraphCentred = require("../atom/paragraph_centred");
-const axios = require("axios");
+const textTh = require("../atom/text_th")
 
 function priceBlock(unit){
     return new docx.Table({
@@ -13,14 +13,14 @@ function priceBlock(unit){
         rows:[
             new docx.TableRow({
                 children: [
-                    new docx.TableCell({columnSpan: 3, children:[paragraphCentred(`Цена, ${unit}`)]})
+                    new docx.TableCell({columnSpan: 3, children:[textTh(`Цена, ${unit}`)]})
                 ]
             }),
             new docx.TableRow({
                 children: [
-                    new docx.TableCell({children:[paragraphCentred(`мин`)]}),
-                    new docx.TableCell({children:[paragraphCentred(`макс`)]}),
-                    new docx.TableCell({children:[paragraphCentred(`сред`)]}),
+                    new docx.TableCell({children:[textTh(`мин`)]}),
+                    new docx.TableCell({children:[textTh(`макс`)]}),
+                    new docx.TableCell({children:[textTh(`сред`)]}),
                 ]
             })
         ]

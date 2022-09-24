@@ -4,38 +4,18 @@ const paragraph = require("../atom/paragraph")
 const axios = require("axios");
 const {TableNoOuterBorders, TableCellMarginNil, MinPriceId, MaxPriceId, MedPriceId} = require("../const");
 const paragraphCentred = require("../atom/paragraph_centred");
-const {GetWeekDates, FormatDayMonth} = require("../utils/date_operations");
+const {FormatDayMonth} = require("../utils/date_operations");
 const tableBody = require("../atom/table_single_minimax_body")
-const {formatDateDb} = require("../utils/date");
+const textTh = require("../atom/text_th")
+const priceBlock = require("../atom/price_block")
 
-function priceBlock(unit) {
-    return new docx.Table({
-        width: {
-            size: 100,
-            type: docx.WidthType.PERCENTAGE,
-        },
-        borders: TableNoOuterBorders,
-
-        rows: [
-            new docx.TableRow({
-                children: [
-                    new docx.TableCell({columnSpan: 3, children: [paragraphCentred(`Цена, ${unit}`)]})
-                ]
-            }),
-            new docx.TableRow({
-                children: [
-                    new docx.TableCell({margins: TableCellMarginNil,children: [paragraphCentred(`мин`)]}),
-                    new docx.TableCell({margins: TableCellMarginNil,children: [paragraphCentred(`макс`)]}),
-                    new docx.TableCell({margins: TableCellMarginNil,children: [paragraphCentred(`сред`)]}),
-                ]
-            })
-        ]
-    })
-}
 
 module.exports = async function singleTableMinimax(materialId, dates) {
-    const from = formatDateDb(dates[0])
-    const to = formatDateDb(dates[1])
+    const first = new Date(dates[0])
+    const last = new Date(dates[1])
+
+    const from = `${first.getFullYear()}-${FormatDayMonth(first.getMonth() + 1)}-${FormatDayMonth(first.getDate())}`
+    const to = `${last.getFullYear()}-${FormatDayMonth(last.getMonth() + 1)}-${FormatDayMonth(last.getDate())}`
 
     const resMat = await axios.post("http://localhost:8080/getMaterialInfo", {id: materialId})
     const minBody = await axios.post("http://localhost:8080/getValueForPeriod", { material_source_id: materialId, property_id: MinPriceId, start: from, finish: to})
@@ -52,17 +32,15 @@ module.exports = async function singleTableMinimax(materialId, dates) {
                 children: [
                     new docx.TableCell({
                         rowSpan: 2,
-                        children: [
-                            paragraph({
-                                alignment: docx.AlignmentType.CENTER,
-                                children: [text("Дата")]
-                            })
-                        ]
+                        children: [textTh("Дата")],
                     }),
                     new docx.TableCell({
+                        alignment: docx.AlignmentType.CENTER,
                         columnSpan: 3,
                         margins: TableCellMarginNil,
-                        children: [paragraphCentred(resMat.data.info.Name)]
+                        children: [
+                            textTh(resMat.data.info.Name)
+                        ]
                     })
                 ]
             }),
@@ -78,20 +56,10 @@ module.exports = async function singleTableMinimax(materialId, dates) {
                         ]
                     }),
                     new docx.TableCell({
-                        children: [
-                            paragraph({
-                                alignment: docx.AlignmentType.CENTER,
-                                children: [text(`Изм. ${resMat.data.info.Unit}`)]
-                            })
-                        ]
+                        children: [textTh(`Изм. ${resMat.data.info.Unit}`)]
                     }),
                     new docx.TableCell({
-                        children: [
-                            paragraph({
-                                alignment: docx.AlignmentType.CENTER,
-                                children: [text("Изм. %")]
-                            })
-                        ]
+                        children: [textTh("Изм. %")]
                     }),
                 ]
             }),

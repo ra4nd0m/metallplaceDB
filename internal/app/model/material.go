@@ -19,6 +19,16 @@ type Material struct {
 	Properties []Property
 }
 
+type MaterialHorizontal struct {
+	Sheet      string
+	Name       string
+	Source     string
+	Market     string
+	Unit       string
+	DateRow    string
+	Properties []Property
+}
+
 type PropertyShortInfo struct {
 	Id   int
 	Name string

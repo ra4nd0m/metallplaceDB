@@ -10,10 +10,10 @@ module.exports.HeaderTitle = "Обзор рынка сырья, стали и ф
 module.exports.RusMonth = RusMonth;
 module.exports.LineWidth = 20;
 module.exports.LineColor = "d3d3d3";
-module.exports.MinPriceId = 3;
-module.exports.MaxPriceId = 4;
-module.exports.MedPriceId = 2;
-module.exports.StockId = 5;
+module.exports.MinPriceId = 2;
+module.exports.MaxPriceId = 3;
+module.exports.MedPriceId = 1;
+module.exports.StockId = 4;
 module.exports.Green = "00ff00"
 module.exports.Red = "ff0000"
 module.exports.ColorDefault = "000000"
@@ -30,4 +30,3 @@ module.exports.TableNoOuterBorders = {
     left: NONE_BORDER,
     right: NONE_BORDER,
 };
-

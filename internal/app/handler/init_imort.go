@@ -4,16 +4,19 @@ import (
 	"net/http"
 )
 
+type InitImportRequest struct {
+}
+
 type InitImportResponse struct {
 	Success bool `json:"success"`
 }
 
 func (h Handler) InitImport(w http.ResponseWriter, r *http.Request) {
-	handle(w, r, func(_ any) (AddUniqueMaterialResponse, error) {
+	handle(w, r, func(req InitImportRequest) (InitImportResponse, error) {
 		err := h.service.InitialImport(r.Context())
 		if err != nil {
-			return AddUniqueMaterialResponse{false}, err
+			return InitImportResponse{false}, err
 		}
-		return AddUniqueMaterialResponse{true}, err
+		return InitImportResponse{true}, err
 	})
 }
