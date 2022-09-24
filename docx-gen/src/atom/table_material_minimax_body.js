@@ -2,6 +2,7 @@ const getChange = require("../utils/get_change");
 const paragraphCentred = require("../atom/paragraph_centred")
 const textTd = require("../atom/text_td")
 const docx = require("docx");
+const cellCenter = require("../atom/cell_centred")
 
 module.exports = function (body){
     let rows = [];
@@ -17,39 +18,39 @@ module.exports = function (body){
                     new docx.TableCell({
                         children: [textTd(m.CountryAndType)]
                     }),
-                    new docx.TableCell({
-                        children: [textTd(m.Delivery)]
+                    cellCenter({
+                        children: [textTd(m.Delivery),]
                     }),
 
-                    new docx.TableCell({
+                    cellCenter({
                         children: [textTd(m.Week1Min.price_feed[0].value)]
                     }),
-                    new docx.TableCell({
+                    cellCenter({
                         children: [textTd(m.Week1Max.price_feed[0].value)]
                     }),
-                    new docx.TableCell({
+                    cellCenter({
                         children: [textTd(m.Week1Med.price_feed[0].value)]
                     }),
-                    new docx.TableCell({
+                    cellCenter({
                         children: [textTd(changeUnits1.Text, changeUnits1.Color)]
                     }),
-                    new docx.TableCell({
+                    cellCenter({
                         children: [textTd(changePercents1.Text, changePercents1.Color)]
                     }),
 
-                    new docx.TableCell({
+                    cellCenter({
                         children: [textTd(m.Week2Min.price_feed[0].value)]
                     }),
-                    new docx.TableCell({
+                    cellCenter({
                         children: [textTd(m.Week2Max.price_feed[0].value)]
                     }),
-                    new docx.TableCell({
+                    cellCenter({
                         children: [textTd(m.Week2Med.price_feed[0].value)]
                     }),
-                    new docx.TableCell({
+                    cellCenter({
                         children: [textTd(changeUnits2.Text, changeUnits1.Color)]
                     }),
-                    new docx.TableCell({
+                    cellCenter({
                         children: [textTd(changePercents2.Text, changePercents1.Color)]
                     }),
                 ]

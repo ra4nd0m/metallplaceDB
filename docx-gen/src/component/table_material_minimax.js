@@ -22,9 +22,9 @@ function priceBlock(unit){
             }),
             new docx.TableRow({
                 children: [
-                    new docx.TableCell({children:[textTh(`мин`)]}),
-                    new docx.TableCell({children:[textTh(`макс`)]}),
-                    new docx.TableCell({children:[textTh(`сред`)]}),
+                    new docx.TableCell({children:[textTh(`мин`)], verticalAlign: docx.VerticalAlign.CENTER}),
+                    new docx.TableCell({children:[textTh(`макс`)], verticalAlign: docx.VerticalAlign.CENTER}),
+                    new docx.TableCell({children:[textTh(`сред`)], verticalAlign: docx.VerticalAlign.CENTER}),
                 ]
             })
         ]
@@ -45,9 +45,9 @@ function headerMaterial(title, unit){
             }),
             new docx.TableRow({
                 children: [
-                    new docx.TableCell({margins: TableCellMarginNil, children: [priceBlock(unit)]}),
-                    new docx.TableCell({margins: TableCellMarginNil, children: [textTh(`Изм ${unit}`)]}),
-                    new docx.TableCell({margins: TableCellMarginNil, children: [textTh(`Изм %`)]})
+                    new docx.TableCell({margins: TableCellMarginNil, children: [priceBlock(unit)], verticalAlign: docx.VerticalAlign.CENTER}),
+                    new docx.TableCell({margins: TableCellMarginNil, children: [textTh(`Изм ${unit}`)], verticalAlign: docx.VerticalAlign.CENTER}),
+                    new docx.TableCell({margins: TableCellMarginNil, children: [textTh(`Изм %`)], verticalAlign: docx.VerticalAlign.CENTER})
                 ],
             }),
         ]
@@ -98,10 +98,10 @@ module.exports = async function tableMaterialMinimax(materialIds, dates) {
         rows:[
             new docx.TableRow({
                 children: [
-                    new docx.TableCell({ margins: TableCellMarginNil, children: [textTh("Страна/вид")]}),
-                    new docx.TableCell({ margins: TableCellMarginNil, children: [textTh("Усл. поставки")]}),
-                    new docx.TableCell({ margins: TableCellMarginNil, children: [headerMaterial(`${week1} неделя`, "USD/т")]}),
-                    new docx.TableCell({ margins: TableCellMarginNil, children: [headerMaterial(`${week2} неделя`, "USD/т")]}),
+                    new docx.TableCell({ margins: TableCellMarginNil, children: [textTh("Страна/вид")], verticalAlign: docx.VerticalAlign.CENTER}),
+                    new docx.TableCell({ margins: TableCellMarginNil, children: [textTh("Усл. поставки")], verticalAlign: docx.VerticalAlign.CENTER}),
+                    new docx.TableCell({ margins: TableCellMarginNil, children: [headerMaterial(`${week1} неделя`, "USD/т")], verticalAlign: docx.VerticalAlign.CENTER}),
+                    new docx.TableCell({ margins: TableCellMarginNil, children: [headerMaterial(`${week2} неделя`, "USD/т")], verticalAlign: docx.VerticalAlign.CENTER}),
                 ],
             })
         ]
