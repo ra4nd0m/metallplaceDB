@@ -27,6 +27,16 @@ module.exports.GetWeekNumber = function (date){
     return Math.ceil(days / 7);
 }
 
+module.exports.Get2LastFridays = function (date){
+    const first = date.getDate() - date.getDay() + 1;
+    const fifth = first + 4;
+
+    const friday = new Date(date.setDate(fifth));
+    let lastFriday = new Date(friday)
+    lastFriday.setDate(lastFriday.getDate() - 7)
+
+    return [lastFriday, friday];
+}
 
 
 // module.exports.GetMonthRange = function getMonthRange(date){

@@ -27,7 +27,6 @@ module.exports = function (input) {
             })
         )
     }
-
     return rows
 }
 

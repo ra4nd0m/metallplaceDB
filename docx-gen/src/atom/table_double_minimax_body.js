@@ -1,6 +1,7 @@
 const docx = require("docx");
 const paragraphCentred = require("../atom/paragraph_centred")
 const getChange = require("../utils/get_change")
+const textTd = require("../atom/text_td")
 
 module.exports = function (min1, max1, med1, min2, max2, med2) {
     let rows = [];
@@ -22,44 +23,43 @@ module.exports = function (min1, max1, med1, min2, max2, med2) {
             new docx.TableRow({
                 children: [
                     new docx.TableCell({
-                        children: [paragraphCentred(pfMed1[i].date.substring(0, 10))]
+                        children: [textTd(pfMed1[i].date.substring(0, 10))]
                     }),
                     new docx.TableCell({
-                        children: [paragraphCentred(pfMin1[i].value)]
+                        children: [textTd(pfMin1[i].value)]
                     }),
                     new docx.TableCell({
-                        children: [paragraphCentred(pfMax1[i].value)]
+                        children: [textTd(pfMax1[i].value)]
                     }),
                     new docx.TableCell({
-                        children: [paragraphCentred(pfMed1[i].value)]
+                        children: [textTd(pfMed1[i].value)]
                     }),
                     new docx.TableCell({
-                        children: [paragraphCentred(changeUnits1.Text, changeUnits1.Color)]
+                        children: [textTd(changeUnits1.Text, changeUnits1.Color)]
                     }),
                     new docx.TableCell({
-                        children: [paragraphCentred(changePercents1.Text, changePercents1.Color)]
+                        children: [textTd(changePercents1.Text, changePercents1.Color)]
                     }),
 
 
                     new docx.TableCell({
-                        children: [paragraphCentred(pfMin2[i].value)]
+                        children: [textTd(pfMin2[i].value)]
                     }),
                     new docx.TableCell({
-                        children: [paragraphCentred(pfMax2[i].value)]
+                        children: [textTd(pfMax2[i].value)]
                     }),
                     new docx.TableCell({
-                        children: [paragraphCentred(pfMed2[i].value)]
+                        children: [textTd(pfMed2[i].value)]
                     }),
                     new docx.TableCell({
-                        children: [paragraphCentred(changeUnits2.Text, changeUnits2.Color)]
+                        children: [textTd(changeUnits2.Text, changeUnits2.Color)]
                     }),
                     new docx.TableCell({
-                        children: [paragraphCentred(changePercents2.Text, changePercents2.Color)]
+                        children: [textTd(changePercents2.Text, changePercents2.Color)]
                     }),
                 ]
             })
         )
     }
-
     return rows
 }

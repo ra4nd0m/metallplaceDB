@@ -214,8 +214,9 @@ func stringToDate(str string) (time.Time, error) {
 	if err != nil {
 		return time.Time{}, fmt.Errorf("cant parce year: %w", err)
 	}
-
-	return firstDayOfISOWeek(year, week), nil
+	mon := firstDayOfISOWeek(year, week)
+	fri := mon.AddDate(0, 0, 4)
+	return fri, nil
 }
 
 func firstDayOfISOWeek(year int, week int) time.Time {

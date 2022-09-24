@@ -2,7 +2,7 @@ package model
 
 var InitMaterialsHorizontal = []MaterialHorizontal{
 	{"10.Сводка (неделя)",
-		"Лом HMS 1&2 (80:20) CNF (недельный)",
+		"Лом, HMS 1&2 (80:20), CNF, (недельный)",
 		"-",
 		"Турция, Искендерун",
 		"USD/т",
@@ -15,7 +15,7 @@ var InitMaterialsHorizontal = []MaterialHorizontal{
 	},
 
 	{"10.Сводка (неделя)",
-		"Лом HMS 1&2 (80:20) FOB (недельный)",
+		"Лом, HMS 1&2 (80:20), FOB, (недельный)",
 		"-",
 		"Европа, Роттердам",
 		"USD/т",
@@ -27,7 +27,7 @@ var InitMaterialsHorizontal = []MaterialHorizontal{
 	},
 
 	{"10.Сводка (неделя)",
-		"Лом HMS 1&2 (80:20) CNF (недельный)",
+		"Лом, HMS 1&2 (80:20), CNF, (недельный)",
 		"-",
 		"Бангладеш, Читтагонг",
 		"USD/т",
@@ -39,7 +39,7 @@ var InitMaterialsHorizontal = []MaterialHorizontal{
 	},
 
 	{"10.Сводка (неделя)",
-		"Лом шредированный CNF (недельный)",
+		"Лом, шредированный, CNF, (недельный)",
 		"-",
 		"Бангладеш, Читтагонг",
 		"USD/т",
@@ -51,7 +51,7 @@ var InitMaterialsHorizontal = []MaterialHorizontal{
 	},
 
 	{"10.Сводка (неделя)",
-		"Лом H2 CNF (недельный)",
+		"Лом, H2, CNF, (недельный)",
 		"-",
 		"Бангладеш, Читтагонг",
 		"USD/т",
@@ -63,7 +63,7 @@ var InitMaterialsHorizontal = []MaterialHorizontal{
 	},
 
 	{"10.Сводка (неделя)",
-		"Лом HMS 1&2 (80:20) CNF (недельный)",
+		"Лом, HMS 1&2 (80:20), CNF, (недельный)",
 		"-",
 		"Вьетнам, Хайфон",
 		"USD/т",
@@ -75,7 +75,7 @@ var InitMaterialsHorizontal = []MaterialHorizontal{
 	},
 
 	{"10.Сводка (неделя)",
-		"Лом HM2 CNF (недельный)",
+		"Лом, HM2, CNF, (недельный)",
 		"-",
 		"Вьетнам, Хайфон",
 		"USD/т",
@@ -87,7 +87,7 @@ var InitMaterialsHorizontal = []MaterialHorizontal{
 	},
 
 	{"10.Сводка (неделя)",
-		"Лом HMS 1&2 (80:20) CNF (недельный)",
+		"Лом, HMS 1&2 (80:20), CNF, (недельный)",
 		"-",
 		"Индия, Нава-Шева",
 		"USD/т",
@@ -99,7 +99,7 @@ var InitMaterialsHorizontal = []MaterialHorizontal{
 	},
 
 	{"10.Сводка (неделя)",
-		"Лом шредированный CNF (недельный)",
+		"Лом, шредированный, CNF, (недельный)",
 		"-",
 		"Индия, Нава-Шева",
 		"USD/т",
@@ -111,7 +111,7 @@ var InitMaterialsHorizontal = []MaterialHorizontal{
 	},
 
 	{"10.Сводка (неделя)",
-		"Лом шредированный CNF (недельный)",
+		"Лом, шредированный, CNF, (недельный)",
 		"-",
 		"Пакистан, Касим",
 		"USD/т",
@@ -123,7 +123,7 @@ var InitMaterialsHorizontal = []MaterialHorizontal{
 	},
 
 	{"10.Сводка (неделя)",
-		"Лом HMS 1&2 (80:20) CNF (недельный)",
+		"Лом, HMS 1&2 (80:20), CNF, (недельный)",
 		"-",
 		"Тайвань, Тайчжун",
 		"USD/т",
@@ -135,7 +135,7 @@ var InitMaterialsHorizontal = []MaterialHorizontal{
 	},
 
 	{"10.Сводка (неделя)",
-		"Лом HMS 1&2 (70:30) CNF (недельный)",
+		"Лом, HMS 1&2 (70:30), CNF, (недельный)",
 		"-",
 		"Таиланд, Лаем-Чабанг",
 		"USD/т",
@@ -147,7 +147,7 @@ var InitMaterialsHorizontal = []MaterialHorizontal{
 	},
 
 	{"10.Сводка (неделя)",
-		"Лом HMS 1&2 (80:20) FOB (недельный)",
+		"Лом, HMS 1&2 (80:20), FOB, (недельный)",
 		"-",
 		"США, Восточное побережье",
 		"USD/т",
@@ -159,7 +159,7 @@ var InitMaterialsHorizontal = []MaterialHorizontal{
 	},
 
 	{"10.Сводка (неделя)",
-		"Лом шредированный FOB (недельный)",
+		"Лом, шредированный, FOB, (недельный)",
 		"-",
 		"США, Восточное побережье",
 		"USD/т",
@@ -171,7 +171,7 @@ var InitMaterialsHorizontal = []MaterialHorizontal{
 	},
 
 	{"10.Сводка (неделя)",
-		"Лом H2 FOB (недельный)",
+		"Лом, H2, FOB, (недельный)",
 		"-",
 		"Япония, Токийский залив",
 		"USD/т",
