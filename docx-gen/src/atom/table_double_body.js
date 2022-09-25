@@ -1,7 +1,8 @@
 const docx = require("docx");
 const paragraphCentred = require("../atom/paragraph_centred")
 const getChange = require("../utils/get_change")
-
+const cellCenter = require("../atom/cell_centred")
+const textTd = require("../atom/text_td")
 
 module.exports = function (feed1, feed2) {
     let rows = [];
@@ -15,28 +16,28 @@ module.exports = function (feed1, feed2) {
         rows.push(
             new docx.TableRow({
                 children: [
-                    new docx.TableCell({
-                        children: [paragraphCentred(pf1[i].date.substring(0, 10))]
+                    cellCenter({
+                        children: [textTd(pf1[i].date.substring(0, 10))]
                     }),
 
-                    new docx.TableCell({
-                        children: [paragraphCentred(pf1[i].value)]
+                    cellCenter({
+                        children: [textTd(pf1[i].value)]
                     }),
-                    new docx.TableCell({
-                        children: [paragraphCentred(changeUnits1.Text, changeUnits1.Color)]
+                    cellCenter({
+                        children: [textTd(changeUnits1.Text, changeUnits1.Color)]
                     }),
-                    new docx.TableCell({
-                        children: [paragraphCentred(changePercents1.Text, changePercents1.Color)]
+                    cellCenter({
+                        children: [textTd(changePercents1.Text, changePercents1.Color)]
                     }),
 
-                    new docx.TableCell({
-                        children: [paragraphCentred(pf2[i].value)]
+                    cellCenter({
+                        children: [textTd(pf2[i].value)]
                     }),
-                    new docx.TableCell({
-                        children: [paragraphCentred(changeUnits2.Text, changeUnits1.Color)]
+                    cellCenter({
+                        children: [textTd(changeUnits2.Text, changeUnits1.Color)]
                     }),
-                    new docx.TableCell({
-                        children: [paragraphCentred(changePercents2.Text, changePercents1.Color)]
+                    cellCenter({
+                        children: [textTd(changePercents2.Text, changePercents1.Color)]
                     }),
 
                 ]

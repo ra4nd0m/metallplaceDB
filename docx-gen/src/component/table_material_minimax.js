@@ -6,6 +6,7 @@ const tableBody = require("../atom/table_material_minimax_body");
 const axios = require("axios");
 const {FormatDayMonth, GetWeekNumber} = require("../utils/date_operations");
 const paragraph = require("../atom/paragraph");
+const cellCenter = require("../atom/cell_centred")
 
 function priceBlock(unit){
     return new docx.Table({
@@ -22,9 +23,9 @@ function priceBlock(unit){
             }),
             new docx.TableRow({
                 children: [
-                    new docx.TableCell({children:[textTh(`мин`)], verticalAlign: docx.VerticalAlign.CENTER}),
-                    new docx.TableCell({children:[textTh(`макс`)], verticalAlign: docx.VerticalAlign.CENTER}),
-                    new docx.TableCell({children:[textTh(`сред`)], verticalAlign: docx.VerticalAlign.CENTER}),
+                    cellCenter({children:[textTh(`мин`)], verticalAlign: docx.VerticalAlign.CENTER}),
+                    cellCenter({children:[textTh(`макс`)], verticalAlign: docx.VerticalAlign.CENTER}),
+                    cellCenter({children:[textTh(`сред`)], verticalAlign: docx.VerticalAlign.CENTER}),
                 ]
             })
         ]
@@ -45,9 +46,9 @@ function headerMaterial(title, unit){
             }),
             new docx.TableRow({
                 children: [
-                    new docx.TableCell({margins: TableCellMarginNil, children: [priceBlock(unit)], verticalAlign: docx.VerticalAlign.CENTER}),
-                    new docx.TableCell({margins: TableCellMarginNil, children: [textTh(`Изм ${unit}`)], verticalAlign: docx.VerticalAlign.CENTER}),
-                    new docx.TableCell({margins: TableCellMarginNil, children: [textTh(`Изм %`)], verticalAlign: docx.VerticalAlign.CENTER})
+                    cellCenter({margins: TableCellMarginNil, children: [priceBlock(unit)], verticalAlign: docx.VerticalAlign.CENTER}),
+                    cellCenter({margins: TableCellMarginNil, children: [textTh(`Изм ${unit}`)], verticalAlign: docx.VerticalAlign.CENTER}),
+                    cellCenter({margins: TableCellMarginNil, children: [textTh(`Изм %`)], verticalAlign: docx.VerticalAlign.CENTER})
                 ],
             }),
         ]
@@ -76,8 +77,10 @@ module.exports = async function tableMaterialMinimax(materialIds, dates) {
         const location = resMat.data.info.Market.split(", ")
         //"Лом, HMS 1&2 (80:20), FOB, (недельный)"
         bodyInfo.push({
-            CountryAndType: `${location[0]} ${matInfo[1]}`,
-            Delivery: `${matInfo[2]} ${location[1]}`,
+            Country: location[0],
+            Type: matInfo[1],
+            DeliveryType: matInfo[2],
+            DeliveryLocation: location[1],
             Week1Min: week1Min.data,
             Week1Max: week1Max.data,
             Week1Med: week1Med.data,
@@ -98,10 +101,10 @@ module.exports = async function tableMaterialMinimax(materialIds, dates) {
         rows:[
             new docx.TableRow({
                 children: [
-                    new docx.TableCell({ margins: TableCellMarginNil, children: [textTh("Страна/вид")], verticalAlign: docx.VerticalAlign.CENTER}),
-                    new docx.TableCell({ margins: TableCellMarginNil, children: [textTh("Усл. поставки")], verticalAlign: docx.VerticalAlign.CENTER}),
-                    new docx.TableCell({ margins: TableCellMarginNil, children: [headerMaterial(`${week1} неделя`, "USD/т")], verticalAlign: docx.VerticalAlign.CENTER}),
-                    new docx.TableCell({ margins: TableCellMarginNil, children: [headerMaterial(`${week2} неделя`, "USD/т")], verticalAlign: docx.VerticalAlign.CENTER}),
+                    cellCenter({ margins: TableCellMarginNil, children: [textTh("Страна/вид")], verticalAlign: docx.VerticalAlign.CENTER}),
+                    cellCenter({ margins: TableCellMarginNil, children: [textTh("Усл. поставки")], verticalAlign: docx.VerticalAlign.CENTER}),
+                    cellCenter({ margins: TableCellMarginNil, children: [headerMaterial(`${week1} неделя`, "USD/т")], verticalAlign: docx.VerticalAlign.CENTER}),
+                    cellCenter({ margins: TableCellMarginNil, children: [headerMaterial(`${week2} неделя`, "USD/т")], verticalAlign: docx.VerticalAlign.CENTER}),
                 ],
             })
         ]

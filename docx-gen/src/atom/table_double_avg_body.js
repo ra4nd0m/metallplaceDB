@@ -1,6 +1,8 @@
 const docx = require("docx");
 const paragraphCentred = require("../atom/paragraph_centred")
 const getChange = require("../utils/get_change")
+const cellCenter = require("../atom/cell_centred")
+const textTd = require("../atom/text_td")
 
 function insertMed(i, feed1, feed2){
     let cells = []
@@ -12,15 +14,15 @@ function insertMed(i, feed1, feed2){
             sum2 += feed2[p].value
         }
         cells.push(
-            new docx.TableCell({
+            cellCenter({
                 rowSpan: 5,
-                children: [paragraphCentred(Math.round(sum1 / 5 * 100) / 100)]
+                children: [textTd(Math.round(sum1 / 5 * 100) / 100)]
             }),
         )
         cells.push(
-            new docx.TableCell({
+            cellCenter({
                 rowSpan: 5,
-                children: [paragraphCentred(Math.round(sum2 / 5 * 100) / 100)]
+                children: [textTd(Math.round(sum2 / 5 * 100) / 100)]
             })
         )
         return cells
@@ -38,28 +40,28 @@ module.exports = function (feed1, feed2) {
         rows.push(
             new docx.TableRow({
                 children: [
-                    new docx.TableCell({
-                        children: [paragraphCentred(pf1[i].date.substring(0, 10))]
+                    cellCenter({
+                        children: [textTd(pf1[i].date.substring(0, 10))]
                     }),
 
-                    new docx.TableCell({
-                        children: [paragraphCentred(pf1[i].value)]
+                    cellCenter({
+                        children: [textTd(pf1[i].value)]
                     }),
-                    new docx.TableCell({
-                        children: [paragraphCentred(changeUnits.Text, changeUnits.Color)]
+                    cellCenter({
+                        children: [textTd(changeUnits.Text, changeUnits.Color)]
                     }),
-                    new docx.TableCell({
-                        children: [paragraphCentred(changePercents.Text, changePercents.Color)]
+                    cellCenter({
+                        children: [textTd(changePercents.Text, changePercents.Color)]
                     }),
 
-                    new docx.TableCell({
-                        children: [paragraphCentred(pf2[i].value)]
+                    cellCenter({
+                        children: [textTd(pf2[i].value)]
                     }),
-                    new docx.TableCell({
-                        children: [paragraphCentred(getChange(pf2, i, feed1.prev_price, false))]
+                    cellCenter({
+                        children: [textTd(getChange(pf2, i, feed1.prev_price, false))]
                     }),
-                    new docx.TableCell({
-                        children: [paragraphCentred(getChange(pf2, i, feed1.prev_price, true))]
+                    cellCenter({
+                        children: [textTd(getChange(pf2, i, feed1.prev_price, true))]
                     }),
 
                     ...insertMed(i, pf1, pf2),

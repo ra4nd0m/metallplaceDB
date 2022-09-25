@@ -18,6 +18,7 @@ module.exports.Green = "00ff00"
 module.exports.Red = "ff0000"
 module.exports.ColorDefault = "000000"
 module.exports.FontSizeTd = 13
+module.exports.FontSizeTdSmall = 9
 module.exports.FontSizeTh = 18
 const NONE_BORDER = {
     style: docx.BorderStyle.NONE,

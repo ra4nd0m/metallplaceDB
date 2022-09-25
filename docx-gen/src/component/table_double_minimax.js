@@ -6,6 +6,7 @@ const {TableCellMarginNil, MinPriceId, MaxPriceId, MedPriceId} = require("../con
 const tableBody = require("../atom/table_double_minimax_body")
 const {formatDateDb} = require("../utils/date");
 const priceBlock = require("../atom/price_block")
+const cellCenter = require("../atom/cell_centred")
 
 module.exports = async function doubleTableMinimax(materialId1, materialId2, dates) {
     const from = formatDateDb(dates[0])
@@ -60,20 +61,20 @@ module.exports = async function doubleTableMinimax(materialId1, materialId2, dat
         rows: [
             new docx.TableRow({
                 children: [
-                    new docx.TableCell({
+                    cellCenter({
                         rowSpan: 2,
                         children: [
 
                             textTh("Дата")
                         ]
                     }),
-                    new docx.TableCell({
+                    cellCenter({
                         columnSpan: 3,
                         margins: TableCellMarginNil,
                         children: [textTh(resMat1.data.info.Name)]
                     }),
 
-                    new docx.TableCell({
+                    cellCenter({
                         columnSpan: 3,
                         margins: TableCellMarginNil,
                         children: [textTh(resMat2.data.info.Name)]
@@ -82,7 +83,7 @@ module.exports = async function doubleTableMinimax(materialId1, materialId2, dat
             }),
             new docx.TableRow({
                 children: [
-                    new docx.TableCell({
+                    cellCenter({
                         margins: TableCellMarginNil,
                         children: [
                             paragraph({
@@ -91,14 +92,14 @@ module.exports = async function doubleTableMinimax(materialId1, materialId2, dat
                             })
                         ]
                     }),
-                    new docx.TableCell({
+                    cellCenter({
                         children: [textTh(`Изм. ${resMat1.data.info.Unit}`)]
                     }),
-                    new docx.TableCell({
+                    cellCenter({
                         children: [textTh("Изм. %")]
                     }),
 
-                    new docx.TableCell({
+                    cellCenter({
                         margins: TableCellMarginNil,
                         children: [
                             paragraph({
@@ -107,10 +108,10 @@ module.exports = async function doubleTableMinimax(materialId1, materialId2, dat
                             })
                         ]
                     }),
-                    new docx.TableCell({
+                    cellCenter({
                         children: [textTh(`Изм. ${resMat2.data.info.Unit}`)]
                     }),
-                    new docx.TableCell({
+                    cellCenter({
                         children: [textTh("Изм. %")]
                     }),
                 ]

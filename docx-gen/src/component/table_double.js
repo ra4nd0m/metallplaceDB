@@ -1,14 +1,14 @@
 const docx = require("docx");
 const paragraph = require("../atom/paragraph");
 const paragraphCentred = require("../atom/paragraph_centred");
-const text = require("../atom/text");
 const {TableCellMarginNil, TableNoOuterBorders} = require("../const");
 const axios = require("axios");
-const {GetWeekDates, FormatDayMonth} = require("../utils/date_operations");
 const tableBody = require("../atom/table_double_body");
 const {formatDateDb} = require("../utils/date");
+const cellCenter = require("../atom/cell_centred")
+const textTh = require("../atom/text_th")
 
-const {TableRow, TableCell, Paragraph} = docx;
+const {TableRow, TableCell} = docx;
 
 function headerMaterial(name, unit) {
     return new docx.Table({
@@ -19,13 +19,13 @@ function headerMaterial(name, unit) {
         borders: TableNoOuterBorders,
         rows: [
             new TableRow({
-                children: [new TableCell({columnSpan: 3, children: [paragraphCentred(name)]})]
+                children: [cellCenter({columnSpan: 3, children: [textTh(name)]})]
             }),
             new TableRow({
                 children: [
-                    new TableCell({children: [paragraphCentred("Цена")]}),
-                    new TableCell({children: [paragraphCentred(`Изм. ${unit}`)]}),
-                    new TableCell({children: [paragraphCentred("Изм. %")]}),
+                    cellCenter({children: [textTh("Цена")]}),
+                    cellCenter({children: [textTh(`Изм. ${unit}`)]}),
+                    cellCenter({children: [textTh("Изм. %")]}),
                 ],
             })
         ]
@@ -59,12 +59,12 @@ module.exports = async function tableDoubleWithWeekAvg(materialId1, materialId2,
         rows: [
             new TableRow({
                 children: [
-                    new TableCell({margins: TableCellMarginNil, children: [paragraphCentred("Дата")]}),
-                    new TableCell({
+                    cellCenter({margins: TableCellMarginNil, children: [textTh("Дата")]}),
+                    cellCenter({
                         margins: TableCellMarginNil,
                         children: [headerMaterial(resMat1.data.info.Name, resMat1.data.info.Unit)]
                     }),
-                    new TableCell({
+                    cellCenter({
                         margins: TableCellMarginNil,
                         children: [headerMaterial(resMat2.data.info.Name, resMat2.data.info.Unit)]
                     }),

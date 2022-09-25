@@ -1,8 +1,8 @@
 const getChange = require("../utils/get_change");
-const paragraphCentred = require("../atom/paragraph_centred")
-const textTd = require("../atom/text_td")
 const docx = require("docx");
 const cellCenter = require("../atom/cell_centred")
+const textTd = require("../atom/text_td")
+const textTdItalic = require("../atom/text_td_small_cursive")
 
 module.exports = function (body){
     let rows = [];
@@ -16,10 +16,10 @@ module.exports = function (body){
             new docx.TableRow({
                 children: [
                     new docx.TableCell({
-                        children: [textTd(m.CountryAndType)]
+                        children: [textTd(m.Country), textTdItalic(m.Type)]
                     }),
                     cellCenter({
-                        children: [textTd(m.Delivery),]
+                        children: [textTd(m.DeliveryType), textTdItalic(m.DeliveryLocation)]
                     }),
 
                     cellCenter({
