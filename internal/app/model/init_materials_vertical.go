@@ -161,7 +161,7 @@ var InitMaterialsVertical = []Material{
 		"руб/т",
 		"A",
 		[]Property{
-			{"Средняя цена", "AJ", 3, "decimal"},
+			{"Средняя цена", "AJ", 212, "decimal"},
 		},
 	},
 

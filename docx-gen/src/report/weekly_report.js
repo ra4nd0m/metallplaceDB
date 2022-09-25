@@ -45,14 +45,12 @@ module.exports = class WeeklyReport {
                     },
                     children: [
                         h1("ЕЖЕНЕДЕЛЬНЫЙ ОТЧЕТ"),
-                        paragraph(GetMonthRange(date)),
-                        await tableMaterialMinimax([30, 31, 32, 33, 34], Get2LastFridays(date)),
                         new docx.Paragraph({children: [new docx.PageBreak()]}),
                         h3(""),
                         new docx.Paragraph({children: [new docx.PageBreak()]}),
                         h2("Краткая сводка новостей по мировову рынку"),
                         new docx.Paragraph({children: [new docx.PageBreak()]}),
-                        //
+
                         h2("Краткая сводка цен по мировому рынку"),
                         h3("Сырьевые материалы"),
                         paragraph({
@@ -66,7 +64,7 @@ module.exports = class WeeklyReport {
                             children: [
                                 await twoChart(
                                     `http://localhost:8080/getChart/6_${MedPriceId}_${GetYearRange(date)}_0_line.png`,
-                                    `http://localhost:8080/getChart/4_${MedPriceId}_${GetYearRange(date)}_0_line.png`,)
+                                    `http://localhost:8080/getChart/3_${MedPriceId}_${GetYearRange(date)}_0_line.png`,)
                             ]
                         }),
                         paragraph({
@@ -88,26 +86,26 @@ module.exports = class WeeklyReport {
 
                          new docx.Paragraph({children: [new docx.PageBreak()]}),
                          h3(),
-                         // paragraph({
-                         //     children: [
-                         //         await twoChart(
-                         //             `http://localhost:8080/getChart/10_${MedPriceId}_${GetYearRange(date)}_0_line.png`,
-                         //             `http://localhost:8080/getChart/14_${MedPriceId}_${GetYearRange(date)}_0_line.png`,)
-                         //     ]
-                         // }),
-                         //
+                         paragraph({
+                             children: [
+                                 await twoChart(
+                                     `http://localhost:8080/getChart/10_${MedPriceId}_${GetYearRange(date)}_0_line.png`,
+                                     `http://localhost:8080/getChart/14_${MedPriceId}_${GetYearRange(date)}_0_line.png`,)
+                             ]
+                         }),
+
                          new docx.Paragraph({children: [new docx.PageBreak()]}),
                          paragraph({
                              children: [
                                  await twoChart(
                                      `http://localhost:8080/getChart/12_${MedPriceId}_${GetYearRange(date)}_0_line.png`,
-                                     `http://localhost:8080/getChart/15_${MedPriceId}_${GetYearRange(date)}_0_line.png`,)
+                                     `http://localhost:8080/getChart/13_${MedPriceId}_${GetYearRange(date)}_0_line.png`,)
                              ]
                          }),
                          paragraph({
                              children: [
                                  await twoChart(
-                                     `http://localhost:8080/getChart/13_${MedPriceId}_${GetYearRange(date)}_0_line.png`,
+                                     `http://localhost:8080/getChart/15_${MedPriceId}_${GetYearRange(date)}_0_line.png`,
                                      `http://localhost:8080/getChart/16_${MedPriceId}_${GetYearRange(date)}_0_line.png`,)
                              ]
                          }),
@@ -176,15 +174,15 @@ module.exports = class WeeklyReport {
                          paragraph({ // лом 3А
                              children: [await oneChartText(`http://localhost:8080/getChart/4_${MedPriceId}_${GetMonthRange(date)}_1_line.png`)]
                          }),
-                         //await singleTableMinimax(4, GetMonthRange(date, true)),// лом 3А
-                         //await tableMaterialMinimax(),
+                        //await singleTableMinimax(4, GetMonthRange(date, true)),// лом 3А
+                         await tableMaterialMinimax([29, 30, 31, 32, 33, 34, 35, 37, 38, 39, 40, 41, 42], Get2LastFridays(date)),
                          new docx.Paragraph({children: [new docx.PageBreak()]}),
                          h3("Чугун"),
                          paragraph({ // чугун фоб
                              children: [await oneChartText(`http://localhost:8080/getChart/5_${MedPriceId}_${GetMonthRange(date)}_1_line.png`)]
                          }),
                          await singleTableMinimax(5, GetMonthRange(date, true)), // чугун фоб
-                         //await tableMaterialMinimax(),
+                         await tableMaterialMinimax([68, 69], Get2LastFridays(date)),
                          new docx.Paragraph({children: [new docx.PageBreak()]}),
 
 
@@ -193,8 +191,8 @@ module.exports = class WeeklyReport {
                          paragraph({ //загатовка, сляб
                              children: [await oneChartText(`http://localhost:8080/getChart/10-12_${MedPriceId}_${GetMonthRange(date)}_1_line.png`)]
                          }),
-                         await doubleTableMinimax(9, 11, Get2WeekRange(date, true)), //заготовка, сляб
-                         //await tableMaterialMinimax(),
+                         await doubleTableMinimax(9, 11, GetMonthRange(date, true)), //заготовка, сляб
+                         await tableMaterialMinimax([44, 45, 46, 47, 48, 49, 50], Get2LastFridays(date)),
 
                          new docx.Paragraph({children: [new docx.PageBreak()]}),
 
@@ -204,10 +202,7 @@ module.exports = class WeeklyReport {
                              children: [await oneChartText(`http://localhost:8080/getChart/11_${MedPriceId}_${GetMonthRange(date)}_1_line.png`)]
                          }),
                          await singleTableMinimax(10, GetMonthRange(date, true)), //арматура FOB
-                         //await tableMaterialMinimax(),
-                         new docx.Paragraph({children: [new docx.PageBreak()]}),
-
-                         h3(""),
+                         await tableMaterialMinimax([51, 52, 53], Get2LastFridays(date)),
                          paragraph({ //арматура А1
                              children: [await oneChartText(`http://localhost:8080/getChart/15_${MedPriceId}_${GetMonthRange(date)}_1_line.png`)]
                          }),
@@ -217,18 +212,16 @@ module.exports = class WeeklyReport {
                          paragraph({ // рулон гк рулон хк FOB
                              children: [await oneChartText(`http://localhost:8080/getChart/9-11_${MedPriceId}_${GetMonthRange(date)}_1_line.png`)]
                          }),
-                         new docx.Paragraph({children: [new docx.PageBreak()]}),
 
-                         h3(""),
                          await doubleTableMinimax(9, 11, GetMonthRange(date, true)), // рулон гк рулон хк FOB
                          paragraph({ // рулон гк рулон хк EXW
                              children: [await oneChartText(`http://localhost:8080/getChart/15-16_${MedPriceId}_${GetMonthRange(date)}_1_line.png`)]
                          }),
-                         //await tableDoubleAvg(14, 16, MedPriceId, Get2WeekRange(date, true)), // рулон гк рулон хк EXW
+                         await tableDouble(9, 11, MedPriceId, GetMonthRange(date, true)), // рулон гк рулон хк EXW
                          new docx.Paragraph({children: [new docx.PageBreak()]}),
 
                          h3(""),
-                         //await tableMaterialMinimax(),
+                         await tableMaterialMinimax(getRangeArr(54, 66), Get2LastFridays(date)),
                          new docx.Paragraph({children: [new docx.PageBreak()]}),
 
                          h3("Рынок ферросплавов и руд"),
@@ -237,24 +230,25 @@ module.exports = class WeeklyReport {
                          paragraph({ // FeMn76, SiMn65
                              children: [await oneChartText(`http://localhost:8080/getChart/17-19_${MedPriceId}_${GetMonthRange(date)}_1_line.png`)]
                          }),
-                         await doubleTableMinimax(17, 19, Get2WeekRange(date, true)), // FeMn76, SiMn65
+                         await doubleTableMinimax(17, 19, GetMonthRange(date, true)), // FeMn76, SiMn65
                          new docx.Paragraph({children: [new docx.PageBreak()]}),
 
                          h3("Ферросилиций"),
                          paragraph({ // FeSi
                              children: [await oneChartText(`http://localhost:8080/getChart/18_${MedPriceId}_${GetMonthRange(date)}_1_line.png`)]
                          }),
-                         await singleTableMinimax(18, Get2WeekRange(date, true)),// FeSi
+                         await singleTableMinimax(18, GetMonthRange(date, true)),// FeSi
 
                          h3("Феррохром"),
                          paragraph({ // HC LC FeCr
                              children: [await oneChartText(`http://localhost:8080/getChart/20-21_${MedPriceId}_${GetMonthRange(date)}_1_line.png`)]
                          }),
+                        await doubleTableMinimax(20, 21, GetMonthRange(date, true)), // HC LC FeCr
                          new docx.Paragraph({children: [new docx.PageBreak()]}),
 
 
                          h3(""),
-                         await doubleTableMinimax(20, 21, Get2WeekRange(date, true)), // HC LC FeCr
+
                          h3("Марганцевая руда"),
                          paragraph({ //mn руда запасы в китае
                              children: [await oneChartText(`http://localhost:8080/getChart/26_${StockId}_${GetMonthRange(date)}_0_bar.png`)]
@@ -262,11 +256,9 @@ module.exports = class WeeklyReport {
                          paragraph({ //mn руда цена
                              children: [await oneChartText(`http://localhost:8080/getChart/22_${MedPriceId}_${GetMonthRange(date)}_1_line.png`)]
                          }),
+                        await singleTableMinimax(22, GetMonthRange(date, true)),
                          new docx.Paragraph({children: [new docx.PageBreak()]}),
 
-
-                         h3(""),
-                         await singleTableMinimax(22, Get2WeekRange(date, true)),
 
                          h3("Хромовая руда"),
                          paragraph({ //хром руда запасы в китае
@@ -275,34 +267,27 @@ module.exports = class WeeklyReport {
                          paragraph({ //cr руда цена
                              children: [await oneChartText(`http://localhost:8080/getChart/23_${MedPriceId}_${GetMonthRange(date)}_1_line.png`)]
                          }),
+                        await singleTableMinimax(23, GetMonthRange(date, true)),
                          new docx.Paragraph({children: [new docx.PageBreak()]}),
 
 
-                         h3(""),
-                         await singleTableMinimax(23, Get2WeekRange(date, true)),
                          h2("Рынок графитированых электродов"),
                          paragraph({ //гэ 450 600 мм
-                             children: [await oneChartText(`http://localhost:8080/getChart/27_${StockId}_${GetMonthRange(date)}_0_bar.png`)]
+                             children: [await oneChartText(`http://localhost:8080/getChart/24-25_${MedPriceId}_${GetMonthRange(date)}_0_bar.png`)]
                          }),
+                          await tableDouble(24, 25, MedPriceId, GetMonthRange(date, true))
 
-                         // paragraph({
-                         //     children: [await oneChartText(`http://localhost:8080/getChart/15_${MedPriceId}_${GetMonthRange(date)}_1_line.png`)]
-                         // }),
-                         //  await singleTable(15, MedPriceId, date, true),
-                         //
-                         //
-                         //
-                         new docx.Paragraph({children: [new docx.PageBreak()]}),
-                         h2("Остальные таблицы"),
-                         await tableDouble(2, 7, MedPriceId, Get2WeekRange(date, true)),
-                         await singleTable(2, MedPriceId, GetMonthRange(date, true)),
-                         await tableMaterialMinimax([30, 31, 32, 33, 34], Get2LastFridays(date)),
-                         await singleTableMinimax(5,GetMonthRange(date, true)),
-                         await doubleTableMinimax(17, 19, Get2WeekRange(date, true))
                     ],
                 },
             ],
         });
     }
+}
+function getRangeArr(first, last){
+    let arr = []
+    for(let i = first; i <= last; i++){
+        arr.push(i)
+    }
+    return arr
 }
 
