@@ -61,17 +61,33 @@ type ChartOptions = {
 }
 
 function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOptions): ChartConfiguration {
-    const labelFontSize = 12
+    const labelFontSize = 15
     const axesFontSize = 25
-
+    const pointRadius = 1
+    let dateArrayFormatted = []
+    let legendBoxSize = 13
+    for(let i = 0; i < dateArray.length; i ++){
+        if (options.labels){
+            dateArrayFormatted.push(formatYLabels(dateArray[i], false))
+        } else{
+            legendBoxSize = 0
+            dateArrayFormatted.push(formatYLabels(dateArray[i], true))
+        }
+    }
     const conf: ChartConfiguration = {
         type: 'line',
         plugins: [],
         data: {
-            labels: dateArray,
+            labels: dateArrayFormatted,
             datasets: datasets,
         },
+
         options: {
+            elements: {
+                point: {
+                    radius : pointRadius
+                }
+            },
             scales: {
                 x: {
                     offset: true,
@@ -97,13 +113,16 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
                         labels: {
                             // This more specific font property overrides the global property
                             font: {
-                                size: 33
-                            }
+                                size: 25
+                            },
+                            boxWidth: legendBoxSize,
+                            boxHeight: legendBoxSize,
                     }
                 }
             },
 
-        }
+        },
+
     }
     if (options.labels) {
         // @ts-ignore
@@ -125,9 +144,23 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
                 ...options.labels,
             }
         }
+        // @ts-ignore
+        conf.options.elements.point.radius = 0
     }
     if(options.type == 'bar') conf.type = 'bar'
     return conf
+}
+
+function formatYLabels(date: string, ifWeek: boolean): string {
+    const dateArr = date.split("-")
+    if (!ifWeek) {
+        return `${dateArr[2]}-${dateArr[1]}-${dateArr[0]}`
+    }
+    let cur = new Date(Date.UTC(Number(dateArr[0]), Number(dateArr[1]), Number(dateArr[2])));
+    let oneJan = new Date(cur.getFullYear(), 0, 1);
+    let numberOfDays = Math.floor((cur.getTime() - oneJan.getTime()) / (24 * 60 * 60 * 1000));
+    let week = Math.ceil((cur.getDay() + 1 + numberOfDays) / 7);
+    return `${week} (${dateArr[0]})`
 }
 
 app.get('/test', (req: Request , res: Response) => {

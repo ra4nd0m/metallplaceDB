@@ -165,18 +165,18 @@ module.exports = class WeeklyReport {
                          paragraph({ // мет кокс
                              children: [await oneChartText(`http://localhost:8080/getChart/8_${MedPriceId}_${GetMonthRange(date)}_1_line.png`)]
                          }),
+                        await singleTable(8, MedPriceId, GetMonthRange(date, true)), // мет кокс
                          new docx.Paragraph({children: [new docx.PageBreak()]}),
-                         h3(""),
 
 
-                         await singleTable(8, MedPriceId, GetMonthRange(date, true)), // мет кокс
                          h3("Лом черных металлов"),
                          paragraph({ // лом 3А
                              children: [await oneChartText(`http://localhost:8080/getChart/4_${MedPriceId}_${GetMonthRange(date)}_1_line.png`)]
                          }),
-                        //await singleTableMinimax(4, GetMonthRange(date, true)),// лом 3А
+                        await singleTable(4, MedPriceId, GetMonthRange(date, true)),// лом 3А
+                            paragraph(" "),
                          await tableMaterialMinimax([29, 30, 31, 32, 33, 34, 35, 37, 38, 39, 40, 41, 42], Get2LastFridays(date)),
-                         new docx.Paragraph({children: [new docx.PageBreak()]}),
+
                          h3("Чугун"),
                          paragraph({ // чугун фоб
                              children: [await oneChartText(`http://localhost:8080/getChart/5_${MedPriceId}_${GetMonthRange(date)}_1_line.png`)]
@@ -224,7 +224,7 @@ module.exports = class WeeklyReport {
                          await tableMaterialMinimax(getRangeArr(54, 66), Get2LastFridays(date)),
                          new docx.Paragraph({children: [new docx.PageBreak()]}),
 
-                         h3("Рынок ферросплавов и руд"),
+                         h2("Рынок ферросплавов и руд"),
                          paragraph("Тут странная таблица, позже добавлю"),
                          h3("Ферромарганец и силикон"),
                          paragraph({ // FeMn76, SiMn65
@@ -273,7 +273,7 @@ module.exports = class WeeklyReport {
 
                          h2("Рынок графитированых электродов"),
                          paragraph({ //гэ 450 600 мм
-                             children: [await oneChartText(`http://localhost:8080/getChart/24-25_${MedPriceId}_${GetMonthRange(date)}_0_bar.png`)]
+                             children: [await oneChartText(`http://localhost:8080/getChart/24-25_${MedPriceId}_${GetMonthRange(date)}_1_line.png`)]
                          }),
                           await tableDouble(24, 25, MedPriceId, GetMonthRange(date, true))
 
