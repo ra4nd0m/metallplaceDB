@@ -89,8 +89,6 @@ module.exports = async function tableMaterialMinimax(materialIds, dates) {
             Week2Med: week2Med.data,
         })
     }
-    const week1 = GetWeekNumber(dates[0])
-    const week2 = GetWeekNumber(dates[1])
 
     const header = new docx.Table({
         width: {
@@ -103,8 +101,8 @@ module.exports = async function tableMaterialMinimax(materialIds, dates) {
                 children: [
                     cellCenter({ margins: TableCellMarginNil, children: [textTh("Страна/вид")], verticalAlign: docx.VerticalAlign.CENTER}),
                     cellCenter({ margins: TableCellMarginNil, children: [textTh("Усл. поставки")], verticalAlign: docx.VerticalAlign.CENTER}),
-                    cellCenter({ margins: TableCellMarginNil, children: [headerMaterial(`${week1} неделя`, "USD/т")], verticalAlign: docx.VerticalAlign.CENTER}),
-                    cellCenter({ margins: TableCellMarginNil, children: [headerMaterial(`${week2} неделя`, "USD/т")], verticalAlign: docx.VerticalAlign.CENTER}),
+                    cellCenter({ margins: TableCellMarginNil, children: [headerMaterial(`${GetWeekNumber(dates[0])} неделя ${dates[0].getFullYear()} год`, "USD/т")], verticalAlign: docx.VerticalAlign.CENTER}),
+                    cellCenter({ margins: TableCellMarginNil, children: [headerMaterial(`${GetWeekNumber(dates[1])} неделя ${dates[1].getFullYear()} год`, "USD/т")], verticalAlign: docx.VerticalAlign.CENTER}),
                 ],
             })
         ]

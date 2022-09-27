@@ -14,17 +14,17 @@ func (s *Service) AddUniqueMaterial(ctx context.Context, materialName string, so
 	}
 
 	// Adding material and getting id of it
-	materialId, err := s.repo.AddMaterial(ctx, materialName)
+	_, err = s.repo.AddMaterial(ctx, materialName)
 	if err != nil {
 		return 0, fmt.Errorf("Can't add material %w", err)
 	}
 
 	// tying material, source, unit and market - creating unique material
-	err = s.repo.AddMaterialSource(ctx, materialName, sourceName, materialMarket, materialUnit)
+	materialSourceId, err := s.repo.AddMaterialSource(ctx, materialName, sourceName, materialMarket, materialUnit)
 
 	if err != nil {
 		return 0, fmt.Errorf("Can't tie material, source, unit and market %w", err)
 	}
 
-	return materialId, nil
+	return materialSourceId, nil
 }

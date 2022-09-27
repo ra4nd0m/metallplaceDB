@@ -38,6 +38,8 @@ const getChart = async (XLabelSet: string[], YDataSets: YDataSet[], options: Cha
     const height = 450; //px
     const canvasRenderService = new ChartJSNodeCanvas({width, height, chartJsFactory});
     let datasets: Dataset[] = [];
+    let colors = ['rgb(55, 74, 116)', 'rgb(100, 70, 96)']
+    let i = 0
 
     // Creating dataset lines: material - price feed
     YDataSets.forEach(set => {
@@ -47,8 +49,9 @@ const getChart = async (XLabelSet: string[], YDataSets: YDataSet[], options: Cha
             data: set.data,
             lineTension: 0.1,
             fill: false,
-            borderColor: 'rgb(55, 74, 116)',
+            borderColor: colors[i],
         });
+        i++
     })
     Chart.defaults.font.size = 25;
     const configuration: ChartConfiguration = getChartConf(datasets, XLabelSet, options)

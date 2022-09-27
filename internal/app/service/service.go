@@ -17,7 +17,7 @@ type IRepository interface {
 
 	AddMaterialProperty(ctx context.Context, materialSourceId int, propertyId int) error
 
-	AddMaterialSource(ctx context.Context, materialName, sourceName, materialMarket, materialUnit string) error
+	AddMaterialSource(ctx context.Context, materialName, sourceName, market, unit string) (int, error)
 	GetMaterialSourceId(ctx context.Context, materialName, sourceName, market, unit string) (int, error)
 	GetMaterialSource(ctx context.Context, id int) (model.MaterialShortInfo, error)
 

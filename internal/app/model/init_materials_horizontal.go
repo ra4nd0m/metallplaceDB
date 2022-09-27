@@ -93,9 +93,9 @@ var InitMaterialsHorizontal = []MaterialHorizontal{
 		"Индия, Нава-Шева",
 		"USD/т",
 		"1",
-		[]Property{{"Мин цена", "F", 10, "decimal"},
-			{"Макс цена", "G", 10, "decimal"},
-			{"Средняя цена", "H", 10, "decimal"},
+		[]Property{{"Мин цена", "BV", 10, "decimal"},
+			{"Макс цена", "BW", 10, "decimal"},
+			{"Средняя цена", "BX", 10, "decimal"},
 		},
 	},
 
