@@ -41,6 +41,7 @@ const getChart = async (XLabelSet: string[], YDataSets: YDataSet[], options: Cha
     let colors = ['rgb(55, 74, 116)', 'rgb(100, 70, 96)']
     let i = 0
 
+
     // Creating dataset lines: material - price feed
     YDataSets.forEach(set => {
         console.log("Pushing ", set.label)
@@ -71,10 +72,10 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
     let legendBoxSize = 13
     for(let i = 0; i < dateArray.length; i ++){
         if (options.labels){
-            dateArrayFormatted.push(formatYLabels(dateArray[i], false))
+            dateArrayFormatted.push(formatYLabel(dateArray[i], false))
         } else{
             legendBoxSize = 0
-            dateArrayFormatted.push(formatYLabels(dateArray[i], true))
+            dateArrayFormatted.push(formatYLabel(dateArray[i], true))
         }
     }
     const conf: ChartConfiguration = {
@@ -154,7 +155,7 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
     return conf
 }
 
-function formatYLabels(date: string, ifWeek: boolean): string {
+function formatYLabel(date: string, ifWeek: boolean): string {
     const dateArr = date.split("-")
     if (!ifWeek) {
         return `${dateArr[2]}-${dateArr[1]}-${dateArr[0]}`
@@ -165,6 +166,14 @@ function formatYLabels(date: string, ifWeek: boolean): string {
     let week = Math.ceil((cur.getDay() + 1 + numberOfDays) / 7);
     return `${week} (${dateArr[0]})`
 }
+
+// function formatXLabel(num: number){
+//     if(num >= 1000){
+//         const after = num.toString().slice(-3)
+//         const before = num.toString().slice(0, v.toString().length - 3)
+//         num = before + " " + after
+//     }
+// }
 
 app.get('/test', (req: Request , res: Response) => {
     getChart(xData, yData, {labels: {}})

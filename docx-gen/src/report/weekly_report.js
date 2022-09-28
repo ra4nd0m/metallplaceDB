@@ -191,8 +191,8 @@ module.exports = class WeeklyReport {
 
                         h2("Рынок стали"),
                         h3("Полуфабрикаты"),
-                        paragraph({ //загатовка, сляб
-                            children: [await oneChartText(`http://localhost:8080/getChart/10-12_${MedPriceId}_${GetMonthRange(date)}_1_line.png`)]
+                        paragraph({ //заготовка, сляб
+                            children: [await oneChartText(`http://localhost:8080/getChart/9-11_${MedPriceId}_${GetMonthRange(date)}_1_line.png`)]
                         }),
                         await doubleTableMinimax(9, 11, GetMonthRange(date, true)), //заготовка, сляб
                         await tableMaterialMinimax([44, 45, 46, 47, 48, 49, 50], Get2LastFridays(date)),
@@ -202,25 +202,25 @@ module.exports = class WeeklyReport {
 
                         h3("Сортовой прокат"),
                         paragraph({ //арматура FOB
-                            children: [await oneChartText(`http://localhost:8080/getChart/11_${MedPriceId}_${GetMonthRange(date)}_1_line.png`)]
+                            children: [await oneChartText(`http://localhost:8080/getChart/10_${MedPriceId}_${GetMonthRange(date)}_1_line.png`)]
                         }),
                         await singleTableMinimax(10, GetMonthRange(date, true)), //арматура FOB
                         await tableMaterialMinimax([51, 52, 53], Get2LastFridays(date)),
-                        paragraph({ //арматура А1
-                            children: [await oneChartText(`http://localhost:8080/getChart/15_${MedPriceId}_${GetMonthRange(date)}_1_line.png`)]
-                        }),
-
 
                         h3("Плоский прокат"),
                         paragraph({ // рулон гк рулон хк FOB
-                            children: [await oneChartText(`http://localhost:8080/getChart/9-11_${MedPriceId}_${GetMonthRange(date)}_1_line.png`)]
+                            children: [await oneChartText(`http://localhost:8080/getChart/12-13_${MedPriceId}_${GetMonthRange(date)}_1_line.png`)]
                         }),
+                        new docx.Paragraph({children: [new docx.PageBreak()]}),
 
-                        await doubleTableMinimax(9, 11, GetMonthRange(date, true)), // рулон гк рулон хк FOB
+
+                        h3(""),
+
+                        await doubleTableMinimax(12, 13, GetMonthRange(date, true)), // рулон гк рулон хк FOB
                         paragraph({ // рулон гк рулон хк EXW
                             children: [await oneChartText(`http://localhost:8080/getChart/15-16_${MedPriceId}_${GetMonthRange(date)}_1_line.png`)]
                         }),
-                        await tableDouble(9, 11, MedPriceId, GetMonthRange(date, true)), // рулон гк рулон хк EXW
+                        await tableDouble(15, 16, MedPriceId, GetMonthRange(date, true)), // рулон гк рулон хк EXW
                         new docx.Paragraph({children: [new docx.PageBreak()]}),
 
                         h3(""),

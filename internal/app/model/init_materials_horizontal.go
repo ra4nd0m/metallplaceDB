@@ -471,7 +471,7 @@ var InitMaterialsHorizontal = []MaterialHorizontal{
 		"1",
 		[]Property{{"Мин цена", "HM", 45, "decimal"},
 			{"Макс цена", "HN", 45, "decimal"},
-			{"Средняя цена", "HO	", 45, "decimal"},
+			{"Средняя цена", "HO", 45, "decimal"},
 		},
 	},
 

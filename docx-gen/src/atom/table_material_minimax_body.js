@@ -48,10 +48,10 @@ module.exports = function (body){
                         children: [textTd(m.Week2Med.price_feed[0].value)]
                     }),
                     cellCenter({
-                        children: [textTd(changeUnits2.Text, changeUnits1.Color)]
+                        children: [textTd(changeUnits2.Text, changeUnits2.Color)]
                     }),
                     cellCenter({
-                        children: [textTd(changePercents2.Text, changePercents1.Color)]
+                        children: [textTd(changePercents2.Text, changePercents2.Color)]
                     }),
                 ]
             })
