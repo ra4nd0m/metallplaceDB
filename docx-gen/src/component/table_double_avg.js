@@ -6,9 +6,9 @@ const cellCenter = require("../atom/cell_centred")
 const textTh = require("../atom/text_th")
 
 const tableBody = require("../atom/table_double_avg_body");
-const {formatDateDb} = require("../utils/date");
+const {formatDateDb, formatDateTable} = require("../utils/date");
 
-const {TableRow, TableCell} = docx;
+const {TableRow} = docx;
 
 function headerMaterial(name, unit) {
     return new docx.Table({

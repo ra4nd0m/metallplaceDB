@@ -36,20 +36,20 @@ module.exports = async function doubleTableMinimax(materialId1, materialId2, dat
     const minBody2 = await axios.post("http://localhost:8080/getValueForPeriod", {
         material_source_id: materialId2,
         property_id: MinPriceId,
-        start: '2022-01-03',
-        finish: '2022-02-09'
+        start: from,
+        finish: to
     })
     const maxBody2 = await axios.post("http://localhost:8080/getValueForPeriod", {
         material_source_id: materialId2,
         property_id: MaxPriceId,
-        start: '2022-01-03',
-        finish: '2022-02-09'
+        start: from,
+        finish: to
     })
     const medBody2 = await axios.post("http://localhost:8080/getValueForPeriod", {
         material_source_id: materialId2,
         property_id: MedPriceId,
-        start: '2022-01-03',
-        finish: '2022-02-09'
+        start: from,
+        finish: to
     })
 
     const header = new docx.Table({

@@ -72,10 +72,10 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
     let legendBoxSize = 13
     for(let i = 0; i < dateArray.length; i ++){
         if (options.labels){
-            dateArrayFormatted.push(formatYLabel(dateArray[i], false))
+            dateArrayFormatted.push(formatXLabel(dateArray[i], false))
         } else{
             legendBoxSize = 0
-            dateArrayFormatted.push(formatYLabel(dateArray[i], true))
+            dateArrayFormatted.push(formatXLabel(dateArray[i], true))
         }
     }
     const conf: ChartConfiguration = {
@@ -87,6 +87,7 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
         },
 
         options: {
+            locale: "",
             elements: {
                 point: {
                     radius : pointRadius
@@ -97,9 +98,9 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
                     offset: true,
                     ticks: {
                         font: { size: axesFontSize },
-                        autoSkip: true,
+                        includeBounds: true,
                         maxRotation: 0,
-                        maxTicksLimit: 5
+                        maxTicksLimit: 6
                     }
                 },
                 y: {
@@ -108,7 +109,9 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
                         font: { size: axesFontSize },
                         maxTicksLimit: 8,
                         maxRotation: 0,
-                        autoSkip: true,
+                        callback: (value, index, values) => {
+                            return formatYLabel(Number(value))
+                        },
                     },
                 }
             },
@@ -155,7 +158,7 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
     return conf
 }
 
-function formatYLabel(date: string, ifWeek: boolean): string {
+function formatXLabel(date: string, ifWeek: boolean): string {
     const dateArr = date.split("-")
     if (!ifWeek) {
         return `${dateArr[2]}-${dateArr[1]}-${dateArr[0]}`
@@ -167,13 +170,14 @@ function formatYLabel(date: string, ifWeek: boolean): string {
     return `${week} (${dateArr[0]})`
 }
 
-// function formatXLabel(num: number){
-//     if(num >= 1000){
-//         const after = num.toString().slice(-3)
-//         const before = num.toString().slice(0, v.toString().length - 3)
-//         num = before + " " + after
-//     }
-// }
+function formatYLabel(num: number){
+    if(num >= 1000){
+        const after = num.toString().slice(-3)
+        const before = num.toString().slice(0, num.toString().length - 3)
+        return  before + " " + after
+    }
+    return num
+}
 
 app.get('/test', (req: Request , res: Response) => {
     getChart(xData, yData, {labels: {}})

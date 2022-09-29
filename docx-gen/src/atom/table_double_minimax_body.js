@@ -2,6 +2,7 @@ const docx = require("docx");
 const getChange = require("../utils/get_change")
 const cellCenter = require("../atom/cell_centred")
 const textTd = require("../atom/text_td")
+const {formatDateTable} = require("../utils/date");
 
 module.exports = function (min1, max1, med1, min2, max2, med2) {
     let rows = [];
@@ -23,7 +24,7 @@ module.exports = function (min1, max1, med1, min2, max2, med2) {
             new docx.TableRow({
                 children: [
                     cellCenter({
-                        children: [textTd(pfMed1[i].date.substring(0, 10))]
+                        children: [textTd(formatDateTable(pfMed1[i].date.substring(0, 10)))]
                     }),
                     cellCenter({
                         children: [textTd(pfMin1[i].value)]
