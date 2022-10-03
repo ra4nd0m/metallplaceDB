@@ -11,5 +11,5 @@ module.exports.formatDateTable = (d) => {
     if (typeof d === 'string') {
         d = new Date(d)
     }
-    return `${FormatDayMonth(d.getDate())}-${FormatDayMonth(d.getMonth() + 1)}-${d.getFullYear()}`
+    return `${FormatDayMonth(d.getDate())}.${FormatDayMonth(d.getMonth() + 1)}.${d.getFullYear()}`
 }

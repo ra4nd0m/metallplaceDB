@@ -4,7 +4,7 @@ const paragraph = require("../atom/paragraph")
 const axios = require("axios");
 const {TableCellMarginNil, MinPriceId, MaxPriceId, MedPriceId} = require("../const");
 const tableBody = require("../atom/table_double_minimax_body")
-const {formatDateDb} = require("../utils/date");
+const {formatDateDb} = require("../utils/date_format");
 const priceBlock = require("../atom/price_block")
 const cellCenter = require("../atom/cell_centred")
 

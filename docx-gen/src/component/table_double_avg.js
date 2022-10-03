@@ -6,7 +6,7 @@ const cellCenter = require("../atom/cell_centred")
 const textTh = require("../atom/text_th")
 
 const tableBody = require("../atom/table_double_avg_body");
-const {formatDateDb, formatDateTable} = require("../utils/date");
+const {formatDateDb, formatDateTable} = require("../utils/date_format");
 
 const {TableRow} = docx;
 

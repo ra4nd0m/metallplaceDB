@@ -14,14 +14,14 @@ const singleTableMinimax = require("../component/table_single_minimax");
 const tableDoubleAvg = require("../component/table_double_avg");
 const tableDouble = require("../component/table_double");
 const tableMaterialMinimax = require("../component/table_material_minimax");
+const tableMaterial = require("../component/table_material")
 const doubleTableMinimax = require("../component/table_double_minimax")
-const {GetWeekDates, GetWeekNumber, Get2LastFridays} = require("../utils/date_operations");
-const {GetMonthRange, GetWeekRange, Get2WeekRange, GetYearRange, Get} = require("../utils/date_ranges")
+const {GetWeekDates, GetWeekNumber, Get2LastFridays, Get2LastThursdays} = require("../utils/date_operations");
+const {GetMonthRange, Get2WeekRange, GetYearRange} = require("../utils/date_ranges")
 
 function getFooterTitle(date) {
 
     const weekDates = GetWeekDates(date)
-    let r = GetYearRange(date)
     return `Отчетный период: ${weekDates.first.day} ${RusMonth[weekDates.first.month]} - ` +
         `${weekDates.last.day} ${RusMonth[weekDates.last.month]} ${weekDates.last.year} года (${GetWeekNumber(date)} неделя)`
 }
@@ -153,7 +153,7 @@ module.exports = class WeeklyReport {
                         paragraph({ //жрс 62 и 65
                             children: [await oneChartText(`http://localhost:8080/getChart/1-2_${MedPriceId}_${Get2WeekRange(date)}_1_line.png`)]
                         }),
-                        await tableDoubleAvg(1, 1, MedPriceId, Get2WeekRange(date, true)), //жрс 62 и 65
+                        await tableDoubleAvg(1, 2, MedPriceId, Get2WeekRange(date, true)), //жрс 62 и 65
 
                         new docx.Paragraph({children: [new docx.PageBreak()]}),
                         h3("Уголь и кокс"),
@@ -229,6 +229,7 @@ module.exports = class WeeklyReport {
 
                         h2("Рынок ферросплавов и руд"),
                         paragraph("Тут странная таблица, позже добавлю"),
+                        await tableMaterial(getRangeArr(17, 23), Get2LastThursdays(date)),
                         h3("Ферромарганец и силикон"),
                         paragraph({ // FeMn76, SiMn65
                             children: [await oneChartText(`http://localhost:8080/getChart/17-19_${MedPriceId}_${GetMonthRange(date)}_1_line.png`)]

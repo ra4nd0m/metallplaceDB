@@ -24,7 +24,7 @@ GET http://localhost:8080/getMaterialInfo
 Content-Type: application/json
 
 {
-  "id": 2
+  "id": 17
 
 }
 
@@ -71,6 +71,6 @@ Content-Type: application/json
 }
 
 ###
-GET http://localhost:8080/getChart/16_1_06-25-2021_06-25-2022_0_line.png
+GET http://localhost:8080/getChart/17_1_06-25-2021_07-25-2021_1_bar.png
 
 

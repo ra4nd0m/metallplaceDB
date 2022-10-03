@@ -2,7 +2,7 @@ const docx = require("docx");
 const getChange = require("../utils/get_change")
 const cellCenter = require("../atom/cell_centred")
 const textTd = require("../atom/text_td")
-const {formatDateTable} = require("../utils/date");
+const {formatDateTable} = require("../utils/date_format");
 
 module.exports = function (min1, max1, med1, min2, max2, med2) {
     let rows = [];

@@ -38,6 +38,16 @@ module.exports.Get2LastFridays = function (date){
     return [lastFriday, friday];
 }
 
+module.exports.Get2LastThursdays = function (date){
+    const first = date.getDate() - date.getDay() + 1;
+    const fifth = first + 3;
+
+    const friday = new Date(date.setDate(fifth));
+    let lastThursday = new Date(friday)
+    lastThursday.setDate(lastThursday.getDate() - 7)
+
+    return [lastThursday, friday];
+}
 
 // module.exports.GetMonthRange = function getMonthRange(date){
 //     let first = date

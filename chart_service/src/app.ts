@@ -46,7 +46,7 @@ const getChart = async (XLabelSet: string[], YDataSets: YDataSet[], options: Cha
     YDataSets.forEach(set => {
         console.log("Pushing ", set.label)
         datasets.push({
-            label: set.label,
+            label: `${set.label}`,
             data: set.data,
             lineTension: 0.1,
             fill: false,
@@ -66,6 +66,7 @@ type ChartOptions = {
 
 function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOptions): ChartConfiguration {
     const labelFontSize = 15
+    const legendFontSize = 20
     const axesFontSize = 25
     const pointRadius = 1
     let dateArrayFormatted = []
@@ -85,7 +86,6 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
             labels: dateArrayFormatted,
             datasets: datasets,
         },
-
         options: {
             locale: "",
             elements: {
@@ -101,7 +101,10 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
                         includeBounds: true,
                         maxRotation: 0,
                         maxTicksLimit: 6
-                    }
+                    },
+                    grid: {
+                        display: false
+                    },
                 },
                 y: {
                     offset: true,
@@ -115,15 +118,20 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
                     },
                 }
             },
+
             plugins: {
                 legend: {
-                        labels: {
-                            // This more specific font property overrides the global property
-                            font: {
-                                size: 25
-                            },
-                            boxWidth: legendBoxSize,
-                            boxHeight: legendBoxSize,
+                    title: {
+                        padding: 100,
+
+                    },
+                    labels: {
+                        // This more specific font property overrides the global property
+                        font: {
+                            size: legendFontSize
+                        },
+                        boxWidth: legendBoxSize,
+                        boxHeight: legendBoxSize,
                     }
                 }
             },
@@ -137,19 +145,20 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
         // @ts-ignore
         conf.options.plugins = {
             ...conf.options?.plugins,
-            datalabels: {
-                borderRadius: 4,
-                backgroundColor: 'gray',
-                color: 'white',
-                anchor: 'end',
-                align: 'top',
-                textAlign: 'center',
-                font: {
-                    size: labelFontSize
-                },
-                clamp: true,
-                ...options.labels,
-            }
+             datalabels: {
+                 borderRadius: 4,
+                 backgroundColor: 'gray',
+                 color: 'white',
+                 anchor: 'end',
+                 align: 'top',
+                 textAlign: 'center',
+                 font: {
+                     size: labelFontSize
+                 },
+                 clamp: true,
+
+                 ...options.labels,
+             }
         }
         // @ts-ignore
         conf.options.elements.point.radius = 0

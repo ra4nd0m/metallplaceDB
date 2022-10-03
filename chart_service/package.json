@@ -14,6 +14,7 @@
   "dependencies": {
     "body-parser": "^1.20.0",
     "chart.js": "^3.9.1",
+    "chart.js-plugin-labels-dv": "^3.2.0",
     "chartjs-node-canvas": "^4.1.6",
     "chartjs-plugin-datalabels": "^2.1.0",
     "connect": "^3.7.0",

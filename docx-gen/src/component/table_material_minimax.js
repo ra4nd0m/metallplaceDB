@@ -1,6 +1,5 @@
 const docx = require("docx");
 const {TableNoOuterBorders, TableCellMarginNil, MinPriceId, MaxPriceId, MedPriceId} = require("../const");
-const paragraphCentred = require("../atom/paragraph_centred");
 const textTh = require("../atom/text_th")
 const tableBody = require("../atom/table_material_minimax_body");
 const axios = require("axios");

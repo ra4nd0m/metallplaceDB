@@ -1,5 +1,5 @@
 const docx = require("docx");
-const {formatDateTable} = require("../utils/date");
+const {formatDateTable} = require("../utils/date_format");
 const getChange = require("../utils/get_change")
 const cellCenter = require("../atom/cell_centred")
 const textTd = require("../atom/text_td")

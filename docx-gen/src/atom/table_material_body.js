@@ -1,31 +1,29 @@
+const getChange = require("../utils/get_change");
 const docx = require("docx");
-const {formatDateTable} = require("../utils/date_format");
-const getChange = require("../utils/get_change")
 const cellCenter = require("../atom/cell_centred")
 const textTd = require("../atom/text_td")
 
-module.exports = function (min, max, med) {
+module.exports = function (body){
     let rows = [];
-    const pfMin = min.price_feed
-    const pfMax = max.price_feed
-    const pfMed = med.price_feed
-    for (let i = 0; i < pfMed.length; i++) {
-        const changeUnits = getChange(pfMed, i, med.prev_price, false);
-        const changePercents = getChange(pfMed, i, med.prev_price, true);
+    body.forEach(m =>{
+        const changeUnits = getChange(m.Week2Med.price_feed, 0, m.Week2Med.prev_price, false);
+        const changePercents = getChange(m.Week2Med.price_feed, 0, m.Week2Med.prev_price, true);
+        const material = m.Name.split(", ")
+
         rows.push(
             new docx.TableRow({
-                children: [
+                children:[
                     cellCenter({
-                        children: [textTd(formatDateTable(pfMed[i].date.substring(0, 10)))]
+                        children: [textTd(material[0]), textTd(material[1])]
                     }),
                     cellCenter({
-                        children: [textTd(pfMin[i].value)]
+                        children: [textTd(m.Unit)]
                     }),
                     cellCenter({
-                        children: [textTd(pfMax[i].value)]
+                        children: [textTd(m.Week1Med.price_feed[0].value)]
                     }),
                     cellCenter({
-                        children: [textTd(pfMed[i].value)]
+                        children: [textTd(m.Week2Med.price_feed[0].value)]
                     }),
                     cellCenter({
                         children: [textTd(changeUnits.Text, changeUnits.Color)]
@@ -36,7 +34,6 @@ module.exports = function (min, max, med) {
                 ]
             })
         )
-    }
-
+    })
     return rows
 }

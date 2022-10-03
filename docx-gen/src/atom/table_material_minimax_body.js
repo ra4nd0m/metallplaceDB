@@ -15,7 +15,7 @@ module.exports = function (body){
         rows.push(
             new docx.TableRow({
                 children: [
-                    new docx.TableCell({
+                    cellCenter({
                         children: [textTd(m.Country), textTdItalic(m.Type)]
                     }),
                     cellCenter({

@@ -4,7 +4,7 @@ const paragraphCentred = require("../atom/paragraph_centred");
 const {TableCellMarginNil, TableNoOuterBorders} = require("../const");
 const axios = require("axios");
 const tableBody = require("../atom/table_double_body");
-const {formatDateDb} = require("../utils/date");
+const {formatDateDb} = require("../utils/date_format");
 const cellCenter = require("../atom/cell_centred")
 const textTh = require("../atom/text_th")
 
