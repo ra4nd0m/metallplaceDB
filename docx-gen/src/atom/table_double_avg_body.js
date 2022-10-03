@@ -35,8 +35,10 @@ module.exports = function (feed1, feed2) {
     const pf1 = feed1.price_feed
     const pf2 = feed2.price_feed
     for (let i = 0; i < pf1.length; i++) {
-        const changeUnits = getChange(pf1, i, feed1.prev_price, false);
-        const changePercents = getChange(pf1, i, feed1.prev_price, true);
+        const changeUnits1 = getChange(pf1, i, feed1.prev_price, false);
+        const changePercents1 = getChange(pf1, i, feed1.prev_price, true);
+        const changeUnits2 = getChange(pf2, i, feed2.prev_price, false);
+        const changePercents2 = getChange(pf2, i, feed2.prev_price, true);
         rows.push(
             new docx.TableRow({
                 children: [
@@ -48,20 +50,20 @@ module.exports = function (feed1, feed2) {
                         children: [textTd(pf1[i].value)]
                     }),
                     cellCenter({
-                        children: [textTd(changeUnits.Text, changeUnits.Color)]
+                        children: [textTd(changeUnits1.Text, changeUnits1.Color)]
                     }),
                     cellCenter({
-                        children: [textTd(changePercents.Text, changePercents.Color)]
+                        children: [textTd(changePercents1.Text, changePercents1.Color)]
                     }),
 
                     cellCenter({
                         children: [textTd(pf2[i].value)]
                     }),
                     cellCenter({
-                        children: [textTd(getChange(pf2, i, feed1.prev_price, false))]
+                        children: [textTd(changeUnits2.Text, changeUnits2.Color)]
                     }),
                     cellCenter({
-                        children: [textTd(getChange(pf2, i, feed1.prev_price, true))]
+                        children: [textTd(changePercents2.Text, changePercents2.Color)]
                     }),
 
                     ...insertMed(i, pf1, pf2),

@@ -1,5 +1,4 @@
 const docx = require("docx");
-const {GetWeekNumber} = require("./utils/date_operations")
 
 const RusMonth = ["января","фервраля","марта","апреля","мая","июня","июля","августа","сентября","октября","ноября","декабря"]
 
@@ -20,6 +19,7 @@ module.exports.ColorDefault = "000000"
 module.exports.FontSizeTd = 18
 module.exports.FontSizeTdSmall = 9
 module.exports.FontSizeTh = 18
+module.exports.FontSizeInfoRow = 14
 const NONE_BORDER = {
     style: docx.BorderStyle.NONE,
     size: 0,

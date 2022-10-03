@@ -1,5 +1,4 @@
 const docx = require("docx");
-const {TextRun} = require("docx");
 const chart = require("../client/chart");
 const paragraph = require("../atom/paragraph")
 const paragraphCentred = require("../atom/paragraph_centred")
@@ -16,7 +15,7 @@ module.exports = async function chartBlock(url, isBig) {
             size: 100,
             type: docx.WidthType.PERCENTAGE,
         },
-        columnWidths: [3, 1],
+        columnWidths: [4,1,1],
         borders: docx.TableBorders.NONE,
         rows: [
             ...infoRow,
@@ -61,6 +60,19 @@ async function getInfo(isBig, url){
         percent = percent > 0 ? paragraphCentred(`+${percent}% н/н`, Green) : (percent ? paragraphCentred(percent + '% н/н', Red) : paragraphCentred('- н/н', ColorDefault))
         return [new docx.TableRow({
             children: [
+                new docx.TableCell({
+                    margins: TableCellMarginNil,
+                    children: [
+                        paragraph({
+                            alignment: docx.AlignmentType.LEFT,
+                            spacing: {before: 0},
+                            children: [
+                                text(materialInfo.data.info.Name)
+                            ],
+                        }),
+                    ],
+                }),
+
                 new docx.TableCell({
                     margins: TableCellMarginNil,
                     children: [
