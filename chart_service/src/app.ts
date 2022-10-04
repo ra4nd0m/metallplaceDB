@@ -45,6 +45,7 @@ const getChart = async (XLabelSet: string[], YDataSets: YDataSet[], options: Cha
     // Creating dataset lines: material - price feed
     YDataSets.forEach(set => {
         console.log("Pushing ", set.label)
+        // @ts-ignore
         datasets.push({
             label: `${set.label}`,
             data: set.data,
@@ -65,10 +66,12 @@ type ChartOptions = {
 }
 
 function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOptions): ChartConfiguration {
-    const labelFontSize = 15
+    const labelFontSize = 17
     const legendFontSize = 20
     const axesFontSize = 25
     const pointRadius = 1
+    const labelOffset = 5
+
     let dateArrayFormatted = []
     let legendBoxSize = 13
     for(let i = 0; i < dateArray.length; i ++){
@@ -130,6 +133,7 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
                         font: {
                             size: legendFontSize
                         },
+
                         boxWidth: legendBoxSize,
                         boxHeight: legendBoxSize,
                     }
@@ -139,6 +143,7 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
         },
 
     }
+
     if (options.labels) {
         // @ts-ignore
         conf.plugins.push(ChartDataLabels)
@@ -146,6 +151,7 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
         conf.options.plugins = {
             ...conf.options?.plugins,
              datalabels: {
+                offset: labelOffset,
                  borderRadius: 4,
                  backgroundColor: 'gray',
                  color: 'white',
@@ -163,7 +169,19 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
         // @ts-ignore
         conf.options.elements.point.radius = 0
     }
-    if(options.type == 'bar') conf.type = 'bar'
+    if(options.type == 'bar'){
+        conf.data.datasets.push(
+            {
+                type: 'bar',
+                label: '',
+                data: datasets[0].data,
+                borderColor: 'rgb(55, 74, 116)',
+                datalabels: {
+                    display: false,
+                }
+            },
+        )
+    }
     return conf
 }
 

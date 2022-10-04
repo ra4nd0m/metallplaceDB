@@ -15,7 +15,7 @@ module.exports = async function chartBlock(url, isBig) {
             size: 100,
             type: docx.WidthType.PERCENTAGE,
         },
-        columnWidths: [4,1,1],
+        columnWidths: [3,1,1],
         borders: docx.TableBorders.NONE,
         rows: [
             ...infoRow,

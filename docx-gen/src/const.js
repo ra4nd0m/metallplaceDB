@@ -13,6 +13,7 @@ module.exports.MinPriceId = 2;
 module.exports.MaxPriceId = 3;
 module.exports.MedPriceId = 1;
 module.exports.StockId = 4;
+module.exports.LabelOffset = 5;
 module.exports.Green = "00ff00"
 module.exports.Red = "ff0000"
 module.exports.ColorDefault = "000000"
