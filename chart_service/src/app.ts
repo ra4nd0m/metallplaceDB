@@ -124,27 +124,23 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
 
             plugins: {
                 legend: {
-                    title: {
-                        padding: 100,
-
-                    },
+                    display: false,
                     labels: {
                         // This more specific font property overrides the global property
                         font: {
                             size: legendFontSize
                         },
-
                         boxWidth: legendBoxSize,
                         boxHeight: legendBoxSize,
                     }
                 }
             },
-
         },
-
     }
 
     if (options.labels) {
+        // @ts-ignore
+        conf.options?.plugins?.legend?.display = true
         // @ts-ignore
         conf.plugins.push(ChartDataLabels)
         // @ts-ignore

@@ -40,7 +40,7 @@ module.exports = async function(materialIds, dates) {
             new docx.TableRow({
                 children: [
                     cellCenter({margins: TableCellMarginNil, children: [textTh("Продукция")]}),
-                    cellCenter({margins: TableCellMarginNil, children: [textTh("Ед. измерения")]}),
+                    cellCenter({margins: TableCellMarginNil, children: [textTh("Еденицы измерения")]}),
                     cellCenter({margins: TableCellMarginNil, children: [textTh(formatDateTable(f))]}),
                     cellCenter({margins: TableCellMarginNil, children: [textTh(formatDateTable(s))]}),
                     cellCenter({margins: TableCellMarginNil, children: [textTh(`Изм абс.`)], verticalAlign: docx.VerticalAlign.CENTER}),
