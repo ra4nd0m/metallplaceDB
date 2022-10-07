@@ -26,8 +26,9 @@ type IService interface {
 	GetChart(ctx context.Context, chartPack model.ChartPack) ([]byte, error)
 	GetCachedChart(ctx context.Context, chartPack model.ChartPack) ([]byte, error)
 
-	GetReport(date string) ([]byte, error)
-	GetCachedReport(date string) ([]byte, error)
+	GetReport(repType string, date string) ([]byte, error)
+
+	GetCachedReport(repType string, date string) ([]byte, error)
 
 	GetPropertyList(ctx context.Context, materialSourceId int) ([]model.PropertyShortInfo, error)
 }

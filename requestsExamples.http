@@ -73,4 +73,6 @@ Content-Type: application/json
 ###
 GET http://localhost:8080/getChart/17_1_06-25-2021_07-25-2021_1_bar.png
 
+###
+GET http://localhost:8080/getReport/weekly/2022-09-05
 

@@ -5,6 +5,7 @@ import (
 	"metallplace/internal/app/model"
 	"metallplace/internal/pkg/config"
 	"metallplace/pkg/chartclient"
+	"metallplace/pkg/docxgenclient"
 	"time"
 )
 
@@ -39,12 +40,17 @@ type IChartClient interface {
 	GetChart(req chartclient.Request) ([]byte, error)
 }
 
-type Service struct {
-	cfg   config.Config
-	repo  IRepository
-	chart IChartClient
+type IDocxgenClient interface {
+	GetReport(req docxgenclient.Request) ([]byte, error)
 }
 
-func New(cfg config.Config, r IRepository, chart IChartClient) *Service {
-	return &Service{cfg, r, chart}
+type Service struct {
+	cfg     config.Config
+	repo    IRepository
+	chart   IChartClient
+	docxgen IDocxgenClient
+}
+
+func New(cfg config.Config, r IRepository, chart IChartClient, docxgen IDocxgenClient) *Service {
+	return &Service{cfg, r, chart, docxgen}
 }

@@ -22,6 +22,9 @@ type Config struct {
 
 	ConvHost string
 	ConvPort int
+
+	DocxgenHost string
+	DocxgenPort int
 }
 
 func LoadConfig() (Config, error) {
@@ -32,19 +35,19 @@ func LoadConfig() (Config, error) {
 
 	DbPort, _ := strconv.Atoi(os.Getenv("DB_PORT"))
 	ChartPort, _ := strconv.Atoi(os.Getenv("CHART_PORT"))
-	ConvPort, _ := strconv.Atoi(os.Getenv("CONV_PORT"))
+	DocxgenPort, _ := strconv.Atoi(os.Getenv("DOCXGEN_PORT"))
 	config := Config{
-		DBHost:     os.Getenv("DB_HOST"),
-		DBPort:     DbPort,
-		DBUser:     os.Getenv("DB_USER"),
-		DBPassword: os.Getenv("DB_PASSWORD"),
-		DBName:     os.Getenv("DB_NAME"),
-		HttpPort:   os.Getenv("HTTP_PORT"),
-		HttpHost:   os.Getenv("HTTP_HOST"),
-		ChartHost:  os.Getenv("CHART_HOST"),
-		ChartPort:  ChartPort,
-		ConvHost:   os.Getenv("CONV_HOST"),
-		ConvPort:   ConvPort,
+		DBHost:      os.Getenv("DB_HOST"),
+		DBPort:      DbPort,
+		DBUser:      os.Getenv("DB_USER"),
+		DBPassword:  os.Getenv("DB_PASSWORD"),
+		DBName:      os.Getenv("DB_NAME"),
+		HttpPort:    os.Getenv("HTTP_PORT"),
+		HttpHost:    os.Getenv("HTTP_HOST"),
+		ChartHost:   os.Getenv("CHART_HOST"),
+		ChartPort:   ChartPort,
+		DocxgenHost: os.Getenv("DOCXGEN_HOST"),
+		DocxgenPort: DocxgenPort,
 	}
 
 	log.Printf("config: %#v\n", config)

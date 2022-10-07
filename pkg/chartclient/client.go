@@ -21,7 +21,7 @@ func New(host string, port int) *ChartClient {
 func (cc *ChartClient) GetChart(req Request) ([]byte, error) {
 	json, err := json.Marshal(req)
 	if err != nil {
-		return nil, fmt.Errorf("cant marshall req to json: %w", err)
+		return nil, fmt.Errorf("cant marshall chart req to json: %w", err)
 	}
 
 	request, err := http.NewRequest("POST", "http://"+cc.Host+":"+strconv.Itoa(cc.Port)+"/gen",
@@ -31,7 +31,7 @@ func (cc *ChartClient) GetChart(req Request) ([]byte, error) {
 	client := &http.Client{}
 	response, err := client.Do(request)
 	if err != nil {
-		return nil, fmt.Errorf("cant get js service response: %w", err)
+		return nil, fmt.Errorf("cant get chart js service response: %w", err)
 	}
 	defer response.Body.Close()
 

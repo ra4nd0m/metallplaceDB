@@ -8,6 +8,7 @@ import (
 	"metallplace/internal/app/service"
 	"metallplace/internal/pkg/config"
 	"metallplace/pkg/chartclient"
+	"metallplace/pkg/docxgenclient"
 	"metallplace/pkg/gopkg-db"
 	"net/http"
 	"time"
@@ -28,7 +29,8 @@ func main() {
 	// Creating instances and setting inheritance
 	repo := repository.New()
 	chart := chartclient.New(cfg.ChartHost, cfg.ChartPort)
-	srv := service.New(cfg, repo, chart)
+	docxgen := docxgenclient.New(cfg.DocxgenHost, cfg.DocxgenPort)
+	srv := service.New(cfg, repo, chart, docxgen)
 	hdl := handler.New(srv)
 
 	// Setting timeout for the server
@@ -52,7 +54,7 @@ func main() {
 		{route: "/initImport", handler: hdl.InitImport},
 		{route: "/getNLastValues", handler: hdl.GetNLastValues},
 		{route: "/getChart/{specs}", handler: hdl.GetChartHandler},
-		{route: "/getReport/{date}", handler: hdl.GetReportHandler},
+		{route: "/getReport/{repType}/{date}", handler: hdl.GetReportHandler},
 		{route: "/getPropertyList", handler: hdl.GetPropertyListHandler},
 		{route: "/getMaterialInfo", handler: hdl.GetMaterialSourceInfo},
 	} {
