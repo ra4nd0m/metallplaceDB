@@ -2,7 +2,7 @@ package model
 
 var InitMaterialsVertical = []Material{
 	{"01.ЖРС",
-		"ЖРС (62%), Platts",
+		"ЖРС (62%), CNF Китай",
 		"ferroalloynet.com",
 		"Глобальный",
 		"USD/т",
@@ -323,7 +323,7 @@ var InitMaterialsVertical = []Material{
 	},
 
 	{"09.Запасы",
-		"Запасы Fe руд в портах Китая",
+		"Запасы железной руды в портах Китая",
 		"-",
 		"-",
 		"млн тонн",
