@@ -152,6 +152,9 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
                  backgroundColor: 'gray',
                  color: 'white',
                  anchor: 'end',
+                 formatter: function(value, context) {
+                     return formatYLabel(value);
+                 },
                  align: 'top',
                  textAlign: 'center',
                  font: {
