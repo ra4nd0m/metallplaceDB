@@ -67,7 +67,7 @@ async function getInfo(isBig, url){
                             alignment: docx.AlignmentType.LEFT,
                             spacing: {before: 0},
                             children: [
-                                text(materialInfo.data.info.name)
+                                text(materialInfo.data.info.Name)
                             ],
                         }),
                     ],
@@ -80,7 +80,7 @@ async function getInfo(isBig, url){
                             alignment: docx.AlignmentType.RIGHT,
                             spacing: {before: 0},
                             children: [
-                                text(lastPrice + " " + materialInfo.data.info.unit)
+                                text(lastPrice + " " + materialInfo.data.info.Unit)
                             ],
                         }),
                     ],

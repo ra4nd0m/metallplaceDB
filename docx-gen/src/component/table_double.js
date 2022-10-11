@@ -62,11 +62,11 @@ module.exports = async function tableDoubleWithWeekAvg(materialId1, materialId2,
                     cellCenter({margins: TableCellMarginNil, children: [textTh("Дата")]}),
                     cellCenter({
                         margins: TableCellMarginNil,
-                        children: [headerMaterial(resMat1.data.info.name, resMat1.data.info.unit)]
+                        children: [headerMaterial(resMat1.data.info.Name, resMat1.data.info.Unit)]
                     }),
                     cellCenter({
                         margins: TableCellMarginNil,
-                        children: [headerMaterial(resMat2.data.info.name, resMat2.data.info.unit)]
+                        children: [headerMaterial(resMat2.data.info.Name, resMat2.data.info.Unit)]
                     }),
                 ],
             }),
