@@ -1,17 +1,25 @@
 <template>
-  <div id="app">
-    <v-app>
-      <v-content>
-        <v-container fluid ma-0 pa-0 fill-height>
-          <v-layout row>
-            <v-flex xs4> Chat List </v-flex>
-            <v-flex xs4> Main Chat</v-flex>
-            <v-flex xs4> User Profile</v-flex>
-          </v-layout>
-        </v-container>
-      </v-content>
-    </v-app>
-  </div>
+  <v-app id="inspire">
+    <v-navigation-drawer
+        v-model="drawer"
+        app
+        class="pt-4"
+        color="grey lighten-3"
+        mini-variant
+    >
+      <v-avatar
+          v-for="n in 6"
+          :key="n"
+          :color="`grey ${n === 1 ? 'darken' : 'lighten'}-1`"
+          :size="n === 1 ? 36 : 20"
+          class="d-block text-center mx-auto mb-9"
+      ></v-avatar>
+    </v-navigation-drawer>
+
+    <v-main>
+      <!--  -->
+    </v-main>
+  </v-app>
 </template>
 
 <script>
@@ -19,7 +27,3 @@ export default {
   name: "AddValue"
 }
 </script>
-
-<style scoped>
-
-</style>

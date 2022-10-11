@@ -147,7 +147,7 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
         conf.options.plugins = {
             ...conf.options?.plugins,
              datalabels: {
-                offset: labelOffset,
+                 offset: labelOffset,
                  borderRadius: 4,
                  backgroundColor: 'gray',
                  color: 'white',

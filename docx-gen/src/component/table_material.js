@@ -23,8 +23,8 @@ module.exports = async function(materialIds, dates) {
         const week2Med = await axios.post("http://localhost:8080/getValueForPeriod", { material_source_id: materialId, property_id: MedPriceId, start: second, finish: second})
 
         bodyInfo.push({
-            Name: resMat.data.info.Name,
-            Unit: resMat.data.info.Unit,
+            Name: resMat.data.info.name,
+            Unit: resMat.data.info.unit,
             Week1Med: week1Med.data,
             Week2Med: week2Med.data,
         })

@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/gorilla/mux"
+	"github.com/rs/cors"
 	"log"
 	"metallplace/internal/app/handler"
 	"metallplace/internal/app/repository"
@@ -33,14 +34,19 @@ func main() {
 	srv := service.New(cfg, repo, chart, docxgen)
 	hdl := handler.New(srv)
 
+	c := cors.New(cors.Options{
+		AllowedOrigins:   []string{"http://localhost:8081"},
+		AllowCredentials: true,
+	})
+	router := mux.NewRouter()
+
 	// Setting timeout for the server
 	server := &http.Server{
 		Addr:         ":" + cfg.HttpPort,
 		ReadTimeout:  600 * time.Second,
 		WriteTimeout: 600 * time.Second,
+		Handler:      c.Handler(router),
 	}
-
-	router := mux.NewRouter()
 
 	// Linking addresses and handlers
 	for _, rec := range [...]struct {
@@ -66,6 +72,7 @@ func main() {
 	http.Handle("/", router)
 
 	log.Printf("Server started on port %s \n", cfg.HttpPort)
+
 	err = server.ListenAndServe()
 	if err != nil {
 		log.Fatal(err.Error())
