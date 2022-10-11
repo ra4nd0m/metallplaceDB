@@ -173,7 +173,7 @@ module.exports = class WeeklyReport {
                         paragraph({ // лом 3А
                             children: [await oneChartText(`http://localhost:8080/getChart/3_${MedPriceId}_${GetMonthRange(date)}_1_line.png`)]
                         }),
-                        await singleTable(4, MedPriceId, GetMonthRange(date, true)),// лом 3А
+                        await singleTable(3, MedPriceId, GetMonthRange(date, true)),// лом 3А
                         new docx.Paragraph({children: [new docx.PageBreak()]}),
 
                         h3(""),

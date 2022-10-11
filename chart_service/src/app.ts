@@ -197,12 +197,13 @@ function formatXLabel(date: string, ifWeek: boolean): string {
 }
 
 function formatYLabel(num: number){
+    let numStr = num.toString()
     if(num >= 1000){
         const after = num.toString().slice(-3)
         const before = num.toString().slice(0, num.toString().length - 3)
-        return  before + " " + after
+        numStr = before + " " + after
     }
-    return num
+    return numStr.replace(".", ",")
 }
 
 app.get('/test', (req: Request , res: Response) => {
