@@ -188,7 +188,7 @@ var InitMaterialsVertical = []Material{
 	},
 
 	{"07.ФС (М)",
-		"FeMn76, DDP Европа",
+		"ВУ ферромарганец 76% Mn, DDP Европа",
 		"-",
 		"-",
 		"USD/т",
@@ -201,7 +201,7 @@ var InitMaterialsVertical = []Material{
 	},
 
 	{"07.ФС (М)",
-		"FeSi75, DDP Европа",
+		"Ферросицилий 75% Si, DDP Европа",
 		"-",
 		"-",
 		"USD/т",
@@ -214,7 +214,7 @@ var InitMaterialsVertical = []Material{
 	},
 
 	{"07.ФС (М)",
-		"SiMn65, DDP Европа",
+		"Силиконмарганец 65% Mn, DDP Европа",
 		"-",
 		"-",
 		"USD/т",
@@ -227,7 +227,7 @@ var InitMaterialsVertical = []Material{
 	},
 
 	{"07.ФС (М)",
-		"HC FeCr, DDP Европа",
+		"ВУ феррохром 60-70% Cr, DDP Европа",
 		"-",
 		"-",
 		"¢/фунт",
@@ -240,7 +240,7 @@ var InitMaterialsVertical = []Material{
 	},
 
 	{"07.ФС (М)",
-		"LC FeCr, DDP Европа",
+		"НУ феррохром 0,1% Cr, DDP Европа",
 		"-",
 		"-",
 		"¢/фунт",
@@ -253,7 +253,7 @@ var InitMaterialsVertical = []Material{
 	},
 
 	{"07.ФС (М)",
-		"Mn руда (36-38), CIF Китай",
+		"Mn руда 36-38% Mn, CIF Китай",
 		"-",
 		"-",
 		"USD/1%",
@@ -266,7 +266,7 @@ var InitMaterialsVertical = []Material{
 	},
 
 	{"07.ФС (М)",
-		"Cr руда, CIF Китай",
+		"Cr руда 42% Cr, CIF Китай",
 		"-",
 		"-",
 		"USD/т",

@@ -23,7 +23,7 @@ function headerMaterial(name, unit) {
             }),
             new TableRow({
                 children: [
-                    cellCenter({children: [textTh("Цена")]}),
+                    cellCenter({children: [textTh(`Цена ${unit}`)]}),
                     cellCenter({children: [textTh(`Изм. ${unit}`)]}),
                     cellCenter({children: [textTh("Изм. %")]}),
                 ],

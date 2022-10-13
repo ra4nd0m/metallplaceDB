@@ -23,7 +23,7 @@ function headerMaterial(name, unit) {
             }),
             new TableRow({
                 children: [
-                    cellCenter({children: [textTh("Цена")]}),
+                    cellCenter({children: [textTh(`Цена ${unit}`)]}),
                     cellCenter({children: [textTh(`Изм. ${unit}`)]}),
                     cellCenter({children: [textTh("Изм. %")]}),
                 ],
@@ -70,7 +70,7 @@ module.exports = async function tableDoubleWithWeekAvg(materialId1, materialId2,
                     }),
                     cellCenter({
                         margins: TableCellMarginNil,
-                        children: [textTh(`Средняя ${resMat1.data.info.Unit}`)]
+                        children: [textTh(`Средняя цена за неделю ${resMat1.data.info.Unit}`)]
                     }),
                 ],
             }),

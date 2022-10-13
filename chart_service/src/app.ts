@@ -102,8 +102,9 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
                     ticks: {
                         font: { size: axesFontSize },
                         includeBounds: true,
-                        maxRotation: 0,
-                        maxTicksLimit: 6
+                        maxRotation: 30,
+                        maxTicksLimit: 9,
+                        autoSkip: true
                     },
                     grid: {
                         display: false
@@ -193,7 +194,7 @@ function formatXLabel(date: string, ifWeek: boolean): string {
     let oneJan = new Date(cur.getFullYear(), 0, 1);
     let numberOfDays = Math.floor((cur.getTime() - oneJan.getTime()) / (24 * 60 * 60 * 1000));
     let week = Math.ceil((cur.getDay() + 1 + numberOfDays) / 7);
-    return `${week} (${dateArr[0]})`
+    return `${week - 1} (${dateArr[0]})`
 }
 
 function formatYLabel(num: number){

@@ -37,7 +37,7 @@ module.exports = async function singleTable(materialId, propertyId, dates){
             new docx.TableRow({
                 children: [
                     new docx.TableCell({
-                        children: [textTh("Цена")]
+                        children: [textTh(`Цена ${resMat.data.info.Unit}`)]
                     }),
                     new docx.TableCell({
                         children: [textTh(`Изм. ${resMat.data.info.Unit}`)]
