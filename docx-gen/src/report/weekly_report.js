@@ -228,7 +228,6 @@ module.exports = class WeeklyReport {
                         new docx.Paragraph({children: [new docx.PageBreak()]}),
 
                         h2("Рынок ферросплавов и руд"),
-                        paragraph("Тут странная таблица, позже добавлю"),
                         await tableMaterial(getRangeArr(17, 23), Get2LastThursdays(date)),
                         h3("Ферромарганец и силикон"),
                         paragraph({ // FeMn76, SiMn65

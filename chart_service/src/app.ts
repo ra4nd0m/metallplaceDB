@@ -74,7 +74,7 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
 
     let dateArrayFormatted = []
     let legendBoxSize = 13
-    for(let i = 0; i < dateArray.length; i ++){
+    for(let i = 0; i < dateArray.length; i++){
         if (options.labels){
             dateArrayFormatted.push(formatXLabel(dateArray[i], false))
         } else{
@@ -102,8 +102,8 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
                     ticks: {
                         font: { size: axesFontSize },
                         includeBounds: true,
-                        maxRotation: 30,
-                        maxTicksLimit: 9,
+                        maxRotation: 45,
+                        maxTicksLimit: 20,
                         autoSkip: true
                     },
                     grid: {
@@ -188,13 +188,13 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
 function formatXLabel(date: string, ifWeek: boolean): string {
     const dateArr = date.split("-")
     if (!ifWeek) {
-        return `${dateArr[2]}-${dateArr[1]}-${dateArr[0]}`
+        return `${dateArr[2]}.${dateArr[1]}.${dateArr[0]}`
     }
-    let cur = new Date(Date.UTC(Number(dateArr[0]), Number(dateArr[1]), Number(dateArr[2])));
+    let cur = new Date(Date.UTC(Number(dateArr[0]), Number(dateArr[1]) - 1, Number(dateArr[2])));
     let oneJan = new Date(cur.getFullYear(), 0, 1);
     let numberOfDays = Math.floor((cur.getTime() - oneJan.getTime()) / (24 * 60 * 60 * 1000));
     let week = Math.ceil((cur.getDay() + 1 + numberOfDays) / 7);
-    return `${week - 1} (${dateArr[0]})`
+    return `${week} (${dateArr[0]})`
 }
 
 function formatYLabel(num: number){
