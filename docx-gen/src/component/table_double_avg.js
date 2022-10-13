@@ -32,6 +32,29 @@ function headerMaterial(name, unit) {
     })
 }
 
+function avgBlock(name1, name2, unit) {
+    return new docx.Table({
+        width: {
+            size: 100,
+            type: docx.WidthType.PERCENTAGE,
+        },
+        borders: TableNoOuterBorders,
+        rows: [
+            new TableRow({
+                children: [
+                    cellCenter({children: [textTh(name1)]}),
+                    cellCenter({children: [textTh(name2)]}),
+                ]
+            }),
+            new TableRow({
+                children: [
+                    cellCenter({children: [textTh(`Средняя за неделю ${unit}`)]})
+                ],
+            })
+        ]
+    })
+}
+
 module.exports = async function tableDoubleWithWeekAvg(materialId1, materialId2, propertyId, dates) {
     const from = formatDateDb(dates[0])
     const to = formatDateDb(dates[1])
@@ -70,7 +93,7 @@ module.exports = async function tableDoubleWithWeekAvg(materialId1, materialId2,
                     }),
                     cellCenter({
                         margins: TableCellMarginNil,
-                        children: [textTh(`Средняя цена за неделю ${resMat1.data.info.Unit}`)]
+                        children: [ avgBlock(resMat1.data.info.Name, resMat2.data.info.Name, resMat1.data.info.Unit)]
                     }),
                 ],
             }),
