@@ -93,7 +93,7 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
             locale: "",
             elements: {
                 point: {
-                    radius : pointRadius
+                    radius : 0
                 }
             },
             scales: {
@@ -114,7 +114,7 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
                     offset: true,
                     ticks: {
                         font: { size: axesFontSize },
-                        maxTicksLimit: 8,
+                        maxTicksLimit: 5,
                         maxRotation: 0,
                         callback: (value, index, values) => {
                             return formatYLabel(Number(value))
@@ -167,7 +167,7 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
              }
         }
         // @ts-ignore
-        conf.options.elements.point.radius = 0
+        conf.options.elements.point.radius = pointRadius
     }
     if(options.type == 'bar'){
         conf.data.datasets.push(

@@ -64,7 +64,7 @@ module.exports = class WeeklyReport {
                             children: [
                                 await twoChart(
                                     `http://localhost:8080/getChart/6_${MedPriceId}_${GetYearRange(date)}_0_line.png`,
-                                    `http://localhost:8080/getChart/3_${MedPriceId}_${GetYearRange(date)}_0_line.png`,)
+                                    `http://localhost:8080/getChart/5_${MedPriceId}_${GetYearRange(date)}_0_line.png`,)
                             ]
                         }),
                         paragraph({
@@ -170,14 +170,14 @@ module.exports = class WeeklyReport {
 
 
                         h3("Лом черных металлов"),
+                        await tableMaterialMinimax([29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43], Get2LastFridays(date)),
+                        new docx.Paragraph({children: [new docx.PageBreak()]}),
+
+                        h3(""),
                         paragraph({ // лом 3А
                             children: [await oneChartText(`http://localhost:8080/getChart/3_${MedPriceId}_${GetMonthRange(date)}_1_line.png`)]
                         }),
                         await singleTable(3, MedPriceId, GetMonthRange(date, true)),// лом 3А
-                        new docx.Paragraph({children: [new docx.PageBreak()]}),
-
-                        h3(""),
-                        await tableMaterialMinimax([29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43], Get2LastFridays(date)),
                         new docx.Paragraph({children: [new docx.PageBreak()]}),
 
                         h3("Чугун"),
@@ -191,21 +191,25 @@ module.exports = class WeeklyReport {
 
                         h2("Рынок стали"),
                         h3("Полуфабрикаты"),
+                        await tableMaterialMinimax([44, 45, 46, 47, 48, 49, 50], Get2LastFridays(date)),
                         paragraph({ //заготовка, сляб
                             children: [await oneChartText(`http://localhost:8080/getChart/9-11_${MedPriceId}_${GetMonthRange(date)}_1_line.png`)]
                         }),
                         await doubleTableMinimax(9, 11, GetMonthRange(date, true)), //заготовка, сляб
-                        await tableMaterialMinimax([44, 45, 46, 47, 48, 49, 50], Get2LastFridays(date)),
-
                         new docx.Paragraph({children: [new docx.PageBreak()]}),
 
 
                         h3("Сортовой прокат"),
+                        await tableMaterialMinimax([51, 52, 53], Get2LastFridays(date)),
                         paragraph({ //арматура FOB
                             children: [await oneChartText(`http://localhost:8080/getChart/10_${MedPriceId}_${GetMonthRange(date)}_1_line.png`)]
                         }),
                         await singleTableMinimax(10, GetMonthRange(date, true)), //арматура FOB
-                        await tableMaterialMinimax([51, 52, 53], Get2LastFridays(date)),
+                        paragraph({ //арматура A1 EXW
+                            children: [await oneChartText(`http://localhost:8080/getChart/14_${MedPriceId}_${GetMonthRange(date)}_1_line.png`)]
+                        }),
+                        await singleTable(14, MedPriceId, GetMonthRange(date, true)), //арматура A1 EXW
+                        new docx.Paragraph({children: [new docx.PageBreak()]}),
 
                         h3("Плоский прокат"),
                         paragraph({ // рулон гк рулон хк FOB
@@ -213,9 +217,11 @@ module.exports = class WeeklyReport {
                         }),
                         new docx.Paragraph({children: [new docx.PageBreak()]}),
 
+                        h3(""),
+                        await tableMaterialMinimax(getRangeArr(54, 66), Get2LastFridays(date)),
+                        new docx.Paragraph({children: [new docx.PageBreak()]}),
 
                         h3(""),
-
                         await doubleTableMinimax(12, 13, GetMonthRange(date, true)), // рулон гк рулон хк FOB
                         paragraph({ // рулон гк рулон хк EXW
                             children: [await oneChartText(`http://localhost:8080/getChart/15-16_${MedPriceId}_${GetMonthRange(date)}_1_line.png`)]
@@ -223,13 +229,11 @@ module.exports = class WeeklyReport {
                         await tableDouble(15, 16, MedPriceId, GetMonthRange(date, true)), // рулон гк рулон хк EXW
                         new docx.Paragraph({children: [new docx.PageBreak()]}),
 
-                        h3(""),
-                        await tableMaterialMinimax(getRangeArr(54, 66), Get2LastFridays(date)),
-                        new docx.Paragraph({children: [new docx.PageBreak()]}),
 
                         h2("Рынок ферросплавов и руд"),
+                        new docx.Paragraph({children: [new docx.TextRun("Сводная таблица:")]}),
                         await tableMaterial(getRangeArr(17, 23), Get2LastThursdays(date)),
-                        h3("Ферромарганец и силикон"),
+                        h3("Ферромарганец и силиконсарганец"),
                         paragraph({ // FeMn76, SiMn65
                             children: [await oneChartText(`http://localhost:8080/getChart/17-19_${MedPriceId}_${GetMonthRange(date)}_1_line.png`)]
                         }),

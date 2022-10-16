@@ -21,9 +21,16 @@ module.exports = function (title){
                         children: [
                             new docx.TableCell({
                                 margins: TableCellMarginNil,
-                                children: [paragraph(title)]
+                                children: [paragraph(title)],
+                                borders: {
+                                    top: {size: 0},
+                                    right: {size: 0},
+                                    left: {size: 0},
+                                    bottom: {style: docx.BorderStyle.DASHED, size: 20, color: "d3d3d3"},
+                                },
                             })
-                        ]
+                        ],
+
                     })
                 ]
             }),

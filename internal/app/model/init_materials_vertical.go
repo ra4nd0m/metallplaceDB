@@ -79,7 +79,7 @@ var InitMaterialsVertical = []Material{
 	},
 
 	{"05.Мет. кокс",
-		"Металлургический кокс, FOB Китай",
+		"Металлургический кокс (64% CRS), FOB Китай",
 		"steelmint.com",
 		"Глобальный",
 		"USD/т",
@@ -103,7 +103,7 @@ var InitMaterialsVertical = []Material{
 	},
 
 	{"06.Сталь",
-		"Арматура, FOB Черное море",
+		"Арматура (12-25 мм), FOB Черное море",
 		"-",
 		"-",
 		"USD/т",
@@ -279,7 +279,7 @@ var InitMaterialsVertical = []Material{
 	},
 
 	{"08.ГЭ",
-		"ГЭ 450 мм, EXW Китай",
+		"ГЭ 450 мм HP, EXW Китай",
 		"-",
 		"-",
 		"USD/т",
@@ -290,7 +290,7 @@ var InitMaterialsVertical = []Material{
 	},
 
 	{"08.ГЭ",
-		"ГЭ 600 мм, EXW Китай",
+		"ГЭ 600 мм UHP, EXW Китай",
 		"-",
 		"-",
 		"USD/т",
