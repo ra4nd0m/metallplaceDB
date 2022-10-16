@@ -12,6 +12,8 @@
             :items="items"
             label="Материал"
             solo
+            v-model="selected"
+            @change="onChange"
         ></v-select>
       </v-col>
     </v-row>
@@ -22,18 +24,26 @@
 import {getMaterialList} from "@/getMaterials";
 
 export default {
-  name: "dropdown",
+  name: "materialDropdown",
   data: () => ({
     items: [],
+    selected: Number
   }),
+  props: {
+    value: Number
+  },
   mounted() {
     this.getOptions()
+    this.selected = this.value
   },
   methods: {
     getOptions() {
       getMaterialList().then(resp =>{
         this.items = resp
       })
+    },
+    onChange(selectedId){
+      this.$emit('input', parseInt(selectedId));
     }
   }
 }

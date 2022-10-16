@@ -1,16 +1,16 @@
 <template>
   <div id="app">
-    <HomeView/>
+    <AddValueView/>
   </div>
 
 </template>
 
 <script>
-import HomeView from "@/views/HomeView";
+import AddValueView from "@/views/AddValueView";
 export default {
   name: 'App',
   components: {
-    HomeView
+    AddValueView
   },
 
   data: () => ({
