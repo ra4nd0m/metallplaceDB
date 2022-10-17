@@ -6,7 +6,7 @@
           cols="12"
           sm="6"
       >
-        <v-select
+        <v-autocomplete
             item-text="text"
             item-value="value"
             :items="items"
@@ -14,7 +14,7 @@
             solo
             v-model="selected"
             @change="onChange"
-        ></v-select>
+        ></v-autocomplete>
       </v-col>
     </v-row>
   </v-container>

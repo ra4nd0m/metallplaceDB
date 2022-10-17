@@ -10,7 +10,7 @@
         >
           <v-text-field
               v-bind:placeholder=property.text
-              outlined
+              solo
               required
           ></v-text-field>
         </v-col>
