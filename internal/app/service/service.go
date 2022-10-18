@@ -28,6 +28,7 @@ type IRepository interface {
 
 	AddPropertyIfNotExists(ctx context.Context, property model.PropertyShortInfo) (int, error)
 	GetPropertyId(ctx context.Context, propertyName string) (int, error)
+	GetPropertyName(ctx context.Context, id int) (string, error)
 	GetPropertyKind(ctx context.Context, propertyId int) (string, error)
 	GetPropertyList(ctx context.Context, materialSourceId int) ([]model.PropertyShortInfo, error)
 

@@ -207,6 +207,19 @@ function formatYLabel(num: number){
     return numStr.replace(".", ",")
 }
 
+// function datasetsToFixed(datasets: Dataset[], toFixed: number): Dataset[]{
+//
+//     for(let i = 0; i < datasets.length; i++){
+//         for(let j = 0; j < datasets[i].data.length; j++){
+//             let pow = 10^toFixed
+//             let v = Math.round(datasets[i].data[j]* pow) / pow
+//             datasets[i].data[j] = v
+//         }
+//     }
+//     return datasets
+// }
+
+
 app.get('/test', (req: Request , res: Response) => {
     getChart(xData, yData, {labels: {}})
         .then(buf => res.send(`<img src="data:image/png;base64, ${buf.toString('base64')}"\>`))

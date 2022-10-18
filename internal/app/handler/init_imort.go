@@ -11,7 +11,7 @@ type InitImportResponse struct {
 	Success bool `json:"success"`
 }
 
-func (h Handler) InitImport(w http.ResponseWriter, r *http.Request) {
+func (h Handler) InitImportHandler(w http.ResponseWriter, r *http.Request) {
 	handle(w, r, func(req InitImportRequest) (InitImportResponse, error) {
 		err := h.service.InitialImport(r.Context())
 		if err != nil {

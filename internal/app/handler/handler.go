@@ -31,6 +31,7 @@ type IService interface {
 	GetCachedReport(repType string, date string) ([]byte, error)
 
 	GetPropertyList(ctx context.Context, materialSourceId int) ([]model.PropertyShortInfo, error)
+	GetPropertyName(ctx context.Context, id int) (string, error)
 }
 
 type Handler struct {

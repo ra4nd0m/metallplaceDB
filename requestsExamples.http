@@ -71,12 +71,20 @@ Content-Type: application/json
   "property_name": "med_price",
   "value_float": "100",
   "value_str": "",
-  "created_on": "2015-10-15T14:00:13Z"
+  "created_on": "2015-10-14"
 }
 
 ###
-GET http://localhost:8080/getChart/17_1_06-25-2021_07-25-2021_1_bar.png
+GET http://localhost:8080/getChart/17_1_06-25-2021_07-25-2021_1_line.png
 
 ###
 GET http://localhost:8080/getReport/weekly/2022-10-03
+
+###
+GET localhost:8080/getPropertyName
+Content-Type: application/json
+
+{
+  "property_id": 1
+}
 

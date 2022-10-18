@@ -13,7 +13,7 @@ type GetMaterialInfoResponse struct {
 	Info model.MaterialShortInfo `json:"info"`
 }
 
-func (h Handler) GetMaterialSourceInfo(w http.ResponseWriter, r *http.Request) {
+func (h Handler) GetMaterialSourceInfoHandler(w http.ResponseWriter, r *http.Request) {
 	handle(w, r, func(req GetMaterialInfoRequest) (GetMaterialInfoResponse, error) {
 
 		info, err := h.service.GetMaterialSourceInfo(r.Context(), req.Id)
