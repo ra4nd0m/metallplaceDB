@@ -11,7 +11,6 @@
   </v-app>
 </template>
 
-
 <script>
 import MaterialDropdown from "@/components/MaterialDropdown";
 import PropertiesForm from "@/components/PropertiesForm";
