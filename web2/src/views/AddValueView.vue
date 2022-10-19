@@ -3,9 +3,9 @@
     <v-main>
       <v-container>
         <MaterialDropdown v-model="materialId"/>
-        <PropertiesForm :materialId="materialId"/>
-        <v-date-picker v-model="DateAddValue"></v-date-picker>
-        <ButtonAddValue ></ButtonAddValue>
+        <PropertiesForm v-model="properties" :materialId="materialId"/>
+        <v-date-picker v-model="dateAddValue"></v-date-picker>
+        <ButtonAddValue :materialId="materialId" :date="dateAddValue" :properties="properties"></ButtonAddValue>
       </v-container>
     </v-main>
   </v-app>
