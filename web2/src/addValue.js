@@ -1,18 +1,17 @@
-export const addValue = async(materialId, propertyId, value, date) => {
+export const addValue = async (materialId, propertyId, value, createdOn) => {
     let propertyName = ""
-    await fetch('http://localhost:8080/getPropertyName', {
+    const respPropertyName = await fetch('http://localhost:8080/getPropertyName', {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({"property_id": propertyId})
-    }).then(r => {
-         propertyName = r.json().property_name
     });
+    let content = await respPropertyName.json()
+    propertyName = content.property_name
 
-
-    await fetch('http://localhost:8080/getMaterialList', {
+    const respAddValue = await fetch('http://localhost:8080/addValue', {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
@@ -23,9 +22,9 @@ export const addValue = async(materialId, propertyId, value, date) => {
             "property_name": propertyName,
             "value_float": value,
             "value_str": "",
-            "created_on": date
+            "created_on": createdOn
         })
-    }).then(resp =>{
-        alert(resp.json())
-    });
+    })
+    content = await respAddValue.json()
+    alert(content.success)
 }

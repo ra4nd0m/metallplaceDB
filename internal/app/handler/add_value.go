@@ -16,7 +16,7 @@ type AddValueRequest struct {
 }
 
 type AddValueResponse struct {
-	Success bool
+	Success bool `json:"success"`
 }
 
 func (h Handler) AddValueHandler(w http.ResponseWriter, r *http.Request) {

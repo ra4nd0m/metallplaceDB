@@ -2,6 +2,7 @@
   <v-btn
       elevation="6"
       small
+      v-on:click="add"
   >Добавить запись</v-btn>
 </template>
 
@@ -12,13 +13,14 @@ export default {
   name: "ButtonAddValue",
   methods: {
     add(){
-      addValue(this.materialId, this.propertyId, this.value, this.date)
+      this.properties.forEach(property => {
+        addValue(this.materialId, property.value, property.text.toString(), this.date)
+      })
     }
   },
   props: {
     materialId: Number,
-    propertyId: Number,
-    value: Number,
+    properties: [] = [],
     date: String
   },
 }
