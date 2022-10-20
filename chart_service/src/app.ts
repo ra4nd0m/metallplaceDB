@@ -65,6 +65,18 @@ type ChartOptions = {
     type?: string,
 }
 
+function getToFixed(datasets: Dataset[]): number {
+    let max = 0
+    datasets.forEach(dataset => {
+        dataset.data.forEach(n => {
+            const str = n.toString()
+            let cur = str.substring(str.indexOf(".")).length - 1
+            if(cur > max && str.indexOf(".") != -1) max = cur
+        })
+    })
+    return max
+}
+
 function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOptions): ChartConfiguration {
     const labelFontSize = 17
     const legendFontSize = 20
@@ -117,7 +129,7 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
                         maxTicksLimit: 5,
                         maxRotation: 0,
                         callback: (value, index, values) => {
-                            return formatYLabel(Number(value))
+                            return formatYLabel(parseFloat(parseFloat(value.toString()).toPrecision(3)))
                         },
                     },
                 }
@@ -147,24 +159,30 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
         // @ts-ignore
         conf.options.plugins = {
             ...conf.options?.plugins,
-             datalabels: {
-                 offset: labelOffset,
-                 borderRadius: 4,
-                 backgroundColor: 'gray',
-                 color: 'white',
-                 anchor: 'end',
-                 formatter: function(value, context) {
-                     return formatYLabel(value);
-                 },
-                 align: 'top',
-                 textAlign: 'center',
-                 font: {
-                     size: labelFontSize
-                 },
-                 clamp: true,
+            datalabels: {
+                offset: labelOffset,
+                borderRadius: 4,
+                backgroundColor: 'gray',
+                color: 'white',
+                anchor: 'end',
+                formatter: function(value, context) {
+                    let label = formatYLabel(value)
+                    let x = getToFixed(datasets)
+                    if (getToFixed(datasets) > 0){
+                        let cur = label.substring(label.indexOf(",")).length - 1
+                        return label + "0".repeat(getToFixed(datasets) - cur);
+                    }
+                    return label
+                },
+                align: 'top',
+                textAlign: 'center',
+                font: {
+                    size: labelFontSize
+                },
+                clamp: true,
 
-                 ...options.labels,
-             }
+                ...options.labels,
+            }
         }
         // @ts-ignore
         conf.options.elements.point.radius = pointRadius
@@ -207,25 +225,6 @@ function formatYLabel(num: number){
     return numStr.replace(".", ",")
 }
 
-// function datasetsToFixed(datasets: Dataset[], toFixed: number): Dataset[]{
-//
-//     for(let i = 0; i < datasets.length; i++){
-//         for(let j = 0; j < datasets[i].data.length; j++){
-//             let pow = 10^toFixed
-//             let v = Math.round(datasets[i].data[j]* pow) / pow
-//             datasets[i].data[j] = v
-//         }
-//     }
-//     return datasets
-// }
-
-
-app.get('/test', (req: Request , res: Response) => {
-    getChart(xData, yData, {labels: {}})
-        .then(buf => res.send(`<img src="data:image/png;base64, ${buf.toString('base64')}"\>`))
-        .catch(reason => res.send(JSON.stringify(reason)))
-})
-
 app.post('/gen', (req: Request, res: Response) => {
     getChart(req.body.x_label_set, req.body.y_data_set, req.body.chart_options)
         .then(buf =>
@@ -236,12 +235,7 @@ app.post('/gen', (req: Request, res: Response) => {
         )
 })
 
- app.listen(port, () => {
-     console.log(`Chart-gen listening on port ${port}`)
- })
-
-let yData: YDataSet[] = []
-yData.push({label: "Сталь 1", data: [23, 54, 65, 75, 63]})
-yData.push({label: "Сталь 2", data: [10, 23, 13, 18, 20]})
-const xData = ["01-01-2000", "02-01-2000", "03-01-2000", "04-01-2000", "05-01-2000"]
+app.listen(port, () => {
+    console.log(`Chart-gen listening on port ${port}`)
+})
 

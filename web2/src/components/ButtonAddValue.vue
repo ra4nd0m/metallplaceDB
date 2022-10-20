@@ -2,7 +2,7 @@
   <v-btn
       elevation="6"
       small
-      v-on:click="add"
+      @click="add"
   >Добавить запись</v-btn>
 </template>
 

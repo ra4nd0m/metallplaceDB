@@ -16,7 +16,6 @@ import MaterialDropdown from "@/components/MaterialDropdown";
 import PropertiesForm from "@/components/PropertiesForm";
 import ButtonAddValue from "@/components/ButtonAddValue";
 
-
 export default {
   name: "AddValue",
   components: {
