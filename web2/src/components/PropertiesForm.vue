@@ -1,17 +1,19 @@
 <template>
-  <v-form v-model="valid">
+  <v-form>
     <v-container>
       <v-row>
         <v-col
             cols="12"
             md="4"
-            v-for="(property, id) in properties"
+            v-for="property in properties"
             :key="property.value"
         >
           <v-text-field
-              v-bind:placeholder=property.text
+              :placeholder="property.text"
               solo
               required
+              v-model="property.input"
+              @change="onChange"
           ></v-text-field>
         </v-col>
       </v-row>
@@ -28,7 +30,8 @@ export default {
     properties: [],
   }),
   props: {
-    materialId: Number
+    materialId: Number,
+    value: Array
   },
   methods: {
     getOptions(materialId) {
@@ -36,6 +39,9 @@ export default {
           this.properties  = resp
         })
     },
+    onChange(){
+      this.$emit('input', this.properties)
+    }
   },
   watch: {
     materialId: function (){
@@ -46,6 +52,7 @@ export default {
     if(this.materialId) {
       this.getOptions(this.materialId)
     }
+    this.properties = this.value
   },
 }
 </script>

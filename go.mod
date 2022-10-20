@@ -5,7 +5,6 @@ go 1.18
 require (
 	github.com/go-playground/validator/v10 v10.11.0
 	github.com/golang-migrate/migrate/v4 v4.15.2
-	github.com/gorilla/handlers v1.4.2
 	github.com/gorilla/mux v1.7.4
 	github.com/jackc/pgconn v1.8.0
 	github.com/jackc/pgx/v4 v4.10.1
@@ -29,7 +28,6 @@ require (
 	github.com/jackc/pgproto3/v2 v2.0.7 // indirect
 	github.com/jackc/pgservicefile v0.0.0-20200714003250-2b9c44734f2b // indirect
 	github.com/jackc/pgtype v1.6.2 // indirect
-	github.com/jackc/pgx/v5 v5.0.3 // indirect
 	github.com/jackc/puddle v1.1.3 // indirect
 	github.com/leodido/go-urn v1.2.1 // indirect
 	github.com/mohae/deepcopy v0.0.0-20170929034955-c48cc78d4826 // indirect

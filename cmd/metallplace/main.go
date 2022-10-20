@@ -10,7 +10,7 @@ import (
 	"metallplace/internal/pkg/config"
 	"metallplace/pkg/chartclient"
 	"metallplace/pkg/docxgenclient"
-	"metallplace/pkg/gopkg-db"
+	db "metallplace/pkg/gopkg-db"
 	"net/http"
 	"time"
 )

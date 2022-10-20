@@ -2,10 +2,10 @@
   <v-app id="inspire">
     <v-main>
       <v-container>
-        <MaterialDropdown v-model="materialId"/>
-        <PropertiesForm v-model="properties" :materialId="materialId"/>
-        <v-date-picker v-model="dateAddValue"></v-date-picker>
-        <ButtonAddValue :materialId="materialId" :date="dateAddValue" :properties="properties"></ButtonAddValue>
+        <MaterialDropdown v-model="form.materialId"/>
+        <PropertiesForm v-model="form.properties" :materialId="form.materialId"/>
+        <v-date-picker v-model="form.dateAddValue"></v-date-picker>
+        <ButtonAddValue :data="form"></ButtonAddValue>
       </v-container>
     </v-main>
   </v-app>
@@ -24,9 +24,15 @@ export default {
     ButtonAddValue
   },
   data: () => ({
-    materialId: null,
-    DateAddValue: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10)
-  })
+    form: {
+      materialId: null,
+      properties: [],
+      dateAddValue: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10)
+    }
+  }),
+  methods: {
+
+  }
 }
 
 </script>

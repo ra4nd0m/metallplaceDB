@@ -13,15 +13,14 @@ export default {
   name: "ButtonAddValue",
   methods: {
     add(){
-      this.properties.forEach(property => {
-        addValue(this.materialId, property.value, property.text.toString(), this.date)
-      })
+      console.log(this.data)
+      // this.properties.forEach(property => {
+      //   addValue(this.form.materialId, property.value, property.text.toString(), this.date)
+      // })
     }
   },
   props: {
-    materialId: Number,
-    properties: [] = [],
-    date: String
+    data: Object
   },
 }
 </script>
