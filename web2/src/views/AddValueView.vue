@@ -2,10 +2,13 @@
   <v-app id="inspire">
     <v-main>
       <v-container>
-        <MaterialDropdown v-model="form.materialId"/>
-        <PropertiesForm v-model="form.properties" :materialId="form.materialId"/>
-        <v-date-picker v-model="form.dateAddValue"></v-date-picker>
-        <ButtonAddValue :data="form"></ButtonAddValue>
+        <v-col cols="12"
+         sm="6">
+          <MaterialDropdown v-model="form.materialId"/>
+          <PropertiesForm v-model="form.properties" :materialId="form.materialId"/>
+          <v-date-picker v-model="form.dateAddValue" elevation="6" full-width="false" class="mb-10" ></v-date-picker>
+          <ButtonAddValue :data="form"></ButtonAddValue>
+        </v-col>
       </v-container>
     </v-main>
   </v-app>

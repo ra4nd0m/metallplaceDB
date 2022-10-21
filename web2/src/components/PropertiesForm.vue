@@ -1,13 +1,9 @@
 <template>
   <v-form>
     <v-container>
-      <v-row>
-        <v-col
-            cols="12"
-            md="4"
-            v-for="property in properties"
-            :key="property.value"
-        >
+      <v-row v-for="property in properties"
+      :key="property.value">
+
           <v-text-field
               :placeholder="property.text"
               solo
@@ -15,7 +11,7 @@
               v-model="property.input"
               @change="onChange"
           ></v-text-field>
-        </v-col>
+
       </v-row>
     </v-container>
   </v-form>
