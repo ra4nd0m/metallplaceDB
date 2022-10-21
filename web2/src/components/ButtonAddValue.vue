@@ -13,10 +13,9 @@ export default {
   name: "ButtonAddValue",
   methods: {
     add(){
-      console.log(this.data)
-      // this.properties.forEach(property => {
-      //   addValue(this.form.materialId, property.value, property.text.toString(), this.date)
-      // })
+      this.data.properties.forEach(p => {
+        addValue(this.data.materialId, p.text, p.input, this.data.dateAddValue)
+      })
     }
   },
   props: {
