@@ -1,7 +1,7 @@
 <template>
   <v-app id="inspire">
     <v-main>
-      <v-container>
+      <v-container >
         <v-col cols="12"
          sm="6">
           <MaterialDropdown v-model="form.materialId"/>
@@ -31,11 +31,10 @@ export default {
       materialId: null,
       properties: [],
       dateAddValue: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10)
+
     }
   }),
-  methods: {
 
-  }
 }
 
 </script>

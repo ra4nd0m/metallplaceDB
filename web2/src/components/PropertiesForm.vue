@@ -4,14 +4,14 @@
       <v-row v-for="property in properties"
       :key="property.value">
 
-          <v-text-field
+            <v-text-field
               :placeholder="property.text"
               solo
               required
               v-model="property.input"
               @change="onChange"
+              :rules="valueRules"
           ></v-text-field>
-
       </v-row>
     </v-container>
   </v-form>
@@ -24,6 +24,8 @@ export default {
   name: "PropertiesForm",
   data: () => ({
     properties: [],
+    valueRules: [v => !!v || 'Поле обязательно',
+      v => /^\d+(\.\d+)*$/.test(v)||'Неверный формат']
   }),
   props: {
     materialId: Number,
