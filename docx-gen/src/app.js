@@ -9,13 +9,6 @@ let app = express()
 const port = 3001
 app.use(express.json());
 
-
-// new WeeklyReport().generate(new Date(Date.UTC(2022, 9-1, 16))).then(doc => {
-//     docx.Packer.toBuffer(doc).then((buffer) => {
-//         fs.writeFileSync("MyDocument.docx", buffer);
-//     });
-// })
-
 app.post("/gen", (req, res) => {
     const dateStr = req.body.date
     const dateArr = dateStr.split("-")

@@ -36,7 +36,6 @@ module.exports = class WeeklyReport {
             },
             sections: [
                 {
-                    properties: {},
                     footers: {
                         default: footer(getFooterTitle(date)),
                     },

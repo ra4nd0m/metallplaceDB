@@ -94,7 +94,7 @@ module.exports = async function tableMaterialMinimax(materialIds, dates) {
             size: 100,
             type: docx.WidthType.PERCENTAGE,
         },
-        columnWidths: [1,1,5,5],
+        columnWidths: [2,1,5,5],
         rows:[
             new docx.TableRow({
                 children: [
@@ -112,7 +112,7 @@ module.exports = async function tableMaterialMinimax(materialIds, dates) {
             size: 100,
             type: docx.WidthType.PERCENTAGE,
         },
-        columnWidths: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        columnWidths: [2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
         rows: tableBody(bodyInfo),
     })
 

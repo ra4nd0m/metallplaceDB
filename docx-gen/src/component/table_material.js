@@ -35,12 +35,12 @@ module.exports = async function(materialIds, dates) {
             size: 100,
             type: docx.WidthType.PERCENTAGE,
         },
-        columnWidths: [1,1,1,1,1,1],
+        columnWidths: [2,1,1,1,1,1],
         rows:[
             new docx.TableRow({
                 children: [
                     cellCenter({margins: TableCellMarginNil, children: [textTh("Продукция")]}),
-                    cellCenter({margins: TableCellMarginNil, children: [textTh("Еденицы измерения")]}),
+                    cellCenter({margins: TableCellMarginNil, children: [textTh("Единицы измерения")]}),
                     cellCenter({margins: TableCellMarginNil, children: [textTh(formatDateTable(f))]}),
                     cellCenter({margins: TableCellMarginNil, children: [textTh(formatDateTable(s))]}),
                     cellCenter({margins: TableCellMarginNil, children: [textTh(`Изм абс.`)], verticalAlign: docx.VerticalAlign.CENTER}),
@@ -55,7 +55,7 @@ module.exports = async function(materialIds, dates) {
             size: 100,
             type: docx.WidthType.PERCENTAGE,
         },
-        columnWidths: [1,1,1,1,1,1],
+        columnWidths: [2,1,1,1,1,1],
         rows: tableBody(bodyInfo),
     })
 
