@@ -6,9 +6,6 @@ create table material
     name varchar not null
 );
 
-alter table material
-    owner to ivan;
-
 create unique index material_name_uindex
     on material (name);
 
@@ -54,9 +51,6 @@ create table material_source
     unit          varchar not null,
     unique (material_id, source_id, target_market, unit)
 );
-
-alter table material_source
-    owner to ivan;
 
 create table material_property
 (

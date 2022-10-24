@@ -20,6 +20,15 @@ func (r *Repository) AddMaterialSource(ctx context.Context, materialName, source
 		return 0, fmt.Errorf("Can't get source id %w", err)
 	}
 
+	id, err = r.GetMaterialSourceId(ctx, materialName, sourceName, market, unit)
+	if err != nil {
+		return 0, fmt.Errorf("cant get material-source id %w", err)
+	}
+
+	if id != 0 {
+		return id, nil
+	}
+
 	row := db.FromContext(ctx).QueryRow(
 		ctx, `INSERT INTO material_source (material_id, source_id, target_market, unit) 
 		VALUES ($1, $2, $3, $4) 
@@ -28,7 +37,7 @@ func (r *Repository) AddMaterialSource(ctx context.Context, materialName, source
 
 	err = row.Scan(&id)
 	if err != nil {
-		return 0, err
+		return 0, fmt.Errorf("cant add material-source: %w", err)
 	}
 
 	return id, nil
