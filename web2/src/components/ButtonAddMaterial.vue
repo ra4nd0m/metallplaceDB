@@ -16,7 +16,7 @@ export default {
   },
   methods: {
     add(){
-      addMaterial(this.data.name, this.data.source, this.data.unit)
+      addMaterial(this.data.name, this.data.source, this.data.market, this.data.unit)
     }
   }
 }

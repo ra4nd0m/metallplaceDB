@@ -3,6 +3,7 @@ package repository
 import (
 	"context"
 	"fmt"
+	"github.com/jackc/pgx/v4"
 	"metallplace/internal/app/model"
 	"metallplace/pkg/gopkg-db"
 )
@@ -60,6 +61,9 @@ func (r *Repository) GetMaterialSourceId(ctx context.Context, materialName, sour
 		source_id=$2 AND target_market=$3 AND unit=$4`, materialId, sourceId, market, unit)
 
 	err = row.Scan(&id)
+	if err == pgx.ErrNoRows {
+		return 0, nil
+	}
 	if err != nil {
 		return 0, fmt.Errorf("Can't get material-source pair id %w", err)
 	}

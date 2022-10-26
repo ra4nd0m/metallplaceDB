@@ -1,4 +1,4 @@
-export const addMaterial = async (name, source, unit) => {
+export const addMaterial = async (name, source, market, unit) => {
     const respAddValue = await fetch('http://localhost:8080/addUniqueMaterial', {
         method: 'POST',
         headers: {
@@ -8,7 +8,7 @@ export const addMaterial = async (name, source, unit) => {
         body: JSON.stringify({
             "name": name,
             "source": source,
-            "market": "-",
+            "market": market,
             "unit": unit,
         })
     })

@@ -57,10 +57,10 @@ POST localhost:8080/addUniqueMaterial
 Content-Type: application/json
 
 {
-  "name": "Test Material",
-  "source": "Test Source",
-  "market": "Test Market",
-  "unit": "Test Unit"
+  "name": "53",
+  "source": "3f4",
+  "market": "Test Markwhet",
+  "unit": "Test Unsdvit"
 }
 ###
 POST localhost:8080/addValue

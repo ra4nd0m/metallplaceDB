@@ -26,19 +26,25 @@
         <v-text-field
             solo
             required
-            v-model="formMaterial.newMaterialName"
+            v-model="formMaterial.name"
             label="Материал, усл. поставки, страна"
         ></v-text-field>
 
         <v-text-field
             solo
-            v-model="formMaterial.newMaterialSource"
+            v-model="formMaterial.source"
             label="Источник"
         ></v-text-field>
 
         <v-text-field
             solo
-            v-model="formMaterial.newMaterialUnit"
+            v-model="formMaterial.market"
+            label="Рынок (страна)"
+        ></v-text-field>
+
+        <v-text-field
+            solo
+            v-model="formMaterial.unit"
             label="Ед. измерения"
         ></v-text-field>
         <ButtonAddMaterial :data="formMaterial"></ButtonAddMaterial>
@@ -70,9 +76,10 @@ export default {
     },
     dateReport: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
     formMaterial: {
-      newMaterialName: null,
-      newMaterialSource: null,
-      newMaterialUnit: null,
+      name: null,
+      source: null,
+      market: null,
+      unit: null,
     }
   }),
   methods: {
