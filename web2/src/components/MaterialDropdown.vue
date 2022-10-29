@@ -6,9 +6,9 @@
             item-value="value"
             :items="items"
             label="Материал"
-            solo
             v-model="selected"
             @change="onChange"
+            @click="onClick"
         ></v-autocomplete>
     </v-row>
   </v-container>
@@ -38,6 +38,10 @@ export default {
     },
     onChange(selectedId){
       this.$emit('input', parseInt(selectedId));
+    },
+    onClick() {
+      this.getOptions()
+      this.selected = this.value
     }
   }
 }
@@ -45,7 +49,6 @@ export default {
 
 </script>
 
-<style scoped>
-
+<style >
 
 </style>

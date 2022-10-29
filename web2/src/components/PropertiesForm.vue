@@ -6,7 +6,6 @@
 
             <v-text-field
               :placeholder="property.text"
-              solo
               required
               v-model="property.input"
               @change="onChange"

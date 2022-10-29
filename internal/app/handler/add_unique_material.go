@@ -12,15 +12,15 @@ type AddUniqueMaterialRequest struct {
 }
 
 type AddUniqueMaterialResponse struct {
-	Success bool `json:"success"`
+	Id int `json:"id"`
 }
 
 func (h Handler) AddUniqueMaterialHandler(w http.ResponseWriter, r *http.Request) {
 	handle(w, r, func(req AddUniqueMaterialRequest) (AddUniqueMaterialResponse, error) {
-		_, err := h.service.AddUniqueMaterial(r.Context(), req.Name, req.Source, req.Market, req.Unit)
+		id, err := h.service.AddUniqueMaterial(r.Context(), req.Name, req.Source, req.Market, req.Unit)
 		if err != nil {
-			return AddUniqueMaterialResponse{false}, err
+			return AddUniqueMaterialResponse{0}, err
 		}
-		return AddUniqueMaterialResponse{true}, nil
+		return AddUniqueMaterialResponse{id}, nil
 	})
 }

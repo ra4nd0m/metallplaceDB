@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import {addMaterial} from "@/addMaterial";
+import {addMaterialWithProperties} from "@/addMaterialWithProperties";
 
 export default {
   name: "ButtonAddMaterial",
@@ -16,7 +16,7 @@ export default {
   },
   methods: {
     add(){
-      addMaterial(this.data.name, this.data.source, this.data.market, this.data.unit)
+      addMaterialWithProperties(this.data.name, this.data.source, this.data.market, this.data.unit, this.data.properties)
     }
   }
 }
