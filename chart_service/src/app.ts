@@ -168,9 +168,9 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
                 formatter: function(value, context) {
                     let label = formatYLabel(value)
                     let x = getToFixed(datasets)
-                    if (getToFixed(datasets) > 0){
+                    if (x > 0){
                         let cur = label.substring(label.indexOf(",")).length - 1
-                        return label + "0".repeat(getToFixed(datasets) - cur);
+                        return label + "0".repeat(x - cur);
                     }
                     return label
                 },

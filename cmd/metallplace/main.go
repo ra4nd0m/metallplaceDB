@@ -64,6 +64,7 @@ func main() {
 		{route: "/getPropertyList", handler: hdl.GetPropertyListHandler},
 		{route: "/getMaterialInfo", handler: hdl.GetMaterialSourceInfoHandler},
 		{route: "/getPropertyName", handler: hdl.GetPropertyNameHandler},
+		{route: "/addPropertyToMaterial", handler: hdl.AddPropertyToMaterialHandler},
 	} {
 		router.HandleFunc(rec.route, DbMiddleware(rec.handler))
 	}

@@ -32,6 +32,7 @@ type IService interface {
 
 	GetPropertyList(ctx context.Context, materialSourceId int) ([]model.PropertyShortInfo, error)
 	GetPropertyName(ctx context.Context, id int) (string, error)
+	AddPropertyToMaterial(ctx context.Context, materialSourceId int, propertyName string, kind string) error
 }
 
 type Handler struct {

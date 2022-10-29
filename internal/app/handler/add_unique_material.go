@@ -21,6 +21,6 @@ func (h Handler) AddUniqueMaterialHandler(w http.ResponseWriter, r *http.Request
 		if err != nil {
 			return AddUniqueMaterialResponse{false}, err
 		}
-		return AddUniqueMaterialResponse{true}, err
+		return AddUniqueMaterialResponse{true}, nil
 	})
 }
