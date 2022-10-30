@@ -2,90 +2,87 @@
   <v-app id="inspire">
     <v-main>
       <v-container>
-        <v-form>
-          <v-row
-              cols="12" sm="6"
-          >
-            <v-col>
+        <v-row>
+
+          <v-col>
+            <v-form class="inputs">
               <h1>Добавить запись</h1>
               <MaterialDropdown v-model="form.materialId"/>
-              <PropertiesForm v-model="form.properties" :materialId="form.materialId"/>
+              <PropertiesForm v-model="form.properties" :materialId="form.materialId" class="startDate"/>
               <v-date-picker v-model="form.dateAddValue" elevation="6" full-width="false" class="mb-10"></v-date-picker>
               <ButtonAddValue :data="form"></ButtonAddValue>
-            </v-col>
-            <v-col>
+            </v-form>
+          </v-col>
 
-              <v-form>
-                <h1>Добавить материал</h1>
-                <v-text-field
-                    required
-                    v-model="formMaterial.name"
-                    label="Материал, усл. поставки, страна"
-                ></v-text-field>
+          <v-col>
+            <v-form class="inputs">
+              <h1>Добавить материал</h1>
+              <v-text-field
+                  required
+                  v-model="formMaterial.name"
+                  label="Материал, усл. поставки, страна"
+              ></v-text-field>
 
-                <v-text-field
-                    v-model="formMaterial.source"
-                    label="Источник"
-                ></v-text-field>
+              <v-text-field
+                  v-model="formMaterial.source"
+                  label="Источник"
+              ></v-text-field>
 
-                <v-text-field
-                    v-model="formMaterial.market"
-                    label="Рынок (страна)"
-                ></v-text-field>
+              <v-text-field
+                  v-model="formMaterial.market"
+                  label="Рынок (страна)"
+              ></v-text-field>
 
-                <v-text-field
-                    v-model="formMaterial.unit"
-                    label="Ед. измерения"
-                ></v-text-field>
+              <v-text-field
+                  v-model="formMaterial.unit"
+                  label="Ед. измерения"
+              ></v-text-field>
+              <form
+                  ref="form"
+              >
+                <h3>Свойства</h3>
+                <v-btn
+                    elevation="6"
+                    small
+                    @click="addProperty"
+                    class="mb-6 mr-3"
+                >+
+                </v-btn>
+                <v-btn
+                    elevation="6"
+                    small
+                    color="error"
+                    @click="deleteProperty"
+                    class="mb-6"
+                >-
+                </v-btn>
+                <div class="form-row" v-for="(property, index) in formMaterial.properties" :key="index">
+                  <v-text-field
+                      v-model="property.name"
+                      :name="`formMaterial.properties[${index}][name]`"
+                      label="Название"
+                  ></v-text-field>
+                </div>
+              </form>
+              <ButtonAddMaterial @clear="clear" :data="formMaterial"></ButtonAddMaterial>
+            </v-form>
+          </v-col>
 
-                <form
-                    ref="form"
-                >
-                  <h3>Свойства</h3>
-                  <v-btn
-                      elevation="6"
-                      small
-                      @click="addProperty"
-                      class="mb-6 mr-3"
-                  >+
-                  </v-btn>
-                  <v-btn
-                      elevation="6"
-                      small
-                      color="error"
-                      @click="deleteProperty"
-                      class="mb-6"
-                  >-
-                  </v-btn>
-                  <div class="form-row" v-for="(property, index) in formMaterial.properties" :key="index">
-                    <v-text-field
-                        v-model="property.name"
-                        :name="`formMaterial.properties[${index}][name]`"
-                        label="Название"
-                    ></v-text-field>
-                  </div>
+          <v-col>
+            <form class="inputs">
+              <h1 class="mb-6">Генерация отчета</h1>
+              <v-btn
+                  elevation="6"
+                  small
+                  @click="this.getReportClick"
+                  class="mb-6"
+              >Сгенерировать
+              </v-btn>
+              <v-date-picker v-model="dateReport" elevation="6" full-width="false" class="mb-10"></v-date-picker>
+            </form>
+          </v-col>
 
-
-                </form>
-
-                <ButtonAddMaterial :data="formMaterial"></ButtonAddMaterial>
-              </v-form>
-            </v-col>
-          </v-row>
-        </v-form>
-
-        <form>
-          <h1 class="mb-6">Генерация отчета</h1>
-          <v-btn
-              elevation="6"
-              small
-              @click="this.getReportClick"
-              class="mb-6"
-          >Сгенерировать
-          </v-btn>
-        </form>
-        <v-date-picker v-model="dateReport" elevation="6" full-width="false" class="mb-10"></v-date-picker>
-
+        </v-row>
       </v-container>
     </v-main>
   </v-app>
@@ -133,18 +130,31 @@ export default {
     deleteProperty() {
       this.formMaterial.properties.pop()
     },
+    clear() {
+      this.formMaterial=  {
+        name: null,
+            source: null,
+            market: null,
+            unit: null,
+            properties: [{name: ""}]
+      }
+    }
   }
 }
 
 </script>
 
-<style>
-.add-properties > div {
-  margin: 20px 0;
-  padding-bottom: 10px;
+<style lang="scss">
+.inputs {
+  background-color: white;
+  max-width: 25em;
+  min-height: 40em;
+  max-height: 80em;
+  padding: 2em;
+  margin: 6.5em auto 2em auto;
+  border-radius: 0.25em;
+  box-shadow: 0 0 1em rgba(0, 0, 0, 0.25);
 }
 
-.add-properties > div:not(:last-child) {
-  border-bottom: 1px solid rgb(206, 212, 218);
-}
+
 </style>

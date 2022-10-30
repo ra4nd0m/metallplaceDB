@@ -17,6 +17,7 @@ export default {
   methods: {
     add(){
       addMaterialWithProperties(this.data.name, this.data.source, this.data.market, this.data.unit, this.data.properties)
+      this.$emit("clear")
     }
   }
 }
