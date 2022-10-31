@@ -20,7 +20,7 @@
               <v-text-field
                   required
                   v-model="formMaterial.name"
-                  label="Материал, усл. поставки, страна"
+                  label="Материал, усл. поставки"
               ></v-text-field>
 
               <v-text-field
@@ -30,7 +30,7 @@
 
               <v-text-field
                   v-model="formMaterial.market"
-                  label="Рынок (страна)"
+                  label="Страна"
               ></v-text-field>
 
               <v-text-field

@@ -39,7 +39,7 @@ module.exports = async function singleTableMinimax(materialId, dates) {
                         columnSpan: 3,
                         margins: TableCellMarginNil,
                         children: [
-                            textTh(resMat.data.info.Name)
+                            textTh(resMat.data.info.Name + " " + resMat.data.info.Market)
                         ]
                     })
                 ]

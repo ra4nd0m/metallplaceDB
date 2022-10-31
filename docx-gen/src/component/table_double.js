@@ -10,7 +10,7 @@ const textTh = require("../atom/text_th")
 
 const {TableRow, TableCell} = docx;
 
-function headerMaterial(name, unit) {
+function headerMaterial(name, market, unit) {
     return new docx.Table({
         width: {
             size: 100,
@@ -19,7 +19,7 @@ function headerMaterial(name, unit) {
         borders: TableNoOuterBorders,
         rows: [
             new TableRow({
-                children: [cellCenter({columnSpan: 3, children: [textTh(name)]})]
+                children: [cellCenter({columnSpan: 3, children: [textTh(name + " " + market)]})]
             }),
             new TableRow({
                 children: [
@@ -62,11 +62,11 @@ module.exports = async function tableDoubleWithWeekAvg(materialId1, materialId2,
                     cellCenter({margins: TableCellMarginNil, children: [textTh("Дата")]}),
                     cellCenter({
                         margins: TableCellMarginNil,
-                        children: [headerMaterial(resMat1.data.info.Name, resMat1.data.info.Unit)]
+                        children: [headerMaterial(resMat1.data.info.Name, resMat1.data.info.Market, resMat1.data.info.Unit)]
                     }),
                     cellCenter({
                         margins: TableCellMarginNil,
-                        children: [headerMaterial(resMat2.data.info.Name, resMat2.data.info.Unit)]
+                        children: [headerMaterial(resMat2.data.info.Name, resMat2.data.info.Market, resMat2.data.info.Unit)]
                     }),
                 ],
             }),

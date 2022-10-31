@@ -30,7 +30,7 @@ module.exports = async function singleTable(materialId, propertyId, dates){
                     }),
                     new  docx.TableCell({
                         columnSpan: 3,
-                        children: [textTh(resMat.data.info.Name)]
+                        children: [textTh(resMat.data.info.Name + " " + resMat.data.info.Market)]
                     })
                 ]
             }),

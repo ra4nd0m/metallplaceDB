@@ -282,7 +282,6 @@ module.exports = class WeeklyReport {
                             children: [await oneChartText(`http://localhost:8080/getChart/24-25_${MedPriceId}_${GetMonthRange(date)}_1_line.png`)]
                         }),
                         await tableDouble(24, 25, MedPriceId, GetMonthRange(date, true))
-
                     ],
                 },
             ],
