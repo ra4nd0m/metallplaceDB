@@ -147,7 +147,7 @@ module.exports = class WeeklyReport {
 
 
                         paragraph({ // запасы жел руды в китай протрах
-                            children: [await oneChartText(`http://localhost:8080/getChart/28_${StockId}_${GetMonthRange(date)}_1_bar.png`)]
+                            //children: [await oneChartText(`http://localhost:8080/getChart/28_${StockId}_${GetMonthRange(date)}_1_bar.png`)]
                         }),
                         paragraph({ //жрс 62 и 65
                             children: [await oneChartText(`http://localhost:8080/getChart/1-2_${MedPriceId}_${Get2WeekRange(date)}_1_line.png`)]
