@@ -4,13 +4,13 @@ const cellCenter = require("../atom/cell_centred")
 const textTd = require("../atom/text_td")
 const textTdItalic = require("../atom/text_td_small_cursive")
 
-module.exports = function (body){
+module.exports = function (body, unitChangeRound, percentChangeRound){
     let rows = [];
     body.forEach(m =>{
-        const changeUnits1 = getChange(m.Week1Med.price_feed, 0, m.Week1Med.prev_price, false);
-        const changePercents1 = getChange(m.Week1Med.price_feed, 0, m.Week1Med.prev_price, true);
-        const changeUnits2 = getChange(m.Week2Med.price_feed, 0, m.Week2Med.prev_price, false);
-        const changePercents2 = getChange(m.Week2Med.price_feed, 0, m.Week2Med.prev_price, true);
+        const changeUnits1 = getChange(m.Week1Med.price_feed, 0, m.Week1Med.prev_price, false, unitChangeRound);
+        const changePercents1 = getChange(m.Week1Med.price_feed, 0, m.Week1Med.prev_price, true, percentChangeRound);
+        const changeUnits2 = getChange(m.Week2Med.price_feed, 0, m.Week2Med.prev_price, false, unitChangeRound);
+        const changePercents2 = getChange(m.Week2Med.price_feed, 0, m.Week2Med.prev_price, true, percentChangeRound);
 
         rows.push(
             new docx.TableRow({

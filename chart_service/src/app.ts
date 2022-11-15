@@ -129,7 +129,13 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
                         maxTicksLimit: 5,
                         maxRotation: 0,
                         callback: (value, index, values) => {
-                            return formatYLabel(parseFloat(parseFloat(value.toString()).toPrecision(3)))
+                            return formatYLabel(
+                                parseFloat(
+                                    parseFloat(
+                                        parseFloat(value.toString()).toFixed(3).toString()
+                                    ).toPrecision(3)
+                                )
+                            )
                         },
                     },
                 }

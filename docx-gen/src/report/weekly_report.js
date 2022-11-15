@@ -199,7 +199,7 @@ module.exports = class WeeklyReport {
 
                         h2("Рынок стали"),
                         h3("Полуфабрикаты"),
-                        await tableMaterialMinimax([44, 45, 46, 47, 48, 49, 50], Get2LastFridays(date)),
+                        await tableMaterialMinimax([44, 45, 46, 47, 48, 49, 50], Get2LastFridays(date), 0, 1),
                         paragraph({ //заготовка, сляб
                             children: [await oneChartText(`http://localhost:8080/getChart/9-11_${MedPriceId}_${GetMonthRange(date)}_1_line.png`)]
                         }),
