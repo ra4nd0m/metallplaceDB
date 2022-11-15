@@ -97,27 +97,6 @@ module.exports = async function tableDoubleWithWeekAvg(materialId1, materialId2,
                     }),
                 ],
             }),
-
-
-            // new TableRow({
-            //     children: [
-            //         new TableCell({children: [new Paragraph("0,0")], rowSpan: 2}),
-            //         new TableCell({children: [new Paragraph("0,1")], columnSpan: 3}),
-            //         new TableCell({children: [new Paragraph("0,4")], columnSpan: 3}),
-            //         new TableCell({children: [new Paragraph("0,7")], rowSpan: 2}),
-            //     ],
-            // }),
-            // new TableRow({
-            //     children: [
-            //         new TableCell({children: [new Paragraph("1,1")]}),
-            //         new TableCell({children: [new Paragraph("1,2")]}),
-            //         new TableCell({children: [new Paragraph("1,3")]}),
-            //         new TableCell({children: [new Paragraph("1,4")]}),
-            //         new TableCell({children: [new Paragraph("1,5")]}),
-            //         new TableCell({children: [new Paragraph("1,6")]}),
-            //     ],
-            // }),
-
         ]
     })
 
