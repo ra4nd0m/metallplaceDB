@@ -3,7 +3,7 @@ const docx = require("docx");
 const RusMonth = ["января","фервраля","марта","апреля","мая","июня","июля","августа","сентября","октября","ноября","декабря"]
 
 module.exports.TableCellMarginNil = {top: 0, left: 0, bottom: 0, right: 0, marginUnitType: docx.WidthType.NIL};
-module.exports.SpacingDefault =2500;
+module.exports.SpacingDefault = 2500;
 module.exports.FontFamily = "Arial";
 module.exports.HeaderTitle = "Обзор рынка сырья, стали и ферросплавов";
 module.exports.RusMonth = RusMonth;
@@ -21,6 +21,8 @@ module.exports.FontSizeTd = 18
 module.exports.FontSizeTdSmall = 8
 module.exports.FontSizeTh = 18
 module.exports.FontSizeInfoRow = 14
+module.exports.FontSizeHeading3 = 24
+module .exports.HeadingColor = "#2E74B5"
 const NONE_BORDER = {
     style: docx.BorderStyle.NONE,
     size: 0,

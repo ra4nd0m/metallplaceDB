@@ -4,6 +4,7 @@ const header = require("../component/header");
 const h1 = require("../atom/heading1");
 const h2 = require("../atom/heading2");
 const h3 = require("../atom/heading3");
+const h3Fake = require("../atom/heading3_fake");
 const paragraph = require("../atom/paragraph");
 const twoChart = require("../component/two_chart");
 const {HeaderTitle, MedPriceId, StockId, RusMonth} = require("../const");
@@ -60,7 +61,7 @@ module.exports = class WeeklyReport {
                         new docx.Paragraph({children: [new docx.PageBreak()]}),
 
                         h2("Краткая сводка цен по мировому рынку"),
-                        h3("Сырьевые материалы"),
+                        h3Fake("Сырьевые материалы"),
                         paragraph({
                             children: [
                                 await twoChart(
@@ -85,7 +86,7 @@ module.exports = class WeeklyReport {
                         }),
 
 
-                        h3("Сталь"),
+                        h3Fake("Сталь"),
                         paragraph({
                             children: [
                                 await oneChart(`http://localhost:8080/getChart/9_${MedPriceId}_${GetYearRange(date)}_0_line.png`)
@@ -119,7 +120,7 @@ module.exports = class WeeklyReport {
                         }),
 
 
-                        h3("Ферросплавы и руды"),
+                        h3Fake("Ферросплавы и руды"),
                         paragraph({
                             children: [
                                 await twoChart(
