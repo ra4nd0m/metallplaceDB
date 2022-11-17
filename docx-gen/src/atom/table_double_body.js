@@ -36,10 +36,10 @@ module.exports = function (feed1, feed2) {
                         children: [textTd(pf2[i].value, undefined, fixed)]
                     }),
                     cellCenter({
-                        children: [textTd(changeUnits2.Text, changeUnits1.Color)]
+                        children: [textTd(changeUnits2.Text, changeUnits2.Color)]
                     }),
                     cellCenter({
-                        children: [textTd(changePercents2.Text, changePercents1.Color)]
+                        children: [textTd(changePercents2.Text, changePercents2.Color)]
                     }),
 
                 ]
