@@ -15,13 +15,13 @@ module.exports = function (feed, i, prevPrice, getPercent, round) {
     }
 }
 
-function format(num, fixed) {
-    if(fixed === 0) return num
+function format(num, round) {
+    if(round === 0 || round === undefined) return num
     let numStr = num.toString()
     if (numStr.indexOf(".") === -1){
-        numStr += "." + "0".repeat(fixed)
+        numStr += "." + "0".repeat(round)
     } else {
-        numStr += "0".repeat(fixed - numStr.substring(numStr.indexOf(".") + 1).length)
+        numStr += "0".repeat(round - numStr.substring(numStr.indexOf(".") + 1).length)
     }
     return numStr
 }
