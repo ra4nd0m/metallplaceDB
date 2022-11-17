@@ -76,7 +76,7 @@ var InitMaterialsHorizontal = []MaterialHorizontal{
 	},
 
 	{"10.Сводка (неделя)",
-		"Лом, HM2, CNF, (недельный)",
+		"Лом, H2, CNF, (недельный)",
 		"-",
 		"Вьетнам, Хайфон",
 		"USD/т",
