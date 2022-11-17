@@ -64,22 +64,22 @@ module.exports = class WeeklyReport {
                         h3Fake("Сырьевые материалы"),
                         paragraph({
                             children: [
-                                await twoChart(
+                                await twoChart( // ЖРС62 ЛОМ hms
                                     `http://localhost:8080/getChart/1_${MedPriceId}_${GetYearRange(date)}_0_line.png`,
                                     `http://localhost:8080/getChart/4_${MedPriceId}_${GetYearRange(date)}_0_line.png`,)
                             ]
                         }),
                         paragraph({
                             children: [
-                                await twoChart(
-                                    `http://localhost:8080/getChart/6_${MedPriceId}_${GetYearRange(date)}_0_line.png`,
-                                    `http://localhost:8080/getChart/5_${MedPriceId}_${GetYearRange(date)}_0_line.png`,)
+                                await twoChart( //чугун лом3а
+                                    `http://localhost:8080/getChart/5_${MedPriceId}_${GetYearRange(date)}_0_line.png`,
+                                    `http://localhost:8080/getChart/3_${MedPriceId}_${GetYearRange(date)}_0_line.png`,)
                             ]
                         }),
                         paragraph({
                             children: [
-                                await twoChart(
-                                    `http://localhost:8080/getChart/7_${MedPriceId}_${GetYearRange(date)}_0_line.png`,
+                                await twoChart( //уголь кокс, кокс мет
+                                    `http://localhost:8080/getChart/6_${MedPriceId}_${GetYearRange(date)}_0_line.png`,
                                     `http://localhost:8080/getChart/8_${MedPriceId}_${GetYearRange(date)}_0_line.png`,)
 
                             ]
@@ -156,8 +156,8 @@ module.exports = class WeeklyReport {
                         h3("Железнорудное сырье"),
 
 
-                        paragraph({ // запасы жел руды в китай протрах
-                            //children: [await oneChartText(`http://localhost:8080/getChart/28_${StockId}_${GetMonthRange(date)}_1_bar.png`)]
+                        paragraph({ // запасы жел руды в китай портах
+                            children: [await oneChartText(`http://localhost:8080/getChart/28_${StockId}_${GetMonthRange(date)}_1_bar.png`)]
                         }),
                         paragraph({ //жрс 62 и 65
                             children: [await oneChartText(`http://localhost:8080/getChart/1-2_${MedPriceId}_${Get2WeekRange(date)}_1_line.png`)]
@@ -224,9 +224,7 @@ module.exports = class WeeklyReport {
                         paragraph({ // рулон гк рулон хк FOB
                             children: [await oneChartText(`http://localhost:8080/getChart/12-13_${MedPriceId}_${GetMonthRange(date)}_1_line.png`)]
                         }),
-                        new docx.Paragraph({children: [new docx.PageBreak()]}),
 
-                        h3(""),
                         await tableMaterialMinimax(getRangeArr(54, 66), Get2LastFridays(date)),
                         new docx.Paragraph({children: [new docx.PageBreak()]}),
 
