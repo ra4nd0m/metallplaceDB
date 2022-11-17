@@ -58,7 +58,7 @@ async function getInfo(isBig, url){
 
         const lastPrice = prices.data.price_feed[1].value
         let percent = Math.round((prices.data.price_feed[1].value - prices.data.price_feed[0].value) / prices.data.price_feed[0].value * 1000) / 10
-        percent = percent > 0 ? paragraphCentred(`+${numFormat(percent)}% н/н`, Green) : (numFormat(percent) ? paragraphCentred(numFormat(percent) + '% н/н', Red) : paragraphCentred('- н/н', ColorDefault))
+        percent = percent > 0 ? paragraphCentred(`+${numFormat(percent)}% н/н`, Green) : (percent < 0 ? paragraphCentred(numFormat(percent) + '% н/н', Red) : paragraphCentred('- н/н', ColorDefault))
         return [new docx.TableRow({
             children: [
                 new docx.TableCell({
