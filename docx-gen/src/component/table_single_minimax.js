@@ -10,7 +10,7 @@ const textTh = require("../atom/text_th")
 const priceBlock = require("../atom/price_block")
 
 
-module.exports = async function singleTableMinimax(materialId, dates) {
+module.exports = async function singleTableMinimax(materialId, dates, unitChangeRound, percentChangeRound) {
     const first = new Date(dates[0])
     const last = new Date(dates[1])
 
@@ -72,7 +72,7 @@ module.exports = async function singleTableMinimax(materialId, dates) {
             type: docx.WidthType.PERCENTAGE,
         },
         columnWidths: [3, 1, 1, 1, 3, 3],
-        rows: tableBody(minBody.data, maxBody.data, medBody.data),
+        rows: tableBody(minBody.data, maxBody.data, medBody.data, unitChangeRound, percentChangeRound),
     })
 
     return paragraph({children: [header, body]})

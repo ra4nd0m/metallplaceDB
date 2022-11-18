@@ -6,7 +6,7 @@ const {FormatDayMonth} = require("../utils/date_operations");
 const tableBody = require("../atom/table_single_body")
 const textTh = require("../atom/text_th")
 
-module.exports = async function singleTable(materialId, propertyId, dates){
+module.exports = async function singleTable(materialId, propertyId, dates, unitChangeRound, percentChangeRound){
     const first = new Date(dates[0])
     const last = new Date(dates[1])
 
@@ -47,7 +47,7 @@ module.exports = async function singleTable(materialId, propertyId, dates){
                     }),
                 ]
             }),
-            ...tableBody(resBody.data),
+            ...tableBody(resBody.data, unitChangeRound, percentChangeRound),
         ]
     })
 }

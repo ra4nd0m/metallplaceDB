@@ -31,16 +31,16 @@ function insertMed(i, feed1, feed2){
     return []
 }
 
-module.exports = function (feed1, feed2) {
+module.exports = function (feed1, feed2, unitChangeRound, percentChangeRound) {
     let rows = [];
     const pf1 = feed1.price_feed
     const pf2 = feed2.price_feed
     const fixed = getToFixed([pf1, pf2])
     for (let i = 0; i < pf1.length; i++) {
-        const changeUnits1 = getChange(pf1, i, feed1.prev_price, false);
-        const changePercents1 = getChange(pf1, i, feed1.prev_price, true);
-        const changeUnits2 = getChange(pf2, i, feed2.prev_price, false);
-        const changePercents2 = getChange(pf2, i, feed2.prev_price, true);
+        const changeUnits1 = getChange(pf1, i, feed1.prev_price, false, unitChangeRound);
+        const changePercents1 = getChange(pf1, i, feed1.prev_price, true, percentChangeRound);
+        const changeUnits2 = getChange(pf2, i, feed2.prev_price, false, unitChangeRound);
+        const changePercents2 = getChange(pf2, i, feed2.prev_price, true, percentChangeRound);
         rows.push(
             new docx.TableRow({
                 children: [

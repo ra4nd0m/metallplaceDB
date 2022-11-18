@@ -8,7 +8,9 @@ module.exports = function (feed, i, prevPrice, getPercent, round) {
         if (percent < 0) return {Text:`${format(percent, round)}`, Color: Red};
         return {Text:"-", Color: ColorDefault};
     } else {
-        change = Math.round(change)
+        change = Math.round(change * 100) / 100
+        const n =  Math.pow(10, round)
+        change = Math.round(change * n) / n
         if (change > 0) return {Text:`+${format(change, round)}`, Color: Green};
         if (change < 0) return {Text:`${format(change, round)}`, Color: Red};
         return {Text:"-", Color: ColorDefault};

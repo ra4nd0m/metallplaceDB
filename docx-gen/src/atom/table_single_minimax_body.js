@@ -5,7 +5,7 @@ const cellCenter = require("../atom/cell_centred")
 const textTd = require("../atom/text_td")
 const getToFixed = require("../utils/get_to_fixed")
 
-module.exports = function (min, max, med) {
+module.exports = function (min, max, med, unitChangeRound, percentChangeRound) {
     let rows = [];
     const pfMin = min.price_feed
     const pfMax = max.price_feed
@@ -14,8 +14,8 @@ module.exports = function (min, max, med) {
     const fixed = getToFixed([pfMin, pfMed, pfMax])
 
     for (let i = 0; i < pfMed.length; i++) {
-        const changeUnits = getChange(pfMed, i, med.prev_price, false);
-        const changePercents = getChange(pfMed, i, med.prev_price, true);
+        const changeUnits = getChange(pfMed, i, med.prev_price, false, unitChangeRound);
+        const changePercents = getChange(pfMed, i, med.prev_price, true, percentChangeRound);
         rows.push(
             new docx.TableRow({
                 children: [

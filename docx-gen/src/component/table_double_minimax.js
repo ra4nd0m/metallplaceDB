@@ -8,7 +8,7 @@ const {formatDateDb} = require("../utils/date_format");
 const priceBlock = require("../atom/price_block")
 const cellCenter = require("../atom/cell_centred")
 
-module.exports = async function doubleTableMinimax(materialId1, materialId2, dates) {
+module.exports = async function doubleTableMinimax(materialId1, materialId2, dates, unitChangeRound, percentChangeRound) {
     const from = formatDateDb(dates[0])
     const to = formatDateDb(dates[1])
 
@@ -124,7 +124,7 @@ module.exports = async function doubleTableMinimax(materialId1, materialId2, dat
             type: docx.WidthType.PERCENTAGE,
         },
         columnWidths: [2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-        rows: tableBody(minBody1.data, maxBody1.data, medBody1.data, minBody2.data, maxBody2.data, medBody2.data),
+        rows: tableBody(minBody1.data, maxBody1.data, medBody1.data, minBody2.data, maxBody2.data, medBody2.data, unitChangeRound, percentChangeRound),
     })
     return paragraph({children: [header, body]})
 }

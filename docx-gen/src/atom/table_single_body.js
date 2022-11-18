@@ -5,13 +5,13 @@ const textTd = require("../atom/text_td")
 const {formatDateTable} = require("../utils/date_format");
 const getToFixed = require("../utils/get_to_fixed")
 
-module.exports = function (input) {
+module.exports = function (input, unitChangeRound, percentChangeRound) {
     let rows = [];
     const pf = input.price_feed
     const fixed = getToFixed([pf])
     for (let i = 0; i < pf.length; i++) {
-        const changeUnits = getChange(pf, i, input.prev_price, false);
-        const changePercents = getChange(pf, i, input.prev_price, true);
+        const changeUnits = getChange(pf, i, input.prev_price, false, unitChangeRound);
+        const changePercents = getChange(pf, i, input.prev_price, true, percentChangeRound);
         rows.push(
             new docx.TableRow({
                 children: [

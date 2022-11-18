@@ -5,7 +5,7 @@ const textTd = require("../atom/text_td")
 const {formatDateTable} = require("../utils/date_format");
 const getToFixed = require("../utils/get_to_fixed")
 
-module.exports = function (min1, max1, med1, min2, max2, med2) {
+module.exports = function (min1, max1, med1, min2, max2, med2, unitChangeRound, percentChangeRound) {
     let rows = [];
     const pfMin1 = min1.price_feed
     const pfMax1 = max1.price_feed
@@ -18,11 +18,11 @@ module.exports = function (min1, max1, med1, min2, max2, med2) {
     const fixed = getToFixed([pfMin1, pfMax1, pfMed1, pfMin2, pfMax2, pfMed2])
 
     for (let i = 0; i < pfMed1.length; i++) {
-        const changeUnits1 = getChange(pfMed1, i, med1.prev_price, false);
-        const changePercents1 = getChange(pfMed1, i, med1.prev_price, true);
+        const changeUnits1 = getChange(pfMed1, i, med1.prev_price, false, unitChangeRound);
+        const changePercents1 = getChange(pfMed1, i, med1.prev_price, true, percentChangeRound);
 
-        const changeUnits2 = getChange(pfMed2, i, med2.prev_price, false);
-        const changePercents2 = getChange(pfMed2, i, med2.prev_price, true);
+        const changeUnits2 = getChange(pfMed2, i, med2.prev_price, false, unitChangeRound);
+        const changePercents2 = getChange(pfMed2, i, med2.prev_price, true, percentChangeRound);
         rows.push(
             new docx.TableRow({
                 children: [
