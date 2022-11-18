@@ -8,8 +8,8 @@ module.exports = function (body, titlesIndexes, titles){
     let tableRowCnt = 0
     let idxCnt = 0
     body.forEach(m =>{
-        const changeUnits = getChange(m.Week2Med.price_feed, 0, m.Week2Med.prev_price, false);
-        const changePercents = getChange(m.Week2Med.price_feed, 0, m.Week2Med.prev_price, true);
+        const changeUnits = getChange(m.Week2Med.price_feed, 0, m.Week1Med.price_feed[0].value, false);
+        const changePercents = getChange(m.Week2Med.price_feed, 0, m.Week1Med.price_feed[0].value, true);
         const material = m.Name.split(", ")
 
         if(tableRowCnt === titlesIndexes[idxCnt]){
