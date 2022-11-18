@@ -17,6 +17,7 @@ const tableDouble = require("../component/table_double");
 const tableMaterialMinimax = require("../component/table_material_minimax");
 const tableMaterial = require("../component/table_material")
 const doubleTableMinimax = require("../component/table_double_minimax")
+const tableMaterialGrouped = require("../component/table_material_grouped")
 const {GetWeekDates, GetWeekNumber, Get2LastFridays, Get2LastThursdays} = require("../utils/date_operations");
 const {GetMonthRange, Get2WeekRange, GetYearRange} = require("../utils/date_ranges")
 
@@ -238,8 +239,9 @@ module.exports = class WeeklyReport {
 
 
                         h2("Рынок ферросплавов и руд"),
-                        new docx.Paragraph({children: [new docx.TextRun("Сводная таблица:")]}),
-                        await tableMaterial(getRangeArr(17, 23), Get2LastThursdays(date)),
+                        paragraph("Сводная таблица:"),
+                        await tableMaterialGrouped(getRangeArr(17, 23), Get2LastThursdays(date),
+                            [0, 5], ["Ферросплавы (DDP Европа)", "Руда (CIF Китай)"]),
                         h3("Ферромарганец и силиконсарганец"),
                         paragraph({ // FeMn76, SiMn65
                             children: [await oneChartText(`http://localhost:8080/getChart/17-19_${MedPriceId}_${GetMonthRange(date)}_1_line.png`)]
