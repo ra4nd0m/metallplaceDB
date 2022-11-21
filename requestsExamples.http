@@ -75,7 +75,7 @@ Content-Type: application/json
 }
 
 ###
-GET http://localhost:8080/getChart/26_4_08-25-2021_10-15-2021_1_line.png
+GET http://localhost:8080/getChart/6_1_10-20-2021_10-07-2022_0_line_2.png
 
 ###
 GET http://localhost:8080/getReport/weekly/2022-10-03

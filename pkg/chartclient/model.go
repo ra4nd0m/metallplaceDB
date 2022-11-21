@@ -14,4 +14,5 @@ type YDataSet struct {
 type Options struct {
 	NeedLabels bool   `json:"labels"`
 	Type       string `json:"type"`
+	Group      int    `json:"group"`
 }

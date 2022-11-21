@@ -11,7 +11,7 @@ func (h Handler) GetChartHandler(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	chartPack, err := model.NewChartPack(strings.TrimRight(vars["specs"], "."))
 	if err != nil {
-		http.Error(w, "cant pack request to struct", http.StatusBadRequest)
+		http.Error(w, "cant pack request to struct: "+err.Error(), http.StatusBadRequest)
 		return
 	}
 

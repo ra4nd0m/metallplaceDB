@@ -39,6 +39,7 @@ func (s *Service) GetChart(ctx context.Context, chartPack model.ChartPack) ([]by
 		req.YDataSet = append(req.YDataSet, dataset)
 		req.Options.NeedLabels = chartPack.NeedLabels
 		req.Options.Type = chartPack.Type
+		req.Options.Group = chartPack.Group
 		isFirst = false
 	}
 
@@ -68,6 +69,7 @@ func (s *Service) GetCachedChart(ctx context.Context, chartPack model.ChartPack)
 		}
 
 		f.Close()
+
 		return bytes, nil
 	}
 	return ioutil.ReadFile(path)

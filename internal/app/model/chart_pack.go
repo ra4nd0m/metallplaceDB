@@ -16,6 +16,7 @@ type ChartPack struct {
 	Finish         time.Time
 	NeedLabels     bool
 	Type           string
+	Group          int
 }
 
 func (c ChartPack) ToUrl() string {
@@ -36,6 +37,7 @@ func (c ChartPack) ToUrl() string {
 	}
 	fn += "_" + needLabels
 	fn += "_" + c.Type
+	fn += "_" + strconv.Itoa(c.Group)
 
 	return fn + ChartRoutePostfix
 }
@@ -80,6 +82,12 @@ func NewChartPack(url string) (ChartPack, error) {
 	}
 
 	c.Type = cnt[5]
+
+	group, err := strconv.Atoi(cnt[6])
+	if err != nil {
+		return ChartPack{}, fmt.Errorf("cant parse group size: %w", err)
+	}
+	c.Group = group
 
 	return c, nil
 }

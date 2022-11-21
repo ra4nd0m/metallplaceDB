@@ -41,6 +41,23 @@ const getChart = async (XLabelSet: string[], YDataSets: YDataSet[], options: Cha
     let colors = ['rgb(55, 74, 116)', 'rgb(100, 70, 96)']
     let i = 0
 
+    if(options.group != 0){
+        let group = options.group
+        let groupedXLabelSet: string[] = []
+        let groupedYDataSets: YDataSet[] = []
+        for(let cur = group; cur + options.group <= YDataSets[0].data.length; cur += options.group){
+            groupedXLabelSet.push(XLabelSet[cur])
+            YDataSets.forEach(ds => {
+                let prevIdx = 0
+                let newData: number[] = []
+                for(let curIdx = group; curIdx + group <= ds.data.length; curIdx += group){
+                    newData.push(arrMedVal(ds.data.slice(prevIdx, curIdx)))
+                    prevIdx = curIdx
+                }
+                groupedYDataSets.push({label: ds.label, data: newData})
+            })
+        }
+    }
 
     // Creating dataset lines: material - price feed
     YDataSets.forEach(set => {
@@ -63,6 +80,14 @@ const getChart = async (XLabelSet: string[], YDataSets: YDataSet[], options: Cha
 type ChartOptions = {
     labels?: Partial<LabelOptions>,
     type?: string,
+    group: number
+}
+
+function arrMedVal(arr: number[]): number {
+    const sum = arr.reduce((accumulator, value) => {
+        return accumulator + value;
+    }, 0);
+    return Math.round(sum / arr.length * 100) / 100
 }
 
 function getToFixed(datasets: Dataset[]): number {
@@ -114,8 +139,8 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
                     ticks: {
                         font: { size: axesFontSize },
                         includeBounds: true,
-                        maxRotation: 45,
-                        maxTicksLimit: 20,
+                        maxRotation: 70,
+                        maxTicksLimit: 27,
                         autoSkip: true
                     },
                     grid: {
@@ -214,10 +239,14 @@ function formatXLabel(date: string, ifWeek: boolean): string {
     if (!ifWeek) {
         return `${dateArr[2]}.${dateArr[1]}.${dateArr[0]}`
     }
-    let cur = new Date(Date.UTC(Number(dateArr[0]), Number(dateArr[1]) - 1, Number(dateArr[2])));
-    let oneJan = new Date(cur.getFullYear(), 0, 1);
-    let numberOfDays = Math.floor((cur.getTime() - oneJan.getTime()) / (24 * 60 * 60 * 1000));
-    let week = Math.ceil((cur.getDay() + 1 + numberOfDays) / 7);
+    let currentDate = new Date(Date.UTC(Number(dateArr[0]), Number(dateArr[1]) - 1, Number(dateArr[2])));
+    let startDate = new Date(currentDate.getFullYear(), 0, 1);
+    // @ts-ignore
+    let days = Math.floor((currentDate - startDate) /
+        (24 * 60 * 60 * 1000));
+
+    var week = Math.ceil(days / 7);
+    console.log(date + " - " + week + "week")
     return `${week} (${dateArr[0]})`
 }
 
