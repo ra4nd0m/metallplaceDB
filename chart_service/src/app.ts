@@ -57,6 +57,10 @@ const getChart = async (XLabelSet: string[], YDataSets: YDataSet[], options: Cha
                 groupedYDataSets.push({label: ds.label, data: newData})
             })
         }
+        XLabelSet = []
+        YDataSets = []
+        XLabelSet = groupedXLabelSet
+        YDataSets = groupedYDataSets
     }
 
     // Creating dataset lines: material - price feed
