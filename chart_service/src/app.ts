@@ -41,28 +41,6 @@ const getChart = async (XLabelSet: string[], YDataSets: YDataSet[], options: Cha
     let colors = ['rgb(55, 74, 116)', 'rgb(100, 70, 96)']
     let i = 0
 
-    if(options.group != 0){
-        let group = options.group
-        let groupedXLabelSet: string[] = []
-        let groupedYDataSets: YDataSet[] = []
-        for(let cur = group; cur + options.group <= YDataSets[0].data.length; cur += options.group){
-            groupedXLabelSet.push(XLabelSet[cur])
-            YDataSets.forEach(ds => {
-                let prevIdx = 0
-                let newData: number[] = []
-                for(let curIdx = group; curIdx + group <= ds.data.length; curIdx += group){
-                    newData.push(arrMedVal(ds.data.slice(prevIdx, curIdx)))
-                    prevIdx = curIdx
-                }
-                groupedYDataSets.push({label: ds.label, data: newData})
-            })
-        }
-        XLabelSet = []
-        YDataSets = []
-        XLabelSet = groupedXLabelSet
-        YDataSets = groupedYDataSets
-    }
-
     // Creating dataset lines: material - price feed
     YDataSets.forEach(set => {
         console.log("Pushing ", set.label)
@@ -84,7 +62,6 @@ const getChart = async (XLabelSet: string[], YDataSets: YDataSet[], options: Cha
 type ChartOptions = {
     labels?: Partial<LabelOptions>,
     type?: string,
-    group: number
 }
 
 function arrMedVal(arr: number[]): number {

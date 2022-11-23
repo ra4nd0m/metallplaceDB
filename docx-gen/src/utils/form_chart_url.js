@@ -5,7 +5,6 @@ module.exports.ChartUrl = function (materialIds, propertyId, timeFrame, isBig, t
     this.timeFrame = timeFrame
     this.isBig = isBig
     this.type = type
-    this.group = group
 }
 
 module.exports.FormChartUrl = function (ChartUrl){
@@ -13,6 +12,6 @@ module.exports.FormChartUrl = function (ChartUrl){
     const materialIds = ChartUrl.materialIds.join("-")
     if(ChartUrl.group === undefined) ChartUrl.group = 0
 
-    url += materialIds + "_" + ChartUrl.propertyId + "_" + ChartUrl.timeFrame + "_" + ChartUrl.isBig + "_" + ChartUrl.type + "_" + ChartUrl.group + ".png"
+    url += materialIds + "_" + ChartUrl.propertyId + "_" + ChartUrl.timeFrame + "_" + ChartUrl.isBig + "_" + ChartUrl.type + ".png"
     return url
 }

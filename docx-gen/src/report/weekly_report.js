@@ -74,16 +74,17 @@ module.exports = class WeeklyReport {
                         paragraph({
                             children: [
                                 await twoChart( //чугун лом3а
-                                    `http://localhost:8080/getChart/5_${MedPriceId}_${GetYearRange(date)}_0_line_0.png`,
-                                    `http://localhost:8080/getChart/3_${MedPriceId}_${GetYearRange(date)}_0_line_0.png`,)
+                                    FormChartUrl(new ChartUrl([5], MedPriceId, GetYearRange(date), 0, "line")),
+                                    FormChartUrl(new ChartUrl([3], MedPriceId, GetYearRange(date), 0, "line")),
+                                )
                             ]
                         }),
                         paragraph({
                             children: [
                                 await twoChart( //уголь кокс, кокс мет
-                                    `http://localhost:8080/getChart/6_${MedPriceId}_${GetYearRange(date)}_0_line_0.png`,
-                                    `http://localhost:8080/getChart/8_${MedPriceId}_${GetYearRange(date)}_0_line_0.png`,)
-
+                                    FormChartUrl(new ChartUrl([6], MedPriceId, GetYearRange(date), 0, "line")),
+                                    FormChartUrl(new ChartUrl([8], MedPriceId, GetYearRange(date), 0, "line")),
+                                )
                             ]
                         }),
 
@@ -91,7 +92,9 @@ module.exports = class WeeklyReport {
                         h3Fake("Сталь"),
                         paragraph({
                             children: [
-                                await oneChart(`http://localhost:8080/getChart/9_${MedPriceId}_${GetYearRange(date)}_0_line_0.png`)
+                                await oneChart(
+                                    FormChartUrl(new ChartUrl([9], MedPriceId, GetYearRange(date), 0, "line")),
+                                )
                             ]
                         }),
 
@@ -100,8 +103,9 @@ module.exports = class WeeklyReport {
                         paragraph({
                             children: [
                                 await twoChart(
-                                    `http://localhost:8080/getChart/10_${MedPriceId}_${GetYearRange(date)}_0_line_0.png`,
-                                    `http://localhost:8080/getChart/14_${MedPriceId}_${GetYearRange(date)}_0_line_0.png`,)
+                                    FormChartUrl(new ChartUrl([10], MedPriceId, GetYearRange(date), 0, "line")),
+                                    FormChartUrl(new ChartUrl([14], MedPriceId, GetYearRange(date), 0, "line")),
+                                )
                             ]
                         }),
 
@@ -109,8 +113,9 @@ module.exports = class WeeklyReport {
                         paragraph({
                             children: [
                                 await twoChart(
-                                    `http://localhost:8080/getChart/12_${MedPriceId}_${GetYearRange(date)}_0_line_0.png`,
-                                    `http://localhost:8080/getChart/15_${MedPriceId}_${GetYearRange(date)}_0_line_0.png`,)
+                                    FormChartUrl(new ChartUrl([12], MedPriceId, GetYearRange(date), 0, "line")),
+                                    FormChartUrl(new ChartUrl([15], MedPriceId, GetYearRange(date), 0, "line")),
+                                )
                             ]
                         }),
                         paragraph({
