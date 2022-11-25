@@ -32,11 +32,6 @@ module.exports = async function oneChartText(url){
                         children: [
                             paragraph({
                                 alignment: docx.AlignmentType.LEFT,
-                                children: [
-                                    new TextRun({
-                                        children: ["Введите текст"],
-                                    }),
-                                ],
                             }),
                         ],
                     }),
