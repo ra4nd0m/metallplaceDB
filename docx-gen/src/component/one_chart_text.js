@@ -1,9 +1,8 @@
 const docx = require("docx");
 const chartBlock = require("./chart_block")
 const paragraph = require("../atom/paragraph")
-
 const {TableCellMarginNil, LineWidth, LineColor} = require("../const");
-const {TextRun} = require("docx");
+
 module.exports = async function oneChartText(url){
     const block = await chartBlock(url, true)
 
@@ -32,19 +31,11 @@ module.exports = async function oneChartText(url){
                         children: [
                             paragraph({
                                 alignment: docx.AlignmentType.LEFT,
-                                children: [
-                                    new TextRun({
-                                        children: ["Введите текст"],
-                                    }),
-                                ],
                             }),
                         ],
                     }),
-
                 ],
             }),
-
-
         ],
     })
 }

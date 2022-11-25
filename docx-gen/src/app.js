@@ -1,9 +1,6 @@
-const fs = require("fs");
 const docx = require("docx");
 const WeeklyReport = require("./report/weekly_report");
 const express = require('express')
-const Console = require("console");
-const buffer = require("buffer");
 
 let app = express()
 const port = 3001

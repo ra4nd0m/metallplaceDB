@@ -133,10 +133,10 @@ export default {
     clear() {
       this.formMaterial=  {
         name: null,
-            source: null,
-            market: null,
-            unit: null,
-            properties: [{name: ""}]
+        source: null,
+        market: null,
+        unit: null,
+        properties: [{name: ""}]
       }
     }
   }
