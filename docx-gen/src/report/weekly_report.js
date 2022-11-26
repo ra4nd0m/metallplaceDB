@@ -53,7 +53,7 @@ module.exports = class WeeklyReport {
                         new docx.Paragraph({
                             children: [
                                 new docx.ImageRun({
-                                    data: fs.readFileSync("pic.png"),
+                                    data: fs.readFileSync("/home/ivan/Pictures/Screenshots/pic.png"),
                                     transformation: {
                                         width: 1000,
                                         height: 2000,
@@ -157,6 +157,7 @@ module.exports = class WeeklyReport {
                                 await twoChart(
                                     FormChartUrl(new ChartUrl([17], MedPriceId, GetYearRange(date), 0, "line")),
                                     FormChartUrl(new ChartUrl([19], MedPriceId, GetYearRange(date), 0, "line")),
+                                    2
                                 )
                             ]
                         }),
@@ -165,7 +166,8 @@ module.exports = class WeeklyReport {
 
                         paragraph({
                             children: [await oneChart(
-                                FormChartUrl(new ChartUrl([18], MedPriceId, GetYearRange(date), 0, "line"))
+                                FormChartUrl(new ChartUrl([18], MedPriceId, GetYearRange(date), 0, "line")),
+                                2
                             )]
                         }),
 
@@ -174,6 +176,7 @@ module.exports = class WeeklyReport {
                                 await twoChart(
                                     FormChartUrl(new ChartUrl([20], MedPriceId, GetYearRange(date), 0, "line")),
                                     FormChartUrl(new ChartUrl([21], MedPriceId, GetYearRange(date), 0, "line")),
+                                    2
                                 )
                             ]
                         }),
@@ -183,6 +186,7 @@ module.exports = class WeeklyReport {
                                 await twoChart(
                                     FormChartUrl(new ChartUrl([22], MedPriceId, GetYearRange(date), 0, "line")),
                                     FormChartUrl(new ChartUrl([23], MedPriceId, GetYearRange(date), 0, "line")),
+                                    2
                                 )
                             ]
                         }),

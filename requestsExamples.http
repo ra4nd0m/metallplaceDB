@@ -14,9 +14,9 @@ Content-Type: application/json
 
 {
   "material_source_id": 2,
-  "property_id": 2,
+  "property_id": 1,
   "n_values": 2,
-  "finish": "2021-01-06"
+  "finish": "2022-01-06"
 }
 
 ###
