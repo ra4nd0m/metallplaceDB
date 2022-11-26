@@ -4,9 +4,19 @@ module.exports = function (num, fixed){
         return numStr
     }
     if(num >= 1000){
-        const after = num.toString().slice(-3)
-        const before = num.toString().slice(0, num.toString().length - 3)
+        let afterComma = ""
+        let beforeComma = num
+        if(num.toString().indexOf(".") !== -1){
+            const numArr = num.toString().split(".")
+            beforeComma = numArr[0]
+            afterComma = numArr[1]
+        }
+        const after = beforeComma.toString().slice(-3)
+        const before = beforeComma.toString().slice(0, beforeComma.toString().length - 3)
         numStr = before + " " + after
+        if(afterComma !== ""){
+            numStr += "." + afterComma
+        }
     }
     numStr = numStr.replace(".", ",")
     if (fixed !== 0 && fixed !== undefined){
