@@ -306,7 +306,7 @@ module.exports = class WeeklyReport {
 
                         h3("Марганцевая руда"),
                         paragraph({ //mn руда запасы в китае
-                            children: [await oneChartText(FormChartUrl(new ChartUrl([26], StockId, GetMonthRange(date), 1, "line")))]
+                            children: [await oneChartText(FormChartUrl(new ChartUrl([26], StockId, GetMonthRange(date), 1, "bar")))]
                         }),
                         paragraph({ //mn руда цена
                             children: [await oneChartText(FormChartUrl(new ChartUrl([22], MedPriceId, GetMonthRange(date), 1, "line")))]
@@ -317,7 +317,7 @@ module.exports = class WeeklyReport {
 
                         h3("Хромовая руда"),
                         paragraph({ //хром руда запасы в китае
-                            children: [await oneChartText(FormChartUrl(new ChartUrl([27], StockId, GetMonthRange(date), 1, "line")))]
+                            children: [await oneChartText(FormChartUrl(new ChartUrl([27], StockId, GetMonthRange(date), 1, "bar")))]
                         }),
                         paragraph({ //cr руда цена
                             children: [await oneChartText(FormChartUrl(new ChartUrl([23], MedPriceId, GetMonthRange(date), 1, "line")))]
