@@ -33,6 +33,19 @@ type YDataSet = {
     data: number[]
 }
 
+function getPercentChangesArr(prices: number[]): string[] {
+    let changes: string[] = []
+    let change
+    for (let i = 1; i < prices.length; i++) {
+        change = Math.round((prices[i] - prices[i - 1]) * 1000) / 1000
+        if (change > 0) changes.push(`+${change.toString().replace(".", ",")}`)
+        if (change < 0) changes.push(`${change.toString().replace(".", ",")}`)
+        if (change === 0) changes.push(`-`)
+    }
+    changes.unshift("-")
+    return changes
+}
+
 const getChart = async (XLabelSet: string[], YDataSets: YDataSet[], options: ChartOptions): Promise<Buffer> => {
     const width = 900; //px
     const height = 450; //px
@@ -64,12 +77,6 @@ type ChartOptions = {
     type?: string,
 }
 
-function arrMedVal(arr: number[]): number {
-    const sum = arr.reduce((accumulator, value) => {
-        return accumulator + value;
-    }, 0);
-    return Math.round(sum / arr.length * 100) / 100
-}
 
 function getToFixed(datasets: Dataset[]): number {
     let max = 0
@@ -77,7 +84,7 @@ function getToFixed(datasets: Dataset[]): number {
         dataset.data.forEach(n => {
             const str = n.toString()
             let cur = str.substring(str.indexOf(".")).length - 1
-            if(cur > max && str.indexOf(".") != -1) max = cur
+            if (cur > max && str.indexOf(".") != -1) max = cur
         })
     })
     return max
@@ -92,10 +99,10 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
 
     let dateArrayFormatted = []
     let legendBoxSize = 13
-    for(let i = 0; i < dateArray.length; i++){
-        if (options.labels){
+    for (let i = 0; i < dateArray.length; i++) {
+        if (options.labels) {
             dateArrayFormatted.push(formatXLabel(dateArray[i], false))
-        } else{
+        } else {
             legendBoxSize = 0
             dateArrayFormatted.push(formatXLabel(dateArray[i], true))
         }
@@ -111,14 +118,14 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
             locale: "",
             elements: {
                 point: {
-                    radius : 0
+                    radius: 0
                 }
             },
             scales: {
                 x: {
                     offset: true,
                     ticks: {
-                        font: { size: axesFontSize },
+                        font: {size: axesFontSize},
                         includeBounds: true,
                         maxRotation: 70,
                         maxTicksLimit: 27,
@@ -131,7 +138,7 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
                 y: {
                     offset: true,
                     ticks: {
-                        font: { size: axesFontSize },
+                        font: {size: axesFontSize},
                         maxTicksLimit: 5,
                         maxRotation: 0,
                         callback: (value, index, values) => {
@@ -162,7 +169,6 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
             },
         },
     }
-
     if (options.labels) {
         // @ts-ignore
         conf.options?.plugins?.legend?.display = true
@@ -177,10 +183,10 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
                 backgroundColor: 'gray',
                 color: 'white',
                 anchor: 'end',
-                formatter: function(value, context) {
+                formatter: function (value, context) {
                     let label = formatYLabel(value)
                     let x = getToFixed(datasets)
-                    if (x > 0){
+                    if (x > 0) {
                         let cur = label.substring(label.indexOf(",")).length - 1
                         return label + "0".repeat(x - cur);
                     }
@@ -199,7 +205,14 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
         // @ts-ignore
         conf.options.elements.point.radius = pointRadius
     }
-    if(options.type == 'bar'){
+    if (options.type == 'bar') {
+
+        let changes = getPercentChangesArr(datasets[0].data)
+        let halfData: number[] = []
+        datasets[0].data.forEach(d => {
+            halfData.push(Math.round(d / 2));
+        })
+        let labelCnt = 0
         conf.data.datasets.push(
             {
                 type: 'bar',
@@ -209,7 +222,28 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
                 datalabels: {
                     display: false,
                 }
-            },
+            }
+        )
+        conf.data?.datasets?.push(
+            {
+                type: 'line',
+                label: '',
+                data: halfData,
+                datalabels: {
+                    display: true,
+                    formatter: function () {
+                        return changes[labelCnt]
+                    },
+                    color: function (context: { dataIndex: any; dataset: { data: { [x: string]: any; }; }; }) {
+                        const cur = changes[labelCnt]
+                        labelCnt++
+                        if (cur === "-") return 'black'
+                        if (cur.indexOf("+") != -1) return 'green'
+                        if (cur.indexOf("-") != -1) return 'red'
+                        return 'black'
+                    }
+                }
+            }
         )
     }
     return conf
@@ -226,14 +260,14 @@ function formatXLabel(date: string, ifWeek: boolean): string {
     let days = Math.floor((currentDate - startDate) /
         (24 * 60 * 60 * 1000));
 
-    var week = Math.ceil(days / 7);
+    let week = Math.ceil(days / 7);
     console.log(date + " - " + week + "week")
     return `${week} (${dateArr[0]})`
 }
 
-function formatYLabel(num: number){
+function formatYLabel(num: number) {
     let numStr = num.toString()
-    if(num >= 1000){
+    if (num >= 1000) {
         const after = num.toString().slice(-3)
         const before = num.toString().slice(0, num.toString().length - 3)
         numStr = before + " " + after

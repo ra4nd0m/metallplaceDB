@@ -14,9 +14,9 @@ Content-Type: application/json
 
 {
   "material_source_id": 2,
-  "property_id": 2,
+  "property_id": 1,
   "n_values": 2,
-  "finish": "2021-01-06"
+  "finish": "2022-01-06"
 }
 
 ###
@@ -75,7 +75,7 @@ Content-Type: application/json
 }
 
 ###
-GET http://localhost:8080/getChart/17_1_10-07-2021_10-07-2022_0_line_2.png
+GET http://localhost:8080/getChart/17_1_09-07-2022_10-07-2022_1_bar_2.png
 
 ###
 GET http://localhost:8080/getReport/weekly/2022-10-03

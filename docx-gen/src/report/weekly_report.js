@@ -20,6 +20,7 @@ const tableMaterialGrouped = require("../component/table_material_grouped")
 const {GetWeekDates, GetWeekNumber, Get2LastFridays, Get2LastThursdays} = require("../utils/date_operations");
 const {GetMonthRange, Get2WeekRange, GetYearRange} = require("../utils/date_ranges")
 const {ChartUrl, FormChartUrl} = require("../utils/form_chart_url")
+const fs = require("fs");
 
 function getFooterTitle(date) {
 
@@ -38,6 +39,31 @@ module.exports = class WeeklyReport {
             },
             sections: [
                 {
+                    properties: {
+                        page: {
+                            margin: {
+                                top: 0,
+                                right: 0,
+                                bottom: 0,
+                                left: 0,
+                            },
+                        },
+                    },
+                    children: [
+                        new docx.Paragraph({
+                            children: [
+                                new docx.ImageRun({
+                                    data: fs.readFileSync("/home/ivan/Pictures/Screenshots/pic.png"),
+                                    transformation: {
+                                        width: 1000,
+                                        height: 2000,
+                                    },
+                                }),
+                            ]
+                        }),
+                    ]
+                },
+                {
                     footers: {
                         default: footer(getFooterTitle(date)),
                     },
@@ -45,9 +71,7 @@ module.exports = class WeeklyReport {
                         default: header(HeaderTitle)
                     },
                     children: [
-                        h1("ЕЖЕНЕДЕЛЬНЫЙ ОТЧЕТ"),
-                        new docx.Paragraph({children: [new docx.PageBreak()]}),
-                        h3(""),
+                        h3("Содержание"),
 
                         paragraph("Дисклеймер: Информация, представленная на портале metallplace.ru предназначена только для справки и\n" +
                             "не предназначена для торговых целей или для удовлетворения ваших конкретных требований. Контент\n" +
@@ -133,6 +157,7 @@ module.exports = class WeeklyReport {
                                 await twoChart(
                                     FormChartUrl(new ChartUrl([17], MedPriceId, GetYearRange(date), 0, "line")),
                                     FormChartUrl(new ChartUrl([19], MedPriceId, GetYearRange(date), 0, "line")),
+                                    2
                                 )
                             ]
                         }),
@@ -141,7 +166,8 @@ module.exports = class WeeklyReport {
 
                         paragraph({
                             children: [await oneChart(
-                                FormChartUrl(new ChartUrl([18], MedPriceId, GetYearRange(date), 0, "line"))
+                                FormChartUrl(new ChartUrl([18], MedPriceId, GetYearRange(date), 0, "line")),
+                                2
                             )]
                         }),
 
@@ -150,6 +176,7 @@ module.exports = class WeeklyReport {
                                 await twoChart(
                                     FormChartUrl(new ChartUrl([20], MedPriceId, GetYearRange(date), 0, "line")),
                                     FormChartUrl(new ChartUrl([21], MedPriceId, GetYearRange(date), 0, "line")),
+                                    2
                                 )
                             ]
                         }),
@@ -159,6 +186,7 @@ module.exports = class WeeklyReport {
                                 await twoChart(
                                     FormChartUrl(new ChartUrl([22], MedPriceId, GetYearRange(date), 0, "line")),
                                     FormChartUrl(new ChartUrl([23], MedPriceId, GetYearRange(date), 0, "line")),
+                                    2
                                 )
                             ]
                         }),
@@ -278,7 +306,7 @@ module.exports = class WeeklyReport {
 
                         h3("Марганцевая руда"),
                         paragraph({ //mn руда запасы в китае
-                            children: [await oneChartText(FormChartUrl(new ChartUrl([26], StockId, GetMonthRange(date), 1, "line")))]
+                            children: [await oneChartText(FormChartUrl(new ChartUrl([26], StockId, GetMonthRange(date), 1, "bar")))]
                         }),
                         paragraph({ //mn руда цена
                             children: [await oneChartText(FormChartUrl(new ChartUrl([22], MedPriceId, GetMonthRange(date), 1, "line")))]
@@ -289,7 +317,7 @@ module.exports = class WeeklyReport {
 
                         h3("Хромовая руда"),
                         paragraph({ //хром руда запасы в китае
-                            children: [await oneChartText(FormChartUrl(new ChartUrl([27], StockId, GetMonthRange(date), 1, "line")))]
+                            children: [await oneChartText(FormChartUrl(new ChartUrl([27], StockId, GetMonthRange(date), 1, "bar")))]
                         }),
                         paragraph({ //cr руда цена
                             children: [await oneChartText(FormChartUrl(new ChartUrl([23], MedPriceId, GetMonthRange(date), 1, "line")))]
@@ -317,4 +345,3 @@ function getRangeArr(first, last) {
     }
     return arr
 }
-
