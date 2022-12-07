@@ -51,3 +51,12 @@ type Price struct {
 type PriceFeed struct {
 	Feed []Price
 }
+
+type MaterialAndPrices struct {
+	Name   string    `json:"name"`
+	Values []float64 `json:"values"`
+}
+
+type ChartRaw struct {
+	MaterialAndPrices []MaterialAndPrices `json:"materialAndPrices"`
+}

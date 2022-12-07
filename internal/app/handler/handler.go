@@ -18,6 +18,7 @@ type IService interface {
 		propertyName string, valueFloat float64, valueStr string, createdOn time.Time) error
 	AddUniqueMaterial(ctx context.Context, materialName string, sourceName string, materialMarket string, materialUnit string) (int, error)
 	InitialImport(ctx context.Context) error
+	ParseBook(path string) ([]byte, error)
 	GetMaterialList(ctx context.Context) ([]model.MaterialShortInfo, error)
 	GetMaterialValueForPeriod(ctx context.Context, materialSourceId, propertyId int, start string, finish string) ([]model.Price, float64, error)
 	GetMaterialSourceInfo(ctx context.Context, id int) (model.MaterialShortInfo, error)

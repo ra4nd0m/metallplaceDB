@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"github.com/xuri/excelize/v2"
 	"metallplace/internal/app/model"
@@ -152,7 +153,7 @@ func (s *Service) InitialImport(ctx context.Context) error {
 					dateCell := utils.IntToAlphabet(int32(col)) + material.DateRow
 					dateStr, err := book.GetCellValue(material.Sheet, dateCell)
 					if err != nil {
-						return err
+						return fmt.Errorf("cant get cell value: %w", err)
 					}
 					createdOn, err := stringToDate(dateStr)
 					if err != nil {
@@ -192,7 +193,6 @@ func (s *Service) InitialImport(ctx context.Context) error {
 					}
 				}
 			}
-
 		}
 		return nil
 	})
@@ -202,6 +202,53 @@ func (s *Service) InitialImport(ctx context.Context) error {
 
 	fmt.Print("Import finished!")
 	return nil
+}
+
+func (s *Service) ParseBook(path string) ([]byte, error) {
+	book, err := excelize.OpenFile(path)
+	if err != nil {
+		return nil, fmt.Errorf("cannot open exel file %w", err)
+	}
+
+	materialStartColumn := "B"
+	materialStartRow := 2
+	startSheet := "Лист1"
+	var chartRaw model.ChartRaw
+
+	for curCol := utils.AlphabetToInt(materialStartColumn); true; curCol++ {
+		curRow := materialStartRow
+		var materialAndPrices model.MaterialAndPrices
+		value, err := book.GetCellValue(startSheet, utils.IntToAlphabet(int32(curCol))+strconv.Itoa(materialStartRow))
+		if err != nil {
+			return nil, fmt.Errorf("cant get cell value: %w", err)
+		}
+		if value == "" {
+			break
+		}
+		materialAndPrices.Name = value
+
+		for row := curRow + 1; true; row++ {
+			value, err = book.GetCellValue(startSheet, utils.IntToAlphabet(int32(curCol))+strconv.Itoa(row))
+			if err != nil {
+				return nil, fmt.Errorf("cant get cell value: %w", err)
+			}
+			if value == "" {
+				break
+			}
+			val, err := strconv.ParseFloat(value, 64)
+			if err != nil {
+				return nil, fmt.Errorf("cant convert string to float: %w", err)
+			}
+			materialAndPrices.Values = append(materialAndPrices.Values, val)
+		}
+		chartRaw.MaterialAndPrices = append(chartRaw.MaterialAndPrices, materialAndPrices)
+	}
+
+	j, err := json.Marshal(chartRaw)
+	if err != nil {
+		return nil, fmt.Errorf("cant pack json: %w", err)
+	}
+	return j, nil
 }
 
 func stringToDate(str string) (time.Time, error) {
