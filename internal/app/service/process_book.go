@@ -219,6 +219,7 @@ func (s *Service) ParseBook(path string) ([]byte, error) {
 	labelColumn := "A"
 	labelRow := 3
 
+	// Parsing month labels
 	for {
 		value, err := book.GetCellValue(startSheet, labelColumn+strconv.Itoa(labelRow))
 		if err != nil {
@@ -235,7 +236,7 @@ func (s *Service) ParseBook(path string) ([]byte, error) {
 			labelRow++
 			continue
 		}
-		chartRaw.Labels = append(chartRaw.Labels, value)
+		chartRaw.Labels = append(chartRaw.Labels, formatMonth(value))
 		labelRow++
 	}
 
@@ -327,4 +328,53 @@ func firstDayOfISOWeek(year int, week int) time.Time {
 		isoYear, isoWeek = date.ISOWeek()
 	}
 	return date
+}
+
+func formatMonth(input string) string {
+	year := ""
+
+	arr := strings.Split(input, "-")
+	arr[0] = strings.ToLower(strings.ReplaceAll(strings.ReplaceAll(arr[0], ".", ""), " ", ""))
+
+	if len(arr) == 2 {
+		year = "-" + arr[1]
+	}
+
+	switch {
+	case contains([]string{"i", "янв", "jan", "январь"}, arr[0]):
+		return "Янв" + year
+	case contains([]string{"ii", "фев", "февраль"}, arr[0]):
+		return "Фев" + year
+	case contains([]string{"iii", "мар", "март"}, arr[0]):
+		return "Мар" + year
+	case contains([]string{"iv", "апр", "апрель"}, arr[0]):
+		return "Апр" + year
+	case contains([]string{"v", "май"}, arr[0]):
+		return "Май" + year
+	case contains([]string{"vi", "июн", "июнь"}, arr[0]):
+		return "Июн" + year
+	case contains([]string{"vii", "июл", "июль"}, arr[0]):
+		return "Июл" + year
+	case contains([]string{"viii", "iix", "авг", "август"}, arr[0]):
+		return "Авг" + year
+	case contains([]string{"ix", "сен", "сентябрь"}, arr[0]):
+		return "Сен" + year
+	case contains([]string{"x", "х", "окт", "октябрь"}, arr[0]):
+		return "Окт" + year
+	case contains([]string{"xi", "ноя", "ноябрь"}, arr[0]):
+		return "Ноя" + year
+	case contains([]string{"xii", "дек", "декабрь"}, arr[0]):
+		return "Дек" + year
+	default:
+		return "undefined"
+	}
+}
+
+func contains(s []string, str string) bool {
+	for _, v := range s {
+		if v == str {
+			return true
+		}
+	}
+	return false
 }

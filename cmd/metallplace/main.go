@@ -35,7 +35,17 @@ func main() {
 	srv := service.New(cfg, repo, chart, docxgen)
 	hdl := handler.New(srv)
 
-	q, err := srv.ParseBook("var/books/RawFerro_2210.xlsx")
+	//q, err := srv.ParseBook("var/books/RawFerro_2210.xlsx")
+	//if err != nil {
+	//	log.Fatal("cannot parse book:", err)
+	//}
+	//fmt.Println(string(q))
+	q, err := srv.ParseBook("var/books/Billet_2210.xlsx")
+	if err != nil {
+		log.Fatal("cannot parse book:", err)
+	}
+	fmt.Println(string(q))
+	q, err = srv.ParseBook("var/books/RawIronOre_2210.xlsx")
 	if err != nil {
 		log.Fatal("cannot parse book:", err)
 	}
