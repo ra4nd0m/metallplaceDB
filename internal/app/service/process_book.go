@@ -216,6 +216,29 @@ func (s *Service) ParseBook(path string) ([]byte, error) {
 	startSheet := "Лист1"
 	var chartRaw model.ChartRaw
 
+	labelColumn := "A"
+	labelRow := 3
+
+	for {
+		value, err := book.GetCellValue(startSheet, labelColumn+strconv.Itoa(labelRow))
+		if err != nil {
+			return nil, fmt.Errorf("cant get cell value: %w", err)
+		}
+		if value == "" {
+			isBreak, err := areNextCellsEmpty(book, startSheet, utils.AlphabetToInt(labelColumn), labelRow, 25)
+			if err != nil {
+				return nil, fmt.Errorf("cant check next n values: %w", err)
+			}
+			if isBreak {
+				break
+			}
+			labelRow++
+			continue
+		}
+		chartRaw.Labels = append(chartRaw.Labels, value)
+		labelRow++
+	}
+
 	for curCol := utils.AlphabetToInt(materialStartColumn); true; curCol++ {
 		var val float64
 		curRow := materialStartRow

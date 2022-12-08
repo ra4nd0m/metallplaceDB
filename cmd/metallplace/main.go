@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"github.com/gorilla/mux"
 	"github.com/rs/cors"
 	"log"
@@ -33,6 +34,12 @@ func main() {
 	docxgen := docxgenclient.New(cfg.DocxgenHost, cfg.DocxgenPort)
 	srv := service.New(cfg, repo, chart, docxgen)
 	hdl := handler.New(srv)
+
+	q, err := srv.ParseBook("var/books/RawFerro_2210.xlsx")
+	if err != nil {
+		log.Fatal("cannot parse book:", err)
+	}
+	fmt.Println(string(q))
 
 	c := cors.New(cors.Options{
 		AllowedOrigins:   []string{"http://localhost:8081"},

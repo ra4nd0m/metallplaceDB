@@ -59,4 +59,5 @@ type MaterialAndPrices struct {
 
 type ChartRaw struct {
 	MaterialAndPrices []MaterialAndPrices `json:"materialAndPrices"`
+	Labels            []string            `json:"labels"`
 }
