@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/xuri/excelize/v2"
+	"math"
 	"metallplace/internal/app/model"
 	"metallplace/internal/pkg/utils"
 	db "metallplace/pkg/gopkg-db"
@@ -216,6 +217,7 @@ func (s *Service) ParseBook(path string) ([]byte, error) {
 	var chartRaw model.ChartRaw
 
 	for curCol := utils.AlphabetToInt(materialStartColumn); true; curCol++ {
+		var val float64
 		curRow := materialStartRow
 		var materialAndPrices model.MaterialAndPrices
 		value, err := book.GetCellValue(startSheet, utils.IntToAlphabet(int32(curCol))+strconv.Itoa(materialStartRow))
@@ -230,16 +232,23 @@ func (s *Service) ParseBook(path string) ([]byte, error) {
 		for row := curRow + 1; true; row++ {
 			value, err = book.GetCellValue(startSheet, utils.IntToAlphabet(int32(curCol))+strconv.Itoa(row))
 			if err != nil {
-				return nil, fmt.Errorf("cant get cell value: %w", err)
+				return nil, fmt.Errorf("cant get cell value col %d, row %d: %w", row, curCol, err)
 			}
 			if value == "" {
-				break
+				isBreak, err := areNextCellsEmpty(book, startSheet, curCol, row, 10)
+				if err != nil {
+					return nil, fmt.Errorf("cant check next n values: %w", err)
+				}
+				if isBreak {
+					break
+				}
+			} else {
+				val, err = strconv.ParseFloat(value, 64)
+				if err != nil {
+					return nil, fmt.Errorf("cant convert string to float: %w", err)
+				}
 			}
-			val, err := strconv.ParseFloat(value, 64)
-			if err != nil {
-				return nil, fmt.Errorf("cant convert string to float: %w", err)
-			}
-			materialAndPrices.Values = append(materialAndPrices.Values, val)
+			materialAndPrices.Values = append(materialAndPrices.Values, math.Round(val*100)/100)
 		}
 		chartRaw.MaterialAndPrices = append(chartRaw.MaterialAndPrices, materialAndPrices)
 	}
@@ -249,6 +258,19 @@ func (s *Service) ParseBook(path string) ([]byte, error) {
 		return nil, fmt.Errorf("cant pack json: %w", err)
 	}
 	return j, nil
+}
+
+func areNextCellsEmpty(book *excelize.File, sheet string, col int, row int, n int) (bool, error) {
+	for i := row; i < row+n; i++ {
+		value, err := book.GetCellValue(sheet, utils.IntToAlphabet(int32(col))+strconv.Itoa(i))
+		if err != nil {
+			return false, fmt.Errorf("cant get cell value in areNextCellsEmpty: %w", err)
+		}
+		if value != "" {
+			return false, nil
+		}
+	}
+	return true, nil
 }
 
 func stringToDate(str string) (time.Time, error) {
