@@ -91,6 +91,7 @@ module.exports = class WeeklyReport {
                                 await twoChart( // ЖРС62 ЛОМ hms
                                     FormChartUrl(new ChartUrl([1], MedPriceId, GetYearRange(date), 0, "line")),
                                     FormChartUrl(new ChartUrl([4], MedPriceId, GetYearRange(date), 0, "line")),
+                                    [5, undefined],
                                 )
                             ]
                         }),
@@ -107,6 +108,7 @@ module.exports = class WeeklyReport {
                                 await twoChart( //уголь кокс, кокс мет
                                     FormChartUrl(new ChartUrl([6], MedPriceId, GetYearRange(date), 0, "line")),
                                     FormChartUrl(new ChartUrl([8], MedPriceId, GetYearRange(date), 0, "line")),
+                                    [5, undefined]
                                 )
                             ]
                         }),
@@ -157,7 +159,7 @@ module.exports = class WeeklyReport {
                                 await twoChart(
                                     FormChartUrl(new ChartUrl([17], MedPriceId, GetYearRange(date), 0, "line")),
                                     FormChartUrl(new ChartUrl([19], MedPriceId, GetYearRange(date), 0, "line")),
-                                    2
+                                    [2, 2]
                                 )
                             ]
                         }),
@@ -176,7 +178,7 @@ module.exports = class WeeklyReport {
                                 await twoChart(
                                     FormChartUrl(new ChartUrl([20], MedPriceId, GetYearRange(date), 0, "line")),
                                     FormChartUrl(new ChartUrl([21], MedPriceId, GetYearRange(date), 0, "line")),
-                                    2
+                                    [2, 2]
                                 )
                             ]
                         }),
@@ -186,7 +188,7 @@ module.exports = class WeeklyReport {
                                 await twoChart(
                                     FormChartUrl(new ChartUrl([22], MedPriceId, GetYearRange(date), 0, "line")),
                                     FormChartUrl(new ChartUrl([23], MedPriceId, GetYearRange(date), 0, "line")),
-                                    2
+                                    [2, 2]
                                 )
                             ]
                         }),
