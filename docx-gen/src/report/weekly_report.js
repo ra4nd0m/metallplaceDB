@@ -228,7 +228,7 @@ module.exports = class WeeklyReport {
                         paragraph({ // лом 3А
                             children: [await oneChartText(FormChartUrl(new ChartUrl([3], MedPriceId, GetMonthRange(date), 1, "line")))]
                         }),
-                        await singleTableMinimax(3, GetMonthRange(date, true)),// лом 3А
+                        await singleTableMinimax(3, GetMonthRange(date, true), 0, 1),// лом 3А
                         new docx.Paragraph({children: [new docx.PageBreak()]}),
 
                         h3("Чугун"),
@@ -255,11 +255,11 @@ module.exports = class WeeklyReport {
                         paragraph({ //арматура FOB
                             children: [await oneChartText(FormChartUrl(new ChartUrl([10], MedPriceId, GetMonthRange(date), 1, "line")))]
                         }),
-                        await singleTableMinimax(10, GetMonthRange(date, true)), //арматура FOB
+                        await singleTableMinimax(10, GetMonthRange(date, true), 0, 1), //арматура FOB
                         paragraph({ //арматура A1 EXW
                             children: [await oneChartText(FormChartUrl(new ChartUrl([14], MedPriceId, GetMonthRange(date), 1, "line")))]
                         }),
-                        await singleTable(14, MedPriceId, GetMonthRange(date, true)), //арматура A1 EXW
+                        await singleTable(14, MedPriceId, GetMonthRange(date, true), 0, 1), //арматура A1 EXW
                         new docx.Paragraph({children: [new docx.PageBreak()]}),
 
                         h3("Плоский прокат"),
@@ -275,7 +275,7 @@ module.exports = class WeeklyReport {
                         paragraph({ // рулон гк рулон хк EXW
                             children: [await oneChartText(FormChartUrl(new ChartUrl([15,16], MedPriceId, GetMonthRange(date), 1, "line")))]
                         }),
-                        await tableDouble(15, 16, MedPriceId, GetMonthRange(date, true)), // рулон гк рулон хк EXW
+                        await tableDouble(15, 16, MedPriceId, GetMonthRange(date, true), 0, 1), // рулон гк рулон хк EXW
                         new docx.Paragraph({children: [new docx.PageBreak()]}),
 
 
@@ -324,7 +324,7 @@ module.exports = class WeeklyReport {
                         paragraph({ //cr руда цена
                             children: [await oneChartText(FormChartUrl(new ChartUrl([23], MedPriceId, GetMonthRange(date), 1, "line")))]
                         }),
-                        await singleTableMinimax(23, GetMonthRange(date, true)),
+                        await singleTableMinimax(23, GetMonthRange(date, true), 1, 1),
                         new docx.Paragraph({children: [new docx.PageBreak()]}),
 
 
