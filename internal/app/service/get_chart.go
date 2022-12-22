@@ -49,6 +49,19 @@ func (s *Service) GetChart(ctx context.Context, chartPack model.ChartPack) ([]by
 	return bytes, nil
 }
 
+func (s *Service) GetChartRaw(chartRaw model.ChartRaw) ([]byte, error) {
+	var req chartclient.Request
+	req.XLabelSet = chartRaw.Labels
+	for _, cr := range chartRaw.MaterialAndPrices {
+		req.YDataSet = append(req.YDataSet, chartclient.YDataSet{Label: cr.Name, Data: cr.Values})
+	}
+	bytes, err := s.chart.GetChart(req)
+	if err != nil {
+		return nil, fmt.Errorf("cant get raw chart bytes: %w", err)
+	}
+	return bytes, nil
+}
+
 func (s *Service) GetCachedChart(ctx context.Context, chartPack model.ChartPack) ([]byte, error) {
 	path := "./var/cache/charts/" + chartPack.ToUrl()
 	if _, err := os.Stat(path); errors.Is(err, os.ErrNotExist) {

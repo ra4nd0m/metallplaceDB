@@ -1,8 +1,8 @@
 package service
 
 import (
+	"bytes"
 	"context"
-	"encoding/json"
 	"fmt"
 	"github.com/xuri/excelize/v2"
 	"math"
@@ -205,10 +205,11 @@ func (s *Service) InitialImport(ctx context.Context) error {
 	return nil
 }
 
-func (s *Service) ParseBook(path string) ([]byte, error) {
-	book, err := excelize.OpenFile(path)
+func (s *Service) ParseBook(byte []byte) (model.ChartRaw, error) {
+	reader := bytes.NewReader(byte)
+	book, err := excelize.OpenReader(reader)
 	if err != nil {
-		return nil, fmt.Errorf("cannot open exel file %w", err)
+		return model.ChartRaw{}, fmt.Errorf("cannot open exel file %w", err)
 	}
 
 	materialStartColumn := "B"
@@ -223,12 +224,12 @@ func (s *Service) ParseBook(path string) ([]byte, error) {
 	for {
 		value, err := book.GetCellValue(startSheet, labelColumn+strconv.Itoa(labelRow))
 		if err != nil {
-			return nil, fmt.Errorf("cant get cell value: %w", err)
+			return model.ChartRaw{}, fmt.Errorf("cant get cell value: %w", err)
 		}
 		if value == "" {
 			isBreak, err := areNextCellsEmpty(book, startSheet, utils.AlphabetToInt(labelColumn), labelRow, 25)
 			if err != nil {
-				return nil, fmt.Errorf("cant check next n values: %w", err)
+				return model.ChartRaw{}, fmt.Errorf("cant check next n values: %w", err)
 			}
 			if isBreak {
 				break
@@ -246,7 +247,7 @@ func (s *Service) ParseBook(path string) ([]byte, error) {
 		var materialAndPrices model.MaterialAndPrices
 		value, err := book.GetCellValue(startSheet, utils.IntToAlphabet(int32(curCol))+strconv.Itoa(materialStartRow))
 		if err != nil {
-			return nil, fmt.Errorf("cant get cell value: %w", err)
+			return model.ChartRaw{}, fmt.Errorf("cant get cell value: %w", err)
 		}
 		if value == "" {
 			break
@@ -256,12 +257,12 @@ func (s *Service) ParseBook(path string) ([]byte, error) {
 		for row := curRow + 1; true; row++ {
 			value, err = book.GetCellValue(startSheet, utils.IntToAlphabet(int32(curCol))+strconv.Itoa(row))
 			if err != nil {
-				return nil, fmt.Errorf("cant get cell value col %d, row %d: %w", row, curCol, err)
+				return model.ChartRaw{}, fmt.Errorf("cant get cell value col %d, row %d: %w", row, curCol, err)
 			}
 			if value == "" {
 				isBreak, err := areNextCellsEmpty(book, startSheet, curCol, row, 10)
 				if err != nil {
-					return nil, fmt.Errorf("cant check next n values: %w", err)
+					return model.ChartRaw{}, fmt.Errorf("cant check next n values: %w", err)
 				}
 				if isBreak {
 					break
@@ -269,7 +270,7 @@ func (s *Service) ParseBook(path string) ([]byte, error) {
 			} else {
 				val, err = strconv.ParseFloat(value, 64)
 				if err != nil {
-					return nil, fmt.Errorf("cant convert string to float: %w", err)
+					return model.ChartRaw{}, fmt.Errorf("cant convert string to float: %w", err)
 				}
 			}
 			materialAndPrices.Values = append(materialAndPrices.Values, math.Round(val*100)/100)
@@ -277,11 +278,7 @@ func (s *Service) ParseBook(path string) ([]byte, error) {
 		chartRaw.MaterialAndPrices = append(chartRaw.MaterialAndPrices, materialAndPrices)
 	}
 
-	j, err := json.Marshal(chartRaw)
-	if err != nil {
-		return nil, fmt.Errorf("cant pack json: %w", err)
-	}
-	return j, nil
+	return chartRaw, nil
 }
 
 func areNextCellsEmpty(book *excelize.File, sheet string, col int, row int, n int) (bool, error) {
@@ -361,7 +358,7 @@ func formatMonth(input string) string {
 		return "Сен" + year
 	case contains([]string{"x", "х", "окт", "октябрь"}, arr[0]):
 		return "Окт" + year
-	case contains([]string{"xi", "ноя", "ноябрь"}, arr[0]):
+	case contains([]string{"xi", "ноя", "ноябрь", "Нояб"}, arr[0]):
 		return "Ноя" + year
 	case contains([]string{"xii", "дек", "декабрь"}, arr[0]):
 		return "Дек" + year

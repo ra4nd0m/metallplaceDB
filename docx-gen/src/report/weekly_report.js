@@ -53,7 +53,7 @@ module.exports = class WeeklyReport {
                         new docx.Paragraph({
                             children: [
                                 new docx.ImageRun({
-                                    data: fs.readFileSync("/home/ivan/Pictures/Screenshots/pic.png"),
+                                    data: fs.readFileSync("/home/ivan/Pictures/Screenshots/pic2.png"),
                                     transformation: {
                                         width: 1000,
                                         height: 2000,
@@ -71,7 +71,7 @@ module.exports = class WeeklyReport {
                         default: header(HeaderTitle)
                     },
                     children: [
-                        h3("Содержание"),
+                        h3Fake("Содержание"),
 
                         paragraph("Дисклеймер: Информация, представленная на портале metallplace.ru предназначена только для справки и\n" +
                             "не предназначена для торговых целей или для удовлетворения ваших конкретных требований. Контент\n" +
@@ -202,7 +202,7 @@ module.exports = class WeeklyReport {
                         paragraph({ //жрс 62 и 65
                             children: [await oneChartText(FormChartUrl(new ChartUrl([1,2], MedPriceId, Get2WeekRange(date), 1, "line")))]
                         }),
-                        await tableDoubleAvg(1, 2, MedPriceId, Get2WeekRange(date, true), 2, 1), //жрс 62 и 65
+                        await tableDoubleAvg(1, 2, MedPriceId, Get2WeekRange(date, true), 2, 1, 1), //жрс 62 и 65
 
                         new docx.Paragraph({children: [new docx.PageBreak()]}),
                         h3("Уголь и кокс"),
@@ -210,7 +210,7 @@ module.exports = class WeeklyReport {
                         paragraph({ // коксующийся уголь россия австралия
                             children: [await oneChartText(FormChartUrl(new ChartUrl([6,7], MedPriceId, Get2WeekRange(date), 1, "line")))]
                         }),
-                        await tableDoubleAvg(6, 7, MedPriceId, Get2WeekRange(date, true), 0, 1), // коксующийся уголь россия австралия
+                        await tableDoubleAvg(6, 7, MedPriceId, Get2WeekRange(date, true), 0, 1, 0), // коксующийся уголь россия австралия
                         paragraph({ // мет кокс
                             children: [await oneChartText(FormChartUrl(new ChartUrl([8], MedPriceId, GetMonthRange(date), 1, "line")))]
                         }),
@@ -226,7 +226,7 @@ module.exports = class WeeklyReport {
                         paragraph({ // лом 3А
                             children: [await oneChartText(FormChartUrl(new ChartUrl([3], MedPriceId, GetMonthRange(date), 1, "line")))]
                         }),
-                        await singleTable(3, MedPriceId, GetMonthRange(date, true)),// лом 3А
+                        await singleTableMinimax(3, GetMonthRange(date, true)),// лом 3А
                         new docx.Paragraph({children: [new docx.PageBreak()]}),
 
                         h3("Чугун"),
@@ -244,7 +244,7 @@ module.exports = class WeeklyReport {
                         paragraph({ //заготовка, сляб
                             children: [await oneChartText(FormChartUrl(new ChartUrl([9,11], MedPriceId, GetMonthRange(date), 1, "line")))]
                         }),
-                        await doubleTableMinimax(9, 11, GetMonthRange(date, true)), //заготовка, сляб
+                        await doubleTableMinimax(9, 11, GetMonthRange(date, true), 0, 1), //заготовка, сляб
                         new docx.Paragraph({children: [new docx.PageBreak()]}),
 
 
@@ -261,11 +261,11 @@ module.exports = class WeeklyReport {
                         new docx.Paragraph({children: [new docx.PageBreak()]}),
 
                         h3("Плоский прокат"),
+                        await tableMaterialMinimax(getRangeArr(54, 66), Get2LastFridays(date)),
                         paragraph({ // рулон гк рулон хк FOB
                             children: [await oneChartText(FormChartUrl(new ChartUrl([12,13], MedPriceId, GetMonthRange(date), 1, "line")))]
                         }),
 
-                        await tableMaterialMinimax(getRangeArr(54, 66), Get2LastFridays(date)),
                         new docx.Paragraph({children: [new docx.PageBreak()]}),
 
                         h3(""),
@@ -282,7 +282,7 @@ module.exports = class WeeklyReport {
                         await tableMaterialGrouped(getRangeArr(17, 23), Get2LastThursdays(date),
                             [0, 5],
                             ["Ферросплавы (DDP Европа)", "Руда (CIF Китай)"]),
-                        h3("Ферромарганец и силиконсарганец"),
+                        h3("Ферромарганец и силиконмарганец"),
                         paragraph({ // FeMn76, SiMn65
                             children: [await oneChartText(FormChartUrl(new ChartUrl([17,19], MedPriceId, GetMonthRange(date), 1, "line")))]
                         }),

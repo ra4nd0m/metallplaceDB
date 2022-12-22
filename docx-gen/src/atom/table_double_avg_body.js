@@ -5,7 +5,7 @@ const textTd = require("../atom/text_td")
 const {formatDateTable} = require("../utils/date_format");
 const getToFixed = require("../utils/get_to_fixed")
 
-function insertMed(i, feed1, feed2){
+function insertMed(i, feed1, feed2, avgRound){
     let cells = []
     let sum1 = 0
     let sum2 = 0
@@ -17,13 +17,13 @@ function insertMed(i, feed1, feed2){
         cells.push(
             cellCenter({
                 rowSpan: 5,
-                children: [textTd(Math.round(sum1 / 5 * 100) / 100)]
+                children: [textTd(Math.round(sum1 / 5 * Math.pow(10, avgRound)) /Math.pow(10, avgRound), undefined, avgRound)]
             }),
         )
         cells.push(
             cellCenter({
                 rowSpan: 5,
-                children: [textTd(Math.round(sum2 / 5 * 100) / 100)]
+                children: [textTd(Math.round(sum2 / 5 * Math.pow(10, avgRound)) / Math.pow(10, avgRound), undefined, avgRound)]
             })
         )
         return cells
@@ -31,7 +31,7 @@ function insertMed(i, feed1, feed2){
     return []
 }
 
-module.exports = function (feed1, feed2, unitChangeRound, percentChangeRound) {
+module.exports = function (feed1, feed2, unitChangeRound, percentChangeRound, avgRound) {
     let rows = [];
     const pf1 = feed1.price_feed
     const pf2 = feed2.price_feed
@@ -68,7 +68,7 @@ module.exports = function (feed1, feed2, unitChangeRound, percentChangeRound) {
                         children: [textTd(changePercents2.Text, changePercents2.Color)]
                     }),
 
-                    ...insertMed(i, pf1, pf2),
+                    ...insertMed(i, pf1, pf2, avgRound),
                 ]
             })
         )
