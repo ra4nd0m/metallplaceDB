@@ -7,7 +7,7 @@ const h3 = require("../atom/heading3");
 const h3Fake = require("../atom/heading3_fake");
 const paragraph = require("../atom/paragraph");
 const twoChart = require("../component/two_chart");
-const {HeaderTitle, MedPriceId, StockId, RusMonth} = require("../const");
+const {WeeklyHeaderTitle, MedPriceId, StockId, RusMonth} = require("../const");
 const oneChartText = require("../component/one_chart_text");
 const oneChart = require("../component/one_chart");
 const singleTable = require("../component/table_single");
@@ -32,7 +32,6 @@ function getFooterTitle(date) {
 module.exports = class WeeklyReport {
 
     async generate(date) {
-        Get2WeekRange(date)
         return new docx.Document({
             features: {
                 updateFields: true,
@@ -68,7 +67,7 @@ module.exports = class WeeklyReport {
                         default: footer(getFooterTitle(date)),
                     },
                     headers: {
-                        default: header(HeaderTitle)
+                        default: header(WeeklyHeaderTitle)
                     },
                     children: [
                         h3Fake("Содержание"),
