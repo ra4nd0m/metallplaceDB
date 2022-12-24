@@ -2,13 +2,13 @@ const docx = require("docx");
 const chartBlock = require("./chart_block")
 
 const {TableCellMarginNil} = require("../const");
-module.exports = async function twoChart(url1, url2, avgGroup, groupLabel){
+module.exports = async function twoChart(url1, url2, avgGroup, comparePeriod){
     if(avgGroup === undefined) avgGroup = [1, 1]
     for (let i = 0; i < avgGroup.length; i++){
         if (avgGroup[i] === undefined) avgGroup[i] = 1
     }
-    const block1 = await chartBlock(url1, false, avgGroup[0], groupLabel)
-    const block2 = await chartBlock(url2, false, avgGroup[1], groupLabel)
+    const block1 = await chartBlock(url1, false, avgGroup[0], comparePeriod)
+    const block2 = await chartBlock(url2, false, avgGroup[1], comparePeriod)
     return new docx.Table({
         width: {
             size: 100,

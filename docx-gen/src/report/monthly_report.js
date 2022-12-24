@@ -18,7 +18,7 @@ const tableMaterialMinimax = require("../component/table_material_minimax");
 const doubleTableMinimax = require("../component/table_double_minimax")
 const tableMaterialGrouped = require("../component/table_material_grouped")
 const {GetWeekDates, GetWeekNumber, GetLastDayOfMonth, Get2LastFridays, Get2LastThursdays} = require("../utils/date_operations");
-const {GetMonthRange, Get2WeekRange, GetYearRange} = require("../utils/date_ranges")
+const {GetMonthRange, Get2WeekRange, GetYearRange, Get2YearRange} = require("../utils/date_ranges")
 const {ChartUrl, FormChartUrl} = require("../utils/form_chart_url")
 const fs = require("fs");
 
@@ -88,9 +88,9 @@ module.exports = class MonthlyReport {
                         paragraph({
                             children: [
                                 await twoChart( // ЖРС62 ЛОМ hms
-                                    FormChartUrl(new ChartUrl([1], MedPriceId, GetYearRange(date), 0, "line")),
-                                    FormChartUrl(new ChartUrl([4], MedPriceId, GetYearRange(date), 0, "line")),
-                                    [20, 4],
+                                    FormChartUrl(new ChartUrl([1], MedPriceId, Get2YearRange(date), 0, "line", "month")),
+                                    FormChartUrl(new ChartUrl([4], MedPriceId, Get2YearRange(date), 0, "line", "month")),
+                                    undefined,
                                     "м/м"
                                 )
                             ]

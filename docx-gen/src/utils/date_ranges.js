@@ -18,6 +18,16 @@ module.exports.GetYearRange = function (date){
     return `${FormatDayMonth(first.getMonth()+1)}-${FormatDayMonth(first.getDate())}-${first.getFullYear()}_`+
         `${FormatDayMonth(last.getMonth()+1)}-${FormatDayMonth(last.getDate())}-${last.getFullYear()}`
 }
+
+module.exports.Get2YearRange = function (date){
+    const last = new Date(date)
+    let first = new Date(date)
+    first.setDate(first.getDate() - 365 * 2)
+
+    return `${FormatDayMonth(first.getMonth()+1)}-${FormatDayMonth(first.getDate())}-${first.getFullYear()}_`+
+        `${FormatDayMonth(last.getMonth()+1)}-${FormatDayMonth(last.getDate())}-${last.getFullYear()}`
+}
+
 module.exports.GetWeekRange = function (date, isRaw){
     const last = new Date(date)
     let first = new Date(date)
