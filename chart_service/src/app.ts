@@ -208,6 +208,8 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
     if (options.type == 'bar') {
 
         let changes = getPercentChangesArr(datasets[0].data)
+        // @ts-ignore
+        //conf.options?.scales?.xAxes.ticks.stepSize = 200;
         let halfData: number[] = []
         datasets[0].data.forEach(d => {
             halfData.push(Math.round(d / 2));

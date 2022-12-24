@@ -21,6 +21,16 @@ module.exports.GetWeekDates = function (date){
     }
 }
 
+module.exports.GetLastDayOfMonth = function (date){
+    return new Date(date.getFullYear(), date.getMonth() + 1, 0);
+}
+
+module.exports.GetLastDayOfWeek = function (date){
+    let d = new Date(date);
+    d.setDate(d.getDate() + (5 - d.getDay()));
+    return d.toLocaleString('default', { weekday: 'long' });
+}
+
 module.exports.GetWeekNumber = function (date){
     const startDate = new Date(date.getFullYear(), 0, 1);
     const days = Math.floor((date - startDate) / (24 * 60 * 60 * 1000));
@@ -48,12 +58,6 @@ module.exports.Get2LastThursdays = function (date){
 
     return [lastThursday, friday];
 }
-
-// module.exports.GetMonthRange = function getMonthRange(date){
-//     let first = date
-//     first.setMonth(first.setMonth - 1)
-//     return `${first.getDate()}-${first.getMonth()}-${first.getFullYear()}_${date.getDate()}-${date.getMonth()}-${date.getFullYear()}`
-// }
 
 module.exports.FormatDayMonth = function (num){
     if (num <= 9) return `0${num}`

@@ -17,7 +17,7 @@ const tableDouble = require("../component/table_double");
 const tableMaterialMinimax = require("../component/table_material_minimax");
 const doubleTableMinimax = require("../component/table_double_minimax")
 const tableMaterialGrouped = require("../component/table_material_grouped")
-const {GetWeekDates, GetWeekNumber, Get2LastFridays, Get2LastThursdays} = require("../utils/date_operations");
+const {GetWeekDates, GetWeekNumber, GetLastDayOfMonth, Get2LastFridays, Get2LastThursdays} = require("../utils/date_operations");
 const {GetMonthRange, Get2WeekRange, GetYearRange} = require("../utils/date_ranges")
 const {ChartUrl, FormChartUrl} = require("../utils/form_chart_url")
 const fs = require("fs");
@@ -30,8 +30,8 @@ function getFooterTitle(date) {
 }
 
 module.exports = class MonthlyReport {
-
     async generate(date) {
+        date = GetLastDayOfMonth(date)
         return new docx.Document({
             features: {
                 updateFields: true,
@@ -84,6 +84,17 @@ module.exports = class MonthlyReport {
                         new docx.Paragraph({children: [new docx.PageBreak()]}),
 
                         h2("Краткая сводка цен по мировому рынку"),
+                        h3Fake("Сырьевые материалы"),
+                        paragraph({
+                            children: [
+                                await twoChart( // ЖРС62 ЛОМ hms
+                                    FormChartUrl(new ChartUrl([1], MedPriceId, GetYearRange(date), 0, "line")),
+                                    FormChartUrl(new ChartUrl([4], MedPriceId, GetYearRange(date), 0, "line")),
+                                    [20, 4],
+                                    "м/м"
+                                )
+                            ]
+                        }),
                     ],
                 },
             ],

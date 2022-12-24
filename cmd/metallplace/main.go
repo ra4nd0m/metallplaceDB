@@ -54,6 +54,7 @@ func main() {
 		handler http.HandlerFunc
 	}{
 		{route: "/getValueForPeriod", handler: hdl.GetValueForPeriodHandler},
+		{route: "/getMonthlyAvgFeed", handler: hdl.GetMonthlyAvgHandler},
 		{route: "/getMaterialList", handler: hdl.GetMaterialListHandler},
 		{route: "/addValue", handler: hdl.AddValueHandler},
 		{route: "/addUniqueMaterial", handler: hdl.AddUniqueMaterialHandler},

@@ -7,9 +7,9 @@ const {TableCellMarginNil, Green, Red, ColorDefault} = require("../const");
 const numFormat = require("../utils/numbers_format")
 const axios = require("axios");
 
-module.exports = async function chartBlock(url, isBig, avgGroup) {
+module.exports = async function chartBlock(url, isBig, avgGroup, groupLabel) {
     const image = await chart(url, isBig);
-    const infoRow = await getInfo(isBig, url, avgGroup)
+    const infoRow = await getInfo(isBig, url, avgGroup, groupLabel)
 
     return new docx.Table({
         width: {
@@ -39,8 +39,9 @@ module.exports = async function chartBlock(url, isBig, avgGroup) {
 }
 
 
-async function getInfo(isBig, url, group) {
+async function getInfo(isBig, url, group, groupLabel) {
     if (isBig) return []
+    if (groupLabel === undefined) groupLabel = "н/н"
     const nValues = 2 * group
     url = url.substring("http://localhost:8080/getChart/".length, url.length)
     const urlParams = url.split("_");
@@ -64,7 +65,7 @@ async function getInfo(isBig, url, group) {
     let lastPrice = getAvg(lastGroup)
     const firstPrice = getAvg(firstGroup)
     let percent = Math.round((lastPrice - firstPrice) / firstPrice * 1000) / 10
-    percent = percent > 0 ? paragraphCentred(`+${numFormat(percent)}% н/н`, Green) : (percent < 0 ? paragraphCentred(numFormat(percent) + '% н/н', Red) : paragraphCentred('- н/н', ColorDefault))
+    percent = percent > 0 ? paragraphCentred(`+${numFormat(percent)}% ${groupLabel}`, Green) : (percent < 0 ? paragraphCentred(numFormat(percent) + '% н/н', Red) : paragraphCentred('- н/н', ColorDefault))
     if (lastPrice > 30) {
         lastPrice = Math.round(lastPrice)
     }

@@ -17,7 +17,7 @@ const tableDouble = require("../component/table_double");
 const tableMaterialMinimax = require("../component/table_material_minimax");
 const doubleTableMinimax = require("../component/table_double_minimax")
 const tableMaterialGrouped = require("../component/table_material_grouped")
-const {GetWeekDates, GetWeekNumber, Get2LastFridays, Get2LastThursdays} = require("../utils/date_operations");
+const {GetWeekDates, GetWeekNumber, Get2LastFridays, Get2LastThursdays, GetLastDayOfWeek} = require("../utils/date_operations");
 const {GetMonthRange, Get2WeekRange, GetYearRange} = require("../utils/date_ranges")
 const {ChartUrl, FormChartUrl} = require("../utils/form_chart_url")
 const fs = require("fs");
@@ -32,6 +32,7 @@ function getFooterTitle(date) {
 module.exports = class WeeklyReport {
 
     async generate(date) {
+        date = GetLastDayOfWeek(date)
         return new docx.Document({
             features: {
                 updateFields: true,
