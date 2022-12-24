@@ -32,7 +32,9 @@ function getFooterTitle(date) {
 module.exports = class WeeklyReport {
 
     async generate(date) {
+        console.log(date)
         date = GetLastDayOfWeek(date)
+        console.log(date)
         return new docx.Document({
             features: {
                 updateFields: true,

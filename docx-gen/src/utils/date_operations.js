@@ -27,8 +27,7 @@ module.exports.GetLastDayOfMonth = function (date){
 
 module.exports.GetLastDayOfWeek = function (date){
     let d = new Date(date);
-    d.setDate(d.getDate() + (5 - d.getDay()));
-    return d.toLocaleString('default', { weekday: 'long' });
+    return new Date(d.setDate(d.getDate() + (5 - d.getDay())));
 }
 
 module.exports.GetWeekNumber = function (date){
