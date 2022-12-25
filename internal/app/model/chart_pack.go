@@ -16,7 +16,8 @@ type ChartPack struct {
 	Finish         time.Time
 	NeedLabels     bool
 	Type           string
-	AvgSnap        string
+	Scale          string
+	XStep          string
 }
 
 func (c ChartPack) ToUrl() string {
@@ -37,7 +38,8 @@ func (c ChartPack) ToUrl() string {
 	}
 	fn += "_" + needLabels
 	fn += "_" + c.Type
-	fn += "_" + c.AvgSnap
+	fn += "_" + c.Scale
+	fn += "_" + c.XStep
 
 	return fn + ChartRoutePostfix
 }
@@ -83,7 +85,9 @@ func NewChartPack(url string) (ChartPack, error) {
 
 	c.Type = cnt[5]
 
-	c.AvgSnap = cnt[6]
+	c.Scale = cnt[6]
+
+	c.XStep = cnt[7]
 
 	return c, nil
 }

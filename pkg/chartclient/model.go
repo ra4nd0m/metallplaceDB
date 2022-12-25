@@ -15,4 +15,5 @@ type Options struct {
 	NeedLabels bool   `json:"labels"`
 	Type       string `json:"type"`
 	Group      int    `json:"group"`
+	XStep      string `json:"x_step"`
 }

@@ -88,8 +88,120 @@ module.exports = class MonthlyReport {
                         paragraph({
                             children: [
                                 await twoChart( // ЖРС62 ЛОМ hms
-                                    FormChartUrl(new ChartUrl([1], MedPriceId, Get2YearRange(date), 0, "line", "month")),
-                                    FormChartUrl(new ChartUrl([4], MedPriceId, Get2YearRange(date), 0, "line", "month")),
+                                    FormChartUrl(new ChartUrl([1], MedPriceId, Get2YearRange(date), 0, "line", "month", "month")),
+                                    FormChartUrl(new ChartUrl([4], MedPriceId, Get2YearRange(date), 0, "line", "month", "month")),
+                                    undefined,
+                                    "м/м"
+                                )
+                            ]
+                        }),
+                        paragraph({
+                            children: [
+                                await twoChart( //чугун лом3а
+                                    FormChartUrl(new ChartUrl([5], MedPriceId, Get2YearRange(date), 0, "line", "day", "month")),
+                                    FormChartUrl(new ChartUrl([3], MedPriceId, Get2YearRange(date), 0, "line", "day", "month")),
+                                    undefined,
+                                    "м/м"
+                                )
+                            ]
+                        }),
+                        paragraph({
+                            children: [
+                                await twoChart( //уголь кокс, кокс мет
+                                    FormChartUrl(new ChartUrl([6], MedPriceId, Get2YearRange(date), 0, "line", "day", "month")),
+                                    FormChartUrl(new ChartUrl([8], MedPriceId, Get2YearRange(date), 0, "line", "day", "month")),
+                                    undefined,
+                                    "м/м"
+                                )
+                            ]
+                        }),
+
+
+                        h3Fake("Сталь"),
+                        paragraph({
+                            children: [
+                                await oneChart(
+                                    FormChartUrl(new ChartUrl([9], MedPriceId, Get2YearRange(date), 0, "line", "day", "month")),
+                                    undefined,
+                                "м/м"
+                                )
+                            ]
+                        }),
+
+                        new docx.Paragraph({children: [new docx.PageBreak()]}),
+                        h3(),
+                        paragraph({
+                            children: [
+                                await twoChart(
+                                    FormChartUrl(new ChartUrl([10], MedPriceId, Get2YearRange(date), 0, "line", "day", "month")),
+                                    FormChartUrl(new ChartUrl([14], MedPriceId, GetYearRange(date), 0, "line", "day", "month")),
+                                    undefined,
+                                    "м/м"
+                                )
+                            ]
+                        }),
+
+                        new docx.Paragraph({children: [new docx.PageBreak()]}),
+                        paragraph({
+                            children: [
+                                await twoChart(
+                                    FormChartUrl(new ChartUrl([12], MedPriceId, Get2YearRange(date), 0, "line", "day", "month")),
+                                    FormChartUrl(new ChartUrl([15], MedPriceId, GetYearRange(date), 0, "line", "day", "month")),
+                                    undefined,
+                                    "м/м"
+                                )
+                            ]
+                        }),
+                        paragraph({
+                            children: [
+                                await twoChart(
+                                    FormChartUrl(new ChartUrl([13], MedPriceId, Get2YearRange(date), 0, "line", "day", "month")),
+                                    FormChartUrl(new ChartUrl([16], MedPriceId, GetYearRange(date), 0, "line", "day", "month")),
+                                    undefined,
+                                    "м/м"
+                                )
+                            ]
+                        }),
+
+
+                        h3Fake("Ферросплавы и руды"),
+                        paragraph({
+                            children: [
+                                await twoChart(
+                                    FormChartUrl(new ChartUrl([17], MedPriceId, Get2YearRange(date), 0, "line", "day", "month")),
+                                    FormChartUrl(new ChartUrl([19], MedPriceId, Get2YearRange(date), 0, "line", "day", "month")),
+                                    undefined,
+                                    "м/м"
+                                )
+                            ]
+                        }),
+                        new docx.Paragraph({children: [new docx.PageBreak()]}),
+                        h3(),
+
+                        paragraph({
+                            children: [await oneChart(
+                                FormChartUrl(new ChartUrl([18], MedPriceId, Get2YearRange(date), 0, "line", "day", "month")),
+                                undefined,
+                                "м/м"
+                            )]
+                        }),
+
+                        paragraph({
+                            children: [
+                                await twoChart(
+                                    FormChartUrl(new ChartUrl([20], MedPriceId, Get2YearRange(date), 0, "line", "day", "month")),
+                                    FormChartUrl(new ChartUrl([21], MedPriceId, Get2YearRange(date), 0, "line", "day", "month")),
+                                    undefined,
+                                    "м/м"
+                                )
+                            ]
+                        }),
+
+                        paragraph({
+                            children: [
+                                await twoChart(
+                                    FormChartUrl(new ChartUrl([22], MedPriceId, Get2YearRange(date), 0, "line", "day", "month")),
+                                    FormChartUrl(new ChartUrl([23], MedPriceId, Get2YearRange(date), 0, "line", "day", "month")),
                                     undefined,
                                     "м/м"
                                 )

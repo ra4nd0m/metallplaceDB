@@ -7,9 +7,9 @@ const {TableCellMarginNil, Green, Red, ColorDefault} = require("../const");
 const numFormat = require("../utils/numbers_format")
 const axios = require("axios");
 
-module.exports = async function chartBlock(url, isBig, avgGroup, groupLabel) {
+module.exports = async function chartBlock(url, isBig, avgGroup, comparePeriod) {
     const image = await chart(url, isBig);
-    const infoRow = await getInfo(isBig, url, avgGroup, groupLabel)
+    const infoRow = await getInfo(isBig, url, avgGroup, comparePeriod)
 
     return new docx.Table({
         width: {
@@ -39,9 +39,9 @@ module.exports = async function chartBlock(url, isBig, avgGroup, groupLabel) {
 }
 
 
-async function getInfo(isBig, url, group, groupLabel) {
+async function getInfo(isBig, url, group, comparePeriod) {
     if (isBig) return []
-    if (groupLabel === undefined) groupLabel = "н/н"
+    if (comparePeriod === undefined) comparePeriod = "н/н"
     const nValues = 2 * group
     url = url.substring("http://localhost:8080/getChart/".length, url.length)
     const urlParams = url.split("_");
@@ -50,7 +50,7 @@ async function getInfo(isBig, url, group, groupLabel) {
     const finish = urlParams[3].split("-")
     const date = `${finish[2]}-${finish[0]}-${finish[1]}`
     const materialInfo = await axios.post("http://localhost:8080/getMaterialInfo", {id: Number(materialId)})
-    const prices = await axios.post("http://localhost:8080/getNLastValues", {
+    let prices = await axios.post("http://localhost:8080/getNLastValues", {
         material_source_id: Number(materialId),
         property_id: Number(propertyId),
         n_values: nValues,
@@ -63,9 +63,24 @@ async function getInfo(isBig, url, group, groupLabel) {
         firstGroup.push(prices.data.price_feed[i].value)
     }
     let lastPrice = getAvg(lastGroup)
-    const firstPrice = getAvg(firstGroup)
+    let firstPrice = getAvg(firstGroup)
+    if(comparePeriod === "м/м"){
+        const finish = date
+        const  start = subtractMonth(date)
+        prices = await axios.post("http://localhost:8080/getMonthlyAvgFeed", {
+            material_source_id: Number(materialId),
+            property_id: Number(propertyId),
+            start: start,
+            finish: finish
+        })
+        if (prices.data.price_feed.length < 2) {
+            throw new Error('Wrong return of getMonthlyAvgFeed');
+        }
+        firstPrice = prices.data.price_feed[prices.data.price_feed.length - 2].value
+        lastPrice = prices.data.price_feed[prices.data.price_feed.length - 1].value
+    }
     let percent = Math.round((lastPrice - firstPrice) / firstPrice * 1000) / 10
-    percent = percent > 0 ? paragraphCentred(`+${numFormat(percent)}% ${groupLabel}`, Green) : (percent < 0 ? paragraphCentred(numFormat(percent) + '% н/н', Red) : paragraphCentred('- н/н', ColorDefault))
+    percent = percent > 0 ? paragraphCentred(`+${numFormat(percent)}% ${comparePeriod}`, Green) : (percent < 0 ? paragraphCentred(numFormat(percent) + `% ${comparePeriod}`, Red) : paragraphCentred(`- ${comparePeriod}`, ColorDefault))
     if (lastPrice > 30) {
         lastPrice = Math.round(lastPrice)
     }
@@ -108,4 +123,10 @@ async function getInfo(isBig, url, group, groupLabel) {
 }
 function getAvg(arr){
     return arr.reduce((a, b) => a + b, 0) / arr.length;
+}
+
+function subtractMonth(dateString) {
+    var date = new Date(dateString);
+    date.setDate(date.getDate() - 31);
+    return date.toISOString().split('T')[0];
 }

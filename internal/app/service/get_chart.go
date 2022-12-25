@@ -25,7 +25,7 @@ func (s *Service) GetChart(ctx context.Context, chartPack model.ChartPack) ([]by
 		start := chartPack.Start.Format("2006-01-02")
 		finish := chartPack.Finish.Format("2006-01-02")
 		var feed []model.Price
-		switch chartPack.AvgSnap {
+		switch chartPack.Scale {
 		case "day":
 			feed, _, err = s.repo.GetMaterialValueForPeriod(ctx, id, chartPack.PropertyId, start, finish)
 			if err != nil {
@@ -37,7 +37,7 @@ func (s *Service) GetChart(ctx context.Context, chartPack model.ChartPack) ([]by
 				return nil, fmt.Errorf("cant get material_value: %w", err)
 			}
 		default:
-			return nil, fmt.Errorf("wrong AvgSnap type: %w", err)
+			return nil, fmt.Errorf("wrong Scale type: %w", err)
 		}
 
 		for _, item := range feed {
@@ -50,6 +50,7 @@ func (s *Service) GetChart(ctx context.Context, chartPack model.ChartPack) ([]by
 		req.YDataSet = append(req.YDataSet, dataset)
 		req.Options.NeedLabels = chartPack.NeedLabels
 		req.Options.Type = chartPack.Type
+		req.Options.XStep = chartPack.XStep
 		isFirst = false
 	}
 

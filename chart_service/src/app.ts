@@ -61,7 +61,7 @@ const getChart = async (XLabelSet: string[], YDataSets: YDataSet[], options: Cha
         datasets.push({
             label: `${set.label}`,
             data: set.data,
-            lineTension: 0.1,
+            lineTension: 0.3,
             fill: false,
             borderColor: colors[i],
         });
@@ -75,6 +75,7 @@ const getChart = async (XLabelSet: string[], YDataSets: YDataSet[], options: Cha
 type ChartOptions = {
     labels?: Partial<LabelOptions>,
     type?: string,
+    x_step: string,
 }
 
 
@@ -101,10 +102,10 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
     let legendBoxSize = 13
     for (let i = 0; i < dateArray.length; i++) {
         if (options.labels) {
-            dateArrayFormatted.push(formatXLabel(dateArray[i], false))
+            dateArrayFormatted.push(formatXLabel(dateArray[i], options.x_step))
         } else {
             legendBoxSize = 0
-            dateArrayFormatted.push(formatXLabel(dateArray[i], true))
+            dateArrayFormatted.push(formatXLabel(dateArray[i], options.x_step))
         }
     }
     const conf: ChartConfiguration = {
@@ -208,8 +209,6 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
     if (options.type == 'bar') {
 
         let changes = getPercentChangesArr(datasets[0].data)
-        // @ts-ignore
-        //conf.options?.scales?.xAxes.ticks.stepSize = 200;
         let halfData: number[] = []
         datasets[0].data.forEach(d => {
             halfData.push(Math.round(d / 2));
@@ -251,20 +250,58 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
     return conf
 }
 
-function formatXLabel(date: string, ifWeek: boolean): string {
-    const dateArr = date.split("-")
-    if (!ifWeek) {
-        return `${dateArr[2]}.${dateArr[1]}.${dateArr[0]}`
+function formatXLabel(dateStr: string, xStep: string): string {
+    const dateArr = dateStr.split("-")
+    if (xStep === "week") {
+        const date = new Date(Date.parse(dateStr));
+        const weekNumber =  getWeekNumber(date);
+        const year = date.getFullYear();
+        return `${weekNumber} (${year})`;
     }
-    let currentDate = new Date(Date.UTC(Number(dateArr[0]), Number(dateArr[1]) - 1, Number(dateArr[2])));
-    let startDate = new Date(currentDate.getFullYear(), 0, 1);
-    // @ts-ignore
-    let days = Math.floor((currentDate - startDate) /
-        (24 * 60 * 60 * 1000));
+    if (xStep === "month"){
+        return getRuMonth(dateStr)
+    }
+    return `${dateArr[2]}.${dateArr[1]}.${dateArr[0]}`
 
-    let week = Math.ceil(days / 7);
-    console.log(date + " - " + week + "week")
-    return `${week} (${dateArr[0]})`
+}
+
+function getWeekNumber(date: Date): number {
+    const firstDayOfYear = new Date(date.getFullYear(), 0, 1);
+    const dayOfYear = ((date.getTime() - firstDayOfYear.getTime()) / 86400000) + 1;
+    return Math.ceil(dayOfYear / 7);
+}
+
+// @ts-ignore
+function getRuMonth(dateStr: string): string {
+    const date = new Date(Date.parse(dateStr));
+    const month = date.getMonth();
+    const year = date.getFullYear().toString().slice(-2);
+    switch (month) {
+        case 0:
+            return 'Янв\'' + year;
+        case 1:
+            return 'Фев\'' + year;
+        case 2:
+            return 'Мар\'' + year;
+        case 3:
+            return 'Апр\'' + year;
+        case 4:
+            return 'Май\'' + year;
+        case 5:
+            return 'Июн\'' + year;
+        case 6:
+            return 'Июл\'' + year;
+        case 7:
+            return 'Авг\'' + year;
+        case 8:
+            return 'Сен\'' + year;
+        case 9:
+            return 'Окт\'' + year;
+        case 10:
+            return 'Ноя\'' + year;
+        case 11:
+            return 'Дек\'' + year;
+    }
 }
 
 function formatYLabel(num: number) {
