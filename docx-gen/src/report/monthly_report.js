@@ -17,16 +17,16 @@ const tableDouble = require("../component/table_double");
 const tableMaterialMinimax = require("../component/table_material_minimax");
 const doubleTableMinimax = require("../component/table_double_minimax")
 const tableMaterialGrouped = require("../component/table_material_grouped")
-const {GetWeekDates, GetWeekNumber, GetLastDayOfMonth, Get2LastFridays, Get2LastThursdays} = require("../utils/date_operations");
+const {GetDates, GetWeekNumber, GetLastDayOfMonth, Get2LastFridays, Get2LastThursdays} = require("../utils/date_operations");
 const {GetMonthRange, Get2WeekRange, GetYearRange, Get2YearRange} = require("../utils/date_ranges")
 const {ChartUrl, FormChartUrl} = require("../utils/form_chart_url")
 const fs = require("fs");
 
 function getFooterTitle(date) {
 
-    const weekDates = GetWeekDates(date)
+    const weekDates = GetDates(date, "month")
     return `Отчетный период: ${weekDates.first.day} ${RusMonth[weekDates.first.month]} - ` +
-        `${weekDates.last.day} ${RusMonth[weekDates.last.month]} ${weekDates.last.year} года (${GetWeekNumber(date)} неделя)`
+        `${weekDates.last.day} ${RusMonth[weekDates.last.month]} ${weekDates.last.year} года`
 }
 
 module.exports = class MonthlyReport {
