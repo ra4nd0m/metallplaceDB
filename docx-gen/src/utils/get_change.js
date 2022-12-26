@@ -1,7 +1,13 @@
 const {ColorDefault, Red, Green} = require("../const");
 module.exports = function (feed, i, prevPrice, getPercent, round) {
     let change
-    i === 0 ? change = feed[i].value - prevPrice : change = feed[i].value - feed[i - 1].value
+   // i === 0 ? change = feed[i].value - prevPrice : change = feed[i].value - feed[i - 1].value
+    if (i === 0){
+        change = feed[i].value - prevPrice
+    }else {
+        change = feed[i].value - feed[i - 1].value
+        prevPrice = feed[i - 1].value
+    }
     if (getPercent) {
         let percent = Math.round(change / prevPrice * 1000) / 10
         if (percent > 0) return {Text:`+${format(percent, round)}`, Color: Green};

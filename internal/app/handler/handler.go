@@ -18,13 +18,17 @@ type IService interface {
 		propertyName string, valueFloat float64, valueStr string, createdOn time.Time) error
 	AddUniqueMaterial(ctx context.Context, materialName string, sourceName string, materialMarket string, materialUnit string) (int, error)
 	InitialImport(ctx context.Context) error
+	ParseBook(byte []byte) (model.ChartRaw, error)
 	GetMaterialList(ctx context.Context) ([]model.MaterialShortInfo, error)
 	GetMaterialValueForPeriod(ctx context.Context, materialSourceId, propertyId int, start string, finish string) ([]model.Price, float64, error)
 	GetMaterialSourceInfo(ctx context.Context, id int) (model.MaterialShortInfo, error)
 	GetNLastValues(ctx context.Context, materialSourceId, propertyId int, nValues int, finish string) ([]model.Price, error)
+	GetMonthlyAvgFeed(ctx context.Context, materialSourceId, propertyId int, start string, finish string) ([]model.Price, float64, error)
+	GetWeeklyAvgFeed(ctx context.Context, materialSourceId, propertyId int, start string, finish string) ([]model.Price, float64, error)
 
 	GetChart(ctx context.Context, chartPack model.ChartPack) ([]byte, error)
 	GetCachedChart(ctx context.Context, chartPack model.ChartPack) ([]byte, error)
+	GetChartRaw(chartRaw model.ChartRaw) ([]byte, error)
 
 	GetReport(repType string, date string) ([]byte, error)
 

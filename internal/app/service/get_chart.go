@@ -24,9 +24,25 @@ func (s *Service) GetChart(ctx context.Context, chartPack model.ChartPack) ([]by
 
 		start := chartPack.Start.Format("2006-01-02")
 		finish := chartPack.Finish.Format("2006-01-02")
-		feed, _, err := s.repo.GetMaterialValueForPeriod(ctx, id, chartPack.PropertyId, start, finish)
-		if err != nil {
-			return nil, fmt.Errorf("cant get material_value: %w", err)
+		var feed []model.Price
+		switch chartPack.Scale {
+		case "day":
+			feed, _, err = s.repo.GetMaterialValueForPeriod(ctx, id, chartPack.PropertyId, start, finish)
+			if err != nil {
+				return nil, fmt.Errorf("cant get material_value: %w", err)
+			}
+		case "month":
+			feed, _, err = s.GetMonthlyAvgFeed(ctx, id, chartPack.PropertyId, start, finish)
+			if err != nil {
+				return nil, fmt.Errorf("cant get material_value: %w", err)
+			}
+		case "week":
+			feed, _, err = s.GetWeeklyAvgFeed(ctx, id, chartPack.PropertyId, start, finish)
+			if err != nil {
+				return nil, fmt.Errorf("cant get material_value: %w", err)
+			}
+		default:
+			return nil, fmt.Errorf("wrong Scale type: %w", err)
 		}
 
 		for _, item := range feed {
@@ -39,12 +55,26 @@ func (s *Service) GetChart(ctx context.Context, chartPack model.ChartPack) ([]by
 		req.YDataSet = append(req.YDataSet, dataset)
 		req.Options.NeedLabels = chartPack.NeedLabels
 		req.Options.Type = chartPack.Type
+		req.Options.XStep = chartPack.XStep
 		isFirst = false
 	}
 
 	bytes, err := s.chart.GetChart(req)
 	if err != nil {
 		return nil, fmt.Errorf("cant get chart bytes: %w", err)
+	}
+	return bytes, nil
+}
+
+func (s *Service) GetChartRaw(chartRaw model.ChartRaw) ([]byte, error) {
+	var req chartclient.Request
+	req.XLabelSet = chartRaw.Labels
+	for _, cr := range chartRaw.MaterialAndPrices {
+		req.YDataSet = append(req.YDataSet, chartclient.YDataSet{Label: cr.Name, Data: cr.Values})
+	}
+	bytes, err := s.chart.GetChart(req)
+	if err != nil {
+		return nil, fmt.Errorf("cant get raw chart bytes: %w", err)
 	}
 	return bytes, nil
 }

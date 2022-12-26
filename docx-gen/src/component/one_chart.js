@@ -2,9 +2,9 @@ const docx = require("docx");
 const chartBlock = require("./chart_block")
 
 const {TableCellMarginNil} = require("../const");
-module.exports = async function oneChart(url, avgGroup){
+module.exports = async function oneChart(url, avgGroup, comparePeriod){
     if(avgGroup === undefined) avgGroup = 1
-    const block = await chartBlock(url, false, avgGroup)
+    const block = await chartBlock(url, false, avgGroup, comparePeriod)
     return new docx.Table({
         width: {
             size: 100,

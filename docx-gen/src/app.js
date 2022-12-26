@@ -1,5 +1,6 @@
 const docx = require("docx");
 const WeeklyReport = require("./report/weekly_report");
+const MonthlyReport = require("./report/monthly_report")
 const express = require('express')
 
 let app = express()
@@ -19,6 +20,19 @@ app.post("/gen", (req, res) => {
             console.log(req.body.date + " + " + req.body.report_type)
             res.set('Content-Type', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document');
             new WeeklyReport().generate(new Date(Date.UTC(year, month-1, day))).then(doc =>
+                docx.Packer.toBuffer(doc).then(buf => {
+                    res.send(buf)
+                })
+            )
+                .catch(reason =>
+                    res.send(JSON.stringify(reason))
+                )
+            break
+        case "monthly":
+            console.log("Generating monthly report...")
+            console.log(req.body.date + " + " + req.body.report_type)
+            res.set('Content-Type', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document');
+            new MonthlyReport().generate(new Date(Date.UTC(year, month-1, day))).then(doc =>
                 docx.Packer.toBuffer(doc).then(buf => {
                     res.send(buf)
                 })

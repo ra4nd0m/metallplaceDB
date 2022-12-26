@@ -55,7 +55,7 @@ function avgBlock(name1, name2, unit) {
     })
 }
 
-module.exports = async function tableDoubleWithWeekAvg(materialId1, materialId2, propertyId, dates, unitChangeRound, percentChangeRound) {
+module.exports = async function tableDoubleWithWeekAvg(materialId1, materialId2, propertyId, dates, unitChangeRound, percentChangeRound, avgRound) {
     const from = formatDateDb(dates[0])
     const to = formatDateDb(dates[1])
 
@@ -106,7 +106,7 @@ module.exports = async function tableDoubleWithWeekAvg(materialId1, materialId2,
             type: docx.WidthType.PERCENTAGE,
         },
         columnWidths: [3, 2, 2, 2, 2, 2, 2, 3, 3],
-        rows: tableBody(resBody1.data, resBody2.data, unitChangeRound, percentChangeRound),
+        rows: tableBody(resBody1.data, resBody2.data, unitChangeRound, percentChangeRound, avgRound),
     })
 
     return paragraph({children: [header, body]})

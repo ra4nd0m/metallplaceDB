@@ -1,24 +1,42 @@
-const {endOfWeek, startOfWeek} = require("date-fns");
+const {endOfWeek, startOfWeek, startOfMonth, endOfMonth, isValid} = require("date-fns");
 
-module.exports.GetWeekDates = function (date){
-    if(date === undefined){
-        date = Date.now()
+module.exports.GetDates = function (date, type) {
+    if (!date || !isValid(date)) {
+        throw new Error('Invalid date');
     }
-    const firstDay = startOfWeek(date, {weekStartsOn: 1});
-    const lastDay = endOfWeek(date, {weekStartsOn: 1});
+
+    let firstDay, lastDay;
+    if (type === 'week') {
+        firstDay = startOfWeek(date, { weekStartsOn: 1 });
+        lastDay = endOfWeek(date, { weekStartsOn: 1 });
+    } else if (type === 'month') {
+        firstDay = startOfMonth(date);
+        lastDay = endOfMonth(date);
+    } else {
+        throw new Error('Invalid type');
+    }
 
     return {
         first: {
             day: firstDay.getDate(),
             month: firstDay.getMonth(),
-            year: firstDay.getFullYear()
+            year: firstDay.getFullYear(),
         },
         last: {
             day: lastDay.getDate(),
             month: lastDay.getMonth(),
-            year: lastDay.getFullYear()
-        }
-    }
+            year: lastDay.getFullYear(),
+        },
+    };
+};
+
+module.exports.GetFirstDayOfMonth = function (date){
+    return new Date(date.getFullYear(), date.getMonth(), 1);
+}
+
+module.exports.GetLastDayOfWeek = function (date){
+    let d = new Date(date);
+    return new Date(d.setDate(d.getDate() + (5 - d.getDay())));
 }
 
 module.exports.GetWeekNumber = function (date){
@@ -48,12 +66,6 @@ module.exports.Get2LastThursdays = function (date){
 
     return [lastThursday, friday];
 }
-
-// module.exports.GetMonthRange = function getMonthRange(date){
-//     let first = date
-//     first.setMonth(first.setMonth - 1)
-//     return `${first.getDate()}-${first.getMonth()}-${first.getFullYear()}_${date.getDate()}-${date.getMonth()}-${date.getFullYear()}`
-// }
 
 module.exports.FormatDayMonth = function (num){
     if (num <= 9) return `0${num}`

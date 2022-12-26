@@ -1,7 +1,6 @@
 package model
 
-var InitMaterialsHorizontal = []MaterialHorizontal{
-	// ЛОМ ЧЕРНЫХ МЕТАЛЛОВ
+var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 	{"10.Сводка (неделя)",
 		"Лом, HMS 1&2 (80:20), CNF, (недельный)",
 		"-",

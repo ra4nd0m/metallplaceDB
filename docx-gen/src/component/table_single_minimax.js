@@ -26,7 +26,7 @@ module.exports = async function singleTableMinimax(materialId, dates, unitChange
             size: 100,
             type: docx.WidthType.PERCENTAGE,
         },
-        columnWidths: [1,1,1,1],
+        columnWidths: [3,3,1.5,1.5],
         rows: [
             new docx.TableRow({
                 children: [
@@ -71,7 +71,7 @@ module.exports = async function singleTableMinimax(materialId, dates, unitChange
             size: 100,
             type: docx.WidthType.PERCENTAGE,
         },
-        columnWidths: [3, 1, 1, 1, 3, 3],
+        columnWidths: [3, 1, 1, 1, 1.5, 1.5],
         rows: tableBody(minBody.data, maxBody.data, medBody.data, unitChangeRound, percentChangeRound),
     })
 
