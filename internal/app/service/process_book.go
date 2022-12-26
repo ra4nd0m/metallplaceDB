@@ -51,13 +51,24 @@ func (s *Service) InitialImport(ctx context.Context) error {
 				fmt.Println(property.Name)
 				row := property.Row
 				for {
-					value, err := book.GetCellValue(material.Sheet, property.Column+strconv.Itoa(row))
+					var value string
+					valueCellValue, err := book.GetCellValue(material.Sheet, property.Column+strconv.Itoa(row))
+					if err != nil {
+						return err
+					}
+					valueCalc, err := book.CalcCellValue(material.Sheet, property.Column+strconv.Itoa(row))
 					if err != nil {
 						return err
 					}
 
-					if value == "" {
+					if valueCellValue == "" && valueCalc == "" {
 						break
+					} else if valueCellValue != "" {
+						value = valueCellValue
+					} else if valueCalc != "" {
+						value = valueCalc
+					} else {
+						value = "1000000000"
 					}
 
 					// Calculating date cell, and formatting it

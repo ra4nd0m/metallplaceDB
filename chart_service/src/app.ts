@@ -61,7 +61,7 @@ const getChart = async (XLabelSet: string[], YDataSets: YDataSet[], options: Cha
         datasets.push({
             label: `${set.label}`,
             data: set.data,
-            lineTension: 0.3,
+            lineTension: 0.15,
             fill: false,
             borderColor: colors[i],
         });
