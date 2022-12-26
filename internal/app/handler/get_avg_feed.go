@@ -22,3 +22,10 @@ func (h Handler) GetMonthlyAvgHandler(w http.ResponseWriter, r *http.Request) {
 		return AvgPriceResponse{priceFeed}, err
 	})
 }
+
+func (h Handler) GetWeeklyAvgHandler(w http.ResponseWriter, r *http.Request) {
+	handle(w, r, func(req AvgPriceRequest) (AvgPriceResponse, error) {
+		priceFeed, _, err := h.service.GetWeeklyAvgFeed(r.Context(), req.MaterialSourceId, req.PropertyId, req.Start, req.Finish)
+		return AvgPriceResponse{priceFeed}, err
+	})
+}

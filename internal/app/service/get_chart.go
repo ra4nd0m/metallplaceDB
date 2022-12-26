@@ -36,6 +36,11 @@ func (s *Service) GetChart(ctx context.Context, chartPack model.ChartPack) ([]by
 			if err != nil {
 				return nil, fmt.Errorf("cant get material_value: %w", err)
 			}
+		case "week":
+			feed, _, err = s.GetWeeklyAvgFeed(ctx, id, chartPack.PropertyId, start, finish)
+			if err != nil {
+				return nil, fmt.Errorf("cant get material_value: %w", err)
+			}
 		default:
 			return nil, fmt.Errorf("wrong Scale type: %w", err)
 		}

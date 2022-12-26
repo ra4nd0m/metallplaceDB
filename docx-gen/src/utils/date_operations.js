@@ -30,8 +30,8 @@ module.exports.GetDates = function (date, type) {
     };
 };
 
-module.exports.GetLastDayOfMonth = function (date){
-    return new Date(date.getFullYear(), date.getMonth() + 1, 0);
+module.exports.GetFirstDayOfMonth = function (date){
+    return new Date(date.getFullYear(), date.getMonth(), 1);
 }
 
 module.exports.GetLastDayOfWeek = function (date){

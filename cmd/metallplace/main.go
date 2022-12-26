@@ -55,6 +55,7 @@ func main() {
 	}{
 		{route: "/getValueForPeriod", handler: hdl.GetValueForPeriodHandler},
 		{route: "/getMonthlyAvgFeed", handler: hdl.GetMonthlyAvgHandler},
+		{route: "/getWeeklyAvgFeed", handler: hdl.GetWeeklyAvgHandler},
 		{route: "/getMaterialList", handler: hdl.GetMaterialListHandler},
 		{route: "/addValue", handler: hdl.AddValueHandler},
 		{route: "/addUniqueMaterial", handler: hdl.AddUniqueMaterialHandler},
