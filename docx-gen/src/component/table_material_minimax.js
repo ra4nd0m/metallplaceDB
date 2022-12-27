@@ -54,9 +54,10 @@ function headerMaterial(title, unit){
     })
 }
 
-module.exports = async function tableMaterialMinimax(materialIds, dates, unitChangeRound, percentChangeRound) {
+module.exports = async function tableMaterialMinimax(materialIds, dates, unitChangeRound, percentChangeRound, type) {
     const f = new Date(dates[0])
     const s = new Date(dates[1])
+    if(type === undefined) type = "week"
 
     const first = `${f.getFullYear()}-${FormatDayMonth(f.getMonth() + 1)}-${FormatDayMonth(f.getDate())}`
     const second = `${s.getFullYear()}-${FormatDayMonth(s.getMonth() + 1)}-${FormatDayMonth(s.getDate())}`
@@ -88,6 +89,15 @@ module.exports = async function tableMaterialMinimax(materialIds, dates, unitCha
             Week2Med: week2Med.data,
         })
     }
+    let title1, title2
+    if (type === "week"){
+        title1 = `${GetWeekNumber(dates[0])} неделя ${dates[0].getFullYear()} год`
+            title2 = `${GetWeekNumber(dates[1])} неделя ${dates[1].getFullYear()} год`
+    }
+    if (type === "month"){
+        title1 = createTitle(dates[0]);
+        title2 = createTitle(dates[1]);
+    }
 
     const header = new docx.Table({
         width: {
@@ -100,8 +110,8 @@ module.exports = async function tableMaterialMinimax(materialIds, dates, unitCha
                 children: [
                     cellCenter({ margins: TableCellMarginNil, children: [textTh("Страна/вид")], verticalAlign: docx.VerticalAlign.CENTER}),
                     cellCenter({ margins: TableCellMarginNil, children: [textTh("Усл. поставки")], verticalAlign: docx.VerticalAlign.CENTER}),
-                    cellCenter({ margins: TableCellMarginNil, children: [headerMaterial(`${GetWeekNumber(dates[0])} неделя ${dates[0].getFullYear()} год`, "USD/т")], verticalAlign: docx.VerticalAlign.CENTER}),
-                    cellCenter({ margins: TableCellMarginNil, children: [headerMaterial(`${GetWeekNumber(dates[1])} неделя ${dates[1].getFullYear()} год`, "USD/т")], verticalAlign: docx.VerticalAlign.CENTER}),
+                    cellCenter({ margins: TableCellMarginNil, children: [headerMaterial(title1, "USD/т")], verticalAlign: docx.VerticalAlign.CENTER}),
+                    cellCenter({ margins: TableCellMarginNil, children: [headerMaterial(title2, "USD/т")], verticalAlign: docx.VerticalAlign.CENTER}),
                 ],
             })
         ]
@@ -119,3 +129,7 @@ module.exports = async function tableMaterialMinimax(materialIds, dates, unitCha
     return paragraph({children: [header, body]})
 }
 
+function createTitle(date){
+    const monthYearString = date.toLocaleString("ru", { month: "long", year: "numeric" });
+    return monthYearString.charAt(0).toUpperCase() + monthYearString.slice(1)
+}

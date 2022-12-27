@@ -14,18 +14,19 @@ type AvgPriceRequest struct {
 
 type AvgPriceResponse struct {
 	PriceFeed []model.Price `json:"price_feed"`
+	PrevPrice float64       `json:"prev_price"`
 }
 
 func (h Handler) GetMonthlyAvgHandler(w http.ResponseWriter, r *http.Request) {
 	handle(w, r, func(req AvgPriceRequest) (AvgPriceResponse, error) {
-		priceFeed, _, err := h.service.GetMonthlyAvgFeed(r.Context(), req.MaterialSourceId, req.PropertyId, req.Start, req.Finish)
-		return AvgPriceResponse{priceFeed}, err
+		priceFeed, prevPrice, err := h.service.GetMonthlyAvgFeed(r.Context(), req.MaterialSourceId, req.PropertyId, req.Start, req.Finish)
+		return AvgPriceResponse{priceFeed, prevPrice}, err
 	})
 }
 
 func (h Handler) GetWeeklyAvgHandler(w http.ResponseWriter, r *http.Request) {
 	handle(w, r, func(req AvgPriceRequest) (AvgPriceResponse, error) {
-		priceFeed, _, err := h.service.GetWeeklyAvgFeed(r.Context(), req.MaterialSourceId, req.PropertyId, req.Start, req.Finish)
-		return AvgPriceResponse{priceFeed}, err
+		priceFeed, prevPrice, err := h.service.GetWeeklyAvgFeed(r.Context(), req.MaterialSourceId, req.PropertyId, req.Start, req.Finish)
+		return AvgPriceResponse{priceFeed, prevPrice}, err
 	})
 }

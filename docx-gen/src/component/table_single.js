@@ -6,15 +6,23 @@ const {FormatDayMonth} = require("../utils/date_operations");
 const tableBody = require("../atom/table_single_body")
 const textTh = require("../atom/text_th")
 
-module.exports = async function singleTable(materialId, propertyId, dates, unitChangeRound, percentChangeRound){
+module.exports = async function singleTable(materialId, propertyId, dates, unitChangeRound, percentChangeRound, type){
     const first = new Date(dates[0])
     const last = new Date(dates[1])
+    let resBody
+    if (type === undefined) type = "day"
 
     const from = `${first.getFullYear()}-${FormatDayMonth(first.getMonth() + 1)}-${FormatDayMonth(first.getDate())}`
     const to = `${last.getFullYear()}-${FormatDayMonth(last.getMonth() + 1)}-${FormatDayMonth(last.getDate())}`
 
     const resMat = await axios.post("http://localhost:8080/getMaterialInfo",  { id: materialId })
-    const resBody = await axios.post("http://localhost:8080/getValueForPeriod", { material_source_id: materialId, property_id: propertyId, start: from, finish: to})
+    if (type === "month"){
+        resBody = await axios.post("http://localhost:8080/getMonthlyAvgFeed", { material_source_id: materialId, property_id: propertyId, start: from, finish: to})
+
+    }
+    if (type === "day") {
+        resBody = await axios.post("http://localhost:8080/getValueForPeriod", { material_source_id: materialId, property_id: propertyId, start: from, finish: to})
+    }
 
     return new docx.Table({
         width: {
@@ -47,7 +55,7 @@ module.exports = async function singleTable(materialId, propertyId, dates, unitC
                     }),
                 ]
             }),
-            ...tableBody(resBody.data, unitChangeRound, percentChangeRound),
+            ...tableBody(resBody.data, unitChangeRound, percentChangeRound, type),
         ]
     })
 }

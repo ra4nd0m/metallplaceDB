@@ -5,7 +5,7 @@ const textTd = require("../atom/text_td")
 const {formatDateTable} = require("../utils/date_format");
 const getToFixed = require("../utils/get_to_fixed")
 
-module.exports = function (input, unitChangeRound, percentChangeRound) {
+module.exports = function (input, unitChangeRound, percentChangeRound, type) {
     let rows = [];
     const pf = input.price_feed
     const fixed = getToFixed([pf])
@@ -16,7 +16,7 @@ module.exports = function (input, unitChangeRound, percentChangeRound) {
             new docx.TableRow({
                 children: [
                     cellCenter({
-                        children: [textTd(formatDateTable(pf[i].date.substring(0, 10)))]
+                        children: [textTd(formatDateTable(pf[i].date.substring(0, 10), type))]
                     }),
                     cellCenter({
                         children: [textTd(pf[i].value, undefined, fixed)]

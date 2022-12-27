@@ -186,11 +186,11 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
                 anchor: 'end',
                 formatter: function (value, context) {
                     let label = formatYLabel(value)
-                    let x = getToFixed(datasets)
-                    if (x > 0) {
-                        let cur = label.substring(label.indexOf(",")).length - 1
-                        return label + "0".repeat(x - cur);
-                    }
+                    //let x = getToFixed(datasets)
+                    //if (x > 0) {
+                    //    let cur = label.substring(label.indexOf(",")).length - 1
+                    //    return label + "0".repeat(x - cur);
+                    //}
                     return label
                 },
                 align: 'top',
@@ -307,9 +307,21 @@ function getRuMonth(dateStr: string): string {
 function formatYLabel(num: number) {
     let numStr = num.toString()
     if (num >= 1000) {
-        const after = num.toString().slice(-3)
-        const before = num.toString().slice(0, num.toString().length - 3)
-        numStr = before + " " + after
+        if(numStr.indexOf(".") != -1){
+            let [integerPart, decimalPart] = num.toString().split('.');
+
+            // Extract the last three digits of the integer part and the rest of the digits
+            const after = integerPart.slice(-3);
+            const before = integerPart.slice(0, integerPart.length - 3);
+
+            // Concatenate the integer part and the decimal part, with a space as a thousand separator and a comma as a decimal separator
+            numStr = `${before} ${after}.${decimalPart}`;
+        } else {
+            const after = num.toString().slice(-3)
+            const before = num.toString().slice(0, num.toString().length - 3)
+            numStr = (before + " " + after)
+        }
+
     }
     return numStr.replace(".", ",")
 }

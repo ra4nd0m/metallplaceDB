@@ -54,13 +54,7 @@ module.exports = class WeeklyReport {
                     children: [
                         new docx.Paragraph({
                             children: [
-                                new docx.ImageRun({
-                                    data: fs.readFileSync("/home/ivan/Pictures/Screenshots/pic2.png"),
-                                    transformation: {
-                                        width: 1000,
-                                        height: 2000,
-                                    },
-                                }),
+
                             ]
                         }),
                     ]

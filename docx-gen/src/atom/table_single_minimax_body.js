@@ -5,7 +5,7 @@ const cellCenter = require("../atom/cell_centred")
 const textTd = require("../atom/text_td")
 const getToFixed = require("../utils/get_to_fixed")
 
-module.exports = function (min, max, med, unitChangeRound, percentChangeRound) {
+module.exports = function (min, max, med, unitChangeRound, percentChangeRound, type) {
     let rows = [];
     const pfMin = min.price_feed
     const pfMax = max.price_feed
@@ -20,7 +20,7 @@ module.exports = function (min, max, med, unitChangeRound, percentChangeRound) {
             new docx.TableRow({
                 children: [
                     cellCenter({
-                        children: [textTd(formatDateTable(pfMed[i].date.substring(0, 10)))]
+                        children: [textTd(formatDateTable(pfMed[i].date.substring(0, 10), type))]
                     }),
                     cellCenter({
                         children: [textTd(pfMin[i].value, undefined, fixed)]

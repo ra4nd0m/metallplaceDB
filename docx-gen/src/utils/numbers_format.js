@@ -1,6 +1,6 @@
 module.exports = function (num, fixed){
     let numStr = num.toString()
-    if (numStr.split(".").length - 1 > 1){
+    if (numStr.split(".").length - 1 > 1 || numStr.indexOf("'") !== -1){
         return numStr
     }
     if(num >= 1000){

@@ -32,24 +32,44 @@ function headerMaterial(name, market, unit) {
     })
 }
 
-module.exports = async function tableDoubleWithWeekAvg(materialId1, materialId2, propertyId, dates, unitChangeRound, percentChangeRound) {
+module.exports = async function tableDouble(materialId1, materialId2, propertyId, dates, unitChangeRound, percentChangeRound, scale) {
     const from = formatDateDb(dates[0])
     const to = formatDateDb(dates[1])
+    let resBody1
+    let resBody2
+    if (scale === undefined) scale = "day"
 
     const resMat1 = await axios.post("http://localhost:8080/getMaterialInfo", {id: materialId1})
     const resMat2 = await axios.post("http://localhost:8080/getMaterialInfo", {id: materialId2})
-    const resBody1 = await axios.post("http://localhost:8080/getValueForPeriod", {
-        material_source_id: materialId1,
-        property_id: propertyId,
-        start: from,
-        finish: to
-    })
-    const resBody2 = await axios.post("http://localhost:8080/getValueForPeriod", {
-        material_source_id: materialId2,
-        property_id: propertyId,
-        start: from,
-        finish: to
-    })
+    if(scale === "day"){
+        resBody1 = await axios.post("http://localhost:8080/getValueForPeriod", {
+            material_source_id: materialId1,
+            property_id: propertyId,
+            start: from,
+            finish: to
+        })
+        resBody2 = await axios.post("http://localhost:8080/getValueForPeriod", {
+            material_source_id: materialId2,
+            property_id: propertyId,
+            start: from,
+            finish: to
+        })
+    }
+    if(scale === "month"){
+        resBody1 = await axios.post("http://localhost:8080/getMonthlyAvgFeed", {
+            material_source_id: materialId1,
+            property_id: propertyId,
+            start: from,
+            finish: to
+        })
+        resBody2 = await axios.post("http://localhost:8080/getMonthlyAvgFeed", {
+            material_source_id: materialId2,
+            property_id: propertyId,
+            start: from,
+            finish: to
+        })
+    }
+
     const header = new docx.Table({
         width: {
             size: 100,
@@ -79,7 +99,7 @@ module.exports = async function tableDoubleWithWeekAvg(materialId1, materialId2,
             type: docx.WidthType.PERCENTAGE,
         },
         columnWidths: [3, 2, 2, 2, 2, 2, 2],
-        rows: tableBody(resBody1.data, resBody2.data, unitChangeRound, percentChangeRound),
+        rows: tableBody(resBody1.data, resBody2.data, unitChangeRound, percentChangeRound, scale),
     })
 
     return paragraph({children: [header, body]})

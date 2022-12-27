@@ -2,10 +2,10 @@ GET localhost:8080/getValueForPeriod
 Content-Type: application/json
 
 {
-  "material_source_id": 9,
-  "property_id": 1,
-  "start": "2022-10-25",
-  "finish": "2022-10-30"
+  "material_source_id": 82,
+  "property_id": 3,
+  "start": "2022-05-01",
+  "finish": "2022-05-01"
 }
 
 ###
@@ -13,10 +13,10 @@ GET localhost:8080/getMonthlyAvgFeed
 Content-Type: application/json
 
 {
-"material_source_id": 1,
+"material_source_id": 3,
 "property_id": 1,
-"start": "2022-07-01",
-"finish": "2022-07-01"
+  "start": "2021-10-01",
+  "finish": "2022-07-01"
 }
 
 ###
@@ -35,7 +35,7 @@ GET http://localhost:8080/getMaterialInfo
 Content-Type: application/json
 
 {
-  "id": 9
+  "id": 82
 
 }
 
@@ -89,10 +89,10 @@ Content-Type: application/json
 GET http://localhost:8080/getChart/1_1_09-08-2022_10-07-2022_0_line_day_day.png
 
 ###
-GET http://localhost:8080/getReport/weekly/2022-10-20
+GET http://localhost:8080/getReport/weekly/2022-12-13
 
 ###
-GET http://localhost:8080/getReport/monthly/2022-07-13
+GET http://localhost:8080/getReport/monthly/2022-08-13
 
 ###
 GET localhost:8080/getPropertyName
@@ -112,3 +112,5 @@ Content-Type: application/json
   "kind": "decimal"
 }
 
+###
+GET http://localhost:8080/getChart/3_1_02-01-2022_07-01-2022_1_line_month_month.png

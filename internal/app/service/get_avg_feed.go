@@ -15,7 +15,14 @@ func (s *Service) GetMonthlyAvgFeed(ctx context.Context, materialSourceId, prope
 	if err != nil {
 		return []model.Price{}, 0, fmt.Errorf("cant parse date in a month: %w", err)
 	}
-	cur = time.Date(cur.Year(), cur.Month(), 1, 0, 0, 0, 0, cur.Location())
+	year := cur.Year()
+	month := cur.Month() - 1
+	if month == 0 {
+		year--
+		month = 12
+	}
+	cur = time.Date(year, month, 1, 0, 0, 0, 0, cur.Location())
+
 	fin, err := time.Parse(layout, finish)
 	if err != nil {
 		return nil, 0, fmt.Errorf("cant parse date in a month: %w", err)
@@ -33,7 +40,9 @@ func (s *Service) GetMonthlyAvgFeed(ctx context.Context, materialSourceId, prope
 		avgFeed = append(avgFeed, getPriceArrAvg(curFeed))
 		cur = cur.AddDate(0, 1, 0)
 	}
-	return avgFeed, 0, nil
+	prevPrice := avgFeed[0].Value
+	avgFeed = avgFeed[1:]
+	return avgFeed, prevPrice, nil
 }
 
 func (s *Service) GetWeeklyAvgFeed(ctx context.Context, materialSourceId, propertyId int, start string, finish string) ([]model.Price, float64, error) {
@@ -44,7 +53,7 @@ func (s *Service) GetWeeklyAvgFeed(ctx context.Context, materialSourceId, proper
 	if err != nil {
 		return []model.Price{}, 0, fmt.Errorf("cant parse date in a month: %w", err)
 	}
-	cur = cur.AddDate(0, 0, int(-cur.Weekday()))
+	cur = cur.AddDate(0, 0, int(-cur.Weekday())-7)
 
 	fin, err := time.Parse(layout, finish)
 	if err != nil {
@@ -63,7 +72,9 @@ func (s *Service) GetWeeklyAvgFeed(ctx context.Context, materialSourceId, proper
 		avgFeed = append(avgFeed, getPriceArrAvg(curFeed))
 		cur = cur.AddDate(0, 0, 7)
 	}
-	return avgFeed, 0, nil
+	prevPrice := avgFeed[0].Value
+	avgFeed = avgFeed[1:]
+	return avgFeed, prevPrice, nil
 }
 
 func getPriceArrAvg(feed []model.Price) model.Price {

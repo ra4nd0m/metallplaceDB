@@ -53,18 +53,29 @@ module.exports.Get2LastFridays = function (date){
     let lastFriday = new Date(friday)
     lastFriday.setDate(lastFriday.getDate() - 7)
 
+
     return [lastFriday, friday];
+}
+
+module.exports.GetFirstDaysOfCurrentAndPrevMonth = function (date) {
+    const currentMonth = date.getMonth();
+    const prevMonth = currentMonth === 0 ? 11 : currentMonth - 1; // handle January (0) by wrapping around to December (11)
+
+    const currentMonthFirstDay = new Date(date.getFullYear(), currentMonth, 1);
+    const prevMonthFirstDay = new Date(date.getFullYear(), prevMonth, 1);
+
+    return [ prevMonthFirstDay, currentMonthFirstDay ];
 }
 
 module.exports.Get2LastThursdays = function (date){
     const first = date.getDate() - date.getDay() + 1;
-    const fifth = first + 3;
+    const fourth = first + 3;
 
-    const friday = new Date(date.setDate(fifth));
-    let lastThursday = new Date(friday)
+    const thursday = new Date(date.setDate(fourth));
+    let lastThursday = new Date(thursday)
     lastThursday.setDate(lastThursday.getDate() - 7)
 
-    return [lastThursday, friday];
+    return [lastThursday, thursday];
 }
 
 module.exports.FormatDayMonth = function (num){

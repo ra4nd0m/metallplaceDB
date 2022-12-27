@@ -297,7 +297,8 @@ var InitMaterialsHorizontalMonthly = []MaterialHorizontal{
 		"ОАЭ, Абу-Даби",
 		"USD/т",
 		"1",
-		[]Property{{"Мин цена", "F", 31, "decimal"},
+		[]Property{
+			{"Мин цена", "F", 31, "decimal"},
 			{"Макс цена", "G", 31, "decimal"},
 			{"Средняя цена", "H", 31, "decimal"},
 		},
