@@ -92,7 +92,7 @@ GET http://localhost:8080/getChart/1_1_09-08-2022_10-07-2022_0_line_day_day.png
 GET http://localhost:8080/getReport/weekly/2022-12-13
 
 ###
-GET http://localhost:8080/getReport/monthly/2022-08-13
+GET http://localhost:8080/getReport/monthly/2022-11-13
 
 ###
 GET localhost:8080/getPropertyName
