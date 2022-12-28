@@ -18,7 +18,7 @@ const tableMaterialMinimax = require("../component/table_material_minimax");
 const doubleTableMinimax = require("../component/table_double_minimax")
 const tableMaterialGrouped = require("../component/table_material_grouped")
 const {GetDates, GetWeekNumber, GetFirstDayOfMonth, GetFirstDaysOfCurrentAndPrevMonth} = require("../utils/date_operations");
-const {GetMonthRange, Get2WeekRange, GetYearRange, Get2YearRange, GetHalfYearRange, GetNMonthRange} = require("../utils/date_ranges")
+const {GetNMonthRange} = require("../utils/date_ranges")
 const {ChartUrl, FormChartUrl} = require("../utils/form_chart_url")
 const fs = require("fs");
 
@@ -95,8 +95,8 @@ module.exports = class MonthlyReport {
                         paragraph({
                             children: [
                                 await twoChart( //чугун лом3а
-                                    FormChartUrl(new ChartUrl([5], MedPriceId, Get2YearRange(date), 0, "line", "day", "month")),
-                                    FormChartUrl(new ChartUrl([3], MedPriceId, Get2YearRange(date), 0, "line", "day", "month")),
+                                    FormChartUrl(new ChartUrl([5], MedPriceId, GetNMonthRange(date, 23), 0, "line", "week", "month")),
+                                    FormChartUrl(new ChartUrl([3], MedPriceId, GetNMonthRange(date, 23), 0, "line", "week", "month")),
                                     undefined,
                                     "м/м"
                                 )
@@ -105,8 +105,8 @@ module.exports = class MonthlyReport {
                         paragraph({
                             children: [
                                 await twoChart( //уголь кокс, кокс мет
-                                    FormChartUrl(new ChartUrl([6], MedPriceId, Get2YearRange(date), 0, "line", "day", "month")),
-                                    FormChartUrl(new ChartUrl([8], MedPriceId, Get2YearRange(date), 0, "line", "day", "month")),
+                                    FormChartUrl(new ChartUrl([6], MedPriceId, GetNMonthRange(date, 23), 0, "line", "month", "month")),
+                                    FormChartUrl(new ChartUrl([8], MedPriceId, GetNMonthRange(date, 23), 0, "line", "month", "month")),
                                     undefined,
                                     "м/м"
                                 )
@@ -118,7 +118,7 @@ module.exports = class MonthlyReport {
                         paragraph({
                             children: [
                                 await oneChart(
-                                    FormChartUrl(new ChartUrl([9], MedPriceId, Get2YearRange(date), 0, "line", "day", "month")),
+                                    FormChartUrl(new ChartUrl([9], MedPriceId, GetNMonthRange(date, 23), 0, "line", "week", "month")),
                                     undefined,
                                 "м/м"
                                 )
@@ -130,8 +130,8 @@ module.exports = class MonthlyReport {
                         paragraph({
                             children: [
                                 await twoChart(
-                                    FormChartUrl(new ChartUrl([10], MedPriceId, Get2YearRange(date), 0, "line", "day", "month")),
-                                    FormChartUrl(new ChartUrl([14], MedPriceId, GetYearRange(date), 0, "line", "day", "month")),
+                                    FormChartUrl(new ChartUrl([10], MedPriceId, GetNMonthRange(date, 23), 0, "line", "week", "month")),
+                                    FormChartUrl(new ChartUrl([14], MedPriceId, GetNMonthRange(date, 20), 0, "line", "month", "month")),
                                     undefined,
                                     "м/м"
                                 )
@@ -142,8 +142,8 @@ module.exports = class MonthlyReport {
                         paragraph({
                             children: [
                                 await twoChart(
-                                    FormChartUrl(new ChartUrl([12], MedPriceId, Get2YearRange(date), 0, "line", "day", "month")),
-                                    FormChartUrl(new ChartUrl([15], MedPriceId, GetYearRange(date), 0, "line", "day", "month")),
+                                    FormChartUrl(new ChartUrl([12], MedPriceId, GetNMonthRange(date, 23), 0, "line", "week", "month")),
+                                    FormChartUrl(new ChartUrl([15], MedPriceId, GetNMonthRange(date, 20), 0, "line", "month", "month")),
                                     undefined,
                                     "м/м"
                                 )
@@ -152,8 +152,8 @@ module.exports = class MonthlyReport {
                         paragraph({
                             children: [
                                 await twoChart(
-                                    FormChartUrl(new ChartUrl([13], MedPriceId, Get2YearRange(date), 0, "line", "day", "month")),
-                                    FormChartUrl(new ChartUrl([16], MedPriceId, GetYearRange(date), 0, "line", "day", "month")),
+                                    FormChartUrl(new ChartUrl([13], MedPriceId, GetNMonthRange(date, 23), 0, "line", "week", "month")),
+                                    FormChartUrl(new ChartUrl([16], MedPriceId, GetNMonthRange(date, 20), 0, "line", "month", "month")),
                                     undefined,
                                     "м/м"
                                 )
@@ -165,8 +165,8 @@ module.exports = class MonthlyReport {
                         paragraph({
                             children: [
                                 await twoChart(
-                                    FormChartUrl(new ChartUrl([17], MedPriceId, Get2YearRange(date), 0, "line", "day", "month")),
-                                    FormChartUrl(new ChartUrl([19], MedPriceId, Get2YearRange(date), 0, "line", "day", "month")),
+                                    FormChartUrl(new ChartUrl([17], MedPriceId, GetNMonthRange(date, 23), 0, "line", "day", "month")),
+                                    FormChartUrl(new ChartUrl([19], MedPriceId, GetNMonthRange(date, 23), 0, "line", "day", "month")),
                                     undefined,
                                     "м/м"
                                 )
@@ -177,7 +177,7 @@ module.exports = class MonthlyReport {
 
                         paragraph({
                             children: [await oneChart(
-                                FormChartUrl(new ChartUrl([18], MedPriceId, Get2YearRange(date), 0, "line", "day", "month")),
+                                FormChartUrl(new ChartUrl([18], MedPriceId, GetNMonthRange(date, 23), 0, "line", "day", "month")),
                                 undefined,
                                 "м/м"
                             )]
@@ -186,8 +186,8 @@ module.exports = class MonthlyReport {
                         paragraph({
                             children: [
                                 await twoChart(
-                                    FormChartUrl(new ChartUrl([20], MedPriceId, Get2YearRange(date), 0, "line", "day", "month")),
-                                    FormChartUrl(new ChartUrl([21], MedPriceId, Get2YearRange(date), 0, "line", "day", "month")),
+                                    FormChartUrl(new ChartUrl([20], MedPriceId, GetNMonthRange(date, 23), 0, "line", "day", "month")),
+                                    FormChartUrl(new ChartUrl([21], MedPriceId, GetNMonthRange(date, 23), 0, "line", "day", "month")),
                                     undefined,
                                     "м/м"
                                 )
@@ -197,8 +197,8 @@ module.exports = class MonthlyReport {
                         paragraph({
                             children: [
                                 await twoChart(
-                                    FormChartUrl(new ChartUrl([22], MedPriceId, Get2YearRange(date), 0, "line", "day", "month")),
-                                    FormChartUrl(new ChartUrl([23], MedPriceId, Get2YearRange(date), 0, "line", "day", "month")),
+                                    FormChartUrl(new ChartUrl([22], MedPriceId, GetNMonthRange(date, 23), 0, "line", "day", "month")),
+                                    FormChartUrl(new ChartUrl([23], MedPriceId, GetNMonthRange(date, 23), 0, "line", "day", "month")),
                                     undefined,
                                     "м/м"
                                 )
