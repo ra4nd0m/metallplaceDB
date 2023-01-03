@@ -46,15 +46,10 @@ module.exports.GetWeekNumber = function (date){
 }
 
 module.exports.Get2LastFridays = function (date){
-    const first = date.getDate() - date.getDay() + 1;
-    const fifth = first + 4;
+    const currentWeekFriday = new Date(date.getFullYear(), date.getMonth(), date.getDate() - date.getDay() + (date.getDay() === 0 ? -6 : 5));
+    const previousWeekFriday = new Date(currentWeekFriday.getFullYear(), currentWeekFriday.getMonth(), currentWeekFriday.getDate() - 7);
 
-    const friday = new Date(date.setDate(fifth));
-    let lastFriday = new Date(friday)
-    lastFriday.setDate(lastFriday.getDate() - 7)
-
-
-    return [lastFriday, friday];
+    return [previousWeekFriday, currentWeekFriday];
 }
 
 module.exports.GetFirstDaysOfCurrentAndPrevMonth = function (date) {

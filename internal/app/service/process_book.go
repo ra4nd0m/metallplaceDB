@@ -304,39 +304,40 @@ func (s *Service) ParseBook(byte []byte) (model.ChartRaw, error) {
 	}
 
 	materialStartColumn := "B"
-	materialStartRow := 2
+	startRow := 2
 	startSheet := "Лист1"
 	var chartRaw model.ChartRaw
 
 	labelColumn := "A"
-	labelRow := 3
+	//labelRow := 3
 
 	// Parsing month labels
-	for {
-		value, err := book.GetCellValue(startSheet, labelColumn+strconv.Itoa(labelRow))
-		if err != nil {
-			return model.ChartRaw{}, fmt.Errorf("cant get cell value: %w", err)
-		}
-		if value == "" {
-			isBreak, err := areNextCellsEmpty(book, startSheet, utils.AlphabetToInt(labelColumn), labelRow, 25)
-			if err != nil {
-				return model.ChartRaw{}, fmt.Errorf("cant check next n values: %w", err)
-			}
-			if isBreak {
-				break
-			}
-			labelRow++
-			continue
-		}
-		chartRaw.Labels = append(chartRaw.Labels, formatMonth(value))
-		labelRow++
-	}
+	//for {
+	//	value, err := book.GetCellValue(startSheet, labelColumn+strconv.Itoa(labelRow))
+	//	if err != nil {
+	//		return model.ChartRaw{}, fmt.Errorf("cant get cell value: %w", err)
+	//	}
+	//	if value == "" {
+	//		isBreak, err := areNextCellsEmpty(book, startSheet, utils.AlphabetToInt(labelColumn), labelRow, 25)
+	//		if err != nil {
+	//			return model.ChartRaw{}, fmt.Errorf("cant check next n values: %w", err)
+	//		}
+	//		if isBreak {
+	//			break
+	//		}
+	//		labelRow++
+	//		continue
+	//	}
+	//	chartRaw.Labels = append(chartRaw.Labels, formatMonth(value))
+	//	labelRow++
+	//}
 
 	for curCol := utils.AlphabetToInt(materialStartColumn); true; curCol++ {
-		var val float64
-		curRow := materialStartRow
+		var valueFloat float64
+		curRow := startRow
+		var curDate string
 		var materialAndPrices model.MaterialAndPrices
-		value, err := book.GetCellValue(startSheet, utils.IntToAlphabet(int32(curCol))+strconv.Itoa(materialStartRow))
+		value, err := book.GetCellValue(startSheet, utils.IntToAlphabet(int32(curCol))+strconv.Itoa(startRow))
 		if err != nil {
 			return model.ChartRaw{}, fmt.Errorf("cant get cell value: %w", err)
 		}
@@ -346,6 +347,7 @@ func (s *Service) ParseBook(byte []byte) (model.ChartRaw, error) {
 		materialAndPrices.Name = value
 
 		for row := curRow + 1; true; row++ {
+			// Reading prices
 			value, err = book.GetCellValue(startSheet, utils.IntToAlphabet(int32(curCol))+strconv.Itoa(row))
 			if err != nil {
 				return model.ChartRaw{}, fmt.Errorf("cant get cell value col %d, row %d: %w", row, curCol, err)
@@ -359,12 +361,24 @@ func (s *Service) ParseBook(byte []byte) (model.ChartRaw, error) {
 					break
 				}
 			} else {
-				val, err = strconv.ParseFloat(value, 64)
+				valueFloat, err = strconv.ParseFloat(value, 64)
 				if err != nil {
 					return model.ChartRaw{}, fmt.Errorf("cant convert string to float: %w", err)
 				}
 			}
-			materialAndPrices.Values = append(materialAndPrices.Values, math.Round(val*100)/100)
+			materialAndPrices.Values = append(materialAndPrices.Values, math.Round(valueFloat*100)/100)
+
+			// Reading labels
+			if curCol == utils.AlphabetToInt(materialStartColumn) {
+				value, err = book.GetCellValue(startSheet, labelColumn+strconv.Itoa(row))
+				if err != nil {
+					return model.ChartRaw{}, fmt.Errorf("cant get cell value: %w", err)
+				}
+				if value != "" {
+					curDate = value
+				}
+				chartRaw.Labels = append(chartRaw.Labels, formatMonth(curDate))
+			}
 		}
 		chartRaw.MaterialAndPrices = append(chartRaw.MaterialAndPrices, materialAndPrices)
 	}
@@ -462,11 +476,11 @@ func formatMonth(input string) string {
 		return "Июл" + year
 	case contains([]string{"viii", "iix", "авг", "август"}, arr[0]):
 		return "Авг" + year
-	case contains([]string{"ix", "сен", "сентябрь"}, arr[0]):
+	case contains([]string{"ix", "сен", "сентябрь", "сент"}, arr[0]):
 		return "Сен" + year
 	case contains([]string{"x", "х", "окт", "октябрь"}, arr[0]):
 		return "Окт" + year
-	case contains([]string{"xi", "ноя", "ноябрь", "Нояб"}, arr[0]):
+	case contains([]string{"xi", "ноя", "ноябрь", "нояб"}, arr[0]):
 		return "Ноя" + year
 	case contains([]string{"xii", "дек", "декабрь"}, arr[0]):
 		return "Дек" + year
@@ -478,27 +492,27 @@ func formatMonth(input string) string {
 func monthStrToNumber(month string) (int, error) {
 	switch month {
 	case "Январь":
-		return 0, nil
-	case "Февраль":
 		return 1, nil
-	case "Март":
+	case "Февраль":
 		return 2, nil
-	case "Апрель":
+	case "Март":
 		return 3, nil
-	case "Май":
+	case "Апрель":
 		return 4, nil
-	case "Июнь":
+	case "Май":
 		return 5, nil
-	case "Июль":
+	case "Июнь":
 		return 6, nil
-	case "Август":
+	case "Июль":
 		return 7, nil
-	case "Сентябрь":
+	case "Август":
 		return 8, nil
-	case "Октябрь":
+	case "Сентябрь":
 		return 9, nil
-	case "Ноябрь":
+	case "Октябрь":
 		return 10, nil
+	case "Ноябрь":
+		return 11, nil
 	case "Декабрь":
 		return 12, nil
 	}

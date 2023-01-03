@@ -59,8 +59,8 @@ module.exports = async function tableMaterialMinimax(materialIds, dates, unitCha
     const s = new Date(dates[1])
     if(type === undefined) type = "week"
 
-    const first = `${f.getFullYear()}-${FormatDayMonth(f.getMonth())}-${FormatDayMonth(f.getDate())}`
-    const second = `${s.getFullYear()}-${FormatDayMonth(s.getMonth())}-${FormatDayMonth(s.getDate())}`
+    const first = `${f.getFullYear()}-${FormatDayMonth(f.getMonth() + 1)}-${FormatDayMonth(f.getDate())}`
+    const second = `${s.getFullYear()}-${FormatDayMonth(s.getMonth() + 1)}-${FormatDayMonth(s.getDate())}`
 
     let bodyInfo = []
 

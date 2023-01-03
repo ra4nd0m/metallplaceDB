@@ -1,8 +1,13 @@
 package main
 
 import (
+	"bytes"
+	//"fmt"
 	"github.com/gorilla/mux"
 	"github.com/rs/cors"
+	"image"
+	"image/png"
+	//"io/ioutil"
 	"log"
 	"metallplace/internal/app/handler"
 	"metallplace/internal/app/repository"
@@ -12,6 +17,7 @@ import (
 	"metallplace/pkg/docxgenclient"
 	db "metallplace/pkg/gopkg-db"
 	"net/http"
+	"os"
 	"time"
 )
 
@@ -33,6 +39,14 @@ func main() {
 	docxgen := docxgenclient.New(cfg.DocxgenHost, cfg.DocxgenPort)
 	srv := service.New(cfg, repo, chart, docxgen)
 	hdl := handler.New(srv)
+	//byte, err := ioutil.ReadFile("/home/olga/go/src/metallplace/var/cache/books/LongW_2212.xlsx")
+	//j, err := srv.ParseBook(byte)
+	//if err != nil {
+	//	fmt.Errorf("cant read book: %v", err)
+	//}
+	//fmt.Println(j)
+	//picByte, err := srv.GetChartRaw(j)
+	//serveFrames(picByte)
 
 	c := cors.New(cors.Options{
 		AllowedOrigins:   []string{"http://localhost:8081"},
@@ -89,5 +103,20 @@ func DbMiddleware(next http.HandlerFunc) http.HandlerFunc {
 		ctx := r.Context()
 		r = r.WithContext(db.AddToContext(ctx, conn))
 		next.ServeHTTP(w, r)
+	}
+}
+
+func serveFrames(imgByte []byte) {
+	img, _, err := image.Decode(bytes.NewReader(imgByte))
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	out, _ := os.Create("/home/olga/go/src/metallplace/var/cache/books/img.jpeg")
+	defer out.Close()
+
+	err = png.Encode(out, img)
+	if err != nil {
+		log.Println(err)
 	}
 }

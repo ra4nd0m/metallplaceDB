@@ -53,11 +53,16 @@ const getChart = async (XLabelSet: string[], YDataSets: YDataSet[], options: Cha
     let datasets: Dataset[] = [];
     let colors = ['rgb(55, 74, 116)', 'rgb(100, 70, 96)']
     let i = 0
+    let topBorder = Number.MIN_SAFE_INTEGER
+    let bottomBorder = Number.MAX_SAFE_INTEGER
 
     // Creating dataset lines: material - price feed
     YDataSets.forEach(set => {
         console.log("Pushing ", set.label)
         // @ts-ignore
+        let minmax = minMax([set.data])
+        if (minmax.Max > topBorder) topBorder = minmax.Max
+        if (minmax.Min < bottomBorder) bottomBorder = minmax.Min
         datasets.push({
             label: `${set.label}`,
             data: set.data,
@@ -68,7 +73,7 @@ const getChart = async (XLabelSet: string[], YDataSets: YDataSet[], options: Cha
         i++
     })
     Chart.defaults.font.size = 25;
-    const configuration: ChartConfiguration = getChartConf(datasets, XLabelSet, options)
+    const configuration: ChartConfiguration = getChartConf(datasets, XLabelSet, options, topBorder, bottomBorder)
     return await canvasRenderService.renderToBuffer(configuration);
 }
 
@@ -91,7 +96,7 @@ function getToFixed(datasets: Dataset[]): number {
     return max
 }
 
-function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOptions): ChartConfiguration {
+function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOptions, topBorder: number, bottomBorder: number): ChartConfiguration {
     const labelFontSize = 17
     const legendFontSize = 20
     const axesFontSize = 25
@@ -125,6 +130,7 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
             scales: {
                 x: {
                     offset: true,
+                    type: "category",
                     ticks: {
                         font: {size: axesFontSize},
                         includeBounds: true,
@@ -138,7 +144,9 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
                 },
                 y: {
                     offset: true,
+                    type: "linear",
                     ticks: {
+                        precision: 0,
                         font: {size: axesFontSize},
                         maxTicksLimit: 5,
                         maxRotation: 0,
@@ -250,6 +258,20 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
     return conf
 }
 
+function minMax(arrays: number[][]) {
+    let min = Number.MAX_VALUE;
+    let max = Number.MIN_VALUE;
+
+    for (const arr of arrays) {
+        for (const v of arr) {
+            min = Math.min(min, v);
+            max = Math.max(max, v);
+        }
+    }
+
+    return {Min: min, Max: max}
+}
+
 function formatXLabel(dateStr: string, xStep: string): string {
     const dateArr = dateStr.split("-")
     if (xStep === "week") {
@@ -261,6 +283,7 @@ function formatXLabel(dateStr: string, xStep: string): string {
     if (xStep === "month"){
         return getRuMonth(dateStr)
     }
+    if (dateArr.length < 3) return dateStr
     return `${dateArr[2]}.${dateArr[1]}.${dateArr[0]}`
 
 }
