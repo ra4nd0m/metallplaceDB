@@ -113,4 +113,4 @@ Content-Type: application/json
 }
 
 ###
-GET localhost:8080/getChart/15_1_03-01-2021_11-01-2022_0_line_month_month.png
+GET localhost:8080/getChart/9_1_12-20-2021_11-01-2022_1_line_month_month.png

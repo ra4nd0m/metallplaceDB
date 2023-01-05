@@ -179,6 +179,7 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
         },
     }
     if (options.labels) {
+        let toFixed = getToFixed(datasets)
         // @ts-ignore
         conf.options?.plugins?.legend?.display = true
         // @ts-ignore
@@ -194,11 +195,13 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
                 anchor: 'end',
                 formatter: function (value, context) {
                     let label = formatYLabel(value)
-                    //let x = getToFixed(datasets)
-                    //if (x > 0) {
-                    //    let cur = label.substring(label.indexOf(",")).length - 1
-                    //    return label + "0".repeat(x - cur);
-                    //}
+                    if (toFixed > 0) {
+                        if(label.indexOf(",") === -1){
+                            return `${label},${"0".repeat(toFixed)}`
+                        }
+                        let cur = label.substring(label.indexOf(",")).length - 1
+                        return label + "0".repeat(toFixed - cur);
+                    }
                     return label
                 },
                 align: 'top',

@@ -6,8 +6,6 @@ import (
 	"io/ioutil"
 	"metallplace/pkg/docxgenclient"
 	"os"
-	"strconv"
-	"time"
 )
 
 const prefix = "./var/cache/reports/"
@@ -21,12 +19,7 @@ func (s *Service) GetReport(repType string, date string) ([]byte, error) {
 }
 
 func (s *Service) GetCachedReport(repType string, date string) ([]byte, error) {
-	dateObj, err := time.Parse("2006-01-02", date)
-	if err != nil {
-		return nil, fmt.Errorf("invalid date: %w", err)
-	}
-	_, week := dateObj.ISOWeek()
-	path := prefix + repType + "/" + strconv.Itoa(week) + ".docx"
+	path := prefix + repType + "/" + date + ".docx"
 	if _, err := os.Stat(path); errors.Is(err, os.ErrNotExist) {
 		bytes, err := s.GetReport(repType, date)
 		if err != nil {
