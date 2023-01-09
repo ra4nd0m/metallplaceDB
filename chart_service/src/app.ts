@@ -59,10 +59,7 @@ const getChart = async (XLabelSet: string[], YDataSets: YDataSet[], options: Cha
     // Creating dataset lines: material - price feed
     YDataSets.forEach(set => {
         console.log("Pushing ", set.label)
-        // @ts-ignore
-        let minmax = minMax([set.data])
-        if (minmax.Max > topBorder) topBorder = minmax.Max
-        if (minmax.Min < bottomBorder) bottomBorder = minmax.Min
+
         datasets.push({
             label: `${set.label}`,
             data: set.data,
@@ -73,7 +70,7 @@ const getChart = async (XLabelSet: string[], YDataSets: YDataSet[], options: Cha
         i++
     })
     Chart.defaults.font.size = 25;
-    const configuration: ChartConfiguration = getChartConf(datasets, XLabelSet, options, topBorder, bottomBorder)
+    const configuration: ChartConfiguration = getChartConf(datasets, XLabelSet, options)
     return await canvasRenderService.renderToBuffer(configuration);
 }
 
@@ -81,6 +78,7 @@ type ChartOptions = {
     labels?: Partial<LabelOptions>,
     type?: string,
     x_step: string,
+    tick_limit: number
 }
 
 
@@ -96,15 +94,18 @@ function getToFixed(datasets: Dataset[]): number {
     return max
 }
 
-function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOptions, topBorder: number, bottomBorder: number): ChartConfiguration {
+function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOptions): ChartConfiguration {
     const labelFontSize = 17
     const legendFontSize = 20
     const axesFontSize = 25
     const pointRadius = 1
     const labelOffset = 5
 
-    let dateArrayFormatted = []
+    let dateArrayFormatted: string[]
+    dateArrayFormatted = []
     let legendBoxSize = 13
+    let tickLimit = 27
+    if (options.tick_limit != 0) tickLimit = options.tick_limit
     for (let i = 0; i < dateArray.length; i++) {
         if (options.labels) {
             dateArrayFormatted.push(formatXLabel(dateArray[i], options.x_step))
@@ -135,7 +136,7 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
                         font: {size: axesFontSize},
                         includeBounds: true,
                         maxRotation: 70,
-                        maxTicksLimit: 27,
+                        maxTicksLimit: tickLimit,
                         autoSkip: true
                     },
                     grid: {
@@ -261,20 +262,6 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
     return conf
 }
 
-function minMax(arrays: number[][]) {
-    let min = Number.MAX_VALUE;
-    let max = Number.MIN_VALUE;
-
-    for (const arr of arrays) {
-        for (const v of arr) {
-            min = Math.min(min, v);
-            max = Math.max(max, v);
-        }
-    }
-
-    return {Min: min, Max: max}
-}
-
 function formatXLabel(dateStr: string, xStep: string): string {
     const dateArr = dateStr.split("-")
     if (xStep === "week") {
@@ -286,6 +273,7 @@ function formatXLabel(dateStr: string, xStep: string): string {
     if (xStep === "month"){
         return getRuMonth(dateStr)
     }
+    // if getting in format xxi-21 or xx
     if (dateArr.length < 3) return dateStr
     return `${dateArr[2]}.${dateArr[1]}.${dateArr[0]}`
 

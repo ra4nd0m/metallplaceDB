@@ -56,6 +56,8 @@ func (s *Service) GetChart(ctx context.Context, chartPack model.ChartPack) ([]by
 		req.Options.NeedLabels = chartPack.NeedLabels
 		req.Options.Type = chartPack.Type
 		req.Options.XStep = chartPack.XStep
+		// for now hard coding it, made more for raw chart gen, here it is usually predefined
+		req.Options.TickLimit = 0
 		isFirst = false
 	}
 
@@ -66,7 +68,8 @@ func (s *Service) GetChart(ctx context.Context, chartPack model.ChartPack) ([]by
 	return bytes, nil
 }
 
-func (s *Service) GetChartRaw(req chartclient.Request) ([]byte, error) {
+func (s *Service) GetChartRaw(req chartclient.Request, tickLimit int) ([]byte, error) {
+	req.Options.TickLimit = tickLimit
 	bytes, err := s.chart.GetChart(req)
 	if err != nil {
 		return nil, fmt.Errorf("cant get raw chart bytes: %w", err)

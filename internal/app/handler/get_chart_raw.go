@@ -3,7 +3,8 @@ package handler
 import "net/http"
 
 type GetChartRawRequest struct {
-	Book []byte `json:"book"`
+	Book      []byte `json:"book"`
+	TickLimit int    `json:"tick_limit"`
 }
 
 type GetChartRawResponse struct {
@@ -11,11 +12,11 @@ type GetChartRawResponse struct {
 
 func (h Handler) GetChartRawHandler(w http.ResponseWriter, r *http.Request) {
 	handle(w, r, func(req GetChartRawRequest) (GetChartRawResponse, error) {
-		chartRaw, err := h.service.ParseBook(req.Book)
+		chartReq, err := h.service.ParseBook(req.Book)
 		if err != nil {
 			return GetChartRawResponse{}, err
 		}
-		bytes, err := h.service.GetChartRaw(chartRaw)
+		bytes, err := h.service.GetChartRaw(chartReq, req.TickLimit)
 		if err != nil {
 			return GetChartRawResponse{}, err
 		}

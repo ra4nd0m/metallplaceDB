@@ -6,10 +6,10 @@ import (
 )
 
 type LastValuesRequest struct {
-	MaterialSourceId int    `json:"material_source_id" validate:"required"`
-	PropertyId       int    `json:"property_id" validate:"required"`
-	NValues          int    `json:"n_values" validate:"required"`
-	Finish           string `json:"finish" validate:"required,datetime=2006-01-02"`
+	MaterialSourceId int    `json:"material_source_id" `
+	PropertyId       int    `json:"property_id"`
+	NValues          int    `json:"n_values"`
+	Finish           string `json:"finish"`
 }
 
 type LastValuesResponse struct {

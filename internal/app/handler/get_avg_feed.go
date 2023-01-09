@@ -6,10 +6,10 @@ import (
 )
 
 type AvgPriceRequest struct {
-	MaterialSourceId int    `json:"material_source_id" validate:"required"`
-	PropertyId       int    `json:"property_id" validate:"required"`
-	Start            string `json:"start" validate:"required,datetime=2006-01-02"`
-	Finish           string `json:"finish" validate:"required,datetime=2006-01-02"`
+	MaterialSourceId int    `json:"material_source_id"`
+	PropertyId       int    `json:"property_id"`
+	Start            string `json:"start"`
+	Finish           string `json:"finish"`
 }
 
 type AvgPriceResponse struct {

@@ -16,4 +16,5 @@ type Options struct {
 	Type       string `json:"type"`
 	Group      int    `json:"group"`
 	XStep      string `json:"x_step"`
+	TickLimit  int    `json:"tick_limit"`
 }
