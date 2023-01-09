@@ -8,6 +8,7 @@ import (
 	"math"
 	"metallplace/internal/app/model"
 	"metallplace/internal/pkg/utils"
+	"metallplace/pkg/chartclient"
 	db "metallplace/pkg/gopkg-db"
 	"strconv"
 	"strings"
@@ -296,17 +297,17 @@ func (s *Service) InitialImport(ctx context.Context) error {
 	return nil
 }
 
-func (s *Service) ParseBook(byte []byte) (model.ChartRaw, error) {
+func (s *Service) ParseBook(byte []byte) (chartclient.Request, error) {
 	reader := bytes.NewReader(byte)
 	book, err := excelize.OpenReader(reader)
 	if err != nil {
-		return model.ChartRaw{}, fmt.Errorf("cannot open exel file %w", err)
+		return chartclient.Request{}, fmt.Errorf("cannot open exel file %w", err)
 	}
 
 	materialStartColumn := "B"
 	startRow := 2
 	startSheet := "Лист1"
-	var chartRaw model.ChartRaw
+	var req chartclient.Request
 
 	labelColumn := "A"
 	//labelRow := 3
@@ -336,26 +337,26 @@ func (s *Service) ParseBook(byte []byte) (model.ChartRaw, error) {
 		var valueFloat float64
 		curRow := startRow
 		var curDate string
-		var materialAndPrices model.MaterialAndPrices
+		var materialAndPrices chartclient.YDataSet
 		value, err := book.GetCellValue(startSheet, utils.IntToAlphabet(int32(curCol))+strconv.Itoa(startRow))
 		if err != nil {
-			return model.ChartRaw{}, fmt.Errorf("cant get cell value: %w", err)
+			return chartclient.Request{}, fmt.Errorf("cant get cell value: %w", err)
 		}
 		if value == "" {
 			break
 		}
-		materialAndPrices.Name = value
+		materialAndPrices.Label = value
 
 		for row := curRow + 1; true; row++ {
 			// Reading prices
 			value, err = book.GetCellValue(startSheet, utils.IntToAlphabet(int32(curCol))+strconv.Itoa(row))
 			if err != nil {
-				return model.ChartRaw{}, fmt.Errorf("cant get cell value col %d, row %d: %w", row, curCol, err)
+				return chartclient.Request{}, fmt.Errorf("cant get cell value col %d, row %d: %w", row, curCol, err)
 			}
 			if value == "" {
 				isBreak, err := areNextCellsEmpty(book, startSheet, curCol, row, 10)
 				if err != nil {
-					return model.ChartRaw{}, fmt.Errorf("cant check next n values: %w", err)
+					return chartclient.Request{}, fmt.Errorf("cant check next n values: %w", err)
 				}
 				if isBreak {
 					break
@@ -363,27 +364,27 @@ func (s *Service) ParseBook(byte []byte) (model.ChartRaw, error) {
 			} else {
 				valueFloat, err = strconv.ParseFloat(value, 64)
 				if err != nil {
-					return model.ChartRaw{}, fmt.Errorf("cant convert string to float: %w", err)
+					return chartclient.Request{}, fmt.Errorf("cant convert string to float: %w", err)
 				}
 			}
-			materialAndPrices.Values = append(materialAndPrices.Values, math.Round(valueFloat*100)/100)
+			materialAndPrices.Data = append(materialAndPrices.Data, math.Round(valueFloat*100)/100)
 
 			// Reading labels
 			if curCol == utils.AlphabetToInt(materialStartColumn) {
 				value, err = book.GetCellValue(startSheet, labelColumn+strconv.Itoa(row))
 				if err != nil {
-					return model.ChartRaw{}, fmt.Errorf("cant get cell value: %w", err)
+					return chartclient.Request{}, fmt.Errorf("cant get cell value: %w", err)
 				}
 				if value != "" {
 					curDate = value
 				}
-				chartRaw.Labels = append(chartRaw.Labels, formatMonth(curDate))
+				req.XLabelSet = append(req.XLabelSet, formatMonth(curDate))
 			}
 		}
-		chartRaw.MaterialAndPrices = append(chartRaw.MaterialAndPrices, materialAndPrices)
+		req.YDataSet = append(req.YDataSet, materialAndPrices)
 	}
 
-	return chartRaw, nil
+	return req, nil
 }
 
 func areNextCellsEmpty(book *excelize.File, sheet string, col int, row int, n int) (bool, error) {

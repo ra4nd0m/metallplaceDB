@@ -4,9 +4,10 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"github.com/go-playground/validator/v10"
+	"github.com/go-playground/validator"
 	"io/ioutil"
 	"metallplace/internal/app/model"
+	"metallplace/pkg/chartclient"
 	"net/http"
 	"reflect"
 	"time"
@@ -18,7 +19,7 @@ type IService interface {
 		propertyName string, valueFloat float64, valueStr string, createdOn time.Time) error
 	AddUniqueMaterial(ctx context.Context, materialName string, sourceName string, materialMarket string, materialUnit string) (int, error)
 	InitialImport(ctx context.Context) error
-	ParseBook(byte []byte) (model.ChartRaw, error)
+	ParseBook(byte []byte) (chartclient.Request, error)
 	GetMaterialList(ctx context.Context) ([]model.MaterialShortInfo, error)
 	GetMaterialValueForPeriod(ctx context.Context, materialSourceId, propertyId int, start string, finish string) ([]model.Price, float64, error)
 	GetMaterialSourceInfo(ctx context.Context, id int) (model.MaterialShortInfo, error)
@@ -28,7 +29,7 @@ type IService interface {
 
 	GetChart(ctx context.Context, chartPack model.ChartPack) ([]byte, error)
 	GetCachedChart(ctx context.Context, chartPack model.ChartPack) ([]byte, error)
-	GetChartRaw(chartRaw model.ChartRaw) ([]byte, error)
+	GetChartRaw(req chartclient.Request) ([]byte, error)
 
 	GetReport(repType string, date string) ([]byte, error)
 
