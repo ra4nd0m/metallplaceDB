@@ -19,6 +19,7 @@ type ChartPack struct {
 	Scale          string
 	XStep          string
 	NeedLegend     bool
+	ToFixed        int
 }
 
 func (c ChartPack) ToUrl() string {
@@ -47,6 +48,7 @@ func (c ChartPack) ToUrl() string {
 	fn += "_" + c.Scale
 	fn += "_" + c.XStep
 	fn += "_" + needLegend
+	fn += "_" + strconv.Itoa(c.ToFixed)
 
 	return fn + ChartRoutePostfix
 }
@@ -99,6 +101,12 @@ func NewChartPack(url string) (ChartPack, error) {
 	if cnt[8] == "1" {
 		c.NeedLegend = true
 	}
+
+	toFixed, err := strconv.Atoi(cnt[9])
+	if err != nil {
+		return ChartPack{}, fmt.Errorf("cant parse ToFixed: %w", err)
+	}
+	c.ToFixed = toFixed
 
 	return c, nil
 }

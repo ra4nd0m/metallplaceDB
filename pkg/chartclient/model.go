@@ -18,4 +18,5 @@ type Options struct {
 	XStep      string `json:"x_step"`
 	TickLimit  int    `json:"tick_limit"`
 	NeedLegend bool   `json:"legend"`
+	ToFixed    int    `json:"to_fixed"`
 }

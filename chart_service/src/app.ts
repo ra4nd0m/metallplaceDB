@@ -77,7 +77,8 @@ type ChartOptions = {
     type?: string,
     x_step: string,
     tick_limit: number,
-    legend: boolean
+    legend: boolean,
+    to_fixed: number,
 }
 
 
@@ -181,7 +182,12 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
         },
     }
     if (options.labels) {
-        let toFixed = getToFixed(datasets)
+        let toFixed: number
+        if (options.to_fixed != -1){
+            toFixed = options.to_fixed
+        } else {
+            toFixed = getToFixed(datasets)
+        }
         // @ts-ignore
         conf.plugins.push(ChartDataLabels)
         // @ts-ignore
@@ -201,6 +207,9 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
                         }
                         let cur = label.substring(label.indexOf(",")).length - 1
                         return label + "0".repeat(toFixed - cur);
+                    } else if (toFixed == 0){
+                        label = label.replace(",", ".")
+                        return Math.round(+label)
                     }
                     return label
                 },

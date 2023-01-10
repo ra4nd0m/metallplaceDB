@@ -59,6 +59,7 @@ func (s *Service) GetChart(ctx context.Context, chartPack model.ChartPack) ([]by
 		// for now hard coding it, made more for raw chart gen, here it is usually predefined
 		req.Options.TickLimit = 0
 		req.Options.NeedLegend = chartPack.NeedLegend
+		req.Options.ToFixed = chartPack.ToFixed
 		isFirst = false
 	}
 
