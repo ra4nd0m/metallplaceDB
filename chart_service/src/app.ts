@@ -53,8 +53,6 @@ const getChart = async (XLabelSet: string[], YDataSets: YDataSet[], options: Cha
     let datasets: Dataset[] = [];
     let colors = ['rgb(55, 74, 116)', 'rgb(100, 70, 96)']
     let i = 0
-    let topBorder = Number.MIN_SAFE_INTEGER
-    let bottomBorder = Number.MAX_SAFE_INTEGER
 
     // Creating dataset lines: material - price feed
     YDataSets.forEach(set => {
@@ -78,7 +76,8 @@ type ChartOptions = {
     labels?: Partial<LabelOptions>,
     type?: string,
     x_step: string,
-    tick_limit: number
+    tick_limit: number,
+    legend: boolean
 }
 
 
@@ -110,8 +109,10 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
         if (options.labels) {
             dateArrayFormatted.push(formatXLabel(dateArray[i], options.x_step))
         } else {
-            legendBoxSize = 0
             dateArrayFormatted.push(formatXLabel(dateArray[i], options.x_step))
+        }
+        if (!options.legend){
+            legendBoxSize = 0
         }
     }
     const conf: ChartConfiguration = {
@@ -182,8 +183,6 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
     if (options.labels) {
         let toFixed = getToFixed(datasets)
         // @ts-ignore
-        conf.options?.plugins?.legend?.display = true
-        // @ts-ignore
         conf.plugins.push(ChartDataLabels)
         // @ts-ignore
         conf.options.plugins = {
@@ -218,6 +217,8 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
         // @ts-ignore
         conf.options.elements.point.radius = pointRadius
     }
+    // @ts-ignore
+    conf.options?.plugins?.legend?.display = options.legend
     if (options.type == 'bar') {
 
         let changes = getPercentChangesArr(datasets[0].data)

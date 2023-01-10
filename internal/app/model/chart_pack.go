@@ -18,6 +18,7 @@ type ChartPack struct {
 	Type           string
 	Scale          string
 	XStep          string
+	NeedLegend     bool
 }
 
 func (c ChartPack) ToUrl() string {
@@ -33,13 +34,19 @@ func (c ChartPack) ToUrl() string {
 	fn += "_" + strconv.Itoa(c.PropertyId)
 	fn += "_" + c.Start.Format("2006-01-02") + c.Finish.Format("2006-01-02")
 	needLabels := "0"
+	needLegend := "0"
 	if c.NeedLabels {
 		needLabels = "1"
 	}
+	if c.NeedLegend {
+		needLegend = "1"
+	}
+
 	fn += "_" + needLabels
 	fn += "_" + c.Type
 	fn += "_" + c.Scale
 	fn += "_" + c.XStep
+	fn += "_" + needLegend
 
 	return fn + ChartRoutePostfix
 }
@@ -88,6 +95,10 @@ func NewChartPack(url string) (ChartPack, error) {
 	c.Scale = cnt[6]
 
 	c.XStep = cnt[7]
+
+	if cnt[8] == "1" {
+		c.NeedLegend = true
+	}
 
 	return c, nil
 }

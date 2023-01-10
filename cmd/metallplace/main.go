@@ -39,7 +39,7 @@ func main() {
 	docxgen := docxgenclient.New(cfg.DocxgenHost, cfg.DocxgenPort)
 	srv := service.New(cfg, repo, chart, docxgen)
 	hdl := handler.New(srv)
-	byte, err := ioutil.ReadFile("/home/olga/go/src/metallplace/var/cache/books/RawCokingCoal_2212.xlsx")
+	byte, err := ioutil.ReadFile("/home/olga/go/src/metallplace/var/cache/books/LongW_2212.xlsx")
 	j, err := srv.ParseBook(byte)
 	if err != nil {
 		fmt.Errorf("cant read book: %v", err)
