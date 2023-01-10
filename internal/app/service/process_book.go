@@ -378,13 +378,29 @@ func (s *Service) ParseBook(byte []byte) (chartclient.Request, error) {
 				if value != "" {
 					curDate = value
 				}
-				req.XLabelSet = append(req.XLabelSet, formatMonth(curDate))
+				curLabel := formatMonth(curDate)
+				// making repeating labels an empty string
+				if len(req.XLabelSet) > 0 && curLabel == getLastNotEmptyElement(req.XLabelSet) {
+					curLabel = ""
+				}
+				req.XLabelSet = append(req.XLabelSet, curLabel)
 			}
 		}
 		req.YDataSet = append(req.YDataSet, materialAndPrices)
 	}
 
 	return req, nil
+}
+
+func getLastNotEmptyElement(slice []string) string {
+	lastElement := ""
+	for i := len(slice) - 1; i >= 0; i-- {
+		if slice[i] != "" {
+			lastElement = slice[i]
+			break
+		}
+	}
+	return lastElement
 }
 
 func areNextCellsEmpty(book *excelize.File, sheet string, col int, row int, n int) (bool, error) {

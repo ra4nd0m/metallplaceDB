@@ -44,8 +44,7 @@ func main() {
 	if err != nil {
 		fmt.Errorf("cant read book: %v", err)
 	}
-	fmt.Println(j)
-	picByte, err := srv.GetChartRaw(j, 13)
+	picByte, err := srv.GetChartRaw(j, 10000)
 	serveFrames(picByte)
 
 	c := cors.New(cors.Options{
