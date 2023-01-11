@@ -8,21 +8,18 @@ type GetChartRawRequest struct {
 }
 
 type GetChartRawResponse struct {
+	Chart []byte `json:"chart"`
 }
 
 func (h Handler) GetChartRawHandler(w http.ResponseWriter, r *http.Request) {
 	handle(w, r, func(req GetChartRawRequest) (GetChartRawResponse, error) {
-		chartReq, err := h.service.ParseBook(req.Book)
-		if err != nil {
-			return GetChartRawResponse{}, err
-		}
-		bytes, err := h.service.GetChartRaw(chartReq, req.TickLimit)
+		bytes, err := h.service.GetChartRaw(req.Book, req.TickLimit)
 		if err != nil {
 			return GetChartRawResponse{}, err
 		}
 
 		w.Header().Set("Content-Type", "image/png")
 		_, _ = w.Write(bytes)
-		return GetChartRawResponse{}, nil
+		return GetChartRawResponse{Chart: bytes}, nil
 	})
 }

@@ -5,6 +5,7 @@ module.exports.SpacingDefault = 2500;
 module.exports.FontFamily = "Arial";
 module.exports.WeeklyHeaderTitle = "Обзор рынка сырья, стали и ферросплавов";
 module.exports.MonthlyHeaderTitle = "Обзор рынка сырья и стали";
+module.exports.ShortHeaderTitle = "Мировой рынок металлургического сырья: итоги"
 module.exports.RusMonth = ["января","фервраля","марта","апреля","мая","июня","июля","августа","сентября","октября","ноября","декабря"];
 module.exports.LineWidth = 20;
 module.exports.LineColor = "#d3d3d3";

@@ -70,7 +70,11 @@ func (s *Service) GetChart(ctx context.Context, chartPack model.ChartPack) ([]by
 	return bytes, nil
 }
 
-func (s *Service) GetChartRaw(req chartclient.Request, tickLimit int) ([]byte, error) {
+func (s *Service) GetChartRaw(book []byte, tickLimit int) ([]byte, error) {
+	req, err := s.ParseBook(book)
+	if err != nil {
+		return nil, fmt.Errorf("cant parse book: %w", err)
+	}
 	req.Options.TickLimit = tickLimit
 	req.Options.NeedLegend = true
 

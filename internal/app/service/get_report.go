@@ -4,8 +4,10 @@ import (
 	"errors"
 	"fmt"
 	"io/ioutil"
+	"metallplace/internal/app/model"
 	"metallplace/pkg/docxgenclient"
 	"os"
+	"time"
 )
 
 const prefix = "./var/cache/reports/"
@@ -14,6 +16,21 @@ func (s *Service) GetReport(repType string, date string) ([]byte, error) {
 	bytes, err := s.docxgen.GetReport(docxgenclient.Request{ReportType: repType, Date: date})
 	if err != nil {
 		return nil, fmt.Errorf("cant get reprot from docxgen service: %w", err)
+	}
+	return bytes, nil
+}
+
+func (s *Service) GetShortReport(date time.Time, blocks []model.ReportBlock) ([]byte, error) {
+	var req docxgenclient.RequestShortReport
+	var reqBlocks []docxgenclient.Block
+	for _, b := range blocks {
+		reqBlocks = append(reqBlocks, docxgenclient.Block{Title: b.Title, Text: b.Text, Chart: b.Chart})
+	}
+	req.Date = date
+	req.Blocks = reqBlocks
+	bytes, err := s.docxgen.GetShortReport(req)
+	if err != nil {
+		return nil, fmt.Errorf("cant get short report from docxgen service: %w", err)
 	}
 	return bytes, nil
 }

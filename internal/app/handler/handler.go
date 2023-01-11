@@ -29,9 +29,10 @@ type IService interface {
 
 	GetChart(ctx context.Context, chartPack model.ChartPack) ([]byte, error)
 	GetCachedChart(ctx context.Context, chartPack model.ChartPack) ([]byte, error)
-	GetChartRaw(req chartclient.Request, tickLimit int) ([]byte, error)
+	GetChartRaw(book []byte, tickLimit int) ([]byte, error)
 
 	GetReport(repType string, date string) ([]byte, error)
+	GetShortReport(date time.Time, blocks []model.ReportBlock) ([]byte, error)
 
 	GetCachedReport(repType string, date string) ([]byte, error)
 

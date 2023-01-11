@@ -40,11 +40,10 @@ func main() {
 	srv := service.New(cfg, repo, chart, docxgen)
 	hdl := handler.New(srv)
 	byte, err := ioutil.ReadFile("/home/olga/go/src/metallplace/var/cache/books/LongW_2212.xlsx")
-	j, err := srv.ParseBook(byte)
+	picByte, err := srv.GetChartRaw(byte, 10000)
 	if err != nil {
-		fmt.Errorf("cant read book: %v", err)
+		fmt.Errorf("cant raw chart: %v", err)
 	}
-	picByte, err := srv.GetChartRaw(j, 10000)
 	serveFrames(picByte)
 
 	c := cors.New(cors.Options{
@@ -76,6 +75,7 @@ func main() {
 		{route: "/getNLastValues", handler: hdl.GetNLastValues},
 		{route: "/getChart/{specs}", handler: hdl.GetChartHandler},
 		{route: "/getReport/{repType}/{date}", handler: hdl.GetReportHandler},
+		{route: "/getShortReport", handler: hdl.GetShortReportHandler},
 		{route: "/getPropertyList", handler: hdl.GetPropertyListHandler},
 		{route: "/getMaterialInfo", handler: hdl.GetMaterialSourceInfoHandler},
 		{route: "/getPropertyName", handler: hdl.GetPropertyNameHandler},

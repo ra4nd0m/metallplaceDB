@@ -1,11 +1,26 @@
 const docx = require("docx");
 const WeeklyReport = require("./report/weekly_report");
 const MonthlyReport = require("./report/monthly_report")
+const ShortReport = require("./report/short_report")
 const express = require('express')
 
 let app = express()
 const port = 3001
 app.use(express.json());
+
+app.post("/genShort", (req, res) => {
+    console.log("gen short")
+    res.set('Content-Type', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document');
+    new ShortReport().generate(req.body).then(doc =>
+        docx.Packer.toBuffer(doc).then(buf => {
+            res.send(buf)
+        })
+    )
+        .catch(reason =>
+            res.send(JSON.stringify(reason))
+        )
+
+})
 
 app.post("/gen", (req, res) => {
     const dateStr = req.body.date

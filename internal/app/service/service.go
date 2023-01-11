@@ -43,6 +43,7 @@ type IChartClient interface {
 
 type IDocxgenClient interface {
 	GetReport(req docxgenclient.Request) ([]byte, error)
+	GetShortReport(req docxgenclient.RequestShortReport) ([]byte, error)
 }
 
 type Service struct {

@@ -200,18 +200,18 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
                 color: 'white',
                 anchor: 'end',
                 formatter: function (value, context) {
-                    let label = formatYLabel(value)
+                    let label = ""
                     if (toFixed > 0) {
+                        label = formatYLabel(value)
                         if(label.indexOf(",") === -1){
                             return `${label},${"0".repeat(toFixed)}`
                         }
                         let cur = label.substring(label.indexOf(",")).length - 1
                         return label + "0".repeat(toFixed - cur);
                     } else if (toFixed == 0){
-                        label = label.replace(",", ".")
-                        return Math.round(+label)
+                        return formatYLabel(Math.round(+value))
                     }
-                    return label
+                    return formatYLabel(value)
                 },
                 align: 'top',
                 textAlign: 'center',
