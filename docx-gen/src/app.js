@@ -3,9 +3,13 @@ const WeeklyReport = require("./report/weekly_report");
 const MonthlyReport = require("./report/monthly_report")
 const ShortReport = require("./report/short_report")
 const express = require('express')
+let bodyParser = require('body-parser');
 
 let app = express()
 const port = 3001
+app.use(bodyParser.json({limit: '50mb'}));
+app.use(express.json({limit: '50mb'}));
+app.use(express.urlencoded({limit: '50mb'}));
 app.use(express.json());
 
 app.post("/genShort", (req, res) => {
