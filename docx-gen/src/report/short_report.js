@@ -18,7 +18,11 @@ module.exports = class ShortReport {
     async generate(req) {
         let body = []
         req.blocks.forEach(block => {
-            body.push(h2(block.title), paragraph(block.text))
+            body.push(h2(block.title))
+            block.text.forEach(p => {
+                body.push(paragraph(p))
+                body.push(paragraph(" "))
+            })
             body.push(
                 paragraph({children: [
                         new docx.ImageRun({

@@ -13,7 +13,7 @@ type RequestShortReport struct {
 }
 
 type Block struct {
-	Title string `json:"title"`
-	Text  string `json:"text"`
-	Chart []byte `json:"chart"`
+	Title string   `json:"title"`
+	Text  []string `json:"text"`
+	Chart []byte   `json:"chart"`
 }

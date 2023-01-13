@@ -1,8 +1,6 @@
-export const getReport = async (date) => {
+export const getReport = async (date, type) => {
 
-    // (A) FETCH FILE
-    // (A) FETCH FILE
-    fetch('http://localhost:8080/getReport/weekly/' + date)
+    fetch(`http://localhost:8080/getReport/${type}/${date}`)
 
         // (B) RETURN AS BLOB
         .then((result) => {

@@ -1,16 +1,18 @@
 <template>
   <div id="app">
-    <AddValueView/>
+    <router-view />
   </div>
 
 </template>
 
 <script>
 import AddValueView from "@/views/AddValueView";
+import ShortReportView from "@/views/ShortReportView";
 export default {
   name: 'App',
   components: {
-    AddValueView
+    AddValueView,
+    ShortReportView
   },
 
   data: () => ({

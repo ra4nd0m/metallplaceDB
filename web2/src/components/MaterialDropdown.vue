@@ -5,7 +5,8 @@
             item-text="text"
             item-value="value"
             :items="items"
-            label="Материал"
+            solo
+            placeholder="Материал"
             v-model="selected"
             @change="onChange"
             @click="onClick"

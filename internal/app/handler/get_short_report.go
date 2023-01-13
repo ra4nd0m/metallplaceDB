@@ -8,9 +8,9 @@ import (
 )
 
 type Block struct {
-	Title     string `json:"title"`
-	Text      string `json:"text"`
-	ExcelFile []byte `json:"excel_file"`
+	Title     string   `json:"title"`
+	Text      []string `json:"text"`
+	ExcelFile []byte   `json:"excel_file"`
 }
 
 type GetShortRequestRequest struct {

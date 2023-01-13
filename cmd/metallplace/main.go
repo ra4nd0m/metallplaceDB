@@ -2,12 +2,10 @@ package main
 
 import (
 	"bytes"
-	"fmt"
 	"github.com/gorilla/mux"
 	"github.com/rs/cors"
 	"image"
 	"image/png"
-	"io/ioutil"
 	"log"
 	"metallplace/internal/app/handler"
 	"metallplace/internal/app/repository"
@@ -39,12 +37,6 @@ func main() {
 	docxgen := docxgenclient.New(cfg.DocxgenHost, cfg.DocxgenPort)
 	srv := service.New(cfg, repo, chart, docxgen)
 	hdl := handler.New(srv)
-	byte, err := ioutil.ReadFile("/home/olga/go/src/metallplace/var/cache/books/LongW_2212.xlsx")
-	picByte, err := srv.GetChartRaw(byte, 10000)
-	if err != nil {
-		fmt.Errorf("cant raw chart: %v", err)
-	}
-	serveFrames(picByte)
 
 	c := cors.New(cors.Options{
 		AllowedOrigins:   []string{"http://localhost:8081"},

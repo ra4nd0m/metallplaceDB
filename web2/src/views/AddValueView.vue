@@ -7,7 +7,7 @@
           <v-col>
             <v-form class="inputs">
               <h1>Добавить запись</h1>
-              <MaterialDropdown v-model="form.materialId"/>
+              <MaterialDropdown solo v-model="form.materialId"/>
               <PropertiesForm v-model="form.properties" :materialId="form.materialId" class="startDate"/>
               <v-date-picker v-model="form.dateAddValue" elevation="6" full-width="false" class="mb-10"></v-date-picker>
               <ButtonAddValue :data="form"></ButtonAddValue>
@@ -19,23 +19,27 @@
               <h1>Добавить материал</h1>
               <v-text-field
                   required
+                  solo
                   v-model="formMaterial.name"
-                  label="Материал, усл. поставки"
+                  placeholder="Материал, усл. поставки"
               ></v-text-field>
 
               <v-text-field
                   v-model="formMaterial.source"
-                  label="Источник"
+                  solo
+                  placeholder="Источник"
               ></v-text-field>
 
               <v-text-field
                   v-model="formMaterial.market"
-                  label="Страна"
+                  solo
+                  placeholder="Страна"
               ></v-text-field>
 
               <v-text-field
                   v-model="formMaterial.unit"
-                  label="Ед. измерения"
+                  solo
+                  placeholder="Ед. измерения"
               ></v-text-field>
               <form
                   ref="form"
@@ -44,6 +48,7 @@
                 <v-btn
                     elevation="6"
                     small
+                    solo
                     @click="addProperty"
                     class="mb-6 mr-3"
                 >+
@@ -51,6 +56,7 @@
                 <v-btn
                     elevation="6"
                     small
+                    solo
                     color="error"
                     @click="deleteProperty"
                     class="mb-6"
@@ -59,8 +65,9 @@
                 <div class="form-row" v-for="(property, index) in formMaterial.properties" :key="index">
                   <v-text-field
                       v-model="property.name"
+                      solo
                       :name="`formMaterial.properties[${index}][name]`"
-                      label="Название"
+                      placeholder="Название"
                   ></v-text-field>
                 </div>
               </form>
@@ -74,16 +81,24 @@
               <v-btn
                   elevation="6"
                   small
-                  @click="this.getReportClick"
+                  @click="this.getWeeklyReportClick"
                   class="mb-6"
-              >Сгенерировать
+              >Еженедельный
+              </v-btn>
+              <v-btn
+                  elevation="6"
+                  small
+                  @click="this.getMonthlyReportClick"
+                  class="mb-6"
+              >Ежемесячный
               </v-btn>
               <v-date-picker v-model="dateReport" elevation="6" full-width="false" class="mb-10"></v-date-picker>
             </form>
           </v-col>
 
-        </v-row>
+        </v-row>   <router-link to="/shortReport">link</router-link>
       </v-container>
+
     </v-main>
   </v-app>
 </template>
@@ -119,8 +134,11 @@ export default {
     }
   }),
   methods: {
-    getReportClick() {
-      getReport(this.dateReport)
+    getWeeklyReportClick() {
+      getReport(this.dateReport, 'weekly')
+    },
+    getMonthlyReportClick() {
+      getReport(this.dateReport, 'monthly')
     },
     addProperty() {
       this.formMaterial.properties.push({
@@ -149,12 +167,9 @@ export default {
   background-color: white;
   max-width: 25em;
   min-height: 40em;
-  max-height: 80em;
   padding: 2em;
   margin: 6.5em auto 2em auto;
   border-radius: 0.25em;
   box-shadow: 0 0 1em rgba(0, 0, 0, 0.25);
 }
-
-
 </style>
