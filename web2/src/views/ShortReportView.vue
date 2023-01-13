@@ -1,48 +1,61 @@
 <template>
   <v-app>
     <v-main>
-        <v-form class="inputs" @submit.prevent="handleSubmit">
-          <h2>Компоновка отчета</h2>
-          <v-container>
-            <v-row v-for="(block, index) in reportBlocks" :key="index">
-              <v-col cols="12">
-                <v-text-field solo label="Заголовок" v-model="block.title" class="ma-2"/>
-              </v-col>
-              <v-col cols="12" v-for="(paragraph, index) in block.paragraphs" :key="index">
-                <v-textarea solo label="Абзац" v-model="paragraph.text" class="ma-2"/>
-              </v-col>
-              <v-col cols="12" class="ma-2">
-                <v-btn elevation="6"
-                       small @click="addParagraph(block)">+
-                </v-btn>
-                <v-btn elevation="6"
-                       small color="error" @click="removeParagraph(block)">-
-                </v-btn>
+      <v-toolbar app>
+        <v-toolbar-items>
+          <v-btn flat to="/" class="px-2" >
+            <v-icon>mdi-home</v-icon>
+          </v-btn>
+          <v-btn flat to="/shortReport" class="px-2" v-tooltip:left="{ html: 'Short Report' }">
+            <v-icon>mdi-file-document</v-icon>
+          </v-btn>
+        </v-toolbar-items>
+      </v-toolbar>
+      <v-form class="inputs" @submit.prevent="handleSubmit">
 
-              </v-col>
-              <v-col cols="12" class="ma-2">
-                <v-file-input solo v-model="block.file" label="Файл"></v-file-input>
-              </v-col>
-              <v-divider v-if="index < reportBlocks.length - 1" class="my-divider" color="black"></v-divider>
+        <h2>Компоновка отчета</h2>
+        <v-container>
+          <v-row v-for="(block, index) in reportBlocks" :key="index">
+            <v-col cols="12">
+              <v-text-field solo label="Заголовок" v-model="block.title" class="ma-2" :rules="[(v) => !!v || 'Title is required']"/>
+            </v-col>
+            <v-col cols="12" v-for="(paragraph, index) in block.paragraphs" :key="index">
+              <v-textarea solo label="Абзац" v-model="paragraph.text" class="ma-2" :rules="[(v) => !!v || 'Paragraph is required']"/>
+            </v-col>
+            <v-col cols="12" class="ma-2">
+              <v-btn elevation="6"
+                     small @click="addParagraph(block)" class="ma-2">
+                <v-icon>mdi-plus</v-icon>
+              </v-btn>
+              <v-btn elevation="6"
+                     small color="error" @click="removeParagraph(block)" class="ma-2">
+                <v-icon>mdi-minus</v-icon>
+              </v-btn>
 
-            </v-row>
-          </v-container>
-          <v-container class="ma-2">
-            <v-row>
-              <v-col cols="12" class="ma-2">
-                <v-btn elevation="6"
-                       small @click="addBlock">Добавить раздел
-                </v-btn>
-                <v-btn elevation="6"
-                       small type="submit" color="grey">Сгенерировать
-                </v-btn>
-              </v-col>
+            </v-col>
+            <v-col cols="12" class="ma-2">
+              <v-file-input solo v-model="block.file" label="Файл" @change="handleFileUpload(block, $event)"></v-file-input>
+            </v-col>
+            <v-divider v-if="index < reportBlocks.length - 1" class="my-divider" color="black"></v-divider>
 
-            </v-row>
+          </v-row>
+        </v-container>
+        <v-container class="ma-2">
+          <v-row>
+            <v-col cols="12" class="ma-2">
+              <v-btn elevation="6"
+                     small @click="addBlock">
+                <v-icon>mdi-plus</v-icon> Добавить раздел
+              </v-btn>
+              <v-btn elevation="6"
+                     small type="submit" color="grey">
+                <v-icon>mdi-file-document</v-icon> Сгенерировать
+              </v-btn>
+            </v-col>
 
-
-          </v-container>
-        </v-form>
+          </v-row>
+        </v-container>
+      </v-form>
     </v-main>
   </v-app>
 </template>
@@ -52,12 +65,11 @@ export default {
   name: "ShortReportView.vue",
   data() {
     return {
-      reportBlocks: [
-        {
-          title: '',
-          paragraphs: [''],
-          file: null,
-        },
+      reportBlocks: [{
+        title: '',
+        paragraphs: [''],
+        file: null,
+      },
       ],
     };
   },
@@ -79,9 +91,9 @@ export default {
       block.file = event.target.files[0]
     },
     handleSubmit() {
-      // send data to server
     },
   },
+
 }
 </script>
 
