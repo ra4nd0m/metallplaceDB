@@ -1,16 +1,7 @@
 <template>
   <v-app id="inspire">
     <v-main>
-      <v-toolbar app>
-        <v-toolbar-items>
-          <v-btn flat to="/" class="px-2" >
-            <v-icon>mdi-home</v-icon>
-          </v-btn>
-          <v-btn flat to="/shortReport" class="px-2" v-tooltip:left="{ html: 'Short Report' }">
-            <v-icon>mdi-file-document</v-icon>
-          </v-btn>
-        </v-toolbar-items>
-      </v-toolbar>
+      <Navbar/>
       <v-container>
         <v-row>
 
@@ -105,8 +96,7 @@
               <v-date-picker v-model="dateReport" elevation="6" full-width="false" class="mb-10"></v-date-picker>
             </form>
           </v-col>
-
-        </v-row>   <router-link to="/shortReport">link</router-link>
+        </v-row>
       </v-container>
 
     </v-main>
@@ -119,10 +109,12 @@ import PropertiesForm from "@/components/PropertiesForm";
 import ButtonAddValue from "@/components/ButtonAddValue";
 import {getReport} from "@/getReport";
 import ButtonAddMaterial from "@/components/ButtonAddMaterial";
+import Navbar from "@/components/Navbar";
 
 export default {
   name: "AddValue",
   components: {
+    Navbar,
     ButtonAddMaterial,
     MaterialDropdown,
     PropertiesForm,

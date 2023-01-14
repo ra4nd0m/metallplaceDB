@@ -1,26 +1,16 @@
 <template>
   <v-app>
     <v-main>
-      <v-toolbar app>
-        <v-toolbar-items>
-          <v-btn flat to="/" class="px-2" >
-            <v-icon>mdi-home</v-icon>
-          </v-btn>
-          <v-btn flat to="/shortReport" class="px-2" v-tooltip:left="{ html: 'Short Report' }">
-            <v-icon>mdi-file-document</v-icon>
-          </v-btn>
-        </v-toolbar-items>
-      </v-toolbar>
+      <Navbar/>
       <v-form class="inputs" @submit.prevent="handleSubmit">
-
         <h2>Компоновка отчета</h2>
         <v-container>
           <v-row v-for="(block, index) in reportBlocks" :key="index">
             <v-col cols="12">
-              <v-text-field solo label="Заголовок" v-model="block.title" class="ma-2" :rules="[(v) => !!v || 'Title is required']"/>
+              <v-text-field solo label="Заголовок" v-model="block.title" class="ma-2" :rules="[(v) => !!v || 'Введите заголовок']"/>
             </v-col>
             <v-col cols="12" v-for="(paragraph, index) in block.paragraphs" :key="index">
-              <v-textarea solo label="Абзац" v-model="paragraph.text" class="ma-2" :rules="[(v) => !!v || 'Paragraph is required']"/>
+              <v-textarea solo label="Абзац" v-model="paragraph.text" class="ma-2" :rules="[(v) => !!v || 'Введите текст абзаца']"/>
             </v-col>
             <v-col cols="12" class="ma-2">
               <v-btn elevation="6"
@@ -44,11 +34,22 @@
           <v-row>
             <v-col cols="12" class="ma-2">
               <v-btn elevation="6"
-                     small @click="addBlock">
+                     class="ma-2"
+                     small
+                     @click="addBlock">
                 <v-icon>mdi-plus</v-icon> Добавить раздел
               </v-btn>
               <v-btn elevation="6"
-                     small type="submit" color="grey">
+                     color="error"
+                     small
+                     class="ma-2"
+                     @click="removeBlock">
+                <v-icon>mdi-minus</v-icon> Удалить раздел
+              </v-btn>
+              <v-btn elevation="6"
+                     small
+                     type="submit"
+                     class="ma-2">
                 <v-icon>mdi-file-document</v-icon> Сгенерировать
               </v-btn>
             </v-col>
@@ -61,8 +62,10 @@
 </template>
 
 <script>
+import Navbar from "@/components/Navbar";
 export default {
   name: "ShortReportView.vue",
+  components: {Navbar},
   data() {
     return {
       reportBlocks: [{
@@ -77,9 +80,12 @@ export default {
     addBlock() {
       this.reportBlocks.push({
         title: '',
-        paragraphs: [''],
+        paragraphs: [],
         file: null,
       });
+    },
+    removeBlock(){
+      this.reportBlocks.pop()
     },
     addParagraph(block) {
       block.paragraphs.push('');
