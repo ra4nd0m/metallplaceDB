@@ -10,7 +10,7 @@
               <v-text-field solo label="Заголовок" v-model="block.title" class="ma-2" :rules="[(v) => !!v || 'Введите заголовок']"/>
             </v-col>
             <v-col cols="12" v-for="(paragraph, index) in block.paragraphs" :key="index">
-              <v-textarea solo label="Абзац" v-model="paragraph.text" class="ma-2" :rules="[(v) => !!v || 'Введите текст абзаца']"/>
+              <v-textarea solo label="Абзац" v-model="block.paragraphs[index]" class="ma-2" :rules="[(v) => !!v || 'Введите текст абзаца']"/>
             </v-col>
             <v-col cols="12" class="ma-2">
               <v-btn elevation="6"
@@ -24,7 +24,13 @@
 
             </v-col>
             <v-col cols="12" class="ma-2">
-              <v-file-input solo v-model="block.file" label="Файл" @change="handleFileUpload(block, $event)"></v-file-input>
+              <v-file-input
+                  solo
+                  v-model="block.file"
+                  label="Файл"
+                  @change="handleFileUpload(block, $event)"
+                  accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+              ></v-file-input>
             </v-col>
             <v-divider v-if="index < reportBlocks.length - 1" class="my-divider" color="black"></v-divider>
 
@@ -63,6 +69,9 @@
 
 <script>
 import Navbar from "@/components/Navbar";
+import 'core-js/features/typed-array/uint8-array';
+import {getShortReport} from "@/getShortReport";
+
 export default {
   name: "ShortReportView.vue",
   components: {Navbar},
@@ -93,14 +102,21 @@ export default {
     removeParagraph(block) {
       block.paragraphs.pop();
     },
-    handleFileUpload(block, event) {
-      block.file = event.target.files[0]
+    handleFileUpload(block, e) {
+      let file = e;
+      let reader = new FileReader();
+      reader.addEventListener('load', function(e) {
+        block.file = e.target.result.split(",")[1];
+      });
+      reader.readAsDataURL(file);
     },
     handleSubmit() {
+      getShortReport(this.reportBlocks, "2006-01-02")
     },
   },
-
 }
+
+
 </script>
 
 <style lang="scss">
@@ -113,7 +129,6 @@ export default {
   border-radius: 0.25em;
   box-shadow: 0 0 1em rgba(0, 0, 0, 0.25);
 }
-
 .my-divider {
   border-top: 2px solid #ccc;
   border-bottom: 2px solid #ccc;

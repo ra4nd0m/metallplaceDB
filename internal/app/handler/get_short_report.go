@@ -8,9 +8,9 @@ import (
 )
 
 type Block struct {
-	Title     string   `json:"title"`
-	Text      []string `json:"text"`
-	ExcelFile []byte   `json:"excel_file"`
+	Title      string   `json:"title"`
+	Paragraphs []string `json:"paragraphs"`
+	File       []byte   `json:"file"`
 }
 
 type GetShortRequestRequest struct {
@@ -24,14 +24,14 @@ func (h Handler) GetShortReportHandler(w http.ResponseWriter, r *http.Request) {
 
 		var reportBlocks []model.ReportBlock
 		for _, reqBlock := range req.Blocks {
-			chartBytes, err := h.service.GetChartRaw(reqBlock.ExcelFile, 10000)
+			chartBytes, err := h.service.GetChartRaw(reqBlock.File, 10000)
 			if err != nil {
 				return GetShortRequestResponse{}, err
 			}
-			reportBlocks = append(reportBlocks, model.ReportBlock{Title: reqBlock.Title, Text: reqBlock.Text, Chart: chartBytes})
+			reportBlocks = append(reportBlocks, model.ReportBlock{Title: reqBlock.Title, Text: reqBlock.Paragraphs, Chart: chartBytes})
 		}
 		fmt.Println(reportBlocks)
-		date, err := time.Parse(req.Date, "2006-01-02")
+		date, err := time.Parse("2006-01-02", req.Date)
 		if err != nil {
 			return GetShortRequestResponse{}, fmt.Errorf("cant parse date: %w", err)
 		}

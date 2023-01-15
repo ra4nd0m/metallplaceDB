@@ -75,7 +75,6 @@
               <ButtonAddMaterial @clear="clear" :data="formMaterial"></ButtonAddMaterial>
             </v-form>
           </v-col>
-
           <v-col>
             <form class="inputs">
               <h1 class="mb-6">Генерация отчета</h1>
