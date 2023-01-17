@@ -8,13 +8,12 @@ module.exports = function (body){
     body.forEach(m =>{
         const changeUnits = getChange(m.Week2Med.price_feed, 0, m.Week2Med.prev_price, false);
         const changePercents = getChange(m.Week2Med.price_feed, 0, m.Week2Med.prev_price, true);
-        const material = m.Name.split(", ")
 
         rows.push(
             new docx.TableRow({
                 children:[
                     cellCenter({
-                        children: [textTd(material[0]), textTd(material[1])]
+                        children: [textTd(m.Name), textTd(m.DeliveryType)]
                     }),
                     cellCenter({
                         children: [textTd(m.Unit)]

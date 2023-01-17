@@ -38,7 +38,8 @@ module.exports = async function singleTable(materialId, propertyId, dates, unitC
                     }),
                     new  docx.TableCell({
                         columnSpan: 3,
-                        children: [textTh(resMat.data.info.Name + " " + resMat.data.info.Market)]
+                        children: [textTh(resMat.data.info.Name + " " + resMat.data.info.DeliveryType
+                            + " " + resMat.data.info.Market)]
                     })
                 ]
             }),

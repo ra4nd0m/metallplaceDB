@@ -25,6 +25,7 @@ module.exports = async function(materialIds, dates) {
         bodyInfo.push({
             Name: resMat.data.info.Name,
             Market: resMat.data.info.Market,
+            DeliveryType: resMat.data.info.DeliveryType,
             Unit: resMat.data.info.Unit,
             Week1Med: week1Med.data,
             Week2Med: week2Med.data,

@@ -79,7 +79,7 @@ module.exports = async function tableMaterialMinimax(materialIds, dates, unitCha
         bodyInfo.push({
             Country: location[0],
             Type: matInfo[1],
-            DeliveryType: matInfo[2],
+            DeliveryType: resMat.data.info.DeliveryType,
             DeliveryLocation: location[1],
             Week1Min: week1Min.data,
             Week1Max: week1Max.data,

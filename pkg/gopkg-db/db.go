@@ -10,11 +10,11 @@ import (
 
 	"metallplace/pkg/gopkg-db/migrator"
 
-	"github.com/jackc/pgx/v4"
-	"github.com/jackc/pgx/v4/pgxpool"
+	"github.com/jackc/pgx/v5"
+	"github.com/jackc/pgx/v5/pgxpool"
 )
 
-func New(host string, port int, user, password, name string, options ...Option) (IClient, error) {
+func New(host string, port int, user, password, name string, options ...Option) (*DBPool, error) {
 	pool := DBPool{
 		size: runtime.NumCPU()*2 + 2,
 	}
@@ -47,7 +47,7 @@ func New(host string, port int, user, password, name string, options ...Option) 
 	//dbLog := &dbLog{}
 	//config.ConnConfig.Logger = dbLog
 
-	pool.Pool, err = pgxpool.ConnectConfig(context.Background(), config)
+	pool.Pool, err = pgxpool.NewWithConfig(context.Background(), config)
 	if err != nil {
 		return nil, fmt.Errorf("Unable to connect to database: %w", err)
 	}
@@ -68,25 +68,25 @@ func New(host string, port int, user, password, name string, options ...Option) 
 
 func ExecTx(ctx context.Context, fn func(ctx context.Context) error) error {
 	conn := FromContext(ctx)
-	tx, err := conn.BeginTx(ctx, pgx.TxOptions{})
+	beginTx, err := conn.BeginTx(ctx, pgx.TxOptions{})
 	if err != nil {
 		return err
 	}
-	if err := fn(AddToContext(ctx, DBTx{tx})); err != nil {
-		if err := tx.Rollback(ctx); err != nil {
+	if err := fn(AddToContext(ctx, DBTx{beginTx})); err != nil {
+		if err := beginTx.Rollback(ctx); err != nil {
 			return err
 		}
 		return err
 	}
 
-	return tx.Commit(ctx)
+	return beginTx.Commit(ctx)
 }
 
 type dbLog struct {
 	db *pgxpool.Pool
 }
 
-func (l *dbLog) Log(ctx context.Context, level pgx.LogLevel, msg string, data map[string]interface{}) {
+func (l *dbLog) Log(ctx context.Context, level pgx.TxIsoLevel, msg string, data map[string]interface{}) {
 	var ac string
 	if l.db != nil {
 		ac = fmt.Sprintf("%v/%v/%v", l.db.Stat().AcquiredConns(), l.db.Stat().TotalConns(), l.db.Stat().MaxConns())

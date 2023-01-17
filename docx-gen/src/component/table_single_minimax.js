@@ -52,7 +52,8 @@ module.exports = async function singleTableMinimax(materialId, dates, unitChange
                         columnSpan: 3,
                         margins: TableCellMarginNil,
                         children: [
-                            textTh(resMat.data.info.Name + " " + resMat.data.info.Market)
+                            textTh(resMat.data.info.Name + " " + resMat.data.info.DeliveryType
+                                + " " + resMat.data.info.Market)
                         ]
                     })
                 ]

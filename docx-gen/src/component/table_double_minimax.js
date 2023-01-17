@@ -70,13 +70,15 @@ module.exports = async function doubleTableMinimax(materialId1, materialId2, dat
                     cellCenter({
                         columnSpan: 3,
                         margins: TableCellMarginNil,
-                        children: [textTh(resMat1.data.info.Name + " " + resMat1.data.info.Market)]
+                        children: [textTh(resMat1.data.info.Name + " " + resMat1.data.info.DeliveryType
+                            + " " + resMat1.data.info.Market)]
                     }),
 
                     cellCenter({
                         columnSpan: 3,
                         margins: TableCellMarginNil,
-                        children: [textTh(resMat2.data.info.Name + " " + resMat2.data.info.Market)]
+                        children: [textTh(resMat2.data.info.Name + " " + resMat2.data.info.DeliveryType
+                            + " " + resMat2.data.info.Market)]
                     })
                 ]
             }),

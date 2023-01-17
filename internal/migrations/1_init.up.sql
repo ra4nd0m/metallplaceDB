@@ -49,7 +49,8 @@ create table material_source
             on delete cascade,
     target_market varchar not null,
     unit          varchar not null,
-    unique (material_id, source_id, target_market, unit)
+    delivery_type varchar not null ,
+    unique (material_id, source_id, target_market, unit, delivery_type)
 );
 
 create table material_property

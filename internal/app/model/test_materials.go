@@ -5,6 +5,7 @@ var TestMaterials = []Material{
 		"Material 1",
 		"Website 1",
 		"Global",
+		"FOB",
 		"usd/t",
 		"A",
 		[]Property{
@@ -16,6 +17,7 @@ var TestMaterials = []Material{
 		"Material 2",
 		"Website 2",
 		"Global",
+		"CNF",
 		"usd/t",
 		"A",
 		[]Property{{"min_price", "F", 2, "decimal"},

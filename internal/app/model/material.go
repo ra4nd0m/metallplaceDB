@@ -10,23 +10,25 @@ type Property struct {
 }
 
 type Material struct {
-	Sheet      string
-	Name       string
-	Source     string
-	Market     string
-	Unit       string
-	DateColumn string
-	Properties []Property
+	Sheet        string
+	Name         string
+	Source       string
+	Market       string
+	DeliveryType string
+	Unit         string
+	DateColumn   string
+	Properties   []Property
 }
 
 type MaterialHorizontal struct {
-	Sheet      string
-	Name       string
-	Source     string
-	Market     string
-	Unit       string
-	DateRow    string
-	Properties []Property
+	Sheet        string
+	Name         string
+	Source       string
+	Market       string
+	DeliveryType string
+	Unit         string
+	DateRow      string
+	Properties   []Property
 }
 
 type PropertyShortInfo struct {
@@ -36,11 +38,12 @@ type PropertyShortInfo struct {
 }
 
 type MaterialShortInfo struct {
-	Id     int
-	Name   string
-	Source string
-	Market string
-	Unit   string
+	Id           int
+	Name         string
+	Source       string
+	Market       string
+	DeliveryType string
+	Unit         string
 }
 
 type Price struct {

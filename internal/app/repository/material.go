@@ -3,7 +3,7 @@ package repository
 import (
 	"context"
 	"fmt"
-	"github.com/jackc/pgx/v4"
+	"github.com/jackc/pgx/v5"
 	"metallplace/internal/app/model"
 	"metallplace/pkg/gopkg-db"
 )
@@ -88,7 +88,13 @@ func (r *Repository) GetMaterialList(ctx context.Context) ([]model.MaterialShort
 		if err != nil {
 			return nil, fmt.Errorf("Can't get source name %w", err)
 		}
-		materialList = append(materialList, model.MaterialShortInfo{id, materialName, sourceName, market, unit})
+
+		deliveryType, err := r.GetDeliveryType(ctx, sourceId)
+		if err != nil {
+			return nil, fmt.Errorf("Can't get source name %w", err)
+		}
+
+		materialList = append(materialList, model.MaterialShortInfo{id, materialName, sourceName, market, deliveryType, unit})
 	}
 
 	return materialList, nil

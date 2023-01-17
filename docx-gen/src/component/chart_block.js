@@ -80,15 +80,15 @@ async function getInfo(isBig, url, group, comparePeriod) {
         lastPrice = prices.data.price_feed[prices.data.price_feed.length - 1].value
     }
     let percent = Math.round((lastPrice - firstPrice) / firstPrice * 1000) / 10
-    percent = percent > 0 ? paragraphCentred(`+${numFormat(percent)}%`, Green) : (percent < 0 ? paragraphCentred(numFormat(percent), Red) : paragraphCentred(`-`, ColorDefault))
+    percent = percent > 0 ? paragraphCentred(`+${numFormat(percent)}%`, Green) : (percent < 0 ? paragraphCentred(numFormat(percent) + "%", Red) : paragraphCentred(`-`, ColorDefault))
     if (lastPrice > 30) {
         lastPrice = Math.round(lastPrice)
     }
-    let matched = materialInfo.data.info.Name.match(/(FOB|EXW|CNF|CPT|DDP|CIF)/g);
-    let deliveryType = matched ? matched.join(',') : '';
-    let remainingString = materialInfo.data.info.Name.replace(/(FOB|EXW|CNF|CPT|DDP|CIF)/g, '');
-    let firstLine = remainingString.replace(",", "")
-    let secondLine = deliveryType + " " + materialInfo.data.info.Market
+    //let matched = materialInfo.data.info.Name.match(/(FOB|EXW|CNF|CPT|DDP|CIF)/g);
+    //let deliveryType = matched ? matched.join(',') : '';
+    //let remainingString = materialInfo.data.info.Name.replace(/(FOB|EXW|CNF|CPT|DDP|CIF)/g, '');
+    //let firstLine = remainingString.replace(",", "")
+    //let secondLine = deliveryType + " " + materialInfo.data.info.Market
     return [new docx.TableRow({
         children: [
             new docx.TableCell({
@@ -99,7 +99,7 @@ async function getInfo(isBig, url, group, comparePeriod) {
                         spacing: {before: 0},
                         children: [
                             text({
-                                text: firstLine,
+                                text: materialInfo.data.info.Name,
                                 font: FontFamilySemiBold,
                                 color: '#000000',
                                 size: 10.5 * 2,
@@ -111,7 +111,7 @@ async function getInfo(isBig, url, group, comparePeriod) {
                         spacing: {before: 0},
                         children: [
                             text({
-                                text: secondLine,
+                                text: materialInfo.data.info.DeliveryType + " " + materialInfo.data.info.Market,
                                 font: FontFamily,
                                 color: '#656667',
                                 size: 10 * 2,

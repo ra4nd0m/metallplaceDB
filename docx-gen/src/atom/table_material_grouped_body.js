@@ -10,7 +10,6 @@ module.exports = function (body, titlesIndexes, titles){
     body.forEach(m =>{
         const changeUnits = getChange(m.Week2Med.price_feed, 0, m.Week1Med.price_feed[0].value, false);
         const changePercents = getChange(m.Week2Med.price_feed, 0, m.Week1Med.price_feed[0].value, true);
-        const material = m.Name.split(", ")
 
         if(tableRowCnt === titlesIndexes[idxCnt]){
             rows.push(
@@ -31,7 +30,7 @@ module.exports = function (body, titlesIndexes, titles){
             new docx.TableRow({
                 children:[
                     cellCenter({
-                        children: [textTd(material[0]), textTd(material[1])]
+                        children: [textTd(m.Name), textTd(m.DeliveryType)]
                     }),
                     cellCenter({
                         children: [textTd(m.Unit)]

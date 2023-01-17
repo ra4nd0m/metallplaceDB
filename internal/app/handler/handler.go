@@ -17,7 +17,7 @@ type IService interface {
 	AddMaterialProperty(ctx context.Context, materialSourceId, propertyId int) error
 	AddValue(ctx context.Context, materialSourceId int,
 		propertyName string, valueFloat float64, valueStr string, createdOn time.Time) error
-	AddUniqueMaterial(ctx context.Context, materialName string, sourceName string, materialMarket string, materialUnit string) (int, error)
+	AddUniqueMaterial(ctx context.Context, materialName string, sourceName string, materialMarket string, materialUnit string, deliveryType string) (int, error)
 	InitialImport(ctx context.Context) error
 	ParseBook(byte []byte) (chartclient.Request, error)
 	GetMaterialList(ctx context.Context) ([]model.MaterialShortInfo, error)

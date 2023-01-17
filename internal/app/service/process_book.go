@@ -30,7 +30,7 @@ func (s *Service) InitialImport(ctx context.Context) error {
 
 	err = db.ExecTx(ctx, func(ctx context.Context) error {
 		for _, material := range materialsVertical {
-			materialSourceId, err := s.AddUniqueMaterial(ctx, material.Name, material.Source, material.Market, material.Unit)
+			materialSourceId, err := s.AddUniqueMaterial(ctx, material.Name, material.Source, material.Market, material.Unit, material.DeliveryType)
 			if err != nil {
 				return err
 			}
@@ -104,7 +104,7 @@ func (s *Service) InitialImport(ctx context.Context) error {
 						valueStr = value
 					}
 
-					materialSourceId, err := s.repo.GetMaterialSourceId(ctx, material.Name, material.Source, material.Market, material.Unit)
+					materialSourceId, err := s.repo.GetMaterialSourceId(ctx, material.Name, material.Source, material.Market, material.Unit, material.DeliveryType)
 					if err != nil {
 						return fmt.Errorf("cann not get material source id: %v", err)
 					}
@@ -123,7 +123,7 @@ func (s *Service) InitialImport(ctx context.Context) error {
 			}
 		}
 		for _, material := range materialHorizontalWeekly {
-			materialSourceId, err := s.AddUniqueMaterial(ctx, material.Name, material.Source, material.Market, material.Unit)
+			materialSourceId, err := s.AddUniqueMaterial(ctx, material.Name, material.Source, material.Market, material.Unit, material.DeliveryType)
 			if err != nil {
 				return fmt.Errorf("cant add unique material %v: %w", material.Name, err)
 			}
@@ -183,7 +183,7 @@ func (s *Service) InitialImport(ctx context.Context) error {
 						valueStr = value
 					}
 
-					materialSourceId, err := s.repo.GetMaterialSourceId(ctx, material.Name, material.Source, material.Market, material.Unit)
+					materialSourceId, err := s.repo.GetMaterialSourceId(ctx, material.Name, material.Source, material.Market, material.Unit, material.DeliveryType)
 					if err != nil {
 						return fmt.Errorf("cann not get material source id: %v", err)
 					}
@@ -206,7 +206,7 @@ func (s *Service) InitialImport(ctx context.Context) error {
 			}
 		}
 		for _, material := range materialHorizontalMonthly {
-			materialSourceId, err := s.AddUniqueMaterial(ctx, material.Name, material.Source, material.Market, material.Unit)
+			materialSourceId, err := s.AddUniqueMaterial(ctx, material.Name, material.Source, material.Market, material.Unit, material.DeliveryType)
 			if err != nil {
 				return fmt.Errorf("cant add unique material %v: %w", material.Name, err)
 			}
@@ -264,7 +264,7 @@ func (s *Service) InitialImport(ctx context.Context) error {
 						valueStr = value
 					}
 
-					materialSourceId, err := s.repo.GetMaterialSourceId(ctx, material.Name, material.Source, material.Market, material.Unit)
+					materialSourceId, err := s.repo.GetMaterialSourceId(ctx, material.Name, material.Source, material.Market, material.Unit, material.DeliveryType)
 					if err != nil {
 						return fmt.Errorf("cann not get material source id: %v", err)
 					}

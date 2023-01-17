@@ -3,7 +3,7 @@ package repository
 import (
 	"context"
 	"fmt"
-	"github.com/jackc/pgx/v4"
+	"github.com/jackc/pgx/v5"
 	"metallplace/internal/app/model"
 	"metallplace/pkg/gopkg-db"
 )
@@ -59,7 +59,7 @@ func (r *Repository) GetPropertyId(ctx context.Context, propertyName string) (in
 	return id, nil
 }
 
-//GetPropertyList Returns property list for unique material
+// GetPropertyList Returns property list for unique material
 func (r *Repository) GetPropertyList(ctx context.Context, materialSourceId int) ([]model.PropertyShortInfo, error) {
 	var propertyList []model.PropertyShortInfo
 	var propertyId int

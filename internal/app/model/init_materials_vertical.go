@@ -2,27 +2,30 @@ package model
 
 var InitMaterialsVertical = []Material{
 	{"01.ЖРС",
-		"ЖРС (62%), CNF",
+		"ЖРС (62%)",
 		"ferroalloynet.com",
 		"Китай",
+		"CNF",
 		"USD/т",
 		"A",
 		[]Property{{"Средняя цена", "E", 3, "decimal"}},
 	},
 
 	{"01.ЖРС",
-		"ЖРС (65%), CNF",
+		"ЖРС (65%)",
 		"ferroalloynet.com",
 		"Китай",
+		"CNF",
 		"USD/т",
 		"A",
 		[]Property{{"Средняя цена", "L", 3, "decimal"}},
 	},
 
 	{"02.Лом",
-		"Лом (3А), CPT",
+		"Лом (3А)",
 		"-",
 		"Урал",
+		"CPT",
 		"руб/т",
 		"A",
 		[]Property{
@@ -33,9 +36,10 @@ var InitMaterialsVertical = []Material{
 	},
 
 	{"02.Лом",
-		"Лом HMS (80:20), CNF",
+		"Лом HMS (80:20)",
 		"-",
 		"Турция",
+		"CNF",
 		"USD/т",
 		"A",
 		[]Property{
@@ -44,9 +48,10 @@ var InitMaterialsVertical = []Material{
 	},
 
 	{"03.Чугун",
-		"Чугун (передельный), FOB",
+		"Чугун (передельный)",
 		"steelmint.com",
 		"Черное море",
+		"CNF",
 		"USD/т",
 		"B",
 		[]Property{
@@ -57,9 +62,10 @@ var InitMaterialsVertical = []Material{
 	},
 
 	{"04.Уголь",
-		"Кокс. уголь (Австралия), CFR",
+		"Кокс. уголь (Австралия)",
 		"mysteel.net",
 		"Китай",
+		"CFR",
 		"USD/т",
 		"A",
 		[]Property{
@@ -68,9 +74,10 @@ var InitMaterialsVertical = []Material{
 	},
 
 	{"04.Уголь",
-		"Кокс. уголь (Россия), CFR",
+		"Кокс. уголь (Россия)",
 		"mysteel.net",
 		"Китай",
+		"CFR",
 		"USD/т",
 		"A",
 		[]Property{
@@ -81,7 +88,8 @@ var InitMaterialsVertical = []Material{
 	{"05.Мет. кокс",
 		"Металлургический кокс (64% CRS)",
 		"steelmint.com",
-		"FOB Китай",
+		"Китай",
+		"FOB",
 		"USD/т",
 		"B",
 		[]Property{
@@ -90,9 +98,10 @@ var InitMaterialsVertical = []Material{
 	},
 
 	{"06.Сталь",
-		"Заготовка, FOB",
+		"Заготовка",
 		"steelmint.com",
 		"Черное море",
+		"FOB",
 		"USD/т",
 		"A",
 		[]Property{
@@ -103,9 +112,10 @@ var InitMaterialsVertical = []Material{
 	},
 
 	{"06.Сталь",
-		"Арматура (12-25 мм), FOB",
+		"Арматура (12-25 мм)",
 		"-",
 		"Черное море",
+		"FOB",
 		"USD/т",
 		"A",
 		[]Property{
@@ -116,9 +126,10 @@ var InitMaterialsVertical = []Material{
 	},
 
 	{"06.Сталь",
-		"Сляб, FOB",
+		"Сляб",
 		"-",
 		"Черное море",
+		"FOB",
 		"USD/т",
 		"A",
 		[]Property{
@@ -129,9 +140,10 @@ var InitMaterialsVertical = []Material{
 	},
 
 	{"06.Сталь",
-		"Рулон г/к, FOB",
+		"Рулон г/к",
 		"steelmint.com",
 		"Черное море",
+		"FOB",
 		"USD/т",
 		"A",
 		[]Property{
@@ -142,9 +154,10 @@ var InitMaterialsVertical = []Material{
 	},
 
 	{"06.Сталь",
-		"Рулон х/к, FOB",
+		"Рулон х/к",
 		"steelmint.com",
 		"Черное море",
+		"FOB",
 		"USD/т",
 		"A",
 		[]Property{
@@ -155,9 +168,10 @@ var InitMaterialsVertical = []Material{
 	},
 
 	{"06.Сталь",
-		"Арматура А1 (без НДС), EXW",
+		"Арматура А1 (без НДС)",
 		"-",
 		"Россия",
+		"EXW",
 		"руб/т",
 		"A",
 		[]Property{
@@ -166,9 +180,10 @@ var InitMaterialsVertical = []Material{
 	},
 
 	{"06.Сталь",
-		"Рулон г/к, EXW",
+		"Рулон г/к",
 		"steelmint.com",
 		"Россия",
+		"EXW",
 		"руб/т",
 		"A",
 		[]Property{
@@ -177,9 +192,10 @@ var InitMaterialsVertical = []Material{
 	},
 
 	{"06.Сталь",
-		"Рулон х/к, EXW",
+		"Рулон х/к",
 		"steelmint.com",
 		"Россия",
+		"EXW",
 		"руб/т",
 		"A",
 		[]Property{
@@ -188,9 +204,10 @@ var InitMaterialsVertical = []Material{
 	},
 
 	{"07.ФС (М)",
-		"ВУ ферромарганец (76% Mn), DDP",
+		"ВУ ферромарганец (76% Mn)",
 		"-",
 		"Европа",
+		"DDP",
 		"USD/т",
 		"A",
 		[]Property{
@@ -201,9 +218,10 @@ var InitMaterialsVertical = []Material{
 	},
 
 	{"07.ФС (М)",
-		"Ферросицилий (75% Si), DDP",
+		"Ферросицилий (75% Si), ",
 		"-",
 		"Европа",
+		"DDP",
 		"USD/т",
 		"A",
 		[]Property{
@@ -214,9 +232,10 @@ var InitMaterialsVertical = []Material{
 	},
 
 	{"07.ФС (М)",
-		"Силиконмарганец (65% Mn), DDP",
+		"Силиконмарганец (65% Mn)",
 		"-",
 		"Европа",
+		"DDP",
 		"USD/т",
 		"A",
 		[]Property{
@@ -227,9 +246,10 @@ var InitMaterialsVertical = []Material{
 	},
 
 	{"07.ФС (М)",
-		"ВУ феррохром (60-70% Cr), DDP",
+		"ВУ феррохром (60-70% Cr)",
 		"-",
 		"Европа",
+		"DDP",
 		"¢/фунт",
 		"A",
 		[]Property{
@@ -240,9 +260,10 @@ var InitMaterialsVertical = []Material{
 	},
 
 	{"07.ФС (М)",
-		"НУ феррохром 0,1% Cr, DDP",
+		"НУ феррохром 0,1% Cr",
 		"-",
 		"Европа",
+		"DDP",
 		"¢/фунт",
 		"A",
 		[]Property{
@@ -253,9 +274,10 @@ var InitMaterialsVertical = []Material{
 	},
 
 	{"07.ФС (М)",
-		"Марганцевая руда (36-38% Mn, кусковая), CIF",
+		"Марганцевая руда (36-38% Mn, кусковая)",
 		"-",
 		"Китай",
+		"CIF",
 		"USD/1%",
 		"A",
 		[]Property{
@@ -266,9 +288,10 @@ var InitMaterialsVertical = []Material{
 	},
 
 	{"07.ФС (М)",
-		"Хромовая руда (42% Cr, кусковая), CIF",
+		"Хромовая руда (42% Cr, кусковая)",
 		"-",
 		"Китай",
+		"CIF",
 		"USD/т",
 		"A",
 		[]Property{
@@ -279,9 +302,10 @@ var InitMaterialsVertical = []Material{
 	},
 
 	{"08.ГЭ",
-		"ГЭ (450 мм HP), EXW ",
+		"ГЭ (450 мм HP)",
 		"-",
 		"Китай",
+		"EXW",
 		"USD/т",
 		"A",
 		[]Property{
@@ -290,9 +314,10 @@ var InitMaterialsVertical = []Material{
 	},
 
 	{"08.ГЭ",
-		"ГЭ (600 мм UHP), EXW",
+		"ГЭ (600 мм UHP)",
 		"-",
 		"Китай",
+		"EXW",
 		"USD/т",
 		"A",
 		[]Property{
@@ -303,6 +328,7 @@ var InitMaterialsVertical = []Material{
 	{"09.Запасы",
 		"Запасы Mn руд в портах Китая",
 		"-",
+		"",
 		"",
 		"млн тонн",
 		"B",
@@ -315,6 +341,7 @@ var InitMaterialsVertical = []Material{
 		"Запасы Cr руд в портах Китая",
 		"-",
 		"",
+		"",
 		"млн тонн",
 		"B",
 		[]Property{
@@ -325,6 +352,7 @@ var InitMaterialsVertical = []Material{
 	{"09.Запасы",
 		"Запасы железной руды в портах Китая",
 		"-",
+		"",
 		"",
 		"млн тонн",
 		"B",
