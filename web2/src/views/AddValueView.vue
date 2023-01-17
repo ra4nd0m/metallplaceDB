@@ -22,7 +22,7 @@
                   required
                   solo
                   v-model="formMaterial.name"
-                  placeholder="Материал, усл. поставки"
+                  placeholder="Материал"
               ></v-text-field>
 
               <v-text-field
@@ -35,6 +35,12 @@
                   v-model="formMaterial.market"
                   solo
                   placeholder="Страна"
+              ></v-text-field>
+
+              <v-text-field
+                  v-model="formMaterial.deliveryType"
+                  solo
+                  placeholder="Усл. поставки"
               ></v-text-field>
 
               <v-text-field
@@ -128,6 +134,7 @@ export default {
     dateReport: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
     formMaterial: {
       name: null,
+      deliveryType: null,
       source: null,
       market: null,
       unit: null,

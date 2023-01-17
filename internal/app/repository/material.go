@@ -68,8 +68,9 @@ func (r *Repository) GetMaterialList(ctx context.Context) ([]model.MaterialShort
 	var market string
 	var unit string
 	var id int
+	var deliveryType string
 
-	rows, err := db.FromContext(ctx).Query(ctx, `SELECT id, material_id, source_id, target_market, unit FROM material_source`)
+	rows, err := db.FromContext(ctx).Query(ctx, `SELECT id, material_id, source_id, target_market, delivery_type, unit FROM material_source`)
 	if err != nil {
 		return nil, fmt.Errorf("Can't get material_source rows %w", err)
 	}
@@ -77,11 +78,11 @@ func (r *Repository) GetMaterialList(ctx context.Context) ([]model.MaterialShort
 	defer rows.Close()
 
 	for rows.Next() {
-		rows.Scan(&id, &materialId, &sourceId, &market, &unit)
+		rows.Scan(&id, &materialId, &sourceId, &market, &deliveryType, &unit)
 
 		materialName, err := r.GetMaterialName(ctx, materialId)
 		if err != nil {
-			return nil, fmt.Errorf("Can't get material name %w", err)
+			return nil, fmt.Errorf("cant get material name (id %d) %w", materialId, err)
 		}
 
 		sourceName, err := r.GetSourceName(ctx, sourceId)
@@ -89,12 +90,7 @@ func (r *Repository) GetMaterialList(ctx context.Context) ([]model.MaterialShort
 			return nil, fmt.Errorf("Can't get source name %w", err)
 		}
 
-		deliveryType, err := r.GetDeliveryType(ctx, sourceId)
-		if err != nil {
-			return nil, fmt.Errorf("Can't get source name %w", err)
-		}
-
-		materialList = append(materialList, model.MaterialShortInfo{id, materialName, sourceName, market, deliveryType, unit})
+		materialList = append(materialList, model.MaterialShortInfo{Id: id, Name: materialName, Source: sourceName, Market: market, DeliveryType: deliveryType, Unit: unit})
 	}
 
 	return materialList, nil

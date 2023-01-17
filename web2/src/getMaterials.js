@@ -10,7 +10,7 @@ export const getMaterialList = async() => {
     });
     const content = await rawResponse.json();
     content.list.forEach(m =>{
-        list.push({value: `${m.Id}`, text: `${m.Name}, ${m.Unit}`})
+        list.push({value: `${m.Id}`, text: `${m.Name}, ${m.Unit}, ${m.DeliveryType} ${m.Market}`})
     })
     return list
 }
