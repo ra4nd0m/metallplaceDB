@@ -191,7 +191,7 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
             plugins: {
                 legend: {
                     display: false,
-                    position: "bottom",
+                    position: "top",
                     labels: {
                         // This more specific font property overrides the global property
                         font: {
