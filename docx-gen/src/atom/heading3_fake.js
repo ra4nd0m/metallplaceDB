@@ -1,12 +1,19 @@
 const docx = require("docx");
-const {FontSizeHeading3, FontFamily, HeadingColor} = require("../const");
+const {FontFamilySemiBold, h3Size} = require("../const");
 const paragraph = require("./paragraph");
 
-    module.exports = function (v) {
+    module.exports = function (text) {
 
         return paragraph({
             alignment: docx.AlignmentType.JUSTIFIED,
-            children: [new docx.TextRun({text: v, font: FontFamily, size: FontSizeHeading3, color: HeadingColor})]
+            children: [
+                new docx.TextRun({
+                    text: text,
+                    color: '#8ab440',
+                    font: FontFamilySemiBold,
+                    size: h3Size
+                }),
+            ]
         });
 
 }

@@ -30,6 +30,7 @@ module.exports = class ShortReport {
             if (block.chart !== null) {
                 body.push(
                     paragraph({
+                        alignment: docx.AlignmentType.CENTER,
                         children: [
                             chart(block.chart)
                         ]

@@ -3,7 +3,7 @@ const chart = require("../client/chart");
 const paragraph = require("../atom/paragraph")
 const paragraphCentred = require("../atom/paragraph_centred")
 const text = require("../atom/text")
-const {TableCellMarginNil, Green, Red, ColorDefault} = require("../const");
+const {TableCellMarginNil, Green, Red, ColorDefault, FontFamily, FontFamilySemiBold} = require("../const");
 const numFormat = require("../utils/numbers_format")
 const axios = require("axios");
 
@@ -58,15 +58,15 @@ async function getInfo(isBig, url, group, comparePeriod) {
     })
     let lastGroup = []
     let firstGroup = []
-    for(let i = 0; i < group; i++){
+    for (let i = 0; i < group; i++) {
         lastGroup.push(prices.data.price_feed[prices.data.price_feed.length - (i + 1)].value)
         firstGroup.push(prices.data.price_feed[i].value)
     }
     let lastPrice = getAvg(lastGroup)
     let firstPrice = getAvg(firstGroup)
-    if(comparePeriod === "м/м"){
+    if (comparePeriod === "м/м") {
         const finish = date
-        const  start = subtractMonth(date)
+        const start = subtractMonth(date)
         prices = await axios.post("http://localhost:8080/getMonthlyAvgFeed", {
             material_source_id: Number(materialId),
             property_id: Number(propertyId),
@@ -80,10 +80,15 @@ async function getInfo(isBig, url, group, comparePeriod) {
         lastPrice = prices.data.price_feed[prices.data.price_feed.length - 1].value
     }
     let percent = Math.round((lastPrice - firstPrice) / firstPrice * 1000) / 10
-    percent = percent > 0 ? paragraphCentred(`+${numFormat(percent)}% ${comparePeriod}`, Green) : (percent < 0 ? paragraphCentred(numFormat(percent) + `% ${comparePeriod}`, Red) : paragraphCentred(`- ${comparePeriod}`, ColorDefault))
+    percent = percent > 0 ? paragraphCentred(`+${numFormat(percent)}%`, Green) : (percent < 0 ? paragraphCentred(numFormat(percent), Red) : paragraphCentred(`-`, ColorDefault))
     if (lastPrice > 30) {
         lastPrice = Math.round(lastPrice)
     }
+    let matched = materialInfo.data.info.Name.match(/(FOB|EXW|CNF|CPT|DDP|CIF)/g);
+    let deliveryType = matched ? matched.join(',') : '';
+    let remainingString = materialInfo.data.info.Name.replace(/(FOB|EXW|CNF|CPT|DDP|CIF)/g, '');
+    let firstLine = remainingString.replace(",", "")
+    let secondLine = deliveryType + " " + materialInfo.data.info.Market
     return [new docx.TableRow({
         children: [
             new docx.TableCell({
@@ -93,7 +98,24 @@ async function getInfo(isBig, url, group, comparePeriod) {
                         alignment: docx.AlignmentType.LEFT,
                         spacing: {before: 0},
                         children: [
-                            text(materialInfo.data.info.Name + " " + materialInfo.data.info.Market)
+                            text({
+                                text: firstLine,
+                                font: FontFamilySemiBold,
+                                color: '#000000',
+                                size: 10.5 * 2,
+                            }),
+                        ],
+                    }),
+                    paragraph({
+                        alignment: docx.AlignmentType.LEFT,
+                        spacing: {before: 0},
+                        children: [
+                            text({
+                                text: secondLine,
+                                font: FontFamily,
+                                color: '#656667',
+                                size: 10 * 2,
+                            })
                         ],
                     }),
                 ],
@@ -103,10 +125,27 @@ async function getInfo(isBig, url, group, comparePeriod) {
                 margins: TableCellMarginNil,
                 children: [
                     paragraph({
-                        alignment: docx.AlignmentType.RIGHT,
+                        alignment: docx.AlignmentType.CENTER,
                         spacing: {before: 0},
                         children: [
-                            text(numFormat(lastPrice) + " " + materialInfo.data.info.Unit)
+                            text({
+                                text: numFormat(lastPrice),
+                                font: FontFamilySemiBold,
+                                color: '#000000',
+                                size: 10.5 * 2,
+                            })
+                        ],
+                    }),
+                    paragraph({
+                        alignment: docx.AlignmentType.CENTER,
+                        spacing: {before: 0},
+                        children: [
+                            text({
+                                text: materialInfo.data.info.Unit,
+                                font: FontFamily,
+                                color: '#656667',
+                                size: 11 * 2,
+                            })
                         ],
                     }),
                 ],
@@ -116,12 +155,25 @@ async function getInfo(isBig, url, group, comparePeriod) {
                 margins: TableCellMarginNil,
                 children: [
                     percent,
+                    paragraph({
+                        alignment: docx.AlignmentType.CENTER,
+                        spacing: {before: 0},
+                        children: [
+                            text({
+                                text: comparePeriod,
+                                font: FontFamily,
+                                color: '#656667',
+                                size: 11 * 2,
+                            })
+                        ],
+                    }),
                 ],
             }),
         ],
     })]
 }
-function getAvg(arr){
+
+function getAvg(arr) {
     return arr.reduce((a, b) => a + b, 0) / arr.length;
 }
 

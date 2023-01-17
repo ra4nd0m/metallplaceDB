@@ -3,6 +3,6 @@ const {FontFamily} = require("../const");
 
 
 module.exports = function (v) {
-
-    return new docx.TextRun({text: v, font: FontFamily});
+    if (typeof v === "string") return new docx.TextRun({text: v, font: FontFamily})
+    return new docx.TextRun(v)
 }

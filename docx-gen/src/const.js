@@ -2,8 +2,9 @@ const docx = require("docx");
 
 module.exports.TableCellMarginNil = {top: 0, left: 0, bottom: 0, right: 0, marginUnitType: docx.WidthType.NIL};
 module.exports.SpacingDefault = 2500;
-module.exports.FontFamily = "Montserrat";
+module.exports.FontFamily = "Montserrat Regular";
 module.exports.FontFamilyExtraBold = "Montserrat ExtraBold";
+module.exports.FontFamilySemiBold = "Montserrat SemiBold";
 module.exports.WeeklyHeaderTitle = "Обзор рынка сырья, стали и ферросплавов";
 module.exports.MonthlyHeaderTitle = "Обзор рынка сырья и стали";
 module.exports.ShortHeaderTitle = "Мировой рынок металлургического сырья: итоги"
@@ -26,6 +27,7 @@ module.exports.FontSizeHeading3 = 24
 module.exports.HeadingColor = "#2E74B5"
 module.exports.mainServerHost = "localhost"
 module.exports.h2Size = 16 * 2
+module.exports.h3Size = 14 * 2
 module.exports.mainServerPort = 8080
 const NONE_BORDER = {
     style: docx.BorderStyle.NONE,
