@@ -24,7 +24,7 @@ func (cc *ChartClient) GetChart(req Request) ([]byte, error) {
 		return nil, fmt.Errorf("cant marshall chart req to json: %w", err)
 	}
 
-	request, err := http.NewRequest("POST", "http://"+cc.Host+":"+strconv.Itoa(cc.Port)+"/gen",
+	request, err := http.NewRequest("POST", "http://"+cc.Host+":"+strconv.Itoa(cc.Port)+"/genTitled",
 		bytes.NewBuffer(json))
 	request.Header.Set("Content-Type", "application/json; charset=UTF-8")
 

@@ -19,4 +19,5 @@ type Options struct {
 	TickLimit  int    `json:"tick_limit"`
 	NeedLegend bool   `json:"legend"`
 	ToFixed    int    `json:"to_fixed"`
+	Title      string `json:"title"`
 }

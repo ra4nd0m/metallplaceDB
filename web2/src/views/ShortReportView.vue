@@ -9,19 +9,8 @@
             <v-col cols="12">
               <v-text-field solo label="Заголовок" v-model="block.title" class="ma-2" :rules="[(v) => !!v || 'Введите заголовок']"/>
             </v-col>
-            <v-col cols="12" v-for="(paragraph, index) in block.paragraphs" :key="index">
-              <v-textarea solo label="Абзац" v-model="block.paragraphs[index]" class="ma-2" :rules="[(v) => !!v || 'Введите текст абзаца']"/>
-            </v-col>
-            <v-col cols="12" class="ma-2">
-              <v-btn elevation="6"
-                     small @click="addParagraph(block)" class="ma-2">
-                <v-icon>mdi-plus</v-icon>
-              </v-btn>
-              <v-btn elevation="6"
-                     small color="error" @click="removeParagraph(block)" class="ma-2">
-                <v-icon>mdi-minus</v-icon>
-              </v-btn>
-
+            <v-col cols="12" >
+              <v-textarea solo label="Абзац" v-model="block.paragraphsRaw" @input=splitParagraphs(block) class="ma-2" :rules="[(v) => !!v || 'Введите текст абзаца']"/>
             </v-col>
             <v-col cols="12" class="ma-2">
               <v-file-input
@@ -80,6 +69,7 @@ export default {
       reportBlocks: [{
         title: '',
         paragraphs: [''],
+        paragraphsRaw: '',
         file: null,
       },
       ],
@@ -96,11 +86,8 @@ export default {
     removeBlock(){
       this.reportBlocks.pop()
     },
-    addParagraph(block) {
-      block.paragraphs.push('');
-    },
-    removeParagraph(block) {
-      block.paragraphs.pop();
+    splitParagraphs(block){
+      block.paragraphs = block.paragraphsRaw.split(`\n`)
     },
     handleFileUpload(block, e) {
       let file = e;

@@ -24,10 +24,15 @@ func (h Handler) GetShortReportHandler(w http.ResponseWriter, r *http.Request) {
 
 		var reportBlocks []model.ReportBlock
 		for _, reqBlock := range req.Blocks {
-			chartBytes, err := h.service.GetChartRaw(reqBlock.File, 10000)
-			if err != nil {
-				return GetShortRequestResponse{}, err
+			var chartBytes []byte = nil
+			if reqBlock.File != nil {
+				var err error
+				chartBytes, err = h.service.GetChartRaw(reqBlock.File, 10000)
+				if err != nil {
+					return GetShortRequestResponse{}, err
+				}
 			}
+
 			reportBlocks = append(reportBlocks, model.ReportBlock{Title: reqBlock.Title, Text: reqBlock.Paragraphs, Chart: chartBytes})
 		}
 		fmt.Println(reportBlocks)

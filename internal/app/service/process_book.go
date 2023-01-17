@@ -303,35 +303,11 @@ func (s *Service) ParseBook(byte []byte) (chartclient.Request, error) {
 	if err != nil {
 		return chartclient.Request{}, fmt.Errorf("cannot open exel file %w", err)
 	}
-
+	labelColumn := "A"
 	materialStartColumn := "B"
 	startRow := 2
 	startSheet := "Лист1"
 	var req chartclient.Request
-
-	labelColumn := "A"
-	//labelRow := 3
-
-	// Parsing month labels
-	//for {
-	//	value, err := book.GetCellValue(startSheet, labelColumn+strconv.Itoa(labelRow))
-	//	if err != nil {
-	//		return model.ChartRaw{}, fmt.Errorf("cant get cell value: %w", err)
-	//	}
-	//	if value == "" {
-	//		isBreak, err := areNextCellsEmpty(book, startSheet, utils.AlphabetToInt(labelColumn), labelRow, 25)
-	//		if err != nil {
-	//			return model.ChartRaw{}, fmt.Errorf("cant check next n values: %w", err)
-	//		}
-	//		if isBreak {
-	//			break
-	//		}
-	//		labelRow++
-	//		continue
-	//	}
-	//	chartRaw.Labels = append(chartRaw.Labels, formatMonth(value))
-	//	labelRow++
-	//}
 
 	for curCol := utils.AlphabetToInt(materialStartColumn); true; curCol++ {
 		var valueFloat float64
@@ -388,7 +364,11 @@ func (s *Service) ParseBook(byte []byte) (chartclient.Request, error) {
 		}
 		req.YDataSet = append(req.YDataSet, materialAndPrices)
 	}
-
+	title, err := book.GetCellValue(startSheet, "A1")
+	if err != nil {
+		return chartclient.Request{}, fmt.Errorf("cant get chart title: %w", err)
+	}
+	req.Options.Title = title
 	return req, nil
 }
 

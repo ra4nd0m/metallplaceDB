@@ -8,7 +8,6 @@ const paragraph = require("../atom/paragraph");
 const chart = require("../atom/short_report_chart");
 
 function getFooterTitle(date) {
-
     const weekDates = GetDates(date, "month")
     return `Отчетный период: ${weekDates.first.day} ${RusMonth[weekDates.first.month]} - ` +
         `${weekDates.last.day} ${RusMonth[weekDates.last.month]} ${weekDates.last.year} года`
@@ -16,26 +15,32 @@ function getFooterTitle(date) {
 
 module.exports = class ShortReport {
     async generate(req) {
-        let body = []
+        let body = [
+            new docx.TableOfContents("Содержание", {
+                hyperlink: true,
+                headingStyleRange: "1-5",
+            }),
+        ]
         req.blocks.forEach(block => {
             body.push(h2(block.title))
             block.text.forEach(p => {
                 body.push(paragraph(p))
                 body.push(paragraph(" "))
             })
-            body.push(
-                paragraph({children: [
-                        new docx.ImageRun({
-                            data: block.chart,
-                            transformation: {
-                                width: 520,
-                                height: 260,
-                            }
-                        })
-                    ]})
-            )
+            if (block.chart !== null) {
+                body.push(
+                    paragraph({
+                        children: [
+                            chart(block.chart)
+                        ]
+                    })
+                )
+            }
         })
         return new docx.Document({
+                features: {
+                    updateFields: true,
+                },
                 sections: [
                     {
                         properties: {
@@ -50,9 +55,7 @@ module.exports = class ShortReport {
                         },
                         children: [
                             new docx.Paragraph({
-                                children: [
-
-                                ]
+                                children: []
                             }),
                         ]
                     },
@@ -69,17 +72,4 @@ module.exports = class ShortReport {
             }
         )
     }
-}
-
-function getBody(blocks){
-    let body = []
-    blocks.forEach(block => {
-        body.push(
-            paragraph(block.title)
-        )
-        body.push(
-            paragraph(block.text)
-        )
-    })
-    return paragraph({children: body})
 }

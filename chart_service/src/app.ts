@@ -46,7 +46,7 @@ function getPercentChangesArr(prices: number[]): string[] {
     return changes
 }
 
-const getChart = async (XLabelSet: string[], YDataSets: YDataSet[], options: ChartOptions): Promise<Buffer> => {
+const getChart = async (XLabelSet: string[], YDataSets: YDataSet[], options: ChartOptions, type: string): Promise<Buffer> => {
     const width = 900; //px
     const height = 450; //px
     const canvasRenderService = new ChartJSNodeCanvas({width, height, chartJsFactory});
@@ -68,7 +68,18 @@ const getChart = async (XLabelSet: string[], YDataSets: YDataSet[], options: Cha
         i++
     })
     Chart.defaults.font.size = 25;
-    const configuration: ChartConfiguration = getChartConf(datasets, XLabelSet, options)
+    let configuration: ChartConfiguration
+
+    switch (type){
+        case "titled": {
+            configuration = getChartConfTitled(datasets, XLabelSet, options);
+            break
+        }
+        default:{
+            configuration = getChartConf(datasets, XLabelSet, options);
+            break
+        }
+    }
     return await canvasRenderService.renderToBuffer(configuration);
 }
 
@@ -79,6 +90,7 @@ type ChartOptions = {
     tick_limit: number,
     legend: boolean,
     to_fixed: number,
+    title: string
 }
 
 
@@ -95,11 +107,13 @@ function getToFixed(datasets: Dataset[]): number {
 }
 
 function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOptions): ChartConfiguration {
-    const labelFontSize = 17
-    const legendFontSize = 20
-    const axesFontSize = 25
+    const labelFontSize = 9 * 2
+    const legendFontSize = 9 * 2
+    const axesFontSize = 9 * 2
     const pointRadius = 1
     const labelOffset = 5
+    const fontRegular = 'Montserrat Regular'
+    const textColor = '#000000'
 
     let dateArrayFormatted: string[]
     dateArrayFormatted = []
@@ -135,7 +149,11 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
                     offset: true,
                     type: "category",
                     ticks: {
-                        font: {size: axesFontSize},
+                        font: {
+                            size: axesFontSize,
+                            family: fontRegular,
+                        },
+                        color: textColor,
                         includeBounds: true,
                         maxRotation: 70,
                         maxTicksLimit: tickLimit,
@@ -150,7 +168,11 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
                     type: "linear",
                     ticks: {
                         precision: 0,
-                        font: {size: axesFontSize},
+                        font: {
+                            size: axesFontSize,
+                            family: fontRegular
+                        },
+                        color: textColor,
                         maxTicksLimit: 5,
                         maxRotation: 0,
                         callback: (value, index, values) => {
@@ -169,13 +191,16 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
             plugins: {
                 legend: {
                     display: false,
+                    position: "bottom",
                     labels: {
                         // This more specific font property overrides the global property
                         font: {
-                            size: legendFontSize
+                            size: legendFontSize,
+                            family: fontRegular,
                         },
                         boxWidth: legendBoxSize,
                         boxHeight: legendBoxSize,
+                        color: textColor
                     }
                 }
             },
@@ -216,7 +241,8 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
                 align: 'top',
                 textAlign: 'center',
                 font: {
-                    size: labelFontSize
+                    size: labelFontSize,
+                    family: fontRegular,
                 },
                 clamp: true,
 
@@ -270,6 +296,23 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
         )
     }
     return conf
+}
+
+function getChartConfTitled(datasets: Dataset[], dateArray: string[], options: ChartOptions): ChartConfiguration{
+    let basicConf = getChartConf(datasets, dateArray, options)
+    // @ts-ignore
+    basicConf.options.plugins.legend.position = "bottom"
+    // @ts-ignore
+    basicConf.options.plugins.title = {
+        display: true,
+        text: options.title,
+        color: '#000000',
+        font: {
+            family: 'Montserrat Bold',
+            size: 9 * 2,
+        }
+    }
+    return basicConf
 }
 
 function formatXLabel(dateStr: string, xStep: string): string {
@@ -351,7 +394,17 @@ function formatYLabel(num: number) {
 }
 
 app.post('/gen', (req: Request, res: Response) => {
-    getChart(req.body.x_label_set, req.body.y_data_set, req.body.chart_options)
+    getChart(req.body.x_label_set, req.body.y_data_set, req.body.chart_options, "default")
+        .then(buf =>
+            res.send(buf)
+        )
+        .catch(reason =>
+            res.send(JSON.stringify(reason))
+        )
+})
+
+app.post('/genTitled', (req: Request, res: Response) => {
+    getChart(req.body.x_label_set, req.body.y_data_set, req.body.chart_options, "titled")
         .then(buf =>
             res.send(buf)
         )
