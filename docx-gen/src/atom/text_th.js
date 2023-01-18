@@ -1,9 +1,10 @@
 const docx = require("docx");
-const {FontFamily, FontSizeTh} = require("../const");
+const {FontFamily} = require("../const");
 
-module.exports = function (v){
+module.exports = function (v, font, size){
+    if (font === undefined) font = FontFamily
     return new docx.Paragraph({
         alignment: docx.AlignmentType.CENTER,
-        children: [new docx.TextRun({text: v,  font: FontFamily, size: FontSizeTh})]
+        children: [new docx.TextRun({text: v,  font: font, size: size})]
     });
 }

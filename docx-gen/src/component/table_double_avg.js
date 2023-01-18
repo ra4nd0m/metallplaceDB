@@ -1,6 +1,8 @@
 const docx = require("docx");
 const paragraph = require("../atom/paragraph");
-const {TableCellMarginNil, TableNoOuterBorders} = require("../const");
+const {TableCellMarginNil, TableNoOuterBorders, FontFamilyMedium, FontSizeThMain, FontFamily, FontFamilySemiBold,
+    FontSizeThSecondary, FontSizeThExtraInfo, FontFamilyThin
+} = require("../const");
 const axios = require("axios");
 const cellCenter = require("../atom/cell_centred")
 const textTh = require("../atom/text_th")
@@ -19,13 +21,16 @@ function headerMaterial(name, market, delivery, unit) {
         borders: TableNoOuterBorders,
         rows: [
             new TableRow({
-                children: [cellCenter({columnSpan: 3, children: [textTh(name + " " + delivery + " "+ market)]})]
+                children: [cellCenter({columnSpan: 3, children: [
+                    textTh(name, FontFamilyMedium, FontSizeThMain),
+                        textTh( delivery + " " + market, FontFamilyThin, FontSizeThSecondary)]})
+                ]
             }),
             new TableRow({
                 children: [
-                    cellCenter({children: [textTh(`Цена ${unit}`)]}),
-                    cellCenter({children: [textTh(`Изм. ${unit}`)]}),
-                    cellCenter({children: [textTh("Изм. %")]}),
+                    cellCenter({children: [textTh(`Цена`, FontFamilyMedium, FontSizeThSecondary), textTh(unit, FontFamilyThin, FontSizeThExtraInfo)]}),
+                    cellCenter({children: [textTh(`Изм.`, FontFamilyMedium, FontSizeThSecondary), textTh(unit, FontFamilyThin, FontSizeThExtraInfo)]}),
+                    cellCenter({children: [textTh(`Изм.`, FontFamilyMedium, FontSizeThSecondary), textTh("%", FontFamilyThin, FontSizeThExtraInfo)]}),
                 ],
             })
         ]
@@ -42,13 +47,14 @@ function avgBlock(name1, name2, unit) {
         rows: [
             new TableRow({
                 children: [
-                    cellCenter({children: [textTh(name1)]}),
-                    cellCenter({children: [textTh(name2)]}),
+                    cellCenter({children: [textTh(name1, FontFamilyMedium, FontSizeThSecondary)]}),
+                    cellCenter({children: [textTh(name2, FontFamilyMedium, FontSizeThSecondary)]}),
                 ]
             }),
             new TableRow({
                 children: [
-                    cellCenter({children: [textTh(`Средняя за неделю ${unit}`)]})
+                    cellCenter({children: [textTh(`Средняя за неделю`, FontFamilyMedium, FontSizeThSecondary),
+                            textTh(unit, FontFamilyThin, FontSizeThExtraInfo)]})
                 ],
             })
         ]
@@ -82,7 +88,7 @@ module.exports = async function tableDoubleWithWeekAvg(materialId1, materialId2,
         rows: [
             new TableRow({
                 children: [
-                    cellCenter({margins: TableCellMarginNil, children: [textTh("Дата")]}),
+                    cellCenter({margins: TableCellMarginNil, children: [textTh("Дата", FontFamilyMedium, FontSizeThMain)]}),
                     cellCenter({
                         margins: TableCellMarginNil,
                         children: [headerMaterial(resMat1.data.info.Name, resMat1.data.info.Market,

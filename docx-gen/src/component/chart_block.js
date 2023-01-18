@@ -84,15 +84,11 @@ async function getInfo(isBig, url, group, comparePeriod) {
     if (lastPrice > 30) {
         lastPrice = Math.round(lastPrice)
     }
-    //let matched = materialInfo.data.info.Name.match(/(FOB|EXW|CNF|CPT|DDP|CIF)/g);
-    //let deliveryType = matched ? matched.join(',') : '';
-    //let remainingString = materialInfo.data.info.Name.replace(/(FOB|EXW|CNF|CPT|DDP|CIF)/g, '');
-    //let firstLine = remainingString.replace(",", "")
-    //let secondLine = deliveryType + " " + materialInfo.data.info.Market
     return [new docx.TableRow({
         children: [
             new docx.TableCell({
                 margins: TableCellMarginNil,
+                verticalAlign: docx.VerticalAlign.CENTER,
                 children: [
                     paragraph({
                         alignment: docx.AlignmentType.LEFT,
@@ -123,6 +119,7 @@ async function getInfo(isBig, url, group, comparePeriod) {
 
             new docx.TableCell({
                 margins: TableCellMarginNil,
+                verticalAlign: docx.VerticalAlign.CENTER,
                 children: [
                     paragraph({
                         alignment: docx.AlignmentType.CENTER,
@@ -152,6 +149,7 @@ async function getInfo(isBig, url, group, comparePeriod) {
             }),
 
             new docx.TableCell({
+                verticalAlign: docx.VerticalAlign.CENTER,
                 margins: TableCellMarginNil,
                 children: [
                     percent,

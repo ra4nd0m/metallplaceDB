@@ -1,10 +1,9 @@
 const docx = require("docx");
-const text = require("../atom/text")
-const paragraph = require("../atom/paragraph")
 const axios = require("axios");
 const {FormatDayMonth} = require("../utils/date_operations");
 const tableBody = require("../atom/table_single_body")
 const textTh = require("../atom/text_th")
+const {FontFamilyMedium, FontSizeThMain, FontFamilyThin, FontSizeThSecondary, FontSizeThExtraInfo, HeaderBackgroundColor} = require("../const");
 
 module.exports = async function singleTable(materialId, propertyId, dates, unitChangeRound, percentChangeRound, type){
     const first = new Date(dates[0])
@@ -34,25 +33,35 @@ module.exports = async function singleTable(materialId, propertyId, dates, unitC
                 children: [
                     new docx.TableCell({
                         rowSpan: 2,
-                        children: [textTh("Дата")]
+                        verticalAlign: docx.VerticalAlign.CENTER,
+                        children: [textTh("Дата", FontFamilyMedium, FontSizeThMain)],
                     }),
-                    new  docx.TableCell({
+                    new docx.TableCell({
                         columnSpan: 3,
-                        children: [textTh(resMat.data.info.Name + " " + resMat.data.info.DeliveryType
-                            + " " + resMat.data.info.Market)]
+                        children: [
+                            textTh(resMat.data.info.Name, FontFamilyMedium, FontSizeThMain),
+                            textTh(resMat.data.info.DeliveryType + " " + resMat.data.info.Market, FontFamilyThin, FontSizeThSecondary),
+                        ],
                     })
                 ]
             }),
             new docx.TableRow({
                 children: [
                     new docx.TableCell({
-                        children: [textTh(`Цена ${resMat.data.info.Unit}`)]
+                        children: [
+                            textTh("Цена", FontFamilyMedium, FontSizeThMain),
+                            textTh(resMat.data.info.Unit, FontFamilyThin, FontSizeThExtraInfo)
+                        ]
                     }),
                     new docx.TableCell({
-                        children: [textTh(`Изм. ${resMat.data.info.Unit}`)]
+
+                        children: [
+                            textTh("Изм.", FontFamilyMedium, FontSizeThMain),
+                            textTh(resMat.data.info.Unit, FontFamilyThin, FontSizeThExtraInfo)
+                        ]
                     }),
                     new docx.TableCell({
-                        children: [textTh("Изм. %")]
+                        children: [textTh("Изм. %", FontFamilyMedium, FontSizeThMain)]
                     }),
                 ]
             }),
