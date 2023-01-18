@@ -27,7 +27,7 @@ module.exports = function (min1, max1, med1, min2, max2, med2, unitChangeRound, 
             new docx.TableRow({
                 children: [
                     cellCenter({
-                        children: [textTd(formatDateTable(pfMed1[i].date.substring(0, 10)))]
+                        children: [textTd(formatDateTable(pfMed1[i].date.substring(0, 10)), undefined, pfMin1.length, i)]
                     }),
                     cellCenter({
                         children: [textTd(pfMin1[i].value, undefined, fixed, pfMin1.length, i)]

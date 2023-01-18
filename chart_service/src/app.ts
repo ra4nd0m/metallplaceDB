@@ -122,6 +122,7 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
     const labelOffset = 5
     const fontRegular = 'Montserrat Regular'
     const textColor = '#000000'
+    let gridOnChartArea = true
 
     let dateArrayFormatted: string[]
     dateArrayFormatted = []
@@ -130,10 +131,10 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
     if (options.tick_limit != 0) tickLimit = options.tick_limit
     for (let i = 0; i < dateArray.length; i++) {
         if (options.labels) {
-            dateArrayFormatted.push(formatXLabel(dateArray[i], options.x_step))
-        } else {
-            dateArrayFormatted.push(formatXLabel(dateArray[i], options.x_step))
+            gridOnChartArea = false
         }
+        dateArrayFormatted.push(formatXLabel(dateArray[i], options.x_step))
+
         if (!options.legend){
             legendBoxSize = 0
         }
@@ -162,6 +163,7 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
                 x: {
                     offset: true,
                     type: "category",
+
                     ticks: {
                         font: {
                             size: axesFontSize,
@@ -174,7 +176,8 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
                         autoSkip: true
                     },
                     grid: {
-                        display: false
+                        display: false,
+                        borderColor: '#000000'
                     },
                 },
                 y: {
@@ -199,6 +202,11 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
                             )
                         },
                     },
+                    grid: {
+                        drawOnChartArea: gridOnChartArea,
+                        borderColor: '#000000'
+                    },
+
                 }
             },
 
