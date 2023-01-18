@@ -1,7 +1,7 @@
 const docx = require("docx");
 const paragraph = require("../atom/paragraph");
 const paragraphCentred = require("../atom/paragraph_centred");
-const {TableCellMarginNil, TableNoOuterBorders} = require("../const");
+const {TableCellMarginNil, TableNoOuterBorders, FontFamilyMedium, FontSizeThMain, FontFamilyThin, FontSizeThExtraInfo} = require("../const");
 const axios = require("axios");
 const tableBody = require("../atom/table_double_body");
 const {formatDateDb} = require("../utils/date_format");

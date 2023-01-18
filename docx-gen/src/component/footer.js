@@ -11,12 +11,12 @@ module.exports = function(title) {
                     size: 100,
                     type: docx.WidthType.PERCENTAGE,
                 },
-                columnWidths: [5, 1],
+                columnWidths: [25, 6],
                 borders: {
                     top: {style: docx.BorderStyle.DASHED, size: LineWidth, color: LineColor},
-                    right: {size: 0, color: "FFFFFF"},
-                    left: {size: 0, color: "FFFFFF"},
-                    bottom: {size: 0, color: "FFFFFF"},
+                    right: {size: 0, color: "#FFFFFF"},
+                    left: {size: 0, color: "#FFFFFF"},
+                    bottom: {size: 0, color: "#FFFFFF"},
                 },
                 rows: [
                     new docx.TableRow({
@@ -32,7 +32,11 @@ module.exports = function(title) {
                                         children: [
                                             new TextRun({
                                                 font: FontFamily,
-                                                children: ["Страница | ", docx.PageNumber.CURRENT],
+                                                text: "Страница",
+                                            }),
+                                            new TextRun({
+                                                font: FontFamily,
+                                                children: [docx.PageNumber.CURRENT],
                                             }),
                                         ],
                                     }

@@ -7,7 +7,7 @@ const h3 = require("../atom/heading3");
 const h3Fake = require("../atom/heading3_fake");
 const paragraph = require("../atom/paragraph");
 const twoChart = require("../component/two_chart");
-const {MonthlyHeaderTitle, MedPriceId, StockId, RusMonth} = require("../const");
+const {MonthlyHeaderTitle, MedPriceId, StockId, RusMonth, FontFamily, FontFamilyThin} = require("../const");
 const oneChartText = require("../component/one_chart_text");
 const oneChart = require("../component/one_chart");
 const singleTable = require("../component/table_single");
@@ -69,12 +69,24 @@ module.exports = class MonthlyReport {
                     children: [
                         h3Fake("Содержание"),
 
-                        paragraph("Дисклеймер: Информация, представленная на портале metallplace.ru предназначена только для справки и\n" +
-                            "не предназначена для торговых целей или для удовлетворения ваших конкретных требований. Контент\n" +
-                            "включает факты, взгляды и мнения отдельных лиц, а не веб-сайта или его руководства.\n"),
-                        paragraph("Пользователи/посетители должны принимать собственные решения на основе собственных независимых\n" +
-                            "запросов, оценок, суждений и рисков. Портал metallplace.ru не несет ответственность за какие-либо убытки,\n" +
-                            "затраты или действия, возникающие в результате использования распространяемых цен."),
+                        paragraph({
+                            children: [new docx.TextRun({
+                                text: "Дисклеймер: Информация, представленная на портале metallplace.ru предназначена только для справки и" +
+                                    "не предназначена для торговых целей или для удовлетворения ваших конкретных требований. Контент" +
+                                    "включает факты, взгляды и мнения отдельных лиц, а не веб-сайта или его руководства.",
+                                font: FontFamilyThin,
+                                color: '#808080'
+                            })]
+                        }),
+                        paragraph({
+                            children: [new docx.TextRun({
+                                text: "Пользователи/посетители должны принимать собственные решения на основе собственных независимых" +
+                                    "запросов, оценок, суждений и рисков. Портал metallplace.ru не несет ответственность за какие-либо убытки," +
+                                    "затраты или действия, возникающие в результате использования распространяемых цен.",
+                                font: FontFamilyThin,
+                                color: '#808080'
+                            })]
+                        }),
 
                         new docx.Paragraph({children: [new docx.PageBreak()]}),
                         h2("Краткая сводка новостей по мировову рынку"),

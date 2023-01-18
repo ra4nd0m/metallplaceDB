@@ -1,5 +1,5 @@
 const docx = require("docx");
-const {TableNoOuterBorders, TableCellMarginNil} = require("../const");
+const {TableNoOuterBorders, TableCellMarginNil, FontFamilyMedium, FontSizeThMain, FontFamilyThin, FontSizeThExtraInfo} = require("../const");
 const textTh = require("./text_th");
 module.exports = function (unit) {
     return new docx.Table({
@@ -12,14 +12,16 @@ module.exports = function (unit) {
         rows: [
             new docx.TableRow({
                 children: [
-                    new docx.TableCell({columnSpan: 3, children: [textTh(`Цена, ${unit}`)]})
+                    new docx.TableCell({columnSpan: 3, children: [
+                        textTh("Цена", FontFamilyMedium, FontSizeThMain),
+                            textTh(unit, FontFamilyThin, FontSizeThExtraInfo)]})
                 ]
             }),
             new docx.TableRow({
                 children: [
-                    new docx.TableCell({margins: TableCellMarginNil,children: [textTh(`мин`)]}),
-                    new docx.TableCell({margins: TableCellMarginNil,children: [textTh(`макс`)]}),
-                    new docx.TableCell({margins: TableCellMarginNil,children: [textTh(`сред`)]}),
+                    new docx.TableCell({margins: TableCellMarginNil,children: [textTh(`мин`, FontFamilyThin, FontSizeThExtraInfo)]}),
+                    new docx.TableCell({margins: TableCellMarginNil,children: [textTh(`макс`, FontFamilyThin, FontSizeThExtraInfo)]}),
+                    new docx.TableCell({margins: TableCellMarginNil,children: [textTh(`сред`, FontFamilyThin, FontSizeThExtraInfo)]}),
                 ]
             })
         ]
