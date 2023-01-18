@@ -16,16 +16,16 @@ module.exports = function (input, unitChangeRound, percentChangeRound, type) {
             new docx.TableRow({
                 children: [
                     cellCenter({
-                        children: [textTd(formatDateTable(pf[i].date.substring(0, 10), type))]
+                        children: [textTd(formatDateTable(pf[i].date.substring(0, 10), type), undefined, undefined, pf.length, i)]
                     }),
                     cellCenter({
-                        children: [textTd(pf[i].value, undefined, fixed)]
+                        children: [textTd(pf[i].value, undefined, fixed, pf.length, i)]
                     }),
                     cellCenter({
-                        children: [textTd(changeUnits.Text, changeUnits.Color)]
+                        children: [textTd(changeUnits.Text, changeUnits.Color, undefined, pf.length, i)]
                     }),
                     cellCenter({
-                        children: [textTd(changePercents.Text, changePercents.Color)]
+                        children: [textTd(changePercents.Text, changePercents.Color, undefined, pf.length, i)]
                     }),
                 ]
             })

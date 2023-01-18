@@ -17,13 +17,13 @@ function insertMed(i, feed1, feed2, avgRound){
         cells.push(
             cellCenter({
                 rowSpan: 5,
-                children: [textTd(Math.round(sum1 / 5 * Math.pow(10, avgRound)) /Math.pow(10, avgRound), undefined, avgRound)]
+                children: [textTd(Math.round(sum1 / 5 * Math.pow(10, avgRound)) / Math.pow(10, avgRound), undefined, avgRound, feed1.length, i)]
             }),
         )
         cells.push(
             cellCenter({
                 rowSpan: 5,
-                children: [textTd(Math.round(sum2 / 5 * Math.pow(10, avgRound)) / Math.pow(10, avgRound), undefined, avgRound)]
+                children: [textTd(Math.round(sum2 / 5 * Math.pow(10, avgRound)) / Math.pow(10, avgRound), undefined, avgRound, feed1.length, i)]
             })
         )
         return cells
@@ -45,27 +45,27 @@ module.exports = function (feed1, feed2, unitChangeRound, percentChangeRound, av
             new docx.TableRow({
                 children: [
                     cellCenter({
-                        children: [textTd(formatDateTable(pf1[i].date.substring(0, 10)))]
+                        children: [textTd(formatDateTable(pf1[i].date.substring(0, 10)),undefined, pf1.length, i)]
                     }),
 
                     cellCenter({
-                        children: [textTd(pf1[i].value, undefined, fixed)]
+                        children: [textTd(pf1[i].value, undefined, fixed, pf1.length, i)]
                     }),
                     cellCenter({
-                        children: [textTd(changeUnits1.Text, changeUnits1.Color)]
+                        children: [textTd(changeUnits1.Text, changeUnits1.Color, undefined, pf1.length, i)]
                     }),
                     cellCenter({
-                        children: [textTd(changePercents1.Text, changePercents1.Color)]
+                        children: [textTd(changePercents1.Text, changePercents1.Color, undefined, pf1.length, i)]
                     }),
 
                     cellCenter({
-                        children: [textTd(pf2[i].value, undefined, fixed)]
+                        children: [textTd(pf2[i].value, undefined, fixed, pf1.length, i)]
                     }),
                     cellCenter({
-                        children: [textTd(changeUnits2.Text, changeUnits2.Color)]
+                        children: [textTd(changeUnits2.Text, changeUnits2.Color, undefined, pf1.length, i)]
                     }),
                     cellCenter({
-                        children: [textTd(changePercents2.Text, changePercents2.Color)]
+                        children: [textTd(changePercents2.Text, changePercents2.Color, undefined, pf1.length, i)]
                     }),
 
                     ...insertMed(i, pf1, pf2, avgRound),

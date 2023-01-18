@@ -20,22 +20,22 @@ module.exports = function (min, max, med, unitChangeRound, percentChangeRound, t
             new docx.TableRow({
                 children: [
                     cellCenter({
-                        children: [textTd(formatDateTable(pfMed[i].date.substring(0, 10), type))]
+                        children: [textTd(formatDateTable(pfMed[i].date.substring(0, 10), type), undefined, undefined, pfMed.length, i)]
                     }),
                     cellCenter({
-                        children: [textTd(pfMin[i].value, undefined, fixed)]
+                        children: [textTd(pfMin[i].value, undefined, fixed, pfMin.length, i)]
                     }),
                     cellCenter({
-                        children: [textTd(pfMax[i].value, undefined, fixed)]
+                        children: [textTd(pfMax[i].value, undefined, fixed, pfMax.length, i)]
                     }),
                     cellCenter({
-                        children: [textTd(pfMed[i].value, undefined, fixed)]
+                        children: [textTd(pfMed[i].value, undefined, fixed, pfMed.length, i)]
                     }),
                     cellCenter({
-                        children: [textTd(changeUnits.Text, changeUnits.Color)]
+                        children: [textTd(changeUnits.Text, changeUnits.Color, undefined, pfMin.length, i)]
                     }),
                     cellCenter({
-                        children: [textTd(changePercents.Text, changePercents.Color)]
+                        children: [textTd(changePercents.Text, changePercents.Color, undefined, pfMin.length, i)]
                     }),
                 ]
             })

@@ -19,27 +19,27 @@ module.exports = function (feed1, feed2, unitChangeRound, percentChangeRound, sc
             new docx.TableRow({
                 children: [
                     cellCenter({
-                        children: [textTd(formatDateTable(pf1[i].date.substring(0, 10), scale))]
+                        children: [textTd(formatDateTable(pf1[i].date.substring(0, 10), scale), undefined, undefined, pf1.length, i)]
                     }),
 
                     cellCenter({
-                        children: [textTd(pf1[i].value, undefined, fixed)]
+                        children: [textTd(pf1[i].value, undefined, fixed, pf1.length, i)]
                     }),
                     cellCenter({
-                        children: [textTd(changeUnits1.Text, changeUnits1.Color)]
+                        children: [textTd(changeUnits1.Text, changeUnits1.Color, undefined, pf1.length, i)]
                     }),
                     cellCenter({
-                        children: [textTd(changePercents1.Text, changePercents1.Color)]
+                        children: [textTd(changePercents1.Text, changePercents1.Color, undefined, pf1.length, i)]
                     }),
 
                     cellCenter({
-                        children: [textTd(pf2[i].value, undefined, fixed)]
+                        children: [textTd(pf2[i].value, undefined, fixed, pf1.length, i)]
                     }),
                     cellCenter({
-                        children: [textTd(changeUnits2.Text, changeUnits2.Color)]
+                        children: [textTd(changeUnits2.Text, changeUnits2.Color, undefined, pf1.length, i)]
                     }),
                     cellCenter({
-                        children: [textTd(changePercents2.Text, changePercents2.Color)]
+                        children: [textTd(changePercents2.Text, changePercents2.Color, undefined, pf1.length, i)]
                     }),
 
                 ]

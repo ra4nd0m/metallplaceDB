@@ -26,6 +26,7 @@ type Dataset = {
     lineTension: number,
     fill: boolean,
     borderColor: string
+    backgroundColor: string
 }
 
 type YDataSet = {
@@ -51,7 +52,13 @@ const getChart = async (XLabelSet: string[], YDataSets: YDataSet[], options: Cha
     let height = 450; //px
     const canvasRenderService = new ChartJSNodeCanvas({width, height, chartJsFactory});
     let datasets: Dataset[] = [];
-    let colors = ['rgb(55, 74, 116)', 'rgb(100, 70, 96)']
+    let colors = ['rgb(55, 74, 116)', 'rgb(100, 70, 96)', 'rgb(100, 0, 100)']
+    if(YDataSets.length == 1){
+        colors = ['rgb(247,118,71)']
+    }
+    if(YDataSets.length == 2){
+        colors = ['rgb(247,118,71)', 'rgb(150,118,71)']
+    }
     let i = 0
 
     // Creating dataset lines: material - price feed
@@ -64,6 +71,7 @@ const getChart = async (XLabelSet: string[], YDataSets: YDataSet[], options: Cha
             lineTension: 0.15,
             fill: false,
             borderColor: colors[i],
+            backgroundColor: colors[i]
         });
         i++
     })
@@ -129,6 +137,12 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
         if (!options.legend){
             legendBoxSize = 0
         }
+    }
+    // If bar chart - making main line with labels invisible
+    if (options.type == "bar"){
+        datasets.forEach(ds => {
+            ds.borderColor = 'rgba(255,255,255,0)'
+        })
     }
     const conf: ChartConfiguration = {
         type: 'line',
@@ -267,7 +281,7 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
                 type: 'bar',
                 label: '',
                 data: datasets[0].data,
-                borderColor: 'rgb(55, 74, 116)',
+                backgroundColor: ['#FF9C75', '#FF9C75', '#FF9C75', '#FF9C75', '#F77647'],
                 datalabels: {
                     display: false,
                 }
@@ -278,11 +292,13 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
                 type: 'line',
                 label: '',
                 data: halfData,
+                borderColor: 'rgba(255,255,255,0)',
                 datalabels: {
                     display: true,
                     formatter: function () {
                         return changes[labelCnt]
                     },
+                    backgroundColor: '#FFFFFF',
                     color: function (context: { dataIndex: any; dataset: { data: { [x: string]: any; }; }; }) {
                         const cur = changes[labelCnt]
                         labelCnt++

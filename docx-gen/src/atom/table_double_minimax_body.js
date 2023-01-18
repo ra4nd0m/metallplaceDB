@@ -30,36 +30,36 @@ module.exports = function (min1, max1, med1, min2, max2, med2, unitChangeRound, 
                         children: [textTd(formatDateTable(pfMed1[i].date.substring(0, 10)))]
                     }),
                     cellCenter({
-                        children: [textTd(pfMin1[i].value, undefined, fixed)]
+                        children: [textTd(pfMin1[i].value, undefined, fixed, pfMin1.length, i)]
                     }),
                     cellCenter({
-                        children: [textTd(pfMax1[i].value, undefined, fixed)]
+                        children: [textTd(pfMax1[i].value, undefined, fixed, pfMin1.length, i)]
                     }),
                     cellCenter({
-                        children: [textTd(pfMed1[i].value, undefined, fixed)]
+                        children: [textTd(pfMed1[i].value, undefined, fixed, pfMin1.length, i)]
                     }),
                     cellCenter({
-                        children: [textTd(changeUnits1.Text, changeUnits1.Color)]
+                        children: [textTd(changeUnits1.Text, changeUnits1.Color, undefined, pfMin1.length, i)]
                     }),
                     cellCenter({
-                        children: [textTd(changePercents1.Text, changePercents1.Color)]
+                        children: [textTd(changePercents1.Text, changePercents1.Color, undefined, pfMin1.length, i)]
                     }),
 
 
                     new docx.TableCell({
-                        children: [textTd(pfMin2[i].value, undefined, fixed)]
+                        children: [textTd(pfMin2[i].value, undefined, fixed, pfMin1.length, i)]
                     }),
                     new docx.TableCell({
-                        children: [textTd(pfMax2[i].value, undefined, fixed)]
+                        children: [textTd(pfMax2[i].value, undefined, fixed, pfMin1.length, i)]
                     }),
                     new docx.TableCell({
-                        children: [textTd(pfMed2[i].value, undefined, fixed)]
+                        children: [textTd(pfMed2[i].value, undefined, fixed, pfMin1.length, i)]
                     }),
                     new docx.TableCell({
-                        children: [textTd(changeUnits2.Text, changeUnits2.Color)]
+                        children: [textTd(changeUnits2.Text, changeUnits2.Color, undefined, pfMin1.length, i)]
                     }),
                     new docx.TableCell({
-                        children: [textTd(changePercents2.Text, changePercents2.Color)]
+                        children: [textTd(changePercents2.Text, changePercents2.Color, undefined, pfMin1.length, i)]
                     }),
                 ]
             })
