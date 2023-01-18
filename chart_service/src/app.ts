@@ -47,8 +47,8 @@ function getPercentChangesArr(prices: number[]): string[] {
 }
 
 const getChart = async (XLabelSet: string[], YDataSets: YDataSet[], options: ChartOptions, type: string): Promise<Buffer> => {
-    const width = 900; //px
-    const height = 450; //px
+    let width = 900; //px
+    let height = 450; //px
     const canvasRenderService = new ChartJSNodeCanvas({width, height, chartJsFactory});
     let datasets: Dataset[] = [];
     let colors = ['rgb(55, 74, 116)', 'rgb(100, 70, 96)']
