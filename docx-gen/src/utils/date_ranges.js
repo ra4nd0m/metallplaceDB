@@ -5,6 +5,7 @@ module.exports.GetMonthRange = function (date, isRaw){
     const last = new Date(date)
     let first = new Date(date)
     first.setDate(first.getDate() - 28)
+    last.setDate(last.getDate() + 1)
     if(isRaw) return [new Date(first), new Date(last)]
 
     return `${FormatDayMonth(first.getMonth()+1)}-${FormatDayMonth(first.getDate())}-${first.getFullYear()}_`+

@@ -2,7 +2,12 @@ const docx = require("docx");
 const textTh = require("../atom/text_th")
 const paragraph = require("../atom/paragraph")
 const axios = require("axios");
-const {TableCellMarginNil, MinPriceId, MaxPriceId, MedPriceId} = require("../const");
+const {TableCellMarginNil, MinPriceId, MaxPriceId, MedPriceId,
+    FontFamilyMedium,
+    FontSizeThSecondary,
+    FontFamilyThin,
+    FontSizeThExtraInfo, FontSizeThMain
+} = require("../const");
 const tableBody = require("../atom/table_double_minimax_body")
 const {formatDateDb} = require("../utils/date_format");
 const priceBlock = require("../atom/price_block")
@@ -63,22 +68,28 @@ module.exports = async function doubleTableMinimax(materialId1, materialId2, dat
                 children: [
                     cellCenter({
                         rowSpan: 2,
+                        verticalAlign: docx.VerticalAlign.CENTER,
                         children: [
-                            textTh("Дата")
+                            textTh("Дата", FontFamilyMedium, FontSizeThMain)
                         ]
                     }),
                     cellCenter({
                         columnSpan: 3,
                         margins: TableCellMarginNil,
-                        children: [textTh(resMat1.data.info.Name + " " + resMat1.data.info.DeliveryType
-                            + " " + resMat1.data.info.Market)]
+                        verticalAlign: docx.VerticalAlign.CENTER,
+                        children: [
+                            textTh(resMat1.data.info.Name, FontFamilyMedium, FontSizeThMain),
+                            textTh(resMat1.data.info.DeliveryType + " " + resMat1.data.info.Market, FontFamilyThin, FontSizeThSecondary),
+                        ]
                     }),
 
                     cellCenter({
                         columnSpan: 3,
                         margins: TableCellMarginNil,
-                        children: [textTh(resMat2.data.info.Name + " " + resMat2.data.info.DeliveryType
-                            + " " + resMat2.data.info.Market)]
+                        children: [
+                            textTh(resMat2.data.info.Name, FontFamilyMedium, FontSizeThMain),
+                            textTh(resMat2.data.info.DeliveryType + " " + resMat2.data.info.Market, FontFamilyThin, FontSizeThSecondary),
+                        ]
                     })
                 ]
             }),
@@ -93,12 +104,9 @@ module.exports = async function doubleTableMinimax(materialId1, materialId2, dat
                             })
                         ]
                     }),
-                    cellCenter({
-                        children: [textTh(`Изм. ${resMat1.data.info.Unit}`)]
-                    }),
-                    cellCenter({
-                        children: [textTh("Изм. %")]
-                    }),
+                    cellCenter({children: [textTh(`Изм.`, FontFamilyMedium, FontSizeThSecondary), textTh(resMat1.data.info.Unit, FontFamilyThin, FontSizeThExtraInfo)]}),
+                    cellCenter({children: [textTh(`Изм.`, FontFamilyMedium, FontSizeThSecondary), textTh("%", FontFamilyThin, FontSizeThExtraInfo)]}),
+
 
                     cellCenter({
                         margins: TableCellMarginNil,
@@ -109,12 +117,8 @@ module.exports = async function doubleTableMinimax(materialId1, materialId2, dat
                             })
                         ]
                     }),
-                    cellCenter({
-                        children: [textTh(`Изм. ${resMat2.data.info.Unit}`)]
-                    }),
-                    cellCenter({
-                        children: [textTh("Изм. %")]
-                    }),
+                    cellCenter({children: [textTh(`Изм.`, FontFamilyMedium, FontSizeThSecondary), textTh(resMat1.data.info.Unit, FontFamilyThin, FontSizeThExtraInfo)]}),
+                    cellCenter({children: [textTh(`Изм.`, FontFamilyMedium, FontSizeThSecondary), textTh("%", FontFamilyThin, FontSizeThExtraInfo)]}),
                 ]
             }),
         ]

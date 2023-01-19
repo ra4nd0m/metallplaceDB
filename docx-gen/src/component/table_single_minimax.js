@@ -10,6 +10,7 @@ const {FormatDayMonth} = require("../utils/date_operations");
 const tableBody = require("../atom/table_single_minimax_body")
 const textTh = require("../atom/text_th")
 const priceBlock = require("../atom/price_block")
+const cellCenter = require("../atom/cell_centred");
 
 
 module.exports = async function singleTableMinimax(materialId, dates, unitChangeRound, percentChangeRound, type) {
@@ -75,11 +76,16 @@ module.exports = async function singleTableMinimax(materialId, dates, unitChange
                     }),
                     new docx.TableCell({
                         children: [textTh("Изм.", FontFamilyMedium, FontSizeThMain),
-                            textTh(resMat.data.info.Unit, FontFamilyThin, FontSizeThExtraInfo)],
+                            textTh(resMat.data.info.Unit, FontFamilyThin, FontSizeThExtraInfo)
+                        ],
                         verticalAlign: docx.VerticalAlign.CENTER,
                     }),
                     new docx.TableCell({
-                        children: [textTh("Изм. %", FontFamilyMedium, FontSizeThMain)],
+                        children: [ cellCenter({
+                            children: [
+                                textTh(`Изм.`, FontFamilyMedium, FontSizeThSecondary),
+                                textTh("%", FontFamilyThin, FontSizeThExtraInfo)]}),
+                        ],
                         verticalAlign: docx.VerticalAlign.CENTER,
                     }),
                 ]

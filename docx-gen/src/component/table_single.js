@@ -4,6 +4,7 @@ const {FormatDayMonth} = require("../utils/date_operations");
 const tableBody = require("../atom/table_single_body")
 const textTh = require("../atom/text_th")
 const {FontFamilyMedium, FontSizeThMain, FontFamilyThin, FontSizeThSecondary, FontSizeThExtraInfo, HeaderBackgroundColor} = require("../const");
+const cellCenter = require("../atom/cell_centred");
 
 module.exports = async function singleTable(materialId, propertyId, dates, unitChangeRound, percentChangeRound, type){
     const first = new Date(dates[0])
@@ -61,7 +62,12 @@ module.exports = async function singleTable(materialId, propertyId, dates, unitC
                         ]
                     }),
                     new docx.TableCell({
-                        children: [textTh("Изм. %", FontFamilyMedium, FontSizeThMain)]
+                        children: [ cellCenter({
+                            children: [
+                                textTh(`Изм.`, FontFamilyMedium, FontSizeThSecondary),
+                                textTh("%", FontFamilyThin, FontSizeThExtraInfo)]}),
+                        ],
+                        verticalAlign: docx.VerticalAlign.CENTER,
                     }),
                 ]
             }),

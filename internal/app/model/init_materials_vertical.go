@@ -2,31 +2,31 @@ package model
 
 var InitMaterialsVertical = []Material{
 	{"01.ЖРС",
-		"ЖРС (62%)",
+		"ЖРС, 62% Fe",
 		"ferroalloynet.com",
 		"Китай",
 		"CNF",
-		"USD/т",
+		"$/т",
 		"A",
 		[]Property{{"Средняя цена", "E", 3, "decimal"}},
 	},
 
 	{"01.ЖРС",
-		"ЖРС (65%)",
+		"ЖРС, 65% Fe",
 		"ferroalloynet.com",
 		"Китай",
 		"CNF",
-		"USD/т",
+		"$/т",
 		"A",
 		[]Property{{"Средняя цена", "L", 3, "decimal"}},
 	},
 
 	{"02.Лом",
-		"Лом (3А)",
+		"Лом 3A",
 		"-",
 		"Урал",
 		"CPT",
-		"руб/т",
+		"₽/т",
 		"A",
 		[]Property{
 			{"Мин цена", "D", 3, "decimal"},
@@ -36,11 +36,11 @@ var InitMaterialsVertical = []Material{
 	},
 
 	{"02.Лом",
-		"Лом HMS (80:20)",
+		"Лом HMS 1&2 (80:20)",
 		"-",
 		"Турция",
 		"CNF",
-		"USD/т",
+		"$/т",
 		"A",
 		[]Property{
 			{"Средняя цена", "L", 3, "decimal"},
@@ -52,7 +52,7 @@ var InitMaterialsVertical = []Material{
 		"steelmint.com",
 		"Черное море",
 		"CNF",
-		"USD/т",
+		"$/т",
 		"B",
 		[]Property{
 			{"Мин цена", "D", 159, "decimal"},
@@ -66,7 +66,7 @@ var InitMaterialsVertical = []Material{
 		"mysteel.net",
 		"Китай",
 		"CFR",
-		"USD/т",
+		"$/т",
 		"A",
 		[]Property{
 			{"Средняя цена", "E", 3, "decimal"},
@@ -78,7 +78,7 @@ var InitMaterialsVertical = []Material{
 		"mysteel.net",
 		"Китай",
 		"CFR",
-		"USD/т",
+		"$/т",
 		"A",
 		[]Property{
 			{"Средняя цена", "L", 303, "decimal"},
@@ -90,7 +90,7 @@ var InitMaterialsVertical = []Material{
 		"steelmint.com",
 		"Китай",
 		"FOB",
-		"USD/т",
+		"$/т",
 		"B",
 		[]Property{
 			{"Средняя цена", "F", 3, "decimal"},
@@ -102,7 +102,7 @@ var InitMaterialsVertical = []Material{
 		"steelmint.com",
 		"Черное море",
 		"FOB",
-		"USD/т",
+		"$/т",
 		"A",
 		[]Property{
 			{"Мин цена", "D", 159, "decimal"},
@@ -116,7 +116,7 @@ var InitMaterialsVertical = []Material{
 		"-",
 		"Черное море",
 		"FOB",
-		"USD/т",
+		"$/т",
 		"A",
 		[]Property{
 			{"Мин цена", "J", 159, "decimal"},
@@ -130,7 +130,7 @@ var InitMaterialsVertical = []Material{
 		"-",
 		"Черное море",
 		"FOB",
-		"USD/т",
+		"$/т",
 		"A",
 		[]Property{
 			{"Мин цена", "P", 203, "decimal"},
@@ -144,7 +144,7 @@ var InitMaterialsVertical = []Material{
 		"steelmint.com",
 		"Черное море",
 		"FOB",
-		"USD/т",
+		"$/т",
 		"A",
 		[]Property{
 			{"Мин цена", "V", 159, "decimal"},
@@ -158,7 +158,7 @@ var InitMaterialsVertical = []Material{
 		"steelmint.com",
 		"Черное море",
 		"FOB",
-		"USD/т",
+		"$/т",
 		"A",
 		[]Property{
 			{"Мин цена", "AB", 203, "decimal"},
@@ -168,11 +168,11 @@ var InitMaterialsVertical = []Material{
 	},
 
 	{"06.Сталь",
-		"Арматура А1 (без НДС)",
+		"Арматура A1 (без НДС)",
 		"-",
 		"Россия",
 		"EXW",
-		"руб/т",
+		"₽/т",
 		"A",
 		[]Property{
 			{"Средняя цена", "AJ", 212, "decimal"},
@@ -184,7 +184,7 @@ var InitMaterialsVertical = []Material{
 		"steelmint.com",
 		"Россия",
 		"EXW",
-		"руб/т",
+		"₽/т",
 		"A",
 		[]Property{
 			{"Средняя цена", "AP", 212, "decimal"},
@@ -196,7 +196,7 @@ var InitMaterialsVertical = []Material{
 		"steelmint.com",
 		"Россия",
 		"EXW",
-		"руб/т",
+		"₽/т",
 		"A",
 		[]Property{
 			{"Средняя цена", "AV", 213, "decimal"},
@@ -208,7 +208,7 @@ var InitMaterialsVertical = []Material{
 		"-",
 		"Европа",
 		"DDP",
-		"USD/т",
+		"$/т",
 		"A",
 		[]Property{
 			{"Мин цена", "D", 11, "decimal"},
@@ -222,7 +222,7 @@ var InitMaterialsVertical = []Material{
 		"-",
 		"Европа",
 		"DDP",
-		"USD/т",
+		"$/т",
 		"A",
 		[]Property{
 			{"Мин цена", "K", 11, "decimal"},
@@ -236,7 +236,7 @@ var InitMaterialsVertical = []Material{
 		"-",
 		"Европа",
 		"DDP",
-		"USD/т",
+		"$/т",
 		"A",
 		[]Property{
 			{"Мин цена", "R", 11, "decimal"},
@@ -246,7 +246,7 @@ var InitMaterialsVertical = []Material{
 	},
 
 	{"07.ФС (М)",
-		"ВУ феррохром (60-70% Cr)",
+		"FeCr HC; 62-70% Cr",
 		"-",
 		"Европа",
 		"DDP",
@@ -260,7 +260,7 @@ var InitMaterialsVertical = []Material{
 	},
 
 	{"07.ФС (М)",
-		"НУ феррохром 0,1% Cr",
+		"FeCr LC; 0,1% Cr",
 		"-",
 		"Европа",
 		"DDP",
@@ -274,11 +274,11 @@ var InitMaterialsVertical = []Material{
 	},
 
 	{"07.ФС (М)",
-		"Марганцевая руда (36-38% Mn, кусковая)",
+		"Mn руда кусковая; 36-38% Mn",
 		"-",
 		"Китай",
 		"CIF",
-		"USD/1%",
+		"$/1% Mn смт",
 		"A",
 		[]Property{
 			{"Мин цена", "AM", 11, "decimal"},
@@ -288,11 +288,11 @@ var InitMaterialsVertical = []Material{
 	},
 
 	{"07.ФС (М)",
-		"Хромовая руда (42% Cr, кусковая)",
+		"Cr руда кусоквая; 42% Cr",
 		"-",
 		"Китай",
 		"CIF",
-		"USD/т",
+		"$/т",
 		"A",
 		[]Property{
 			{"Мин цена", "AT", 11, "decimal"},
@@ -302,11 +302,11 @@ var InitMaterialsVertical = []Material{
 	},
 
 	{"08.ГЭ",
-		"ГЭ (450 мм HP)",
+		"Графитированные электроды HP; 450 мм",
 		"-",
 		"Китай",
 		"EXW",
-		"USD/т",
+		"$/т",
 		"A",
 		[]Property{
 			{"Средняя цена", "F", 212, "decimal"},
@@ -314,11 +314,11 @@ var InitMaterialsVertical = []Material{
 	},
 
 	{"08.ГЭ",
-		"ГЭ (600 мм UHP)",
+		"Графитированные электроды UHP; 600 мм",
 		"-",
 		"Китай",
 		"EXW",
-		"USD/т",
+		"$/т",
 		"A",
 		[]Property{
 			{"Средняя цена", "L", 212, "decimal"},
