@@ -4,6 +4,7 @@ const cellCenter = require("../atom/cell_centred")
 const textTd = require("../atom/text_td")
 const {formatDateTable} = require("../utils/date_format");
 const getToFixed = require("../utils/get_to_fixed")
+const {FontFamily, FontFamilySemiBold} = require("../const");
 
 function insertMed(i, feed1, feed2, avgRound){
     let cells = []
@@ -14,16 +15,18 @@ function insertMed(i, feed1, feed2, avgRound){
             sum1 += feed1[p].value
             sum2 += feed2[p].value
         }
+        let font = FontFamily
+        if (i > 4) font = FontFamilySemiBold
         cells.push(
             cellCenter({
                 rowSpan: 5,
-                children: [textTd(Math.round(sum1 / 5 * Math.pow(10, avgRound)) / Math.pow(10, avgRound), undefined, avgRound, feed1.length, i)]
+                children: [textTd(Math.round(sum1 / 5 * Math.pow(10, avgRound)) / Math.pow(10, avgRound), undefined, avgRound, font)]
             }),
         )
         cells.push(
             cellCenter({
                 rowSpan: 5,
-                children: [textTd(Math.round(sum2 / 5 * Math.pow(10, avgRound)) / Math.pow(10, avgRound), undefined, avgRound, feed1.length, i)]
+                children: [textTd(Math.round(sum2 / 5 * Math.pow(10, avgRound)) / Math.pow(10, avgRound), undefined, avgRound, font)]
             })
         )
         return cells
@@ -41,31 +44,34 @@ module.exports = function (feed1, feed2, unitChangeRound, percentChangeRound, av
         const changePercents1 = getChange(pf1, i, feed1.prev_price, true, percentChangeRound);
         const changeUnits2 = getChange(pf2, i, feed2.prev_price, false, unitChangeRound);
         const changePercents2 = getChange(pf2, i, feed2.prev_price, true, percentChangeRound);
+        let font = FontFamily
+        if (i > 4 && pf1.length >= 8) font = FontFamilySemiBold
+        if (i === 4 && pf1.length === 5) font = FontFamilySemiBold
         rows.push(
             new docx.TableRow({
                 children: [
                     cellCenter({
-                        children: [textTd(formatDateTable(pf1[i].date.substring(0, 10)),undefined, pf1.length, i)]
+                        children: [textTd(formatDateTable(pf1[i].date.substring(0, 10)),undefined, undefined, font)]
                     }),
 
                     cellCenter({
-                        children: [textTd(pf1[i].value, undefined, fixed, pf1.length, i)]
+                        children: [textTd(pf1[i].value, undefined, fixed, font)]
                     }),
                     cellCenter({
-                        children: [textTd(changeUnits1.Text, changeUnits1.Color, undefined, pf1.length, i)]
+                        children: [textTd(changeUnits1.Text, changeUnits1.Color, undefined, font)]
                     }),
                     cellCenter({
-                        children: [textTd(changePercents1.Text, changePercents1.Color, undefined, pf1.length, i)]
+                        children: [textTd(changePercents1.Text, changePercents1.Color, undefined, font)]
                     }),
 
                     cellCenter({
-                        children: [textTd(pf2[i].value, undefined, fixed, pf1.length, i)]
+                        children: [textTd(pf2[i].value, undefined, fixed, font)]
                     }),
                     cellCenter({
-                        children: [textTd(changeUnits2.Text, changeUnits2.Color, undefined, pf1.length, i)]
+                        children: [textTd(changeUnits2.Text, changeUnits2.Color, undefined, font)]
                     }),
                     cellCenter({
-                        children: [textTd(changePercents2.Text, changePercents2.Color, undefined, pf1.length, i)]
+                        children: [textTd(changePercents2.Text, changePercents2.Color, undefined, font)]
                     }),
 
                     ...insertMed(i, pf1, pf2, avgRound),

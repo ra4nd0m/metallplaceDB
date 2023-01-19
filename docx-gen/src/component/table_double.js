@@ -1,7 +1,9 @@
 const docx = require("docx");
 const paragraph = require("../atom/paragraph");
 const paragraphCentred = require("../atom/paragraph_centred");
-const {TableCellMarginNil, TableNoOuterBorders, FontFamilyMedium, FontSizeThMain, FontFamilyThin, FontSizeThExtraInfo} = require("../const");
+const {TableCellMarginNil, TableNoOuterBorders, FontFamilyMedium, FontSizeThMain, FontFamilyThin, FontSizeThExtraInfo,
+    FontSizeThSecondary
+} = require("../const");
 const axios = require("axios");
 const tableBody = require("../atom/table_double_body");
 const {formatDateDb} = require("../utils/date_format");
@@ -19,13 +21,21 @@ function headerMaterial(name, market, delivery, unit) {
         borders: TableNoOuterBorders,
         rows: [
             new TableRow({
-                children: [cellCenter({columnSpan: 3, children: [textTh(name + " " + delivery + " " + market)]})]
+                children: [cellCenter({columnSpan: 3, children: [
+                        textTh(name, FontFamilyMedium, FontSizeThMain),
+                        textTh(delivery + " " + market, FontFamilyThin, FontSizeThSecondary),
+                    ]})]
             }),
             new TableRow({
                 children: [
-                    cellCenter({children: [textTh(`Цена ${unit}`)]}),
-                    cellCenter({children: [textTh(`Изм. ${unit}`)]}),
-                    cellCenter({children: [textTh("Изм. %")]}),
+                    new docx.TableCell({
+                        children: [
+                            textTh("Цена", FontFamilyMedium, FontSizeThMain),
+                            textTh(unit, FontFamilyThin, FontSizeThExtraInfo)
+                        ]
+                    }),
+                    cellCenter({children: [textTh(`Изм.`, FontFamilyMedium, FontSizeThSecondary), textTh(unit, FontFamilyThin, FontSizeThExtraInfo)]}),
+                    cellCenter({children: [textTh(`Изм.`, FontFamilyMedium, FontSizeThSecondary), textTh("%", FontFamilyThin, FontSizeThExtraInfo)]}),
                 ],
             })
         ]
@@ -79,7 +89,7 @@ module.exports = async function tableDouble(materialId1, materialId2, propertyId
         rows: [
             new TableRow({
                 children: [
-                    cellCenter({margins: TableCellMarginNil, children: [textTh("Дата")]}),
+                    cellCenter({margins: TableCellMarginNil, children: [textTh("Дата", FontFamilyMedium, FontSizeThMain)]}),
                     cellCenter({
                         margins: TableCellMarginNil,
                         children: [headerMaterial(resMat1.data.info.Name, resMat1.data.info.Market, resMat1.data.info.DeliveryType, resMat1.data.info.Unit)]
