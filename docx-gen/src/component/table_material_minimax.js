@@ -3,38 +3,15 @@ const {TableNoOuterBorders, TableCellMarginNil, MinPriceId, MaxPriceId, MedPrice
     FontFamilyMedium,
     FontSizeThMain,
     FontFamilyThin,
-    FontSizeThExtraInfo
+    FontSizeThExtraInfo, FontSizeThSecondary, FontFamily, FontSizeTh
 } = require("../const");
 const textTh = require("../atom/text_th")
 const tableBody = require("../atom/table_material_minimax_body");
 const axios = require("axios");
 const {FormatDayMonth, GetWeekNumber} = require("../utils/date_operations");
 const paragraph = require("../atom/paragraph");
+const priceBlock = require("../atom/price_block");
 const cellCenter = require("../atom/cell_centred")
-
-function priceBlock(unit){
-    return new docx.Table({
-        width: {
-            size: 100,
-            type: docx.WidthType.PERCENTAGE,
-        },
-        borders: TableNoOuterBorders,
-        rows:[
-            new docx.TableRow({
-                children: [
-                    new docx.TableCell({columnSpan: 3, children:[textTh(`Цена, ${unit}`)]})
-                ]
-            }),
-            new docx.TableRow({
-                children: [
-                    cellCenter({children:[textTh(`мин`)], verticalAlign: docx.VerticalAlign.CENTER}),
-                    cellCenter({children:[textTh(`макс`)], verticalAlign: docx.VerticalAlign.CENTER}),
-                    cellCenter({children:[textTh(`сред`)], verticalAlign: docx.VerticalAlign.CENTER}),
-                ]
-            })
-        ]
-    })
-}
 
 function headerMaterial(title, unit){
     return  new docx.Table({
@@ -51,8 +28,8 @@ function headerMaterial(title, unit){
             new docx.TableRow({
                 children: [
                     cellCenter({margins: TableCellMarginNil, children: [priceBlock(unit)], verticalAlign: docx.VerticalAlign.CENTER}),
-                    cellCenter({margins: TableCellMarginNil, children: [textTh(`Изм ${unit}`)], verticalAlign: docx.VerticalAlign.CENTER}),
-                    cellCenter({margins: TableCellMarginNil, children: [textTh(`Изм %`)], verticalAlign: docx.VerticalAlign.CENTER})
+                    cellCenter({children: [textTh(`Изм`, FontFamilyMedium, FontSizeThSecondary), textTh(unit, FontFamilyThin, FontSizeThExtraInfo)]}),
+                    cellCenter({children: [textTh(`Изм`, FontFamilyMedium, FontSizeThSecondary), textTh("%", FontFamilyThin, FontSizeThExtraInfo)]}),
                 ],
             }),
         ]
@@ -113,10 +90,10 @@ module.exports = async function tableMaterialMinimax(materialIds, dates, unitCha
         rows:[
             new docx.TableRow({
                 children: [
-                    cellCenter({ margins: TableCellMarginNil, children: [textTh("Страна/вид")], verticalAlign: docx.VerticalAlign.CENTER}),
-                    cellCenter({ margins: TableCellMarginNil, children: [textTh("Усл. поставки")], verticalAlign: docx.VerticalAlign.CENTER}),
-                    cellCenter({ margins: TableCellMarginNil, children: [headerMaterial(title1, "USD/т")], verticalAlign: docx.VerticalAlign.CENTER}),
-                    cellCenter({ margins: TableCellMarginNil, children: [headerMaterial(title2, "USD/т")], verticalAlign: docx.VerticalAlign.CENTER}),
+                    cellCenter({ margins: TableCellMarginNil, children: [textTh("Страна/вид", FontFamily, FontSizeTh)], verticalAlign: docx.VerticalAlign.CENTER}),
+                    cellCenter({ margins: TableCellMarginNil, children: [textTh("Усл. поставки", FontFamily, FontSizeTh)], verticalAlign: docx.VerticalAlign.CENTER}),
+                    cellCenter({ margins: TableCellMarginNil, children: [headerMaterial(title1, "$/т")], verticalAlign: docx.VerticalAlign.CENTER}),
+                    cellCenter({ margins: TableCellMarginNil, children: [headerMaterial(title2, "$/т")], verticalAlign: docx.VerticalAlign.CENTER}),
                 ],
             })
         ]

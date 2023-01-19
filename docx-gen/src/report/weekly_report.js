@@ -66,6 +66,14 @@ module.exports = class WeeklyReport {
                     headers: {
                         default: header(WeeklyHeaderTitle)
                     },
+                    properties: {
+                        page: {
+                            margin: {
+                                right: 800,
+                                left: 800,
+                            },
+                        },
+                    },
                     children: [
                         h3Fake("Содержание"),
 

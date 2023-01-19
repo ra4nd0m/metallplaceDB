@@ -4,11 +4,11 @@ const axios = require('axios');
 module.exports = async function fetchChart(url, isBig) {
         const res = await axios.get(url,  { responseType: 'arraybuffer' })
         const image = Buffer.from(res.data, "utf-8")
-        let width = 290;
-        let height = 145;
+        let width = 300;
+        let height = 150;
         if(isBig){
-            width = 420;
-            height = 210
+            width = 500;
+            height = 250
         }
         return new docx.ImageRun({
             data: image,
