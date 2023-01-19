@@ -2,7 +2,7 @@ const docx = require("docx");
 
 module.exports.TableCellMarginNil = {top: 0, left: 0, bottom: 0, right: 0, marginUnitType: docx.WidthType.NIL};
 module.exports.SpacingDefault = 2500;
-module.exports.FontFamily = "Montserrat Regular";
+module.exports.FontFamily = "Montserrat";
 module.exports.FontFamilyExtraBold = "Montserrat ExtraBold";
 module.exports.FontFamilySemiBold = "Montserrat SemiBold";
 module.exports.FontFamilyMedium = "Montserrat Medium";
@@ -22,7 +22,7 @@ module.exports.Green = "#00ff00"
 module.exports.Red = "#ff0000"
 module.exports.ColorDefault = "#000000"
 module.exports.FontSizeTd = 9 * 2
-module.exports.FontSizeTdSmall = 8
+module.exports.FontSizeTdMicro = 6.5 * 2
 module.exports.FontSizeTh = 18
 module.exports.FontSizeThMain = 11 * 2
 module.exports.FontSizeThSecondary = 11 * 2
