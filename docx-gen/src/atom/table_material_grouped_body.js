@@ -2,6 +2,8 @@ const getChange = require("../utils/get_change");
 const docx = require("docx");
 const cellCenter = require("../atom/cell_centred")
 const textTd = require("../atom/text_td")
+const textTh = require("../atom/text_th")
+const {FontFamily, FontFamilyThin, FontFamilySemiBold, FontSizeThSecondary} = require("../const");
 
 module.exports = function (body, titlesIndexes, titles){
     let rows = [];
@@ -16,7 +18,8 @@ module.exports = function (body, titlesIndexes, titles){
                 new docx.TableRow({
                     children:[
                         cellCenter({
-                            children: [textTd(titles[idxCnt])],
+                            children: [textTh(titles[idxCnt], FontFamilySemiBold, FontSizeThSecondary)],
+
                             columnSpan: 6
                         }),
                     ]
@@ -24,28 +27,29 @@ module.exports = function (body, titlesIndexes, titles){
             )
             idxCnt++
         }
-
         rows.push(
 
             new docx.TableRow({
                 children:[
                     cellCenter({
-                        children: [textTd(m.Name), textTd(m.DeliveryType)]
+                        children: [textTd(m.Name, undefined, undefined, FontFamily),
+
+                        ]
                     }),
                     cellCenter({
-                        children: [textTd(m.Unit)]
+                        children: [textTd(m.Unit, undefined, undefined, FontFamily)]
                     }),
                     cellCenter({
-                        children: [textTd(m.Week1Med.price_feed[0].value)]
+                        children: [textTd(m.Week1Med.price_feed[0].value, undefined, undefined, FontFamily)]
                     }),
                     cellCenter({
-                        children: [textTd(m.Week2Med.price_feed[0].value)]
+                        children: [textTd(m.Week2Med.price_feed[0].value, undefined, undefined, FontFamilySemiBold)]
                     }),
                     cellCenter({
-                        children: [textTd(changeUnits.Text, changeUnits.Color)]
+                        children: [textTd(changeUnits.Text, changeUnits.Color, undefined, undefined, FontFamily)]
                     }),
                     cellCenter({
-                        children: [textTd(changePercents.Text, changePercents.Color)]
+                        children: [textTd(changePercents.Text, changePercents.Color, undefined, undefined, FontFamily)]
                     }),
                 ]
             })

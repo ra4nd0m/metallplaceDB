@@ -32,7 +32,7 @@ module.exports = function(title) {
                                         children: [
                                             new TextRun({
                                                 font: FontFamily,
-                                                text: "Страница",
+                                                text: "Страница ",
                                             }),
                                             new TextRun({
                                                 font: FontFamily,

@@ -290,6 +290,7 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
                 label: '',
                 data: datasets[0].data,
                 backgroundColor: ['#FF9C75', '#FF9C75', '#FF9C75', '#FF9C75', '#F77647'],
+                borderColor: '#000000',
                 datalabels: {
                     display: false,
                 }

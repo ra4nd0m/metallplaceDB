@@ -1,5 +1,7 @@
 const docx = require("docx");
-const {TableCellMarginNil, MedPriceId} = require("../const");
+const {TableCellMarginNil, MedPriceId, FontFamilyMedium, FontSizeThMain, FontFamilyThin, FontSizeThExtraInfo,
+    FontFamilySemiBold, FontSizeThSecondary
+} = require("../const");
 const textTh = require("../atom/text_th")
 const tableBody = require("../atom/table_material_grouped_body");
 const axios = require("axios");
@@ -63,12 +65,18 @@ module.exports = async function(materialIds, dates, titlesIndexes, titles, type)
         rows:[
             new docx.TableRow({
                 children: [
-                    cellCenter({margins: TableCellMarginNil, children: [textTh("Продукция")]}),
-                    cellCenter({margins: TableCellMarginNil, children: [textTh("Единицы измерения")]}),
-                    cellCenter({margins: TableCellMarginNil, children: [textTh(formatDateTable(new Date(title1)))]}),
-                    cellCenter({margins: TableCellMarginNil, children: [textTh(formatDateTable(new Date(title2)))]}),
-                    cellCenter({margins: TableCellMarginNil, children: [textTh(`Изм абс.`)], verticalAlign: docx.VerticalAlign.CENTER}),
-                    cellCenter({margins: TableCellMarginNil, children: [textTh(`Изм %`)], verticalAlign: docx.VerticalAlign.CENTER})
+                    cellCenter({margins: TableCellMarginNil, children: [textTh("Продукция", FontFamilyMedium, FontSizeThMain)]}),
+                    cellCenter({margins: TableCellMarginNil, children: [textTh("Единицы измерения", FontFamilyMedium, FontSizeThMain)]}),
+                    cellCenter({margins: TableCellMarginNil, children: [textTh(formatDateTable(new Date(title1), FontFamilyMedium, FontSizeThMain))]}),
+                    cellCenter({margins: TableCellMarginNil, children: [textTh(formatDateTable(new Date(title2), FontFamilySemiBold, FontSizeThMain))]}),
+                    cellCenter({margins: TableCellMarginNil, children: [
+                        textTh(`Изм`, FontFamilyMedium, FontSizeThMain),
+                            textTh(`абс.`, FontFamilyThin, FontSizeThSecondary),
+                        ], verticalAlign: docx.VerticalAlign.CENTER}),
+                    cellCenter({margins: TableCellMarginNil, children: [
+                        textTh(`Изм`, FontFamilyMedium, FontSizeThMain),
+                            textTh(`%`, FontFamilyThin, FontSizeThSecondary)
+                        ], verticalAlign: docx.VerticalAlign.CENTER})
                 ],
             })
         ]

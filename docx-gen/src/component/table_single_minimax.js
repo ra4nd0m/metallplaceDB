@@ -81,10 +81,8 @@ module.exports = async function singleTableMinimax(materialId, dates, unitChange
                         verticalAlign: docx.VerticalAlign.CENTER,
                     }),
                     new docx.TableCell({
-                        children: [ cellCenter({
-                            children: [
-                                textTh(`Изм.`, FontFamilyMedium, FontSizeThSecondary),
-                                textTh("%", FontFamilyThin, FontSizeThExtraInfo)]}),
+                        children: [textTh("Изм.", FontFamilyMedium, FontSizeThMain),
+                            textTh("%", FontFamilyThin, FontSizeThExtraInfo)
                         ],
                         verticalAlign: docx.VerticalAlign.CENTER,
                     }),

@@ -204,7 +204,7 @@ var InitMaterialsVertical = []Material{
 	},
 
 	{"07.ФС (М)",
-		"ВУ ферромарганец (76% Mn)",
+		"FeMn HC; 76% Mn",
 		"-",
 		"Европа",
 		"DDP",
@@ -218,7 +218,7 @@ var InitMaterialsVertical = []Material{
 	},
 
 	{"07.ФС (М)",
-		"Ферросицилий (75% Si), ",
+		"FeSi 75% Si",
 		"-",
 		"Европа",
 		"DDP",
@@ -232,7 +232,7 @@ var InitMaterialsVertical = []Material{
 	},
 
 	{"07.ФС (М)",
-		"Силиконмарганец (65% Mn)",
+		"SiMn 65% Mn; 17% Si",
 		"-",
 		"Европа",
 		"DDP",
