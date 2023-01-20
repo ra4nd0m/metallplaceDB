@@ -27,6 +27,8 @@ type Dataset = {
     fill: boolean,
     borderColor: string
     backgroundColor: string
+    pointStyle?: string
+    pointRadius?: number
 }
 
 type YDataSet = {
@@ -120,7 +122,7 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
     const axesFontSize = 9 * 2
     const pointRadius = 1
     const labelOffset = 5
-    const fontRegular = 'Montserrat Regular'
+    const fontRegular = 'Montserrat'
     const textColor = '#000000'
     let gridOnChartArea = true
 
@@ -143,6 +145,12 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
     if (options.type == "bar"){
         datasets.forEach(ds => {
             ds.borderColor = 'rgba(255,255,255,0)'
+        })
+    }
+    if (options.labels && options.type === "line"){
+        datasets.forEach(ds => {
+            ds.pointStyle = 'triangle'
+            ds.pointRadius = 7
         })
     }
     const conf: ChartConfiguration = {
@@ -243,8 +251,8 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
             datalabels: {
                 offset: labelOffset,
                 borderRadius: 4,
-                backgroundColor: 'gray',
-                color: 'white',
+                backgroundColor: 'rgba(253,179,151,0)',
+                color: 'rgba(0,0,0,1)',
                 anchor: 'end',
                 formatter: function (value, context) {
                     let label = ""
@@ -286,6 +294,7 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
         let labelCnt = 0
         conf.data.datasets.push(
             {
+
                 type: 'bar',
                 label: '',
                 data: datasets[0].data,

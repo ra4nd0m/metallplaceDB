@@ -1,5 +1,5 @@
 const docx = require("docx");
-const {FontFamilySemiBold, h3Size} = require("../const");
+const {FontFamilyBold, h3Size, h3Color} = require("../const");
 const paragraph = require("./paragraph");
 
     module.exports = function (text) {
@@ -9,8 +9,8 @@ const paragraph = require("./paragraph");
             children: [
                 new docx.TextRun({
                     text: text,
-                    color: '#8ab440',
-                    font: FontFamilySemiBold,
+                    color: h3Color,
+                    font: FontFamilyBold,
                     size: h3Size
                 }),
             ]

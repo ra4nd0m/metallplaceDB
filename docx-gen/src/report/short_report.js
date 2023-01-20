@@ -67,6 +67,14 @@ module.exports = class ShortReport {
                         headers: {
                             default: header(ShortHeaderTitle)
                         },
+                        properties: {
+                            page: {
+                                margin: {
+                                    right: 800,
+                                    left: 800,
+                                },
+                            },
+                        },
                         children: body
                     }
                 ]

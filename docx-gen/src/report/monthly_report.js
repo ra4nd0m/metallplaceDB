@@ -66,6 +66,14 @@ module.exports = class MonthlyReport {
                     headers: {
                         default: header(MonthlyHeaderTitle)
                     },
+                    properties: {
+                        page: {
+                            margin: {
+                                right: 800,
+                                left: 800,
+                            },
+                        },
+                    },
                     children: [
                         h3Fake("Содержание"),
 
