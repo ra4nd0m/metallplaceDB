@@ -1,26 +1,24 @@
 const docx = require("docx");
 const footer = require("../component/footer");
 const header = require("../component/header");
-const h1 = require("../atom/heading1");
 const h2 = require("../atom/heading2");
 const h3 = require("../atom/heading3");
 const h3Fake = require("../atom/heading3_fake");
 const paragraph = require("../atom/paragraph");
 const twoChart = require("../component/two_chart");
-const {MonthlyHeaderTitle, MedPriceId, StockId, RusMonth, FontFamily, FontFamilyThin} = require("../const");
+const {MonthlyHeaderTitle, MedPriceId, StockId, RusMonth, FontFamilyThin, RusMonthStraight} = require("../const");
 const oneChartText = require("../component/one_chart_text");
 const oneChart = require("../component/one_chart");
 const singleTable = require("../component/table_single");
 const singleTableMinimax = require("../component/table_single_minimax");
-const tableDoubleAvg = require("../component/table_double_avg");
 const tableDouble = require("../component/table_double");
 const tableMaterialMinimax = require("../component/table_material_minimax");
-const doubleTableMinimax = require("../component/table_double_minimax")
 const tableMaterialGrouped = require("../component/table_material_grouped")
-const {GetDates, GetWeekNumber, GetFirstDayOfMonth, GetFirstDaysOfCurrentAndPrevMonth} = require("../utils/date_operations");
+const {GetDates, GetFirstDayOfMonth, GetFirstDaysOfCurrentAndPrevMonth} = require("../utils/date_operations");
 const {GetNMonthRange} = require("../utils/date_ranges")
 const {ChartUrl, FormChartUrl} = require("../utils/form_chart_url")
-const fs = require("fs");
+const coverDates = require("../atom/cover_dates");
+const cover = require("../atom/cover");
 
 function getFooterTitle(date) {
 
@@ -29,12 +27,21 @@ function getFooterTitle(date) {
         `${weekDates.last.day} ${RusMonth[weekDates.last.month]} ${weekDates.last.year} года`
 }
 
+function getCoverTitles(date){
+    const weekDates = GetDates(date, "month")
+    return [
+        `${RusMonthStraight[weekDates.first.month]} ${weekDates.last.year} года`,
+        `(${weekDates.first.day} ${RusMonth[weekDates.first.month]} - ${weekDates.last.day} ${RusMonth[weekDates.last.month]})`
+    ]
+}
+
 module.exports = class MonthlyReport {
     async generate(date) {
         date = GetFirstDayOfMonth(date)
         let lastDayOfMonth = new Date(date)
         lastDayOfMonth.setMonth(lastDayOfMonth.getMonth() + 1)
         lastDayOfMonth.setDate(lastDayOfMonth.getDate() - 1)
+        const coverTitles = getCoverTitles(date)
         return new docx.Document({
             features: {
                 updateFields: true,
@@ -52,11 +59,8 @@ module.exports = class MonthlyReport {
                         },
                     },
                     children: [
-                        new docx.Paragraph({
-                            children: [
-
-                            ]
-                        }),
+                        coverDates(coverTitles[0], coverTitles[1]),
+                        cover(),
                     ]
                 },
                 {

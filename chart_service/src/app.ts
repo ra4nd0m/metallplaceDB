@@ -29,6 +29,7 @@ type Dataset = {
     backgroundColor: string
     pointStyle?: string
     pointRadius?: number
+    pointBackgroundColor?: string
 }
 
 type YDataSet = {
@@ -151,6 +152,7 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
         datasets.forEach(ds => {
             ds.pointStyle = 'triangle'
             ds.pointRadius = 7
+            ds.pointBackgroundColor = '#FF9C75'
         })
     }
     const conf: ChartConfiguration = {
