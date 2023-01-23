@@ -89,10 +89,10 @@ Content-Type: application/json
 GET http://localhost:8080/getChart/1_1_10-03-2022_10-07-2022_1_line_day_day_1_-1.png
 
 ###
-GET http://localhost:8080/getReport/weekly/2022-12-13
+GET http://localhost:8080/getReport/weekly/2023-01-16
 
 ###
-GET http://localhost:8080/getReport/monthly/2022-11-13
+GET http://localhost:8080/getReport/monthly/2022-12-13
 
 ###
 GET localhost:8080/getPropertyName

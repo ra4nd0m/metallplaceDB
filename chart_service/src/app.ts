@@ -57,10 +57,10 @@ const getChart = async (XLabelSet: string[], YDataSets: YDataSet[], options: Cha
     let datasets: Dataset[] = [];
     let colors = ['rgb(55, 74, 116)', 'rgb(100, 70, 96)', 'rgb(100, 0, 100)']
     if(YDataSets.length == 1){
-        colors = ['rgb(247,118,71)']
+        colors = ['#656667']
     }
     if(YDataSets.length == 2){
-        colors = ['rgb(247,118,71)', 'rgb(150,118,71)']
+        colors = ['#656667', '#656667']
     }
     let i = 0
 
@@ -149,10 +149,13 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
         })
     }
     if (options.labels && options.type === "line"){
+        let colors = ['#FF9C75', '#BEDF85','#BE7F85']
+        let i = 0
         datasets.forEach(ds => {
             ds.pointStyle = 'triangle'
             ds.pointRadius = 7
-            ds.pointBackgroundColor = '#FF9C75'
+            ds.pointBackgroundColor = colors[i]
+            i++
         })
     }
     const conf: ChartConfiguration = {

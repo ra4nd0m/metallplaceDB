@@ -88,7 +88,8 @@ module.exports = class WeeklyReport {
                     },
                     children: [
                         h3Fake("Содержание"),
-
+                        new docx.TableOfContents("Summary"
+                        ),
                         paragraph({
                             children: [new docx.TextRun({
                                 text: "Дисклеймер: Информация, представленная на портале metallplace.ru предназначена только для справки и" +
