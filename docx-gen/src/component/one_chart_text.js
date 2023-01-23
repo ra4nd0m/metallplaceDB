@@ -1,7 +1,7 @@
 const docx = require("docx");
 const chartBlock = require("./chart_block")
 const paragraph = require("../atom/paragraph")
-const {TableCellMarginNil, LineWidth, LineColor} = require("../const");
+const {TableCellMarginNil, LineWidth, LineColor, FontFamily, FontSizeParagraph} = require("../const");
 
 module.exports = async function oneChartText(url){
     const block = await chartBlock(url, true)
@@ -29,8 +29,16 @@ module.exports = async function oneChartText(url){
                     new docx.TableCell({
                         margins: TableCellMarginNil,
                         children: [
-                            paragraph({
+                            new docx.Paragraph({
                                 alignment: docx.AlignmentType.LEFT,
+
+                                children: [
+                                    new docx.TextRun({
+                                        font: FontFamily,
+                                        size: FontSizeParagraph,
+                                        text: "Текст"
+                                    })
+                                ]
                             }),
                         ],
                     }),

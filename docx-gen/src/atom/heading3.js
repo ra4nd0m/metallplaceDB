@@ -1,6 +1,6 @@
 const docx = require("docx");
 const paragraph = require("./paragraph")
-const {FontFamilyBold, FontFamilyExtraBold, h3Size, h3Color} = require("../const");
+const {FontFamilyBold, h3Size, h3Color} = require("../const");
 
 module.exports = function (text) {
     return paragraph({

@@ -16,6 +16,7 @@ module.exports = function (input, unitChangeRound, percentChangeRound, type) {
         let font = FontFamily
         if (i > 4 && pf.length >= 8) font = FontFamilySemiBold
         if (i === 4 && pf.length === 5) font = FontFamilySemiBold
+
         rows.push(
             new docx.TableRow({
                 children: [
