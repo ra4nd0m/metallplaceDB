@@ -23,7 +23,6 @@ module.exports = function(title) {
                         children: [
                             new docx.TableCell({
                                 borders: {
-                                    top: {style: docx.BorderStyle.NONE, size: 0, color: "#FFFFFF"},
                                     bottom: {style: docx.BorderStyle.NONE, size: 0, color: "#FFFFFF"},
                                     left: {style: docx.BorderStyle.NONE, size: 0, color: "#FFFFFF"},
                                     right: {style: docx.BorderStyle.NONE, size: 0, color: "#FFFFFF"},
@@ -32,7 +31,6 @@ module.exports = function(title) {
                             }),
                             new docx.TableCell({
                                 borders: {
-                                    top: {style: docx.BorderStyle.NONE, size: 0, color: "#FFFFFF"},
                                     bottom: {style: docx.BorderStyle.NONE, size: 0, color: "#FFFFFF"},
                                     left: {style: docx.BorderStyle.NONE, size: 0, color: "#FFFFFF"},
                                     right: {style: docx.BorderStyle.NONE, size: 0, color: "#FFFFFF"},

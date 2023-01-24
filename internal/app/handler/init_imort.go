@@ -17,6 +17,6 @@ func (h Handler) InitImportHandler(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			return InitImportResponse{false}, err
 		}
-		return InitImportResponse{true}, err
+		return InitImportResponse{true}, nil
 	})
 }

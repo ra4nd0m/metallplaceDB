@@ -102,8 +102,26 @@
             </form>
           </v-col>
         </v-row>
+        <v-container>
+          <v-btn @click="sendRequest" color="primary" class="ma-5 mb-5">Обновить базу</v-btn>
+          <!--
+          <v-file-input
+              solo
+              v-model="file"
+              @change="onFileChange"
+              label="Select a file"
+              accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+          ></v-file-input>
+          -->
+          <v-progress-circular v-if="showLoading" indeterminate color="primary"></v-progress-circular>
+          <v-alert v-if="showSuccess" type="success" :timeout="3000">
+            Request completed successfully!
+          </v-alert>
+          <v-alert v-if="showError" type="error">
+            {{ errorMessage }}
+          </v-alert>
+        </v-container>
       </v-container>
-
     </v-main>
   </v-app>
 </template>
@@ -139,9 +157,63 @@ export default {
       market: null,
       unit: null,
       properties: [{name: ""}]
-    }
+    },
+    showLoading: false,
+    showSuccess: false,
+    showError: false,
+    errorMessage: '',
+    file: null,
   }),
   methods: {
+    onFileChange(e) {
+      this.file = e.target.files[0];
+    },
+    async renewFile() {
+      const formData = new FormData();
+      formData.append("file", this.file);
+      formData.append("fileSize", this.file.size);
+
+      const response = await fetch("http://localhost:8080/UpdateMainFile", {
+        method: "POST",
+        body: formData
+      });
+      const data = await response.json();
+      console.log(data)
+    },
+    sendRequest() {
+      this.showLoading = true
+      //try {
+      //  this.renewFile()
+      //} catch (err) {
+      //  this.showLoading = false
+      //  this.showError = true
+      //  this.errorMessage = 'Возникла ошибка при загрузке файла: ' + err
+      //  return
+      //}
+      // send request to server
+      fetch('http://localhost:8080/initImport', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({})
+      })
+          .then(response => response.json())
+          .then(data => {
+            this.showLoading = false
+            if (data.success) {
+              this.showSuccess = true
+            } else {
+              this.showError = true
+              this.errorMessage = data.error_message
+            }
+          })
+          .catch(error => {
+            this.showLoading = false
+            this.showError = true
+            this.errorMessage = 'Возникла ошибка при обновлении'
+          })
+    },
     getWeeklyReportClick() {
       getReport(this.dateReport, 'weekly')
     },
