@@ -22,24 +22,38 @@ module.exports = function(title) {
                     new docx.TableRow({
                         children: [
                             new docx.TableCell({
+                                borders: {
+                                    top: {style: docx.BorderStyle.NONE, size: 0, color: "#FFFFFF"},
+                                    bottom: {style: docx.BorderStyle.NONE, size: 0, color: "#FFFFFF"},
+                                    left: {style: docx.BorderStyle.NONE, size: 0, color: "#FFFFFF"},
+                                    right: {style: docx.BorderStyle.NONE, size: 0, color: "#FFFFFF"},
+                                },
                                 children: [paragraph(title)],
                             }),
                             new docx.TableCell({
+                                borders: {
+                                    top: {style: docx.BorderStyle.NONE, size: 0, color: "#FFFFFF"},
+                                    bottom: {style: docx.BorderStyle.NONE, size: 0, color: "#FFFFFF"},
+                                    left: {style: docx.BorderStyle.NONE, size: 0, color: "#FFFFFF"},
+                                    right: {style: docx.BorderStyle.NONE, size: 0, color: "#FFFFFF"},
+                                },
                                 children: [
                                     paragraph(
-                                    {
-                                        alignment: docx.AlignmentType.RIGHT,
-                                        children: [
-                                            new TextRun({
-                                                font: FontFamily,
-                                                text: "Страница ",
-                                            }),
-                                            new TextRun({
-                                                font: FontFamily,
-                                                children: [docx.PageNumber.CURRENT],
-                                            }),
-                                        ],
-                                    }
+                                        {
+                                            alignment: docx.AlignmentType.RIGHT,
+                                            children: [
+                                                new TextRun({
+                                                    font: FontFamily,
+                                                    children:[ "Страница | "],
+                                                }),
+                                                new TextRun({
+                                                    font: {
+                                                        name: FontFamily
+                                                    },
+                                                    children: [docx.PageNumber.CURRENT],
+                                                }),
+                                            ],
+                                        }
                                     ),
                                 ],
                             }),

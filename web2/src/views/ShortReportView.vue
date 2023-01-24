@@ -22,7 +22,6 @@
               ></v-file-input>
             </v-col>
             <v-divider v-if="index < reportBlocks.length - 1" class="my-divider" color="black"></v-divider>
-
           </v-row>
         </v-container>
         <v-container class="ma-2">
@@ -45,12 +44,15 @@
                      small
                      type="submit"
                      class="ma-2">
+
                 <v-icon>mdi-file-document</v-icon> Сгенерировать
               </v-btn>
-            </v-col>
 
+            </v-col>
           </v-row>
+
         </v-container>
+        <v-date-picker v-model="dateReport" elevation="6" full-width="false"></v-date-picker>
       </v-form>
     </v-main>
   </v-app>
@@ -66,6 +68,7 @@ export default {
   components: {Navbar},
   data() {
     return {
+      dateReport: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
       reportBlocks: [{
         title: '',
         paragraphs: [''],
@@ -98,7 +101,7 @@ export default {
       reader.readAsDataURL(file);
     },
     handleSubmit() {
-      getShortReport(this.reportBlocks, "2006-01-02")
+      getShortReport(this.reportBlocks, this.dateReport)
     },
   },
 }

@@ -6,21 +6,19 @@ const {GetDates} = require("../utils/date_operations");
 const h2 = require("../atom/heading2");
 const paragraph = require("../atom/paragraph");
 const chart = require("../atom/short_report_chart");
-
 function getFooterTitle(date) {
-    const weekDates = GetDates(date, "month")
-    return `Отчетный период: ${weekDates.first.day} ${RusMonth[weekDates.first.month]} - ` +
-        `${weekDates.last.day} ${RusMonth[weekDates.last.month]} ${weekDates.last.year} года`
+    const monthDates = GetDates(new Date(date.substring(0, 10)), "month")
+    return `Отчетный период: ${monthDates.first.day} - ` +
+        `${monthDates.last.day} ${RusMonth[monthDates.last.month]} ${monthDates.last.year} года`
+}
+function getHeaderTitle(date) {
+    const monthDates = GetDates(new Date(date.substring(0, 10)), "month")
+    return ShortHeaderTitle + `${RusMonth[monthDates.last.month]} ${monthDates.last.year} года`
 }
 
 module.exports = class ShortReport {
     async generate(req) {
-        let body = [
-            new docx.TableOfContents("Содержание", {
-                hyperlink: true,
-                headingStyleRange: "1-5",
-            }),
-        ]
+        let body = []
         req.blocks.forEach(block => {
             body.push(h2(block.title))
             block.text.forEach(p => {
@@ -61,11 +59,11 @@ module.exports = class ShortReport {
                         ]
                     },
                     {
-                        //footers: {
-                        //    default: footer(getFooterTitle(req.date)),
-                        //},
+                        footers: {
+                            default: footer(getFooterTitle(req.date)),
+                        },
                         headers: {
-                            default: header(ShortHeaderTitle)
+                            default: header(getHeaderTitle(req.date))
                         },
                         properties: {
                             page: {
