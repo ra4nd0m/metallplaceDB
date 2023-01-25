@@ -6,7 +6,7 @@ const h3 = require("../atom/heading3");
 const h3Fake = require("../atom/heading3_fake");
 const paragraph = require("../atom/paragraph");
 const twoChart = require("../component/two_chart");
-const {MonthlyHeaderTitle, MedPriceId, StockId, RusMonth, FontFamilyThin, RusMonthStraight} = require("../const");
+const {MonthlyHeaderTitle, MedPriceId, StockId, RusMonth, FontFamilyThin, RusMonthStraight, PageMargins} = require("../const");
 const oneChartText = require("../component/one_chart_text");
 const oneChart = require("../component/one_chart");
 const singleTable = require("../component/table_single");
@@ -72,10 +72,7 @@ module.exports = class MonthlyReport {
                     },
                     properties: {
                         page: {
-                            margin: {
-                                right: 800,
-                                left: 800,
-                            },
+                            margin: PageMargins,
                         },
                     },
                     children: [
@@ -101,7 +98,7 @@ module.exports = class MonthlyReport {
                         }),
 
                         new docx.Paragraph({children: [new docx.PageBreak()]}),
-                        h2("Краткая сводка новостей по мировову рынку"),
+                        h2("Краткая сводка новостей по мировому рынку"),
                         new docx.Paragraph({children: [new docx.PageBreak()]}),
 
                         h2("Краткая сводка цен по мировому рынку"),
@@ -232,7 +229,7 @@ module.exports = class MonthlyReport {
 
 
                         h2("Рынок сырьевых материалов"),
-                        h3("Железнорудное сырье"),
+                        h3("Железорудное сырье"),
                         paragraph({ // запасы жел руды в китай портах
                             children: [await oneChartText(FormChartUrl(new ChartUrl([28], StockId, GetNMonthRange(date, 5), 1, "bar", "month", "month", 1, 2)))]
                         }),

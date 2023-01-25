@@ -5,7 +5,10 @@ const paragraph = require("./paragraph");
     module.exports = function (text) {
 
         return paragraph({
-            alignment: docx.AlignmentType.JUSTIFIED,
+            alignment: docx.AlignmentType.LEFT,
+            spacing: {
+                after: 140
+            },
             children: [
                 new docx.TextRun({
                     text: text,

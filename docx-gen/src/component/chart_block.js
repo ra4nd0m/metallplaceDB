@@ -16,7 +16,7 @@ module.exports = async function chartBlock(url, isBig, avgGroup, comparePeriod) 
             size: 100,
             type: docx.WidthType.PERCENTAGE,
         },
-        columnWidths: [4, 2, 2],
+        columnWidths: [6.5, 2, 2],
         borders: docx.TableBorders.NONE,
         rows: [
             ...infoRow,

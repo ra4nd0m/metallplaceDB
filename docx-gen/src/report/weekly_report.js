@@ -7,7 +7,7 @@ const h3 = require("../atom/heading3");
 const h3Fake = require("../atom/heading3_fake");
 const paragraph = require("../atom/paragraph");
 const twoChart = require("../component/two_chart");
-const { WeeklyHeaderTitle, MedPriceId, StockId, RusMonth, FontFamilyThin} = require("../const");
+const { WeeklyHeaderTitle, MedPriceId, StockId, RusMonth, FontFamilyThin, PageMargins} = require("../const");
 const coverDates = require("../atom/cover_dates")
 const oneChartText = require("../component/one_chart_text");
 const cover = require("../atom/cover")
@@ -80,10 +80,7 @@ module.exports = class WeeklyReport {
                     },
                     properties: {
                         page: {
-                            margin: {
-                                right: 800,
-                                left: 800,
-                            },
+                            margin: PageMargins,
                         },
                     },
                     children: [
@@ -110,7 +107,7 @@ module.exports = class WeeklyReport {
                         }),
 
                         new docx.Paragraph({children: [new docx.PageBreak()]}),
-                        h2("Краткая сводка новостей по мировову рынку"),
+                        h2("Краткая сводка новостей по мировому рынку"),
                         new docx.Paragraph({children: [new docx.PageBreak()]}),
 
                         h2("Краткая сводка цен по мировому рынку"),
@@ -223,7 +220,7 @@ module.exports = class WeeklyReport {
 
                         new docx.Paragraph({children: [new docx.PageBreak()]}),
                         h2("Рынок сырьевых материалов"),
-                        h3("Железнорудное сырье"),
+                        h3("Железорудное сырье"),
 
 
                         paragraph({ // запасы жел руды в китай портах

@@ -21,7 +21,7 @@ module.exports.MedPriceId = 1;
 module.exports.StockId = 4;
 module.exports.LabelOffset = 5;
 module.exports.Green = "#00ff00"
-module.exports.Red = "#ff0000"
+module.exports.Red = "#EA3323"
 module.exports.ColorDefault = "#000000"
 module.exports.FontSizeTd = 9 * 2
 module.exports.FontSizeTdMicro = 6.5 * 2
@@ -36,10 +36,17 @@ module.exports.FontSizeParagraph = 9 * 2
 module.exports.HeadingColor = "#2E74B5"
 module.exports.mainServerHost = "localhost"
 module.exports.h2Size = 16 * 2
+module.exports.h2Color = '#F77647'
 module.exports.h3Size = 14 * 2
 module.exports.h3Color = '#8ab440'
 module.exports.mainServerPort = 8080
 module.exports.HeaderBackgroundColor = `rgb(200,200,200)`
+module.exports.HeaderFooterMargin = 40
+module.exports.PageMargins = {
+    top: 400,
+    right: 800,
+    left: 800,
+}
 const NONE_BORDER = {
     style: docx.BorderStyle.NONE,
     size: 0,

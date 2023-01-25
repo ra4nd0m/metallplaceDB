@@ -20,7 +20,7 @@ func (s *Service) GetChart(ctx context.Context, chartPack model.ChartPack) ([]by
 			return nil, fmt.Errorf("cant get material_source: %w", err)
 		}
 
-		dataset := chartclient.YDataSet{Label: material.Name + " " + material.Market + ", " + material.Unit, Data: []float64{}}
+		dataset := chartclient.YDataSet{Label: material.Name + ", " + material.Unit, Data: []float64{}}
 
 		start := chartPack.Start.Format("2006-01-02")
 		finish := chartPack.Finish.Format("2006-01-02")

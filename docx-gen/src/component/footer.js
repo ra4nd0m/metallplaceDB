@@ -1,7 +1,7 @@
 const docx = require("docx");
 const {TextRun} = require("docx");
 const paragraph = require("../atom/paragraph")
-const {FontFamily, LineWidth, LineColor} = require("../const");
+const {FontFamily, LineWidth, LineColor, HeaderFooterMargin} = require("../const");
 
 module.exports = function(title) {
     return new docx.Footer({
@@ -27,7 +27,15 @@ module.exports = function(title) {
                                     left: {style: docx.BorderStyle.NONE, size: 0, color: "#FFFFFF"},
                                     right: {style: docx.BorderStyle.NONE, size: 0, color: "#FFFFFF"},
                                 },
-                                children: [paragraph(title)],
+                                children: [
+                                    paragraph({
+                                        alignment: docx.AlignmentType.JUSTIFIED,
+                                        children: [new docx.TextRun({text: title,  font: FontFamily})],
+                                        spacing: {
+                                            before: HeaderFooterMargin
+                                        }
+                                    })
+                                ],
                             }),
                             new docx.TableCell({
                                 borders: {
@@ -39,6 +47,9 @@ module.exports = function(title) {
                                     paragraph(
                                         {
                                             alignment: docx.AlignmentType.RIGHT,
+                                            spacing: {
+                                                before: HeaderFooterMargin
+                                            },
                                             children: [
                                                 new TextRun({
                                                     font: FontFamily,

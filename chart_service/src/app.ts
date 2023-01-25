@@ -57,7 +57,7 @@ const getChart = async (XLabelSet: string[], YDataSets: YDataSet[], options: Cha
     let datasets: Dataset[] = [];
     let colors = ['rgb(55, 74, 116)', 'rgb(100, 70, 96)', 'rgb(100, 0, 100)']
     if(YDataSets.length == 1){
-        colors = ['#656667']
+        colors = ['#F77647']
     }
     if(YDataSets.length == 2){
         colors = ['#656667', '#656667']
@@ -152,12 +152,18 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
         let colors = ['#FF9C75', '#BEDF85','#BE7F85']
         let i = 0
         datasets.forEach(ds => {
-            ds.pointStyle = 'triangle'
+            ds.pointStyle = 'round'
             ds.pointRadius = 7
             ds.pointBackgroundColor = colors[i]
             i++
         })
     }
+    let minVal = Number.MAX_VALUE
+    datasets.forEach(ds => {
+        let curMin = Math.min(...ds.data)
+        if (curMin < minVal) minVal = curMin
+    })
+    let bottomBorder = minVal * 0.96
     const conf: ChartConfiguration = {
         type: 'line',
         plugins: [],
@@ -176,7 +182,6 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
                 x: {
                     offset: true,
                     type: "category",
-
                     ticks: {
                         font: {
                             size: axesFontSize,
@@ -219,7 +224,6 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
                         drawOnChartArea: gridOnChartArea,
                         borderColor: '#000000'
                     },
-
                 }
             },
 
@@ -290,24 +294,40 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
     // @ts-ignore
     conf.options?.plugins?.legend?.display = options.legend
     if (options.type == 'bar') {
-
+        // @ts-ignore
+        conf.options?.scales.y.min = bottomBorder
         let changes = getPercentChangesArr(datasets[0].data)
         let halfData: number[] = []
         datasets[0].data.forEach(d => {
-            halfData.push(Math.round(d / 2));
+            if (minVal > 50) {
+                halfData.push(minVal*0.98);
+            } else if (minVal < 5){
+                halfData.push(minVal * 0.90)
+            }else {
+                halfData.push(minVal * 0.93);
+            }
         })
         let labelCnt = 0
+        let barColors = []
+        for(let i = 0; i < datasets[0].data.length; i++){
+            if (i === datasets[0].data.length - 1) {
+                barColors.push('#F77647')
+            } else {
+                barColors.push('#FF9C75')
+            }
+        }
+        // @ts-ignore
         conf.data.datasets.push(
             {
-
                 type: 'bar',
                 label: '',
                 data: datasets[0].data,
-                backgroundColor: ['#FF9C75', '#FF9C75', '#FF9C75', '#FF9C75', '#F77647'],
+                backgroundColor: barColors,
                 borderColor: '#000000',
                 datalabels: {
                     display: false,
-                }
+                },
+                barThickness: 80
             }
         )
         conf.data?.datasets?.push(
@@ -364,6 +384,9 @@ function formatXLabel(dateStr: string, xStep: string): string {
     }
     if (xStep === "month"){
         return getRuMonth(dateStr)
+    }
+    if (xStep === "day"){
+        return `${dateArr[2]}.${dateArr[1]}.${dateArr[0].substring(2, 4)}`
     }
     // if getting in format xxi-21 or xx
     if (dateArr.length < 3) return dateStr
