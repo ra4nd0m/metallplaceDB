@@ -40,6 +40,7 @@ type IRepository interface {
 
 type IChartClient interface {
 	GetChart(req chartclient.Request) ([]byte, error)
+	GetChartTitled(req chartclient.Request) ([]byte, error)
 }
 
 type IDocxgenClient interface {

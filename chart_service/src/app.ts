@@ -56,7 +56,8 @@ const getChart = async (XLabelSet: string[], YDataSets: YDataSet[], options: Cha
     let height = 450; //px
     const canvasRenderService = new ChartJSNodeCanvas({width, height, chartJsFactory});
     let datasets: Dataset[] = [];
-    let colors = ['rgb(55, 74, 116)', 'rgb(100, 70, 96)', 'rgb(100, 0, 100)']
+    let colors: string[]
+    if (options.title.length > 0) colors = ['#844a88', '#5d4841', '#e35b33','#7b8a63', '#e35b33']
     if(YDataSets.length == 1){
         colors = ['#F77647']
     }
@@ -65,12 +66,11 @@ const getChart = async (XLabelSet: string[], YDataSets: YDataSet[], options: Cha
     }
     let i = 0
     let lineThickness = 6
-    if (options.labels) lineThickness = 2
+    if (options.labels || YDataSets.length >= 2) lineThickness = 2
 
     // Creating dataset lines: material - price feed
     YDataSets.forEach(set => {
         console.log("Pushing ", set.label)
-
         datasets.push({
             label: `${set.label}`,
             data: set.data,
@@ -84,17 +84,12 @@ const getChart = async (XLabelSet: string[], YDataSets: YDataSet[], options: Cha
     })
     Chart.defaults.font.size = 25;
     let configuration: ChartConfiguration
-
-    switch (type){
-        case "titled": {
-            configuration = getChartConfTitled(datasets, XLabelSet, options);
-            break
-        }
-        default:{
-            configuration = getChartConf(datasets, XLabelSet, options);
-            break
-        }
+    if(options.title.length > 0){
+        configuration = getChartConfTitled(datasets, XLabelSet, options);
+    } else {
+        configuration = getChartConf(datasets, XLabelSet, options);
     }
+
     return await canvasRenderService.renderToBuffer(configuration);
 }
 
@@ -364,6 +359,7 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
 }
 
 function getChartConfTitled(datasets: Dataset[], dateArray: string[], options: ChartOptions): ChartConfiguration{
+    console.log("!!!!!!!!!!" + options.title)
     let basicConf = getChartConf(datasets, dateArray, options)
     // @ts-ignore
     basicConf.options.plugins.legend.position = "bottom"
@@ -373,8 +369,8 @@ function getChartConfTitled(datasets: Dataset[], dateArray: string[], options: C
         text: options.title,
         color: '#000000',
         font: {
-            family: 'Montserrat Bold',
-            size: 9 * 2,
+            family: 'Montserrat Medium',
+            size: 10 * 2,
         }
     }
     return basicConf
