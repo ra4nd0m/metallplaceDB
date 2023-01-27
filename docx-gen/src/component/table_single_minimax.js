@@ -37,6 +37,9 @@ module.exports = async function singleTableMinimax(materialId, dates, unitChange
         medBody = await axios.post("http://localhost:8080/getMonthlyAvgFeed", { material_source_id: materialId, property_id: MedPriceId, start: from, finish: to})
     }
 
+    let nameRaw = resMat.data.info.Name.split(", ")
+    let name1 = nameRaw.shift()
+    let name2 = nameRaw.join(" ")
     const header = new docx.Table({
         width: {
             size: 100,
@@ -57,7 +60,7 @@ module.exports = async function singleTableMinimax(materialId, dates, unitChange
                         columnSpan: 3,
                         margins: TableCellMarginNil,
                         children: [
-                            textTh(resMat.data.info.Name, FontFamilyMedium, FontSizeThMain),
+                            textTh(`${name1} (${name2})`, FontFamilyMedium, FontSizeThMain),
                             textTh(resMat.data.info.DeliveryType + " " + resMat.data.info.Market, FontFamilyThin, FontSizeThSecondary),
                         ]
                     })

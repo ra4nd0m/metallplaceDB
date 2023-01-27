@@ -17,7 +17,7 @@ module.exports = function (body, unitChangeRound, percentChangeRound){
             new docx.TableRow({
                 children: [
                     cellCenter({
-                        children: [textTd(m.Country, undefined, undefined, FontFamily, ),
+                        children: [textTd(m.Country, undefined, undefined, FontFamily),
                             textTdItalic(m.Type, undefined, FontFamilyThin, FontSizeTdMicro)]
                     }),
                     cellCenter({

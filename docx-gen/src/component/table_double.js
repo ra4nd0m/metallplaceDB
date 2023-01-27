@@ -1,6 +1,5 @@
 const docx = require("docx");
 const paragraph = require("../atom/paragraph");
-const paragraphCentred = require("../atom/paragraph_centred");
 const {TableCellMarginNil, TableNoOuterBorders, FontFamilyMedium, FontSizeThMain, FontFamilyThin, FontSizeThExtraInfo,
     FontSizeThSecondary
 } = require("../const");
@@ -10,7 +9,7 @@ const {formatDateDb} = require("../utils/date_format");
 const cellCenter = require("../atom/cell_centred")
 const textTh = require("../atom/text_th")
 
-const {TableRow, TableCell} = docx;
+const {TableRow} = docx;
 
 function headerMaterial(name, market, delivery, unit) {
     return new docx.Table({
@@ -80,6 +79,14 @@ module.exports = async function tableDouble(materialId1, materialId2, propertyId
         })
     }
 
+    let nameRaw1 = resMat1.data.info.Name.split(", ")
+    let nameRaw2 = resMat2.data.info.Name.split(", ")
+    let name11 = nameRaw1.shift()
+    let name12 = nameRaw1.join(" ")
+    let name21 = nameRaw2.shift()
+    let name22 = nameRaw2.join(" ")
+
+
     const header = new docx.Table({
         width: {
             size: 100,
@@ -92,11 +99,11 @@ module.exports = async function tableDouble(materialId1, materialId2, propertyId
                     cellCenter({margins: TableCellMarginNil, children: [textTh("Дата", FontFamilyMedium, FontSizeThMain)]}),
                     cellCenter({
                         margins: TableCellMarginNil,
-                        children: [headerMaterial(resMat1.data.info.Name, resMat1.data.info.Market, resMat1.data.info.DeliveryType, resMat1.data.info.Unit)]
+                        children: [headerMaterial(`${name11} (${name12})`, resMat1.data.info.Market, resMat1.data.info.DeliveryType, resMat1.data.info.Unit)]
                     }),
                     cellCenter({
                         margins: TableCellMarginNil,
-                        children: [headerMaterial(resMat2.data.info.Name, resMat2.data.info.Market, resMat2.data.info.DeliveryType, resMat2.data.info.Unit)]
+                        children: [headerMaterial(`${name21} (${name22})`, resMat2.data.info.Market, resMat2.data.info.DeliveryType, resMat2.data.info.Unit)]
                     }),
                 ],
             }),

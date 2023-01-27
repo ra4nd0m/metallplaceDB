@@ -52,14 +52,10 @@ module.exports = function(title) {
                                             },
                                             children: [
                                                 new TextRun({
-                                                    font: FontFamily,
-                                                    children:[ "Страница | "],
-                                                }),
-                                                new TextRun({
                                                     font: {
-                                                        name: FontFamily
+                                                        name: FontFamily,
                                                     },
-                                                    children: [docx.PageNumber.CURRENT],
+                                                    children: ["Страница | ", docx.PageNumber.CURRENT],
                                                 }),
                                             ],
                                         }

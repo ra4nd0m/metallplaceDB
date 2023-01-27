@@ -30,6 +30,7 @@ type Dataset = {
     pointStyle?: string
     pointRadius?: number
     pointBackgroundColor?: string
+    borderWidth?: number
 }
 
 type YDataSet = {
@@ -60,9 +61,11 @@ const getChart = async (XLabelSet: string[], YDataSets: YDataSet[], options: Cha
         colors = ['#F77647']
     }
     if(YDataSets.length == 2){
-        colors = ['#656667', '#656667']
+        colors = ['#a1806a', '#7b8a63']
     }
     let i = 0
+    let lineThickness = 6
+    if (options.labels) lineThickness = 2
 
     // Creating dataset lines: material - price feed
     YDataSets.forEach(set => {
@@ -74,7 +77,8 @@ const getChart = async (XLabelSet: string[], YDataSets: YDataSet[], options: Cha
             lineTension: 0.15,
             fill: false,
             borderColor: colors[i],
-            backgroundColor: colors[i]
+            backgroundColor: colors[i],
+            borderWidth: lineThickness,
         });
         i++
     })
@@ -129,7 +133,8 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
 
     let dateArrayFormatted: string[]
     dateArrayFormatted = []
-    let legendBoxSize = 13
+    let legendBoxSize
+    options.type === 'bar' ?  legendBoxSize = 0 :  legendBoxSize = 13
     let tickLimit = 27
     if (options.tick_limit != 0) tickLimit = options.tick_limit
     for (let i = 0; i < dateArray.length; i++) {

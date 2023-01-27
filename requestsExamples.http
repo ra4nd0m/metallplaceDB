@@ -141,4 +141,4 @@ Content-Type: application/json
 
 
 ###
-GET localhost:8080/getChart/24_1_11-17-2022_12-15-2022_1_bar_day_day_1_-1.png
+GET localhost:8080/getChart/24_1_11-17-2022_12-15-2022_1_line_day_day_1_-1.png

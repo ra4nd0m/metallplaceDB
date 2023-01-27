@@ -79,6 +79,12 @@ module.exports = async function tableDoubleWithWeekAvg(materialId1, materialId2,
         start: from,
         finish: to
     })
+    let nameRaw1 = resMat1.data.info.Name.split(", ")
+    let nameRaw2 = resMat2.data.info.Name.split(", ")
+    let name11 = nameRaw1.shift()
+    let name12 = nameRaw1.join(" ")
+    let name21 = nameRaw2.shift()
+    let name22 = nameRaw2.join(" ")
     const header = new docx.Table({
         width: {
             size: 100,
@@ -91,17 +97,17 @@ module.exports = async function tableDoubleWithWeekAvg(materialId1, materialId2,
                     cellCenter({margins: TableCellMarginNil, children: [textTh("Дата", FontFamilyMedium, FontSizeThMain)]}),
                     cellCenter({
                         margins: TableCellMarginNil,
-                        children: [headerMaterial(resMat1.data.info.Name, resMat1.data.info.Market,
+                        children: [headerMaterial(`${name11} (${name12})`, resMat1.data.info.Market,
                             resMat1.data.info.DeliveryType, resMat1.data.info.Unit)]
                     }),
                     cellCenter({
                         margins: TableCellMarginNil,
-                        children: [headerMaterial(resMat2.data.info.Name, resMat2.data.info.Market,
+                        children: [headerMaterial(`${name21} (${name22})`, resMat2.data.info.Market,
                             resMat2.data.info.DeliveryType, resMat2.data.info.Unit)]
                     }),
                     cellCenter({
                         margins: TableCellMarginNil,
-                        children: [ avgBlock(resMat1.data.info.Name, resMat2.data.info.Name, resMat1.data.info.Unit)]
+                        children: [ avgBlock(`${name11} (${name12})`, `${name21} (${name22})`, resMat1.data.info.Unit)]
                     }),
                 ],
             }),

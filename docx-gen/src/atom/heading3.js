@@ -7,6 +7,7 @@ module.exports = function (text) {
         heading: docx.HeadingLevel.HEADING_3,
         alignment: docx.AlignmentType.LEFT,
         spacing: {
+            before: 140,
             after: 140
         },
         children: [
