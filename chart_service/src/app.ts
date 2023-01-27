@@ -268,6 +268,7 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
                 backgroundColor: 'rgba(253,179,151,0)',
                 color: 'rgba(0,0,0,1)',
                 anchor: 'end',
+                display: 'auto',
                 formatter: function (value, context) {
                     let label = ""
                     if (toFixed > 0) {
