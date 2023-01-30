@@ -90,4 +90,4 @@ create unique index material_value_id_uindex
     on material_value (id);
 
 create unique index material_value_all_together_uindex
-    on material_value (material_source_id, property_id, value_decimal, value_str, created_on);
+    on material_value (material_source_id, property_id, created_on);

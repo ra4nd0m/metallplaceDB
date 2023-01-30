@@ -17,7 +17,7 @@ func (r *Repository) AddMaterialValue(ctx context.Context, materialSourceId int,
 
 	_, err = db.FromContext(ctx).Exec(ctx, `
 				INSERT INTO material_value (material_source_id, property_id, value_decimal, value_str, created_on)
-				VALUES ($1, $2, $3, $4, $5) ON CONFLICT DO NOTHING RETURNING id`, materialSourceId, propertyId, valueFloat, valueStr, createdOn)
+					VALUES ($1, $2, $3, $4, $5) ON CONFLICT (material_source_id, property_id, created_on) DO UPDATE SET value_decimal=EXCLUDED.value_decimal RETURNING id`, materialSourceId, propertyId, valueFloat, valueStr, createdOn)
 	if err != nil {
 		return fmt.Errorf("Can't add value %w", err)
 	}
