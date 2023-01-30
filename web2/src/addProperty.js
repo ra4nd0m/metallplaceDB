@@ -1,4 +1,5 @@
 export const addProperty = async (materialId, propertyName) => {
+    alert("adding req")
     const respAddValue = await fetch('http://localhost:8080/addPropertyToMaterial', {
         method: 'POST',
         headers: {
@@ -11,4 +12,6 @@ export const addProperty = async (materialId, propertyName) => {
             "kind": "decimal"
         })
     })
+    let content = await respAddValue.json()
+    alert(content.success)
 }

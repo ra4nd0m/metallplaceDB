@@ -25,7 +25,7 @@ export default {
   data: () => ({
     properties: [],
     valueRules: [v => !!v || 'Поле обязательно',
-      v => /^\d+(\.\d+)*$/.test(v)||'Неверный формат']
+      v => /^[0-9]*\.?[0-9]*$/.test(v)||'Неверный формат']
   }),
   props: {
     materialId: Number,

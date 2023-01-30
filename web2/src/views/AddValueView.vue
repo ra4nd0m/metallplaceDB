@@ -6,12 +6,22 @@
         <v-row>
 
           <v-col>
-            <v-form class="inputs">
-              <h1>Добавить запись</h1>
-              <MaterialDropdown solo v-model="form.materialId"/>
-              <PropertiesForm v-model="form.properties" :materialId="form.materialId" class="startDate"/>
-              <v-date-picker v-model="form.dateAddValue" elevation="6" full-width="false" class="mb-10"></v-date-picker>
-              <ButtonAddValue :data="form"></ButtonAddValue>
+            <v-form v-if="showAddRecordForm" class="inputs">
+              <h1>Добавить</h1>
+              <v-btn @click="showAddRecordForm = true; showAddPropertyForm = false" class="mb-5 ma-5">запись</v-btn>
+              <v-btn @click="showAddRecordForm = false; showAddPropertyForm = true" class="mb-5 ma-5">свойство</v-btn>
+              <MaterialDropdown solo v-model="formAddValue.materialId"/>
+              <PropertiesForm v-model="formAddValue.properties" :materialId="formAddValue.materialId" class="startDate"/>
+              <v-date-picker v-model="formAddValue.dateAddValue" elevation="6" full-width="false" class="mb-10"></v-date-picker>
+              <ButtonAddValue :data="formAddValue"></ButtonAddValue>
+            </v-form>
+            <v-form v-if="showAddPropertyForm" class="inputs">
+              <h1>Добавить</h1>
+              <v-btn @click="showAddRecordForm = true; showAddPropertyForm = false" class="mb-5 ma-5">запись</v-btn>
+              <v-btn @click="showAddRecordForm = false; showAddPropertyForm = true" class="mb-5 ma-5">свойство</v-btn>
+              <MaterialDropdown solo v-model="formProperty.materialId"/>
+              <v-text-field label="Имя свойства" v-model="formProperty.propertyName"/>
+              <ButtonAddProperty :data="formProperty"></ButtonAddProperty>
             </v-form>
           </v-col>
 
@@ -133,6 +143,7 @@ import ButtonAddValue from "@/components/ButtonAddValue";
 import {getReport} from "@/getReport";
 import ButtonAddMaterial from "@/components/ButtonAddMaterial";
 import Navbar from "@/components/Navbar";
+import ButtonAddProperty from "@/components/ButtonAddProperty";
 
 export default {
   name: "AddValue",
@@ -141,10 +152,11 @@ export default {
     ButtonAddMaterial,
     MaterialDropdown,
     PropertiesForm,
-    ButtonAddValue
+    ButtonAddValue,
+    ButtonAddProperty
   },
   data: () => ({
-    form: {
+    formAddValue: {
       materialId: null,
       properties: [],
       dateAddValue: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10)
@@ -158,11 +170,17 @@ export default {
       unit: null,
       properties: [{name: ""}]
     },
+    formProperty: {
+      materialId: null,
+      propertyName: "",
+    },
     showLoading: false,
     showSuccess: false,
     showError: false,
     errorMessage: '',
     file: null,
+    showAddRecordForm: true,
+    showAddPropertyForm: false
   }),
   methods: {
     onFileChange(e) {
