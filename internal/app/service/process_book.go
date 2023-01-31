@@ -287,6 +287,14 @@ func (s *Service) InitialImport(ctx context.Context) error {
 			}
 
 		}
+		_, err = s.repo.AddPropertyIfNotExists(ctx, model.PropertyShortInfo{Name: "Прогноз месяц", Kind: "decimal"})
+		if err != nil {
+			return fmt.Errorf("cant add month predict property")
+		}
+		_, err = s.repo.AddPropertyIfNotExists(ctx, model.PropertyShortInfo{Name: "Прогноз неделя", Kind: "decimal"})
+		if err != nil {
+			return fmt.Errorf("cant add week predict property")
+		}
 		return nil
 	})
 	if err != nil {

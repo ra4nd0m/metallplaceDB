@@ -2,10 +2,10 @@ GET localhost:8080/getValueForPeriod
 Content-Type: application/json
 
 {
-  "material_source_id": 24,
+  "material_source_id": 2,
   "property_id": 1,
-  "start": "2022-09-09",
-  "finish": "2022-10-07"
+  "start": "2021-09-27",
+  "finish": "2021-10-01"
 }
 
 ###

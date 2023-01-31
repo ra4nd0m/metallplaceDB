@@ -1,5 +1,4 @@
 export const addValue = async (materialId, propertyName, value, createdOn) => {
-    if (value === "") return
     value.replace(",", ".")
     const respAddValue = await fetch('http://localhost:8080/addValue', {
         method: 'POST',
@@ -16,5 +15,4 @@ export const addValue = async (materialId, propertyName, value, createdOn) => {
         })
     })
     let content = await respAddValue.json()
-    alert(content.success)
 }

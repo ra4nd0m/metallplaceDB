@@ -4,7 +4,6 @@
       <Navbar/>
       <v-container>
         <v-row>
-
           <v-col>
             <v-form v-if="showAddRecordForm" class="inputs">
               <h1>Добавить</h1>
@@ -12,7 +11,7 @@
               <v-btn @click="showAddRecordForm = false; showAddPropertyForm = true" class="mb-5 ma-5">свойство</v-btn>
               <MaterialDropdown solo v-model="formAddValue.materialId"/>
               <PropertiesForm v-model="formAddValue.properties" :materialId="formAddValue.materialId" class="startDate"/>
-              <v-date-picker v-model="formAddValue.dateAddValue" elevation="6" full-width="false" class="mb-10"></v-date-picker>
+              <v-date-picker :first-day-of-week="1" v-model="formAddValue.dateAddValue" elevation="6" full-width="false" class="mb-10"></v-date-picker>
               <ButtonAddValue :data="formAddValue"></ButtonAddValue>
             </v-form>
             <v-form v-if="showAddPropertyForm" class="inputs">
@@ -108,8 +107,16 @@
                   class="mb-6"
               >Ежемесячный
               </v-btn>
-              <v-date-picker v-model="dateReport" elevation="6" full-width="false" class="mb-10"></v-date-picker>
+              <v-date-picker :first-day-of-week="1" v-model="dateReport" elevation="6" full-width="false" class="mb-10"></v-date-picker>
             </form>
+          </v-col>
+
+        </v-row>
+        <v-row>
+          <v-col>
+            <v-form class="inputs">
+              <PriceTable/>
+            </v-form>
           </v-col>
         </v-row>
         <v-container>
@@ -144,10 +151,12 @@ import {getReport} from "@/getReport";
 import ButtonAddMaterial from "@/components/ButtonAddMaterial";
 import Navbar from "@/components/Navbar";
 import ButtonAddProperty from "@/components/ButtonAddProperty";
+import PriceTable from "@/components/PriceTable";
 
 export default {
   name: "AddValue",
   components: {
+    PriceTable,
     Navbar,
     ButtonAddMaterial,
     MaterialDropdown,

@@ -7,10 +7,12 @@
         <v-container>
           <v-row v-for="(block, index) in reportBlocks" :key="index">
             <v-col cols="12">
-              <v-text-field solo label="Заголовок" v-model="block.title" class="ma-2" :rules="[(v) => !!v || 'Введите заголовок']"/>
+              <v-text-field solo label="Заголовок" v-model="block.title" class="ma-2"
+                            :rules="[(v) => !!v || 'Введите заголовок']"/>
             </v-col>
-            <v-col cols="12" >
-              <v-textarea solo label="Абзац" v-model="block.paragraphsRaw" @input=splitParagraphs(block) class="ma-2" :rules="[(v) => !!v || 'Введите текст абзаца']"/>
+            <v-col cols="12">
+              <v-textarea solo label="Абзац" v-model="block.paragraphsRaw" @input=splitParagraphs(block) class="ma-2"
+                          :rules="[(v) => !!v || 'Введите текст абзаца']"/>
             </v-col>
             <v-col cols="12" class="ma-2">
               <v-file-input
@@ -31,21 +33,24 @@
                      class="ma-2"
                      small
                      @click="addBlock">
-                <v-icon>mdi-plus</v-icon> Добавить раздел
+                <v-icon>mdi-plus</v-icon>
+                Добавить раздел
               </v-btn>
               <v-btn elevation="6"
                      color="error"
                      small
                      class="ma-2"
                      @click="removeBlock">
-                <v-icon>mdi-minus</v-icon> Удалить раздел
+                <v-icon>mdi-minus</v-icon>
+                Удалить раздел
               </v-btn>
               <v-btn elevation="6"
                      small
                      type="submit"
                      class="ma-2">
 
-                <v-icon>mdi-file-document</v-icon> Сгенерировать
+                <v-icon>mdi-file-document</v-icon>
+                Сгенерировать
               </v-btn>
 
             </v-col>
@@ -60,12 +65,13 @@
 
 <script>
 import Navbar from "@/components/Navbar";
+import PriceTable from "@/components/PriceTable";
 import 'core-js/features/typed-array/uint8-array';
 import {getShortReport} from "@/getShortReport";
 
 export default {
   name: "ShortReportView.vue",
-  components: {Navbar},
+  components: {PriceTable, Navbar},
   data() {
     return {
       dateReport: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
@@ -86,16 +92,16 @@ export default {
         file: null,
       });
     },
-    removeBlock(){
+    removeBlock() {
       this.reportBlocks.pop()
     },
-    splitParagraphs(block){
+    splitParagraphs(block) {
       block.paragraphs = block.paragraphsRaw.split(`\n`)
     },
     handleFileUpload(block, e) {
       let file = e;
       let reader = new FileReader();
-      reader.addEventListener('load', function(e) {
+      reader.addEventListener('load', function (e) {
         block.file = e.target.result.split(",")[1];
       });
       reader.readAsDataURL(file);
@@ -119,6 +125,7 @@ export default {
   border-radius: 0.25em;
   box-shadow: 0 0 1em rgba(0, 0, 0, 0.25);
 }
+
 .my-divider {
   border-top: 2px solid #ccc;
   border-bottom: 2px solid #ccc;

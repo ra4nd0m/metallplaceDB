@@ -12,6 +12,7 @@
     "local-storage": "^2.0.0",
     "uint8-to-base64": "^0.2.0",
     "vue": "^2.7.13",
+    "vue-excel-editor": "^1.5.19",
     "vue-localstorage": "^0.6.2",
     "vue-router": "^3.5.1",
     "vuetify": "^2.6.0",

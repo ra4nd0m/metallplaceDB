@@ -11,10 +11,13 @@ import {addValue} from "@/addValue";
 
 export default {
   name: "ButtonAddValue",
+
   methods: {
     add(){
       this.data.properties.forEach(p => {
-        addValue(this.data.materialId, p.text, p.input, this.data.dateAddValue)
+        if (p.input !== null || p.input !== ""|| p.input !== " "){
+          addValue(this.data.materialId, p.text, p.input, this.data.dateAddValue)
+        }
       })
     }
   },
