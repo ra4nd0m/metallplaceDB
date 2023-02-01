@@ -9,6 +9,7 @@ import (
 	"metallplace/pkg/chartclient"
 	"os"
 	"strings"
+	"time"
 )
 
 func (s *Service) GetChart(ctx context.Context, chartPack model.ChartPack) ([]byte, error) {
@@ -39,6 +40,16 @@ func (s *Service) GetChart(ctx context.Context, chartPack model.ChartPack) ([]by
 			feed, _, err = s.GetMonthlyAvgFeed(ctx, id, chartPack.PropertyId, start, finish)
 			if err != nil {
 				return nil, fmt.Errorf("cant get material_value: %w", err)
+			}
+			if chartPack.Predict {
+				f, err := time.Parse("2006-01-02", finish)
+				if err != nil {
+					return nil, fmt.Errorf("cant parse date in a month: %w", err)
+				}
+				predictFinish := f.AddDate(0, 3, 5)
+				predictFinishStr := predictFinish.Format("2006-01-02")
+				predictFeed, _, err := s.GetMonthlyAvgFeed(ctx, id, 5, finish, predictFinishStr)
+				feed = append(feed, predictFeed...)
 			}
 		case "week":
 			feed, _, err = s.GetWeeklyAvgFeed(ctx, id, chartPack.PropertyId, start, finish)

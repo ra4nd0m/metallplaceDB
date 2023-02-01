@@ -234,7 +234,7 @@ module.exports = class MonthlyReport {
                             children: [await oneChartText(FormChartUrl(new ChartUrl([28], StockId, GetNMonthRange(date, 5), 1, "bar", "month", "month", 1, 2)))]
                         }),
                         paragraph({ //жрс 62 и 65
-                            children: [await oneChartText(FormChartUrl(new ChartUrl([1,2], MedPriceId, GetNMonthRange(date, 9), 1, "line", "month", "month", 1, 0)))]
+                            children: [await oneChartText(FormChartUrl(new ChartUrl([1,2], MedPriceId, GetNMonthRange(date, 9), 1, "line", "month", "month", 1, 0, 1)))]
                         }),
                         await tableDouble(1, 2, MedPriceId, GetNMonthRange(date, 9, true), 0, 1, "month"),
                         new docx.Paragraph({children: [new docx.PageBreak()]}),
@@ -243,7 +243,7 @@ module.exports = class MonthlyReport {
 
                         h3("Уголь и кокс"),
                         paragraph({ // коксующийся уголь россия австралия
-                            children: [await oneChartText(FormChartUrl(new ChartUrl([6,7], MedPriceId, GetNMonthRange(date, 9), 1, "line", "month", "month", 1, 0)))]
+                            children: [await oneChartText(FormChartUrl(new ChartUrl([6,7], MedPriceId, GetNMonthRange(date, 9), 1, "line", "month", "month", 1, 0, 1)))]
                         }),
                         await tableDouble(6, 7, MedPriceId, GetNMonthRange(date, 9, true), 0, 1, "month", 1), // коксующийся уголь россия австралия
                         paragraph({ // мет кокс

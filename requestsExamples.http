@@ -92,7 +92,7 @@ GET http://localhost:8080/getChart/17-19_1_11-10-2022_12-09-2022_1_line_day_day_
 GET http://localhost:8080/getReport/weekly/2022-12-13
 
 ###
-GET http://localhost:8080/getReport/monthly/2022-12-13
+GET http://localhost:8080/getReport/monthly/2022-11-13
 
 ###
 GET localhost:8080/getPropertyName
@@ -141,4 +141,4 @@ Content-Type: application/json
 
 
 ###
-GET localhost:8080/getChart/1_1_12-22-2022_12-22-2023_0_line_week_week_0_-1.png
+GET localhost:8080/getChart/1_1_02-01-2020_11-01-2022_0_line_month_month_0_-1_1.png

@@ -20,6 +20,7 @@ type ChartPack struct {
 	XStep          string
 	NeedLegend     bool
 	ToFixed        int
+	Predict        bool
 }
 
 func (c ChartPack) ToUrl() string {
@@ -36,11 +37,15 @@ func (c ChartPack) ToUrl() string {
 	fn += "_" + c.Start.Format("2006-01-02") + c.Finish.Format("2006-01-02")
 	needLabels := "0"
 	needLegend := "0"
+	predict := "0"
 	if c.NeedLabels {
 		needLabels = "1"
 	}
 	if c.NeedLegend {
 		needLegend = "1"
+	}
+	if c.Predict {
+		predict = "1"
 	}
 
 	fn += "_" + needLabels
@@ -49,6 +54,7 @@ func (c ChartPack) ToUrl() string {
 	fn += "_" + c.XStep
 	fn += "_" + needLegend
 	fn += "_" + strconv.Itoa(c.ToFixed)
+	fn += "_" + predict
 
 	return fn + ChartRoutePostfix
 }
@@ -107,6 +113,9 @@ func NewChartPack(url string) (ChartPack, error) {
 		return ChartPack{}, fmt.Errorf("cant parse ToFixed: %w", err)
 	}
 	c.ToFixed = toFixed
+	if cnt[10] == "1" {
+		c.Predict = true
+	}
 
 	return c, nil
 }
