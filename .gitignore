@@ -2,3 +2,7 @@ bin/
 .env
 .idea/
 var/analytics.xlsx
+var/cache/charts/*
+var/cache/reports/monthly/*
+var/cache/reports/weekly/*
+var/cache/books/*
