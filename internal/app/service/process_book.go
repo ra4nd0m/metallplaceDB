@@ -24,12 +24,9 @@ func (s *Service) InitialImport(ctx context.Context) error {
 		return fmt.Errorf("cannot open exel file %w", err)
 	}
 
-	materialsVertical := model.InitMaterialsVertical
-	materialHorizontalWeekly := model.InitMaterialsHorizontalWeekly
-	materialHorizontalMonthly := model.InitMaterialsHorizontalMonthly
-
 	err = db.ExecTx(ctx, func(ctx context.Context) error {
-		for _, material := range materialsVertical {
+
+		for _, material := range model.InitMaterialsVertical {
 			materialSourceId, err := s.AddUniqueMaterial(ctx, material.Name, material.Source, material.Market, material.Unit, material.DeliveryType)
 			if err != nil {
 				return err
@@ -122,7 +119,7 @@ func (s *Service) InitialImport(ctx context.Context) error {
 				fmt.Println("")
 			}
 		}
-		for _, material := range materialHorizontalWeekly {
+		for _, material := range model.InitMaterialsHorizontalWeekly {
 			materialSourceId, err := s.AddUniqueMaterial(ctx, material.Name, material.Source, material.Market, material.Unit, material.DeliveryType)
 			if err != nil {
 				return fmt.Errorf("cant add unique material %v: %w", material.Name, err)
@@ -205,7 +202,7 @@ func (s *Service) InitialImport(ctx context.Context) error {
 				}
 			}
 		}
-		for _, material := range materialHorizontalMonthly {
+		for _, material := range model.InitMaterialsHorizontalMonthly {
 			materialSourceId, err := s.AddUniqueMaterial(ctx, material.Name, material.Source, material.Market, material.Unit, material.DeliveryType)
 			if err != nil {
 				return fmt.Errorf("cant add unique material %v: %w", material.Name, err)
@@ -287,13 +284,189 @@ func (s *Service) InitialImport(ctx context.Context) error {
 			}
 
 		}
-		_, err = s.repo.AddPropertyIfNotExists(ctx, model.PropertyShortInfo{Name: "Прогноз месяц", Kind: "decimal"})
-		if err != nil {
-			return fmt.Errorf("cant add month predict property")
+
+		//_, err = s.repo.AddPropertyIfNotExists(ctx, model.PropertyShortInfo{Name: "Прогноз месяц", Kind: "decimal"})
+		//if err != nil {
+		//	return fmt.Errorf("cant add month predict property")
+		//}
+		//_, err = s.repo.AddPropertyIfNotExists(ctx, model.PropertyShortInfo{Name: "Прогноз неделя", Kind: "decimal"})
+		//if err != nil {
+		//	return fmt.Errorf("cant add week predict property")
+		//}
+
+		for _, material := range model.InitMonthPredict {
+			materialSourceId, err := s.AddUniqueMaterial(ctx, material.Name, material.Source, material.Market, material.Unit, material.DeliveryType)
+			if err != nil {
+				return err
+			}
+
+			fmt.Println("Adding material " + material.Name)
+
+			// Adding and tying properties
+			for _, property := range material.Properties {
+				propertyId, err := s.repo.AddPropertyIfNotExists(ctx, model.PropertyShortInfo{Name: property.Name, Kind: property.Kind})
+				if err != nil {
+					return err
+				}
+
+				err = s.repo.AddMaterialProperty(ctx, materialSourceId, propertyId)
+			}
+
+			// Going through material's properties, and reading property values
+			for _, property := range material.Properties {
+				fmt.Println(property.Name)
+				row := property.Row
+				for {
+					var value string
+					valueCellValue, err := book.GetCellValue(material.Sheet, property.Column+strconv.Itoa(row))
+					if err != nil {
+						return err
+					}
+					valueCalc, err := book.CalcCellValue(material.Sheet, property.Column+strconv.Itoa(row))
+					if err != nil {
+						return err
+					}
+
+					if valueCellValue == "" && valueCalc == "" {
+						break
+					} else if valueCellValue != "" {
+						value = valueCellValue
+					} else if valueCalc != "" {
+						value = valueCalc
+					} else {
+						value = "1000000000"
+					}
+
+					// Calculating date cell, and formatting it
+					dateCell := material.DateColumn + strconv.Itoa(row)
+
+					dateStr, err := book.GetCellValue(material.Sheet, dateCell)
+					if err != nil {
+						return err
+					}
+
+					// Parsing date
+					createdOn, err := getMonthDateForPredict(dateStr)
+					if err != nil {
+						return fmt.Errorf("can't parce date [%v,%v] '%v' : %w", material.Sheet, dateCell, dateStr, err)
+					}
+
+					// Checking type of value: string or decimal
+					var valueStr string
+					var valueDecimal float64
+					if property.Kind == "decimal" {
+						valueDecimal, err = strconv.ParseFloat(value, 64)
+						if err != nil {
+							return err
+						}
+					} else {
+						valueStr = value
+					}
+
+					materialSourceId, err := s.repo.GetMaterialSourceId(ctx, material.Name, material.Source, material.Market, material.Unit, material.DeliveryType)
+					if err != nil {
+						return fmt.Errorf("cann not get material source id: %v", err)
+					}
+
+					err = s.repo.AddMaterialValue(ctx, materialSourceId, property.Name, valueDecimal, valueStr, createdOn)
+					if err != nil {
+						return err
+					}
+
+					row++
+					if row%100 == 0 {
+						fmt.Print("#")
+					}
+				}
+				fmt.Println("")
+			}
 		}
-		_, err = s.repo.AddPropertyIfNotExists(ctx, model.PropertyShortInfo{Name: "Прогноз неделя", Kind: "decimal"})
-		if err != nil {
-			return fmt.Errorf("cant add week predict property")
+		for _, material := range model.InitWeekPredict {
+			materialSourceId, err := s.AddUniqueMaterial(ctx, material.Name, material.Source, material.Market, material.Unit, material.DeliveryType)
+			if err != nil {
+				return err
+			}
+
+			fmt.Println("Adding material " + material.Name)
+
+			// Adding and tying properties
+			for _, property := range material.Properties {
+				propertyId, err := s.repo.AddPropertyIfNotExists(ctx, model.PropertyShortInfo{Name: property.Name, Kind: property.Kind})
+				if err != nil {
+					return err
+				}
+
+				err = s.repo.AddMaterialProperty(ctx, materialSourceId, propertyId)
+			}
+
+			// Going through material's properties, and reading property values
+			for _, property := range material.Properties {
+				fmt.Println(property.Name)
+				row := property.Row
+				for {
+					var value string
+					valueCellValue, err := book.GetCellValue(material.Sheet, property.Column+strconv.Itoa(row))
+					if err != nil {
+						return err
+					}
+					valueCalc, err := book.CalcCellValue(material.Sheet, property.Column+strconv.Itoa(row))
+					if err != nil {
+						return err
+					}
+
+					if valueCellValue == "" && valueCalc == "" {
+						break
+					} else if valueCellValue != "" {
+						value = valueCellValue
+					} else if valueCalc != "" {
+						value = valueCalc
+					} else {
+						value = "1000000000"
+					}
+
+					// Calculating date cell, and formatting it
+					dateCell := material.DateColumn + strconv.Itoa(row)
+
+					dateStr, err := book.GetCellValue(material.Sheet, dateCell)
+					if err != nil {
+						return err
+					}
+
+					// Parsing date
+					createdOn, err := stringToDate(dateStr, "weekNum")
+					if err != nil {
+						return fmt.Errorf("can't parce date [%v,%v] '%v' : %w", material.Sheet, dateCell, dateStr, err)
+					}
+
+					// Checking type of value: string or decimal
+					var valueStr string
+					var valueDecimal float64
+					if property.Kind == "decimal" {
+						valueDecimal, err = strconv.ParseFloat(value, 64)
+						if err != nil {
+							return err
+						}
+					} else {
+						valueStr = value
+					}
+
+					materialSourceId, err := s.repo.GetMaterialSourceId(ctx, material.Name, material.Source, material.Market, material.Unit, material.DeliveryType)
+					if err != nil {
+						return fmt.Errorf("cann not get material source id: %v", err)
+					}
+
+					err = s.repo.AddMaterialValue(ctx, materialSourceId, property.Name, valueDecimal, valueStr, createdOn)
+					if err != nil {
+						return err
+					}
+
+					row++
+					if row%100 == 0 {
+						fmt.Print("#")
+					}
+				}
+				fmt.Println("")
+			}
 		}
 		return nil
 	})
@@ -379,6 +552,34 @@ func (s *Service) ParseBook(byte []byte) (chartclient.Request, error) {
 	req.Options.Title = title
 	return req, nil
 }
+func getMonthDateForPredict(month string) (time.Time, error) {
+	monthsMap := map[string]string{
+		"Янв": "Jan",
+		"Фев": "Feb",
+		"Мар": "Mar",
+		"Апр": "Apr",
+
+		"Май": "May",
+		"Июн": "Jun",
+		"Июл": "Jul",
+		"Авг": "Aug",
+		"Сен": "Sep",
+		"Окт": "Oct",
+		"Ноя": "Nov",
+		"Дек": "Dec",
+	}
+	format := "Jan'06"
+	arr := strings.Split(month, "'")
+	monthInEnglish := monthsMap[arr[0]]
+	if monthInEnglish == "" {
+		return time.Time{}, fmt.Errorf("error: Unrecognized month")
+	}
+	t, err := time.Parse(format, monthInEnglish+"'"+arr[1])
+	if err != nil {
+		return time.Time{}, fmt.Errorf("Error parsing date: %w", err)
+	}
+	return t, nil
+}
 
 func getLastNotEmptyElement(slice []string) string {
 	lastElement := ""
@@ -416,8 +617,22 @@ func stringToDate(str string, style string) (time.Time, error) {
 			return time.Time{}, fmt.Errorf("cant parce year: %w", err)
 		}
 		mon := firstDayOfISOWeek(year, week)
-		fri := mon.AddDate(0, 0, 4)
-		return fri, nil
+		return mon, nil
+	}
+	if style == "weekNum" {
+		arr := strings.Split(str, " ")
+		week, err := strconv.Atoi(arr[0])
+		if err != nil {
+			return time.Time{}, fmt.Errorf("cant parce week (%v): %w", arr[0], err)
+		}
+		yearStr := arr[1]
+		yearStr = yearStr[1 : len(yearStr)-1]
+		year, err := strconv.Atoi(yearStr)
+		if err != nil {
+			return time.Time{}, fmt.Errorf("cant parce year: %w", err)
+		}
+		mon := firstDayOfISOWeek(year, week)
+		return mon, nil
 	}
 	if style == "month" {
 		arr := strings.Split(str, " ")

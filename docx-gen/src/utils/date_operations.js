@@ -45,11 +45,11 @@ module.exports.GetWeekNumber = function (date){
     return Math.ceil(days / 7);
 }
 
-module.exports.Get2LastFridays = function (date){
-    const currentWeekFriday = new Date(date.getFullYear(), date.getMonth(), date.getDate() - date.getDay() + (date.getDay() === 0 ? -6 : 5));
-    const previousWeekFriday = new Date(currentWeekFriday.getFullYear(), currentWeekFriday.getMonth(), currentWeekFriday.getDate() - 7);
+module.exports.Get2LastMondays = function (date){
+    const currentWeekMonday = new Date(date.getFullYear(), date.getMonth(), date.getDate() - date.getDay() + (date.getDay() === 0 ? -6 : 1));
+    const previousWeekMonday = new Date(currentWeekMonday.getFullYear(), currentWeekMonday.getMonth(), currentWeekMonday.getDate() - 7);
 
-    return [previousWeekFriday, currentWeekFriday];
+    return [previousWeekMonday, currentWeekMonday];
 }
 
 module.exports.GetFirstDaysOfCurrentAndPrevMonth = function (date) {

@@ -89,7 +89,7 @@ Content-Type: application/json
 GET http://localhost:8080/getChart/17-19_1_11-10-2022_12-09-2022_1_line_day_day_1_-1.png
 
 ###
-GET http://localhost:8080/getReport/weekly/2023-01-16
+GET http://localhost:8080/getReport/weekly/2022-12-13
 
 ###
 GET http://localhost:8080/getReport/monthly/2022-12-13
@@ -141,4 +141,4 @@ Content-Type: application/json
 
 
 ###
-GET localhost:8080/getChart/24_1_11-17-2022_12-15-2022_1_line_day_day_1_-1.png
+GET localhost:8080/getChart/1_1_12-22-2022_12-22-2023_0_line_week_week_0_-1.png

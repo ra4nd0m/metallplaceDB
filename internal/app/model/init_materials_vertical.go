@@ -51,7 +51,7 @@ var InitMaterialsVertical = []Material{
 		"Чугун, чушковый",
 		"steelmint.com",
 		"Черное море (Россия)",
-		"CNF",
+		"FOB",
 		"$/т",
 		"B",
 		[]Property{
