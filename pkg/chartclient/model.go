@@ -7,8 +7,9 @@ type Request struct {
 }
 
 type YDataSet struct {
-	Label string    `json:"label"`
-	Data  []float64 `json:"data"`
+	Label           string    `json:"label"`
+	Data            []float64 `json:"data"`
+	PredictAccuracy float64   `json:"predict_accuracy"`
 }
 
 type Options struct {

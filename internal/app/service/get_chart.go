@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"io/ioutil"
+	"math"
 	"metallplace/internal/app/model"
 	"metallplace/pkg/chartclient"
 	"os"
@@ -42,14 +43,25 @@ func (s *Service) GetChart(ctx context.Context, chartPack model.ChartPack) ([]by
 				return nil, fmt.Errorf("cant get material_value: %w", err)
 			}
 			if chartPack.Predict {
+				lastPrice := feed[len(feed)-1]
+				st, err := time.Parse("2006-01-02", finish)
+				if err != nil {
+					return nil, fmt.Errorf("cant parse date in a month: %w", err)
+				}
 				f, err := time.Parse("2006-01-02", finish)
 				if err != nil {
 					return nil, fmt.Errorf("cant parse date in a month: %w", err)
 				}
-				predictFinish := f.AddDate(0, 3, 5)
-				predictFinishStr := predictFinish.Format("2006-01-02")
-				predictFeed, _, err := s.GetMonthlyAvgFeed(ctx, id, 5, finish, predictFinishStr)
+				predictStart := st.AddDate(0, 1, 0)
+				predictFinish := f.AddDate(0, 3, 0)
+				predictFeed, _, err := s.GetMaterialValueForPeriod(ctx, id, 5,
+					predictStart.Format("2006-01-02"),
+					predictFinish.Format("2006-01-02"),
+				)
 				feed = append(feed, predictFeed...)
+
+				lastPricePredict, _, err := s.GetMaterialValueForPeriod(ctx, id, 5, finish, finish)
+				dataset.PredictAccuracy = math.Round(100 - (math.Abs(lastPrice.Value-lastPricePredict[0].Value)/lastPrice.Value)*100)
 			}
 		case "week":
 			feed, _, err = s.GetWeeklyAvgFeed(ctx, id, chartPack.PropertyId, start, finish)

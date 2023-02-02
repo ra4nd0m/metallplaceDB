@@ -100,7 +100,9 @@ type ChartOptions = {
     tick_limit: number,
     legend: boolean,
     to_fixed: number,
-    title: string
+    title: string,
+    predict: boolean,
+    predict_accuracy: number,
 }
 
 
@@ -359,7 +361,6 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
 }
 
 function getChartConfTitled(datasets: Dataset[], dateArray: string[], options: ChartOptions): ChartConfiguration{
-    console.log("!!!!!!!!!!" + options.title)
     let basicConf = getChartConf(datasets, dateArray, options)
     // @ts-ignore
     basicConf.options.plugins.legend.position = "bottom"
