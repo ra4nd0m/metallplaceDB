@@ -145,7 +145,7 @@ func (s *Service) InitialImport(ctx context.Context) error {
 				for {
 					value, err := book.CalcCellValue(material.Sheet, utils.IntToAlphabet(int32(col))+strconv.Itoa(property.Row))
 					if err != nil {
-						return fmt.Errorf("cant get cell value: %w", err)
+						return fmt.Errorf("cant calc cell %s %s%d value: %w", material.Sheet, property.Column, property.Row, err)
 					}
 
 					if value == "" {
@@ -284,15 +284,6 @@ func (s *Service) InitialImport(ctx context.Context) error {
 			}
 
 		}
-
-		//_, err = s.repo.AddPropertyIfNotExists(ctx, model.PropertyShortInfo{Name: "Прогноз месяц", Kind: "decimal"})
-		//if err != nil {
-		//	return fmt.Errorf("cant add month predict property")
-		//}
-		//_, err = s.repo.AddPropertyIfNotExists(ctx, model.PropertyShortInfo{Name: "Прогноз неделя", Kind: "decimal"})
-		//if err != nil {
-		//	return fmt.Errorf("cant add week predict property")
-		//}
 
 		for _, material := range model.InitMonthPredict {
 			materialSourceId, err := s.AddUniqueMaterial(ctx, material.Name, material.Source, material.Market, material.Unit, material.DeliveryType)

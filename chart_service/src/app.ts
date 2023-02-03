@@ -6,6 +6,9 @@ import {LabelOptions} from "chartjs-plugin-datalabels/types/options";
 
 const express = require('express')
 const {ChartJSNodeCanvas} = require('chartjs-node-canvas');
+const annotation = require('chartjs-plugin-annotation')
+import Annotation from 'chartjs-plugin-annotation'
+import {inspect} from "util";
 let app = express()
 const port = 3000
 
@@ -31,11 +34,13 @@ type Dataset = {
     pointRadius?: number
     pointBackgroundColor?: string
     borderWidth?: number
+    predictAccuracy?: number
 }
 
 type YDataSet = {
     label: string,
     data: number[]
+    predict_accuracy: number
 }
 
 function getPercentChangesArr(prices: number[]): string[] {
@@ -51,7 +56,7 @@ function getPercentChangesArr(prices: number[]): string[] {
     return changes
 }
 
-const getChart = async (XLabelSet: string[], YDataSets: YDataSet[], options: ChartOptions, type: string): Promise<Buffer> => {
+const getChart = async (XLabelSet: string[], YDataSets: YDataSet[], options: ChartOptions): Promise<Buffer> => {
     let width = 900; //px
     let height = 450; //px
     const canvasRenderService = new ChartJSNodeCanvas({width, height, chartJsFactory});
@@ -79,6 +84,7 @@ const getChart = async (XLabelSet: string[], YDataSets: YDataSet[], options: Cha
             borderColor: colors[i],
             backgroundColor: colors[i],
             borderWidth: lineThickness,
+            predictAccuracy: set.predict_accuracy
         });
         i++
     })
@@ -102,7 +108,6 @@ type ChartOptions = {
     to_fixed: number,
     title: string,
     predict: boolean,
-    predict_accuracy: number,
 }
 
 
@@ -119,13 +124,15 @@ function getToFixed(datasets: Dataset[]): number {
 }
 
 function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOptions): ChartConfiguration {
-    const labelFontSize = 9 * 2
+    const labelFontSize = 7 * 2
     const legendFontSize = 9 * 2
     const axesFontSize = 9 * 2
-    const pointRadius = 1
-    const labelOffset = 5
+    const pointRadius = 3
+    const labelOffset = 0
     const fontRegular = 'Montserrat'
     const textColor = '#000000'
+    const predictPointColor = '#844a88'
+    const monthPredictAmount = 3
     let gridOnChartArea = true
 
     let dateArrayFormatted: string[]
@@ -150,12 +157,13 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
             ds.borderColor = 'rgba(255,255,255,0)'
         })
     }
+    let colors: string[] = []
     if (options.labels && options.type === "line"){
-        let colors = ['#FF9C75', '#BEDF85','#BE7F85']
+        colors = ['#FF9C75', '#BEDF85','#BE7F85']
         let i = 0
         datasets.forEach(ds => {
             ds.pointStyle = 'round'
-            ds.pointRadius = 7
+            ds.pointRadius = pointRadius
             ds.pointBackgroundColor = colors[i]
             i++
         })
@@ -165,7 +173,9 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
         let curMin = Math.min(...ds.data)
         if (curMin < minVal) minVal = curMin
     })
+    // for bar charts
     let bottomBorder = minVal * 0.96
+
     const conf: ChartConfiguration = {
         type: 'line',
         plugins: [],
@@ -204,6 +214,7 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
                     offset: true,
                     type: "linear",
                     ticks: {
+                        stepSize: 7,
                         precision: 0,
                         font: {
                             size: axesFontSize,
@@ -230,8 +241,9 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
             },
 
             plugins: {
+
                 legend: {
-                    display: false,
+                    display: options.legend,
                     position: "top",
                     labels: {
                         // This more specific font property overrides the global property
@@ -247,6 +259,52 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
             },
         },
     }
+    if (options.predict) {
+        if (options.x_step=="month") {
+            for(let dsIdx = 0; dsIdx < datasets.length; dsIdx ++){
+                // @ts-ignore
+                datasets[dsIdx].pointBackgroundColor = Array(datasets[dsIdx].data.length-monthPredictAmount)
+                    .fill(colors[dsIdx]).concat(Array(monthPredictAmount).fill(predictPointColor));
+                // @ts-ignore
+                datasets[dsIdx].borderColor = Array(datasets[dsIdx].data.length-monthPredictAmount)
+                    .fill(colors[dsIdx]).concat(Array(monthPredictAmount).fill(predictPointColor));
+            }
+        }
+        let annotationsText: string[]
+        annotationsText = ["test"]
+        //datasets.forEach(d => {
+        //    annotationsText.push("Точность " + d.predictAccuracy)
+        //})
+        let predictBorder = formatXLabel(dateArray[dateArray.length - 4], options.x_step)
+        conf.plugins?.push(Annotation)
+
+        // @ts-ignore
+        conf.options?.plugins = {
+            ...conf.options?.plugins,
+            //modern: ['chartjs-plugin-annotation'],
+            //annotation: {
+            //    annotations: {
+             //       line1: {
+             //           type: 'line',
+             //           xMin: predictBorder,
+             //           xMax: predictBorder,
+             //           borderColor: 'rgba(232,131,94,0.57)',
+             //           borderWidth: 2,
+             //       },
+            //        label1: {
+            //            type: 'label',
+            //            backgroundColor: 'rgba(245,245,24, 0.1)',
+            //            content: annotationsText,
+            //            font: {
+            //                family: 'Montserrat Thin',
+            //                size: 18
+            //            }
+            //        }
+            //    }
+            //}
+        }
+    }
+
     if (options.labels) {
         let toFixed: number
         if (options.to_fixed != -1){
@@ -261,11 +319,11 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
             ...conf.options?.plugins,
             datalabels: {
                 offset: labelOffset,
-                borderRadius: 4,
+                borderRadius: 0,
                 backgroundColor: 'rgba(253,179,151,0)',
                 color: 'rgba(0,0,0,1)',
                 anchor: 'end',
-                display: 'auto',
+                display: 'true',
                 formatter: function (value, context) {
                     let label = ""
                     if (toFixed > 0) {
@@ -291,11 +349,7 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
                 ...options.labels,
             }
         }
-        // @ts-ignore
-        conf.options.elements.point.radius = pointRadius
     }
-    // @ts-ignore
-    conf.options?.plugins?.legend?.display = options.legend
     if (options.type == 'bar') {
         // @ts-ignore
         conf.options?.scales.y.min = bottomBorder
@@ -459,17 +513,7 @@ function formatYLabel(num: number) {
 }
 
 app.post('/gen', (req: Request, res: Response) => {
-    getChart(req.body.x_label_set, req.body.y_data_set, req.body.chart_options, "default")
-        .then(buf =>
-            res.send(buf)
-        )
-        .catch(reason =>
-            res.send(JSON.stringify(reason))
-        )
-})
-
-app.post('/genTitled', (req: Request, res: Response) => {
-    getChart(req.body.x_label_set, req.body.y_data_set, req.body.chart_options, "titled")
+    getChart(req.body.x_label_set, req.body.y_data_set, req.body.chart_options)
         .then(buf =>
             res.send(buf)
         )
