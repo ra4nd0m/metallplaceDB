@@ -241,7 +241,6 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
             },
 
             plugins: {
-
                 legend: {
                     display: options.legend,
                     position: "top",
@@ -259,6 +258,7 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
             },
         },
     }
+    let predictAccuracyTime = ""
     if (options.predict) {
         if (options.x_step=="month") {
             for(let dsIdx = 0; dsIdx < datasets.length; dsIdx ++){
@@ -268,40 +268,23 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
                 // @ts-ignore
                 datasets[dsIdx].borderColor = Array(datasets[dsIdx].data.length-monthPredictAmount)
                     .fill(colors[dsIdx]).concat(Array(monthPredictAmount).fill(predictPointColor));
+                predictAccuracyTime = getRuMonthFull(dateArray[dateArray.length - monthPredictAmount - 1])
             }
         }
-        let annotationsText: string[]
-        annotationsText = ["test"]
-        //datasets.forEach(d => {
-        //    annotationsText.push("Точность " + d.predictAccuracy)
-        //})
-        let predictBorder = formatXLabel(dateArray[dateArray.length - 4], options.x_step)
-        conf.plugins?.push(Annotation)
-
+        let annotationsText: string[] = ["Точность прогноза за " + predictAccuracyTime + ":"]
+        datasets.forEach(d => {
+            annotationsText.push(d.label + " - " + d.predictAccuracy + "%")
+        })
         // @ts-ignore
-        conf.options?.plugins = {
-            ...conf.options?.plugins,
-            //modern: ['chartjs-plugin-annotation'],
-            //annotation: {
-            //    annotations: {
-             //       line1: {
-             //           type: 'line',
-             //           xMin: predictBorder,
-             //           xMax: predictBorder,
-             //           borderColor: 'rgba(232,131,94,0.57)',
-             //           borderWidth: 2,
-             //       },
-            //        label1: {
-            //            type: 'label',
-            //            backgroundColor: 'rgba(245,245,24, 0.1)',
-            //            content: annotationsText,
-            //            font: {
-            //                family: 'Montserrat Thin',
-            //                size: 18
-            //            }
-            //        }
-            //    }
-            //}
+        conf.options.plugins.title = {
+            display: true,
+            text: annotationsText,
+            position: 'bottom',
+            color: '#000000',
+            font: {
+                family: 'Montserrat Thin',
+                size: 8 * 2,
+            }
         }
     }
 
@@ -487,6 +470,39 @@ function getRuMonth(dateStr: string): string {
             return 'Ноя\'' + year;
         case 11:
             return 'Дек\'' + year;
+    }
+}
+
+// @ts-ignore
+function getRuMonthFull(dateStr: string): string {
+    const date = new Date(Date.parse(dateStr));
+    const month = date.getMonth();
+    const year = date.getFullYear().toString().slice(-2);
+    switch (month) {
+        case 0:
+            return 'январь';
+        case 1:
+            return 'февраль';
+        case 2:
+            return 'март';
+        case 3:
+            return 'апрель';
+        case 4:
+            return 'май';
+        case 5:
+            return 'июнь';
+        case 6:
+            return 'июль';
+        case 7:
+            return 'август';
+        case 8:
+            return 'сентябрь';
+        case 9:
+            return 'октябрь';
+        case 10:
+            return 'ноябрь';
+        case 11:
+            return 'декабрь';
     }
 }
 

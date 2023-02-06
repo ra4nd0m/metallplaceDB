@@ -6,7 +6,7 @@ const h3 = require("../atom/heading3");
 const h3Fake = require("../atom/heading3_fake");
 const paragraph = require("../atom/paragraph");
 const twoChart = require("../component/two_chart");
-const {MonthlyHeaderTitle, MedPriceId, StockId, RusMonth, FontFamilyThin, RusMonthStraight, PageMargins} = require("../const");
+const {MonthlyHeaderTitle, MedPriceId, StockId, RusMonth, FontFamilyThin, RusMonthStraight, PageMargins, MonthPredictId} = require("../const");
 const oneChartText = require("../component/one_chart_text");
 const oneChart = require("../component/one_chart");
 const singleTable = require("../component/table_single");
@@ -237,6 +237,7 @@ module.exports = class MonthlyReport {
                             children: [await oneChartText(FormChartUrl(new ChartUrl([1,2], MedPriceId, GetNMonthRange(date, 9), 1, "line", "month", "month", 1, 0, 1)))]
                         }),
                         await tableDouble(1, 2, MedPriceId, GetNMonthRange(date, 9, true), 0, 1, "month"),
+                        await tableDouble(1, 2, MonthPredictId, GetNMonthRange(date, 3, true, true), 0, 1, "month"),
                         new docx.Paragraph({children: [new docx.PageBreak()]}),
 
 
@@ -247,7 +248,7 @@ module.exports = class MonthlyReport {
                         }),
                         await tableDouble(6, 7, MedPriceId, GetNMonthRange(date, 9, true), 0, 1, "month", 1), // коксующийся уголь россия австралия
                         paragraph({ // мет кокс
-                            children: [await oneChartText(FormChartUrl(new ChartUrl([8], MedPriceId, GetNMonthRange(date, 9), 1, "line", "month", "month", 1, 0)))]
+                            children: [await oneChartText(FormChartUrl(new ChartUrl([8], MedPriceId, GetNMonthRange(date, 9), 1, "line", "month", "month", 1, 0, 1)))]
                         }),
                         new docx.Paragraph({children: [new docx.PageBreak()]}),
                         h3Fake(""),
@@ -259,7 +260,7 @@ module.exports = class MonthlyReport {
                         paragraph({ // лом 3А
                             children: [await oneChartText(FormChartUrl(new ChartUrl([3], MedPriceId, GetNMonthRange(date, 9), 1, "line", "month", "month", 1, 0)))]
                         }),
-                        await singleTableMinimax(3, GetNMonthRange(date, 9, true), 0, 1, "month", 1),// лом 3А
+                        await singleTable(3, MedPriceId, GetNMonthRange(date, 9, true), 0, 1, "month", 1),// лом 3А
                         new docx.Paragraph({children: [new docx.PageBreak()]}),
                         h3(""),
                         await tableMaterialMinimax([70,71,72,73,74,75,76,77,78,79,80,81,82,83,84], GetFirstDaysOfCurrentAndPrevMonth(date), 0, 1, "month"),
@@ -279,7 +280,7 @@ module.exports = class MonthlyReport {
                         h2("Рынок стали"),
                         h3("Полуфабрикаты"),
                         paragraph({ // заготовка сляб
-                            children: [await oneChartText(FormChartUrl(new ChartUrl([9, 11], MedPriceId, GetNMonthRange(date, 9), 1, "line", "month", "month", 1, 0)))]
+                            children: [await oneChartText(FormChartUrl(new ChartUrl([9, 11], MedPriceId, GetNMonthRange(date, 9), 1, "line", "month", "month", 1, 0,1)))]
                         }),
                         new docx.Paragraph({children: [new docx.PageBreak()]}),
                         h3(""),

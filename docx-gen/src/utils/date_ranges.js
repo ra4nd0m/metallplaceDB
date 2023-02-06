@@ -33,10 +33,16 @@ module.exports.GetYearRange = function (date, isRaw){
         `${FormatDayMonth(last.getMonth()+1)}-${FormatDayMonth(last.getDate())}-${last.getFullYear()}`
 }
 
-module.exports.GetNMonthRange = function (date, n, isRaw){
+module.exports.GetNMonthRange = function (date, n, isRaw, toFuture){
     const last = new Date(date)
     let first = new Date(date)
-    first.setMonth(first.getMonth() - n)
+    if(toFuture) {
+        first.setMonth(first.getMonth() + 1)
+        last.setMonth(last.getMonth() + n)
+    } else {
+        first.setMonth(first.getMonth() - n)
+    }
+
     if (isRaw){
         return [new Date(first), new Date(last)]
     }
