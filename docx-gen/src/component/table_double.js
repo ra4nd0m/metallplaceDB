@@ -1,11 +1,11 @@
 const docx = require("docx");
 const paragraph = require("../atom/paragraph");
 const {TableCellMarginNil, TableNoOuterBorders, FontFamilyMedium, FontSizeThMain, FontFamilyThin, FontSizeThExtraInfo,
-    FontSizeThSecondary
+    FontSizeThSecondary, MonthPredictId, FontSizeTd
 } = require("../const");
 const axios = require("axios");
 const tableBody = require("../atom/table_double_body");
-const {formatDateDb} = require("../utils/date_format");
+const {formatDateDb, formatDateTable} = require("../utils/date_format");
 const cellCenter = require("../atom/cell_centred")
 const textTh = require("../atom/text_th")
 
@@ -41,7 +41,7 @@ function headerMaterial(name, market, delivery, unit) {
     })
 }
 
-module.exports = async function tableDouble(materialId1, materialId2, propertyId, dates, unitChangeRound, percentChangeRound, scale) {
+module.exports = async function tableDouble(materialId1, materialId2, propertyId, dates, unitChangeRound, percentChangeRound, scale, predict) {
     const from = formatDateDb(dates[0])
     const to = formatDateDb(dates[1])
     let resBody1
@@ -118,6 +118,91 @@ module.exports = async function tableDouble(materialId1, materialId2, propertyId
         columnWidths: [3, 2, 2, 2, 2, 2, 2],
         rows: tableBody(resBody1.data, resBody2.data, unitChangeRound, percentChangeRound, scale),
     })
+    let tableComponents = [header, body]
 
-    return paragraph({children: [header, body]})
+    if(predict && scale === "month") {
+        let lastPrice1 = resBody1.data.price_feed[resBody1.data.price_feed.length - 1]
+        let lastPrice2 = resBody2.data.price_feed[resBody2.data.price_feed.length - 1]
+        let predictFrom = new Date(to)
+        let predictTo = new Date(predictFrom)
+        predictFrom.setMonth(predictFrom.getMonth())
+        predictTo.setMonth(predictTo.getMonth() + 3)
+
+        let predictBody1 = await axios.post("http://localhost:8080/getValueForPeriod", {
+            material_source_id: materialId1,
+            property_id: MonthPredictId,
+            start: predictFrom,
+            finish: predictTo
+        })
+        let predictFeed1 = predictBody1.data.price_feed
+        let predictBody2 = await axios.post("http://localhost:8080/getValueForPeriod", {
+            material_source_id: materialId2,
+            property_id: MonthPredictId,
+            start: predictFrom,
+            finish: predictTo
+        })
+        let predictFeed2 = predictBody2.data.price_feed
+
+        let lastPrice1Predict = predictFeed1.shift()
+        let lastPrice2Predict = predictFeed2.shift()
+        let predictAccuracy1 = `Точность прогноза за ${formatDateTable(lastPrice1.date, "monthFull")} - ${Math.round(100 - (Math.abs(lastPrice1.value - lastPrice1Predict.value)) / lastPrice1.value * 100)} %`
+        let predictAccuracy2 = `Точность прогноза за ${formatDateTable(lastPrice1.date, "monthFull")} - ${Math.round(100 - (Math.abs(lastPrice2.value - lastPrice2Predict.value)) / lastPrice2.value * 100)} %`
+
+        // "Прогноз"
+        tableComponents.push(
+            new docx.Table({
+                width: {
+                    size: 100,
+                    type: docx.WidthType.PERCENTAGE,
+                },
+                columnWidths: [1],
+                rows: [
+                    new docx.TableRow({
+                        children: [
+                            cellCenter({
+                                children: [textTh("Прогноз", FontFamilyMedium, FontSizeThSecondary)]
+                            })
+                        ]
+                    })
+                ]
+            })
+        )
+
+        // Predict feed
+        tableComponents.push(
+            new docx.Table({
+                width: {
+                    size: 100,
+                    type: docx.WidthType.PERCENTAGE,
+                },
+                columnWidths: [3, 2, 2, 2, 2, 2, 2],
+                rows: tableBody(predictBody1.data, predictBody2.data, unitChangeRound, percentChangeRound, scale)
+            })
+        )
+
+        // Predict accuracy
+        tableComponents.push(
+            new docx.Table({
+                width: {
+                    size: 100,
+                    type: docx.WidthType.PERCENTAGE,
+                },
+                columnWidths: [9, 6],
+                rows: [
+                    new docx.TableRow({
+                        children: [
+                            cellCenter({
+                                children: [textTh(predictAccuracy1, FontFamilyThin, FontSizeTd)]
+                            }),
+                            cellCenter({
+                                children: [textTh(predictAccuracy2, FontFamilyThin, FontSizeTd)]
+                            }),
+                        ]
+                    })
+                ]
+            })
+        )
+
+    }
+    return paragraph({children: tableComponents})
 }

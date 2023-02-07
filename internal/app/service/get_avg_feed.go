@@ -82,5 +82,6 @@ func getPriceArrAvg(feed []model.Price) model.Price {
 	for _, p := range feed {
 		sum += p.Value
 	}
-	return model.Price{Date: feed[0].Date, Value: math.Round(sum/float64(len(feed))*100) / 100}
+	date := time.Date(feed[0].Date.Year(), feed[0].Date.Month(), 1, 0, 0, 0, 0, time.Local)
+	return model.Price{Date: date, Value: math.Round(sum/float64(len(feed))*100) / 100}
 }

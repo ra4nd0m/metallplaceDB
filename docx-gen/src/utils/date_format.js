@@ -11,10 +11,44 @@ module.exports.formatDateTable = (d, type) => {
     if (typeof d === 'string') {
         d = new Date(d)
     }
-    if(type === "month"){
+    if (type === "month"){
         return getRuMonth(d)
     }
+    if (type === "monthFull"){
+        return getRuMonthFull(d)
+    }
     return `${FormatDayMonth(d.getDate())}.${FormatDayMonth(d.getMonth() + 1)}.${d.getFullYear()}`
+}
+
+function getRuMonthFull(date){
+    const month = date.getMonth();
+    const year = date.getFullYear().toString().slice(-2);
+    switch (month) {
+        case 0:
+            return 'январь';
+        case 1:
+            return 'февраль';
+        case 2:
+            return 'март';
+        case 3:
+            return 'апрель';
+        case 4:
+            return 'май';
+        case 5:
+            return 'июнь';
+        case 6:
+            return 'июль';
+        case 7:
+            return 'август';
+        case 8:
+            return 'сентябрь';
+        case 9:
+            return 'октябрь';
+        case 10:
+            return 'ноябрь';
+        case 11:
+            return 'декабрь';
+    }
 }
 
 function getRuMonth(date) {
