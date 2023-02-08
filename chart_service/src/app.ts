@@ -306,7 +306,7 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
                 backgroundColor: 'rgba(253,179,151,0)',
                 color: 'rgba(0,0,0,1)',
                 anchor: 'end',
-                display: 'true',
+                display: 'auto',
                 formatter: function (value, context) {
                     let label = ""
                     if (toFixed > 0) {
@@ -342,8 +342,8 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
             if (minVal > 50) {
                 halfData.push(minVal*0.98);
             } else if (minVal < 5){
-                halfData.push(minVal * 0.90)
-            }else {
+                halfData.push(minVal * 0.80)
+            } else {
                 halfData.push(minVal * 0.93);
             }
         })
