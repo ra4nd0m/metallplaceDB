@@ -41,7 +41,7 @@ function headerMaterial(name, market, delivery, unit) {
     })
 }
 
-module.exports = async function tableDouble(materialId1, materialId2, propertyId, dates, unitChangeRound, percentChangeRound, scale, predict) {
+module.exports = async function tableDouble(materialId1, materialId2, propertyId, dates, unitChangeRound, percentChangeRound, scale, predict, priceRound) {
     const from = formatDateDb(dates[0])
     const to = formatDateDb(dates[1])
     let resBody1
@@ -116,7 +116,7 @@ module.exports = async function tableDouble(materialId1, materialId2, propertyId
             type: docx.WidthType.PERCENTAGE,
         },
         columnWidths: [3, 2, 2, 2, 2, 2, 2],
-        rows: tableBody(resBody1.data, resBody2.data, unitChangeRound, percentChangeRound, scale),
+        rows: tableBody(resBody1.data, resBody2.data, unitChangeRound, percentChangeRound, scale, priceRound),
     })
     let tableComponents = [header, body]
 
@@ -176,7 +176,7 @@ module.exports = async function tableDouble(materialId1, materialId2, propertyId
                     type: docx.WidthType.PERCENTAGE,
                 },
                 columnWidths: [3, 2, 2, 2, 2, 2, 2],
-                rows: tableBody(predictBody1.data, predictBody2.data, unitChangeRound, percentChangeRound, scale)
+                rows: tableBody(predictBody1.data, predictBody2.data, unitChangeRound, percentChangeRound, scale, priceRound)
             })
         )
 

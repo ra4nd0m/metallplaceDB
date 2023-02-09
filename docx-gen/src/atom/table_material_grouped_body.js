@@ -6,7 +6,7 @@ const textTdItalic = require("../atom/text_td_small_cursive")
 const textTh = require("../atom/text_th")
 const {FontFamily, FontFamilyThin, FontFamilySemiBold, FontSizeThSecondary, FontSizeTdMicro} = require("../const");
 
-module.exports = function (body, titlesIndexes, titles){
+module.exports = function (body, titlesIndexes, titles, priceRound){
     let rows = [];
     let tableRowCnt = 0
     let idxCnt = 0
@@ -40,10 +40,10 @@ module.exports = function (body, titlesIndexes, titles){
                         children: [textTd(m.Unit, undefined, undefined, FontFamily)]
                     }),
                     cellCenter({
-                        children: [textTd(m.Week1Med.price_feed[0].value, undefined, undefined, FontFamily)]
+                        children: [textTd(m.Week1Med.price_feed[0].value, undefined, priceRound, FontFamily)]
                     }),
                     cellCenter({
-                        children: [textTd(m.Week2Med.price_feed[0].value, undefined, undefined, FontFamilySemiBold)]
+                        children: [textTd(m.Week2Med.price_feed[0].value, undefined, priceRound, FontFamilySemiBold)]
                     }),
                     cellCenter({
                         children: [textTd(changeUnits.Text, changeUnits.Color, undefined, undefined, FontFamily)]

@@ -2,10 +2,10 @@ GET localhost:8080/getValueForPeriod
 Content-Type: application/json
 
 {
-  "material_source_id": 2,
-  "property_id": 1,
-  "start": "2021-09-27",
-  "finish": "2021-10-01"
+  "material_source_id": 70,
+  "property_id": 3,
+  "start": "2023-01-01",
+  "finish": "2023-01-01"
 }
 
 ###
@@ -92,7 +92,7 @@ GET http://localhost:8080/getChart/17-19_1_11-10-2022_12-09-2022_1_line_day_day_
 GET http://localhost:8080/getReport/weekly/2022-12-13
 
 ###
-GET http://localhost:8080/getReport/monthly/2022-11-13
+GET http://localhost:8080/getReport/monthly/2023-01-03
 
 ###
 GET localhost:8080/getPropertyName

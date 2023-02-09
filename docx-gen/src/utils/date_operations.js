@@ -54,10 +54,13 @@ module.exports.Get2LastMondays = function (date){
 
 module.exports.GetFirstDaysOfCurrentAndPrevMonth = function (date) {
     const currentMonth = date.getMonth();
+    const currentYear = date.getFullYear()
+    const prevYear = currentMonth === 0 ? currentYear - 1 : currentYear
     const prevMonth = currentMonth === 0 ? 11 : currentMonth - 1; // handle January (0) by wrapping around to December (11)
 
+
     const currentMonthFirstDay = new Date(date.getFullYear(), currentMonth, 1);
-    const prevMonthFirstDay = new Date(date.getFullYear(), prevMonth, 1);
+    const prevMonthFirstDay = new Date(prevYear, prevMonth, 1);
 
     return [ prevMonthFirstDay, currentMonthFirstDay ];
 }

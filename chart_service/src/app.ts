@@ -63,15 +63,15 @@ const getChart = async (XLabelSet: string[], YDataSets: YDataSet[], options: Cha
     let datasets: Dataset[] = [];
     let colors: string[]
     if (options.title.length > 0) colors = ['#844a88', '#5d4841', '#e35b33','#7b8a63', '#e35b33']
-    if(YDataSets.length == 1){
+    if(YDataSets.length == 1 && options.title.length === 0){
         colors = ['#F77647']
     }
-    if(YDataSets.length == 2){
+    if(YDataSets.length == 2 && options.title.length === 0){
         colors = ['#a1806a', '#7b8a63']
     }
     let i = 0
     let lineThickness = 6
-    if (options.labels || YDataSets.length >= 2) lineThickness = 2
+    if (options.labels || YDataSets.length >= 2 || options.title.length > 0) lineThickness = 4
 
     // Creating dataset lines: material - price feed
     YDataSets.forEach(set => {

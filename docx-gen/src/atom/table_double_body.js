@@ -6,11 +6,18 @@ const textTd = require("../atom/text_td")
 const getToFixed = require("../utils/get_to_fixed")
 const {FontFamilySemiBold, FontFamily} = require("../const");
 
-module.exports = function (feed1, feed2, unitChangeRound, percentChangeRound, scale) {
+module.exports = function (feed1, feed2, unitChangeRound, percentChangeRound, scale, priceRound) {
     let rows = [];
     const pf1 = feed1.price_feed
     const pf2 = feed2.price_feed
-    const fixed = getToFixed([pf1, pf2])
+    let fixed
+    if (priceRound === undefined){
+        fixed = getToFixed([pf1, pf2])
+    } else {
+        fixed = priceRound
+    }
+
+
     for (let i = 0; i < pf2.length; i++) {
         const changeUnits1 = getChange(pf1, i, feed1.prev_price, false, unitChangeRound);
         const changePercents1 = getChange(pf1, i, feed1.prev_price, true, percentChangeRound);

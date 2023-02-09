@@ -36,7 +36,7 @@ function headerMaterial(title, unit, font){
     })
 }
 
-module.exports = async function tableMaterialMinimax(materialIds, dates, unitChangeRound, percentChangeRound, type) {
+module.exports = async function tableMaterialMinimax(materialIds, dates, unitChangeRound, percentChangeRound, type, priceRound) {
     const f = new Date(dates[0])
     const s = new Date(dates[1])
     if(type === undefined) type = "week"
@@ -105,7 +105,7 @@ module.exports = async function tableMaterialMinimax(materialIds, dates, unitCha
             type: docx.WidthType.PERCENTAGE,
         },
         columnWidths: [2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-        rows: tableBody(bodyInfo, unitChangeRound, percentChangeRound),
+        rows: tableBody(bodyInfo, unitChangeRound, percentChangeRound, priceRound),
     })
 
     return paragraph({children: [header, body]})

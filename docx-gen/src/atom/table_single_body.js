@@ -6,10 +6,16 @@ const {formatDateTable} = require("../utils/date_format");
 const getToFixed = require("../utils/get_to_fixed")
 const {FontFamily, FontFamilySemiBold} = require("../const");
 
-module.exports = function (input, unitChangeRound, percentChangeRound, type) {
+module.exports = function (input, unitChangeRound, percentChangeRound, type, priceRound) {
     let rows = [];
     const pf = input.price_feed
-    const fixed = getToFixed([pf])
+    let fixed
+    if(priceRound === undefined) {
+        fixed = getToFixed([pf])
+    } else {
+        fixed = priceRound
+    }
+
     for (let i = 0; i < pf.length; i++) {
         const changeUnits = getChange(pf, i, input.prev_price, false, unitChangeRound);
         const changePercents = getChange(pf, i, input.prev_price, true, percentChangeRound);

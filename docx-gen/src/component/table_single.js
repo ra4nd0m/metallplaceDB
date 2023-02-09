@@ -15,7 +15,7 @@ const cellCenter = require("../atom/cell_centred");
 const paragraph = require("../atom/paragraph");
 const {formatDateTable} = require("../utils/date_format");
 
-module.exports = async function singleTable(materialId, propertyId, dates, unitChangeRound, percentChangeRound, scale, predict) {
+module.exports = async function singleTable(materialId, propertyId, dates, unitChangeRound, percentChangeRound, scale, predict, priceRound) {
     const first = new Date(dates[0])
     const last = new Date(dates[1])
     let resBody
@@ -93,7 +93,7 @@ module.exports = async function singleTable(materialId, propertyId, dates, unitC
                         }),
                     ]
                 }),
-                ...tableBody(resBody.data, unitChangeRound, percentChangeRound, scale),
+                ...tableBody(resBody.data, unitChangeRound, percentChangeRound, scale, priceRound),
             ]
         })
     )

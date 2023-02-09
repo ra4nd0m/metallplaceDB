@@ -10,7 +10,7 @@ const paragraph = require("../atom/paragraph");
 const cellCenter = require("../atom/cell_centred")
 const {formatDateTable} = require("../utils/date_format")
 
-module.exports = async function(materialIds, dates, titlesIndexes, titles, type) {
+module.exports = async function(materialIds, dates, titlesIndexes, titles, type, priceRound) {
     const f = new Date(dates[0])
     const s = new Date(dates[1])
     let title1 = f
@@ -88,7 +88,7 @@ module.exports = async function(materialIds, dates, titlesIndexes, titles, type)
             type: docx.WidthType.PERCENTAGE,
         },
         columnWidths: [2,1,1,1,1,1],
-        rows: tableBody(bodyInfo, titlesIndexes, titles),
+        rows: tableBody(bodyInfo, titlesIndexes, titles, priceRound),
     })
 
     return paragraph({children: [header, body]})
