@@ -268,14 +268,14 @@ module.exports = class MonthlyReport {
                         new docx.Paragraph({children: [new docx.PageBreak()]}),
                         h3(""),
                         await singleTable(5, MedPriceId, GetNMonthRange(date, 9, true), 0, 1, "month", 1, 0), // чугун фоб
-                        await tableMaterialMinimax([108, 109, 110], GetFirstDaysOfCurrentAndPrevMonth(date), 0, 1, "month", 0),
+                        await tableMaterialMinimax([109, 110, 111], GetFirstDaysOfCurrentAndPrevMonth(date), 0, 1, "month", 0),
 
 
 
                         h2("Рынок стали"),
                         h3("Полуфабрикаты"),
                         paragraph({ // заготовка сляб
-                            children: [await oneChartText(FormChartUrl(new ChartUrl([9, 11], MedPriceId, GetNMonthRange(date, 9), 1, "line", "month", "month", 1, 0,1)))]
+                            children: [await oneChartText(FormChartUrl(new ChartUrl([9, 11], MedPriceId, GetNMonthRange(date, 9), 1, "line", "month", "month", 1, 0)))]
                         }),
                         new docx.Paragraph({children: [new docx.PageBreak()]}),
                         h3(""),
@@ -314,7 +314,7 @@ module.exports = class MonthlyReport {
                         await tableDouble(15, 16, MedPriceId, GetNMonthRange(date, 9, true), 0, 1, "month", 1, 0), // гк хк EXW
                         new docx.Paragraph({children: [new docx.PageBreak()]}),
                         h3(""),
-                        await tableMaterialMinimax([95,96,97,98,99,100,101,102,103,104,105,106,107], GetFirstDaysOfCurrentAndPrevMonth(date), 0, 1, "month", 0),
+                        await tableMaterialMinimax([96,97,98,99,100,101,102,103,104,105,106,107, 108], GetFirstDaysOfCurrentAndPrevMonth(date), 0, 1, "month", 0),
 
                         h3("Рынок ферросплавов и руд"),
                         await tableMaterialGrouped([17,18,19,20,21,22,23], [date, lastDayOfMonth], [0, 5], ["Ферросплавы (DDP Европа)", "Руда (CIF Китай)"], "month", 0),
