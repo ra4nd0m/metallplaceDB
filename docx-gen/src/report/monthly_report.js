@@ -59,7 +59,7 @@ module.exports = class MonthlyReport {
                     },
                     children: [
                         coverDates(coverTitles[0], coverTitles[1]),
-                        cover(),
+                        cover("monthly"),
                     ]
                 },
                 {

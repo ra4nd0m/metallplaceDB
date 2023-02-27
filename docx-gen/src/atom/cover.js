@@ -2,11 +2,15 @@ const paragraph = require("../atom/paragraph");
 const docx = require("docx");
 const fs = require("fs");
 
-module.exports = function () {
+module.exports = function (type) {
+    let coverPath = "./src/static/cover_weekly.png"
+    if (type === "monthly") {
+        coverPath = "./src/static/cover_monthly.jpg"
+    }
     return paragraph({
         children: [
             new docx.ImageRun({
-                data: fs.readFileSync("./src/static/cover.png"),
+                data: fs.readFileSync(coverPath),
                 transformation: {
                     width: 795,
                     height: 1130,
