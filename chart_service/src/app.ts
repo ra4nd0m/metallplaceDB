@@ -6,9 +6,6 @@ import {LabelOptions} from "chartjs-plugin-datalabels/types/options";
 
 const express = require('express')
 const {ChartJSNodeCanvas} = require('chartjs-node-canvas');
-const annotation = require('chartjs-plugin-annotation')
-import Annotation from 'chartjs-plugin-annotation'
-import {inspect} from "util";
 let app = express()
 const port = 3000
 
@@ -59,15 +56,21 @@ function getPercentChangesArr(prices: number[]): string[] {
 const getChart = async (XLabelSet: string[], YDataSets: YDataSet[], options: ChartOptions): Promise<Buffer> => {
     let width = 900; //px
     let height = 450; //px
-    const canvasRenderService = new ChartJSNodeCanvas({width, height, chartJsFactory});
+    let canvasRenderService
+    try{
+        canvasRenderService = new ChartJSNodeCanvas({width, height, chartJsFactory});
+    } catch (e: unknown){
+        console.log(e)
+    }
+
     let datasets: Dataset[] = [];
     let colors: string[]
-    if (options.title.length > 0) colors = ['#844a88', '#5d4841', '#e35b33','#7b8a63', '#e35b33']
+    if (options.title.length > 0) colors = ['#844a88', '#5d4841', '#F77647','#8ab440', '#e35b33']
     if(YDataSets.length == 1 && options.title.length === 0){
         colors = ['#F77647']
     }
     if(YDataSets.length == 2 && options.title.length === 0){
-        colors = ['#a1806a', '#7b8a63']
+        colors = ['#F77647', '#8ab440']
     }
     let i = 0
     let lineThickness = 6
