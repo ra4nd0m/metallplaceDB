@@ -1,4 +1,5 @@
 import {Chart, ChartConfiguration} from "chart.js";
+const { ChartElement } = require('chart.js/auto');
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import {Request} from "express";
 import {Response} from "express/ts4.0";
@@ -54,8 +55,8 @@ function getPercentChangesArr(prices: number[]): string[] {
 }
 
 const getChart = async (XLabelSet: string[], YDataSets: YDataSet[], options: ChartOptions): Promise<Buffer> => {
-    let width = 900; //px
-    let height = 450; //px
+    let width = 1200; //px
+    let height = 600; //px
     let canvasRenderService
     try{
         canvasRenderService = new ChartJSNodeCanvas({width, height, chartJsFactory});
@@ -93,13 +94,19 @@ const getChart = async (XLabelSet: string[], YDataSets: YDataSet[], options: Cha
     })
     Chart.defaults.font.size = 25;
     let configuration: ChartConfiguration
-    if(options.title.length > 0){
-        configuration = getChartConfTitled(datasets, XLabelSet, options);
-    } else {
-        configuration = getChartConf(datasets, XLabelSet, options);
+    try {
+        if(options.title.length > 0){
+            configuration = getChartConfTitled(datasets, XLabelSet, options);
+        } else {
+            configuration = getChartConf(datasets, XLabelSet, options);
+        }
+    } catch (e: any){
+        console.log(e)
     }
-
+    // @ts-ignore
     return await canvasRenderService.renderToBuffer(configuration);
+
+
 }
 
 type ChartOptions = {
@@ -131,7 +138,7 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
     const legendFontSize = 9 * 2
     const axesFontSize = 9 * 2
     const pointRadius = 3
-    const labelOffset = 0
+    const labelOffset = 10
     const fontRegular = 'Montserrat'
     const textColor = '#000000'
     const predictPointColor = '#844a88'
@@ -304,7 +311,6 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
         conf.options.plugins = {
             ...conf.options?.plugins,
             datalabels: {
-                offset: labelOffset,
                 borderRadius: 0,
                 backgroundColor: 'rgba(253,179,151,0)',
                 color: 'rgba(0,0,0,1)',
@@ -323,6 +329,26 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
                         return formatYLabel(Math.round(+value))
                     }
                     return formatYLabel(value)
+                },
+
+                offset: function(context) {
+                    if (datasets.length != 2) {
+                        return labelOffset
+                    }
+                    let curDatasetIdx = context.datasetIndex;
+                    let oppositeDatasetIdx = curDatasetIdx === 1 ? 0 : 1;
+
+                    let dataIndex = context.dataIndex; // get the current point index
+                    let isTopLine: boolean;
+
+                    // Check which line is on top based on the values of the current point index
+                    isTopLine = datasets[curDatasetIdx].data[dataIndex] >= datasets[oppositeDatasetIdx].data[dataIndex];
+
+                    if (isTopLine) {
+                        return labelOffset; // Top line label on top
+                    } else {
+                        return labelOffset - 45; // Bottom line label on bottom
+                    }
                 },
                 align: 'top',
                 textAlign: 'center',
