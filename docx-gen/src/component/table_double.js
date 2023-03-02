@@ -48,16 +48,16 @@ module.exports = async function tableDouble(materialId1, materialId2, propertyId
     let resBody2
     if (scale === undefined) scale = "day"
 
-    const resMat1 = await axios.post("http://localhost:8080/getMaterialInfo", {id: materialId1})
-    const resMat2 = await axios.post("http://localhost:8080/getMaterialInfo", {id: materialId2})
+    const resMat1 = await axios.post(`http://${process.env.HTTP_HOST}:${process.env.HTTP_PORT}/getMaterialInfo`, {id: materialId1})
+    const resMat2 = await axios.post(`http://${process.env.HTTP_HOST}:${process.env.HTTP_PORT}/getMaterialInfo`, {id: materialId2})
     if(scale === "day"){
-        resBody1 = await axios.post("http://localhost:8080/getValueForPeriod", {
+        resBody1 = await axios.post(`http://${process.env.HTTP_HOST}:${process.env.HTTP_PORT}/getValueForPeriod`, {
             material_source_id: materialId1,
             property_id: propertyId,
             start: from,
             finish: to
         })
-        resBody2 = await axios.post("http://localhost:8080/getValueForPeriod", {
+        resBody2 = await axios.post(`http://${process.env.HTTP_HOST}:${process.env.HTTP_PORT}/getValueForPeriod`, {
             material_source_id: materialId2,
             property_id: propertyId,
             start: from,
@@ -65,13 +65,13 @@ module.exports = async function tableDouble(materialId1, materialId2, propertyId
         })
     }
     if(scale === "month"){
-        resBody1 = await axios.post("http://localhost:8080/getMonthlyAvgFeed", {
+        resBody1 = await axios.post(`http://${process.env.HTTP_HOST}:${process.env.HTTP_PORT}/getMonthlyAvgFeed`, {
             material_source_id: materialId1,
             property_id: propertyId,
             start: from,
             finish: to
         })
-        resBody2 = await axios.post("http://localhost:8080/getMonthlyAvgFeed", {
+        resBody2 = await axios.post(`http://${process.env.HTTP_HOST}:${process.env.HTTP_PORT}/getMonthlyAvgFeed`, {
             material_source_id: materialId2,
             property_id: propertyId,
             start: from,
@@ -128,14 +128,14 @@ module.exports = async function tableDouble(materialId1, materialId2, propertyId
         predictFrom.setMonth(predictFrom.getMonth())
         predictTo.setMonth(predictTo.getMonth() + 3)
 
-        let predictBody1 = await axios.post("http://localhost:8080/getValueForPeriod", {
+        let predictBody1 = await axios.post(`http://${process.env.HTTP_HOST}:${process.env.HTTP_PORT}/getValueForPeriod`, {
             material_source_id: materialId1,
             property_id: MonthPredictId,
             start: predictFrom,
             finish: predictTo
         })
         let predictFeed1 = predictBody1.data.price_feed
-        let predictBody2 = await axios.post("http://localhost:8080/getValueForPeriod", {
+        let predictBody2 = await axios.post(`http://${process.env.HTTP_HOST}:${process.env.HTTP_PORT}/getValueForPeriod`, {
             material_source_id: materialId2,
             property_id: MonthPredictId,
             start: predictFrom,

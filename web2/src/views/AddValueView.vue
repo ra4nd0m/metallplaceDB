@@ -200,7 +200,7 @@ export default {
       formData.append("file", this.file);
       formData.append("fileSize", this.file.size);
 
-      const response = await fetch("http://localhost:8080/UpdateMainFile", {
+      const response = await fetch(`http://${process.env.HTTP_HOST}:${process.env.HTTP_PORT}/UpdateMainFile`, {
         method: "POST",
         body: formData
       });
@@ -218,7 +218,7 @@ export default {
       //  return
       //}
       // send request to server
-      fetch('http://localhost:8080/initImport', {
+      fetch(`http://${process.env.HTTP_HOST}:${process.env.HTTP_PORT}/initImport`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

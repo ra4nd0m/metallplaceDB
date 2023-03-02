@@ -36,7 +36,6 @@ module.exports.FontSizeInfoRow = 14
 module.exports.FontSizeHeading3 = 24
 module.exports.FontSizeParagraph = 9 * 2
 module.exports.HeadingColor = "#2E74B5"
-module.exports.mainServerHost = "localhost"
 module.exports.h2Size = 16 * 2
 module.exports.h2Color = '#F77647'
 module.exports.h3Size = 14 * 2

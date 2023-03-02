@@ -1,6 +1,6 @@
 export const addValue = async (materialId, propertyName, value, createdOn) => {
     value.replace(",", ".")
-    const respAddValue = await fetch('http://localhost:8080/addValue', {
+    const respAddValue = await fetch(`http://${process.env.HTTP_HOST}:${process.env.HTTP_PORT}/addValue`, {
         method: 'POST',
         headers: {
             'Accept': 'application/json',

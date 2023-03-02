@@ -24,17 +24,17 @@ module.exports = async function singleTableMinimax(materialId, dates, unitChange
     const from = `${first.getFullYear()}-${FormatDayMonth(first.getMonth() + 1)}-${FormatDayMonth(first.getDate())}`
     const to = `${last.getFullYear()}-${FormatDayMonth(last.getMonth() + 1)}-${FormatDayMonth(last.getDate())}`
 
-    const resMat = await axios.post("http://localhost:8080/getMaterialInfo", {id: materialId})
+    const resMat = await axios.post(`http://${process.env.HTTP_HOST}:${process.env.HTTP_PORT}/getMaterialInfo`, {id: materialId})
 
     if (type === "day"){
-        minBody = await axios.post("http://localhost:8080/getValueForPeriod", { material_source_id: materialId, property_id: MinPriceId, start: from, finish: to})
-        maxBody = await axios.post("http://localhost:8080/getValueForPeriod", { material_source_id: materialId, property_id: MaxPriceId, start: from, finish: to})
-        medBody = await axios.post("http://localhost:8080/getValueForPeriod", { material_source_id: materialId, property_id: MedPriceId, start: from, finish: to})
+        minBody = await axios.post(`http://${process.env.HTTP_HOST}:${process.env.HTTP_PORT}/getValueForPeriod`, { material_source_id: materialId, property_id: MinPriceId, start: from, finish: to})
+        maxBody = await axios.post(`http://${process.env.HTTP_HOST}:${process.env.HTTP_PORT}/getValueForPeriod`, { material_source_id: materialId, property_id: MaxPriceId, start: from, finish: to})
+        medBody = await axios.post(`http://${process.env.HTTP_HOST}:${process.env.HTTP_PORT}/getValueForPeriod`, { material_source_id: materialId, property_id: MedPriceId, start: from, finish: to})
     }
     if (type === "month"){
-        minBody = await axios.post("http://localhost:8080/getMonthlyAvgFeed", { material_source_id: materialId, property_id: MinPriceId, start: from, finish: to})
-        maxBody = await axios.post("http://localhost:8080/getMonthlyAvgFeed", { material_source_id: materialId, property_id: MaxPriceId, start: from, finish: to})
-        medBody = await axios.post("http://localhost:8080/getMonthlyAvgFeed", { material_source_id: materialId, property_id: MedPriceId, start: from, finish: to})
+        minBody = await axios.post(`http://${process.env.HTTP_HOST}:${process.env.HTTP_PORT}/getMonthlyAvgFeed`, { material_source_id: materialId, property_id: MinPriceId, start: from, finish: to})
+        maxBody = await axios.post(`http://${process.env.HTTP_HOST}:${process.env.HTTP_PORT}/getMonthlyAvgFeed`, { material_source_id: materialId, property_id: MaxPriceId, start: from, finish: to})
+        medBody = await axios.post(`http://${process.env.HTTP_HOST}:${process.env.HTTP_PORT}/getMonthlyAvgFeed`, { material_source_id: materialId, property_id: MedPriceId, start: from, finish: to})
     }
 
     let nameRaw = resMat.data.info.Name.split(", ")

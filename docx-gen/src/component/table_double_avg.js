@@ -65,15 +65,15 @@ module.exports = async function tableDoubleWithWeekAvg(materialId1, materialId2,
     const from = formatDateDb(dates[0])
     const to = formatDateDb(dates[1])
 
-    const resMat1 = await axios.post("http://localhost:8080/getMaterialInfo", {id: materialId1})
-    const resMat2 = await axios.post("http://localhost:8080/getMaterialInfo", {id: materialId2})
-    const resBody1 = await axios.post("http://localhost:8080/getValueForPeriod", {
+    const resMat1 = await axios.post(`http://${process.env.HTTP_HOST}:${process.env.HTTP_PORT}/getMaterialInfo`, {id: materialId1})
+    const resMat2 = await axios.post(`http://${process.env.HTTP_HOST}:${process.env.HTTP_PORT}/getMaterialInfo`, {id: materialId2})
+    const resBody1 = await axios.post(`http://${process.env.HTTP_HOST}:${process.env.HTTP_PORT}/getValueForPeriod`, {
         material_source_id: materialId1,
         property_id: propertyId,
         start: from,
         finish: to
     })
-    const resBody2 = await axios.post("http://localhost:8080/getValueForPeriod", {
+    const resBody2 = await axios.post(`http://${process.env.HTTP_HOST}:${process.env.HTTP_PORT}/getValueForPeriod`, {
         material_source_id: materialId2,
         property_id: propertyId,
         start: from,

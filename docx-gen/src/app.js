@@ -4,9 +4,15 @@ const MonthlyReport = require("./report/monthly_report")
 const ShortReport = require("./report/short_report")
 const express = require('express')
 let bodyParser = require('body-parser');
+const path = require('path');
+const dotenv = require('dotenv');
 
 let app = express()
-const port = 3001
+dotenv.config({path: path.join(__dirname, '../../.env')})
+
+const port = process.env.DOCXGEN_PORT
+const host = process.env.DOCXGEN_HOST
+
 app.use(bodyParser.json({limit: '50mb'}));
 app.use(express.json({limit: '50mb'}));
 app.use(express.urlencoded({limit: '50mb'}));
@@ -65,7 +71,7 @@ app.post("/gen", (req, res) => {
     }
 })
 
-app.listen(port, () => {
+app.listen(port, host, () => {
     console.log(`Docx-gen listening on port ${port}`)
 })
 

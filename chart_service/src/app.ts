@@ -1,14 +1,18 @@
 import {Chart, ChartConfiguration} from "chart.js";
-const { ChartElement } = require('chart.js/auto');
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import {Request} from "express";
 import {Response} from "express/ts4.0";
 import {LabelOptions} from "chartjs-plugin-datalabels/types/options";
+import * as dotenv from 'dotenv'
+const path = require('path');
 
 const express = require('express')
 const {ChartJSNodeCanvas} = require('chartjs-node-canvas');
 let app = express()
-const port = 3000
+dotenv.config({path: path.join(__dirname, '../../.env')})
+
+const port = process.env.CHART_PORT
+const host = process.env.CHART_HOST
 
 const bodyParser = require('body-parser');
 app.use(bodyParser.json()); // for parsing application/json
@@ -567,7 +571,7 @@ app.post('/gen', (req: Request, res: Response) => {
         )
 })
 
-app.listen(port, () => {
+app.listen(port, host,() => {
     console.log(`Chart-gen listening on port ${port}`)
 })
 

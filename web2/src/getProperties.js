@@ -1,7 +1,7 @@
 export const getPropertiesList = async (materialId) => {
 
     let list = []
-    const rawResponse = await fetch('http://localhost:8080/getPropertyList', {
+    const rawResponse = await fetch(`http://${process.env.HTTP_HOST}:${process.env.HTTP_PORT}/getPropertyList`, {
         method: 'POST',
         headers: {
             'Accept': 'application/json',

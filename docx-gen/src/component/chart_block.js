@@ -43,14 +43,15 @@ async function getInfo(isBig, url, group, comparePeriod) {
     if (isBig) return []
     if (comparePeriod === undefined) comparePeriod = "н/н"
     const nValues = 2 * group
-    url = url.substring("http://localhost:8080/getChart/".length, url.length)
+
+    url = url.substring(`http://${process.env.HTTP_HOST}:${process.env.HTTP_PORT}/getChart/`.length, url.length)
     const urlParams = url.split("_");
     const materialId = urlParams[0]
     const propertyId = urlParams[1]
     const finish = urlParams[3].split("-")
     const date = `${finish[2]}-${finish[0]}-${finish[1]}`
-    const materialInfo = await axios.post("http://localhost:8080/getMaterialInfo", {id: Number(materialId)})
-    let prices = await axios.post("http://localhost:8080/getNLastValues", {
+    const materialInfo = await axios.post(`http://${process.env.HTTP_HOST}:${process.env.HTTP_PORT}/getMaterialInfo`, {id: Number(materialId)})
+    let prices = await axios.post(`http://${process.env.HTTP_HOST}:${process.env.HTTP_PORT}/getNLastValues`, {
         material_source_id: Number(materialId),
         property_id: Number(propertyId),
         n_values: nValues,
@@ -67,7 +68,7 @@ async function getInfo(isBig, url, group, comparePeriod) {
     if (comparePeriod === "м/м") {
         const finish = date
         const start = subtractMonth(date)
-        prices = await axios.post("http://localhost:8080/getMonthlyAvgFeed", {
+        prices = await axios.post(`http://${process.env.HTTP_HOST}:${process.env.HTTP_PORT}/getMonthlyAvgFeed`, {
             material_source_id: Number(materialId),
             property_id: Number(propertyId),
             start: start,
