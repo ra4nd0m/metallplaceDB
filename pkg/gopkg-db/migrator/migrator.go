@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 	"log"
+	"os"
 
 	"github.com/golang-migrate/migrate/v4"
 	"github.com/golang-migrate/migrate/v4/database"
@@ -22,10 +23,24 @@ func New(host string, port int, user, password, name string) (*Migrator, error) 
 	if err != nil {
 		return nil, err
 	}
+	dir, err := getMigrationsDir()
+	if err != nil {
+		return nil, err
+	}
 	return &Migrator{
 		driver: driver,
-		dir:    "internal/migrations",
+		dir:    dir,
 	}, nil
+}
+
+func getMigrationsDir() (string, error) {
+	dirList := []string{"internal/migrations", "../../internal/migrations"}
+	for _, dir := range dirList {
+		if _, err := os.Stat(dir); !os.IsNotExist(err) {
+			return dir, nil
+		}
+	}
+	return "", fmt.Errorf("cant find migrations dir in: %v", dirList)
 }
 
 type Migrator struct {

@@ -6,7 +6,6 @@ require (
 	github.com/go-playground/validator v9.31.0+incompatible
 	github.com/golang-migrate/migrate/v4 v4.15.2
 	github.com/gorilla/mux v1.7.4
-	github.com/jackc/pgconn v1.13.0
 	github.com/jackc/pgx/v5 v5.2.0
 	github.com/joho/godotenv v1.3.0
 	github.com/lib/pq v1.10.6
@@ -22,10 +21,7 @@ require (
 	github.com/google/go-cmp v0.5.7 // indirect
 	github.com/hashicorp/errwrap v1.1.0 // indirect
 	github.com/hashicorp/go-multierror v1.1.1 // indirect
-	github.com/jackc/chunkreader/v2 v2.0.1 // indirect
-	github.com/jackc/pgio v1.0.0 // indirect
 	github.com/jackc/pgpassfile v1.0.0 // indirect
-	github.com/jackc/pgproto3/v2 v2.3.1 // indirect
 	github.com/jackc/pgservicefile v0.0.0-20200714003250-2b9c44734f2b // indirect
 	github.com/jackc/puddle/v2 v2.1.2 // indirect
 	github.com/leodido/go-urn v1.2.1 // indirect
