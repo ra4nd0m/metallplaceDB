@@ -115,8 +115,8 @@ module.exports = class MonthlyReport {
                         paragraph({
                             children: [
                                 await twoChart( //чугун лом3а
-                                    FormChartUrl(new ChartUrl([5], MedPriceId, GetNMonthRange(date, 23), 0, "line", "week", "month", 0)),
-                                    FormChartUrl(new ChartUrl([3], MedPriceId, GetNMonthRange(date, 23), 0, "line", "week", "month", 0)),
+                                    FormChartUrl(new ChartUrl([5], MedPriceId, GetNMonthRange(date, 23), 0, "line", "month", "month", 0)),
+                                    FormChartUrl(new ChartUrl([3], MedPriceId, GetNMonthRange(date, 23), 0, "line", "month", "month", 0)),
                                     undefined,
                                     "м/м"
                                 )
@@ -139,7 +139,7 @@ module.exports = class MonthlyReport {
                         paragraph({
                             children: [
                                 await oneChart( // заготовка
-                                    FormChartUrl(new ChartUrl([9], MedPriceId, GetNMonthRange(date, 23), 0, "line", "week", "month", 0)),
+                                    FormChartUrl(new ChartUrl([9], MedPriceId, GetNMonthRange(date, 23), 0, "line", "month", "month", 0)),
                                     undefined,
                                 "м/м"
                                 )
@@ -150,7 +150,7 @@ module.exports = class MonthlyReport {
                         paragraph({
                             children: [
                                 await twoChart( // арматуры
-                                    FormChartUrl(new ChartUrl([10], MedPriceId, GetNMonthRange(date, 23), 0, "line", "week", "month", 0)),
+                                    FormChartUrl(new ChartUrl([10], MedPriceId, GetNMonthRange(date, 23), 0, "line", "month", "month", 0)),
                                     FormChartUrl(new ChartUrl([14], MedPriceId, GetNMonthRange(date, 20), 0, "line", "month", "month", 0)),
                                     undefined,
                                     "м/м"
@@ -161,7 +161,7 @@ module.exports = class MonthlyReport {
                         paragraph({
                             children: [
                                 await twoChart( // рулоны гк
-                                    FormChartUrl(new ChartUrl([12], MedPriceId, GetNMonthRange(date, 23), 0, "line", "week", "month", 0)),
+                                    FormChartUrl(new ChartUrl([12], MedPriceId, GetNMonthRange(date, 23), 0, "line", "month", "month", 0)),
                                     FormChartUrl(new ChartUrl([15], MedPriceId, GetNMonthRange(date, 20), 0, "line", "month", "month", 0)),
                                     undefined,
                                     "м/м"
@@ -171,7 +171,7 @@ module.exports = class MonthlyReport {
                         paragraph({
                             children: [
                                 await twoChart( // рулоны хк
-                                    FormChartUrl(new ChartUrl([13], MedPriceId, GetNMonthRange(date, 23), 0, "line", "week", "month", 0)),
+                                    FormChartUrl(new ChartUrl([13], MedPriceId, GetNMonthRange(date, 23), 0, "line", "month", "month", 0)),
                                     FormChartUrl(new ChartUrl([16], MedPriceId, GetNMonthRange(date, 20), 0, "line", "month", "month", 0)),
                                     undefined,
                                     "м/м"
@@ -185,8 +185,8 @@ module.exports = class MonthlyReport {
                         paragraph({
                             children: [
                                 await twoChart( //ферро- силиконмарганец
-                                    FormChartUrl(new ChartUrl([17], MedPriceId, GetNMonthRange(date, 23), 0, "line", "day", "month", 0)),
-                                    FormChartUrl(new ChartUrl([19], MedPriceId, GetNMonthRange(date, 23), 0, "line", "day", "month", 0)),
+                                    FormChartUrl(new ChartUrl([17], MedPriceId, GetNMonthRange(date, 23), 0, "line", "month", "month", 0)),
+                                    FormChartUrl(new ChartUrl([19], MedPriceId, GetNMonthRange(date, 23), 0, "line", "month", "month", 0)),
                                     undefined,
                                     "м/м"
                                 )
@@ -196,7 +196,7 @@ module.exports = class MonthlyReport {
 
                         paragraph({
                             children: [await oneChart( // ферросицилий
-                                FormChartUrl(new ChartUrl([18], MedPriceId, GetNMonthRange(date, 23), 0, "line", "day", "month", 0)),
+                                FormChartUrl(new ChartUrl([18], MedPriceId, GetNMonthRange(date, 23), 0, "line", "month", "month", 0)),
                                 undefined,
                                 "м/м"
                             )]
@@ -205,8 +205,8 @@ module.exports = class MonthlyReport {
                         paragraph({
                             children: [
                                 await twoChart( // ву ну феррохром
-                                    FormChartUrl(new ChartUrl([20], MedPriceId, GetNMonthRange(date, 23), 0, "line", "day", "month", 0)),
-                                    FormChartUrl(new ChartUrl([21], MedPriceId, GetNMonthRange(date, 23), 0, "line", "day", "month", 0)),
+                                    FormChartUrl(new ChartUrl([20], MedPriceId, GetNMonthRange(date, 23), 0, "line", "month", "month", 0)),
+                                    FormChartUrl(new ChartUrl([21], MedPriceId, GetNMonthRange(date, 23), 0, "line", "month", "month", 0)),
                                     undefined,
                                     "м/м"
                                 )
