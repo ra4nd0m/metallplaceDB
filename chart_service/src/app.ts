@@ -431,6 +431,18 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
 }
 
 function getChartConfTitled(datasets: Dataset[], dateArray: string[], options: ChartOptions): ChartConfiguration{
+    for (let i = 0; i < datasets.length; i++) {
+        const dataset = datasets[i];
+        let minusOneIndices = 0;
+        for (let j = 0; j < dataset.data.length; j++) {
+            if (dataset.data[j] > 0) {
+                break;
+            }
+            minusOneIndices++;
+        }
+        const firstValidIndex = minusOneIndices + 1;
+        datasets[i].data = dataset.data.slice(firstValidIndex);
+    }
     let basicConf = getChartConf(datasets, dateArray, options)
     // @ts-ignore
     basicConf.options.plugins.legend.position = "bottom"

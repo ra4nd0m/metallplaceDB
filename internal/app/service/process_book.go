@@ -486,6 +486,7 @@ func (s *Service) ParseBook(byte []byte) (chartclient.Request, error) {
 		curRow := startRow
 		var curDate string
 		var materialAndPrices chartclient.YDataSet
+		// Reading material name
 		value, err := book.GetCellValue(startSheet, utils.IntToAlphabet(int32(curCol))+strconv.Itoa(startRow))
 		if err != nil {
 			return chartclient.Request{}, fmt.Errorf("cant get cell value: %w", err)
@@ -494,6 +495,7 @@ func (s *Service) ParseBook(byte []byte) (chartclient.Request, error) {
 			break
 		}
 		materialAndPrices.Label = value
+		wereAnyValues := false
 
 		for row := curRow + 1; true; row++ {
 			// Reading prices
@@ -509,7 +511,11 @@ func (s *Service) ParseBook(byte []byte) (chartclient.Request, error) {
 				if isBreak {
 					break
 				}
+				if !wereAnyValues {
+					valueFloat = -1
+				}
 			} else {
+				wereAnyValues = true
 				valueFloat, err = strconv.ParseFloat(value, 64)
 				if err != nil {
 					return chartclient.Request{}, fmt.Errorf("cant convert string to float: %w", err)
@@ -673,27 +679,27 @@ func formatMonth(input string) string {
 	switch {
 	case contains([]string{"i", "янв", "jan", "январь"}, arr[0]):
 		return "Янв" + year
-	case contains([]string{"ii", "фев", "февраль"}, arr[0]):
+	case contains([]string{"ii", "фев", "февраль", "feb"}, arr[0]):
 		return "Фев" + year
-	case contains([]string{"iii", "мар", "март"}, arr[0]):
+	case contains([]string{"iii", "мар", "март", "mar"}, arr[0]):
 		return "Мар" + year
-	case contains([]string{"iv", "апр", "апрель"}, arr[0]):
+	case contains([]string{"iv", "апр", "апрель", "apr"}, arr[0]):
 		return "Апр" + year
-	case contains([]string{"v", "май"}, arr[0]):
+	case contains([]string{"v", "май", "may"}, arr[0]):
 		return "Май" + year
-	case contains([]string{"vi", "июн", "июнь"}, arr[0]):
+	case contains([]string{"vi", "июн", "июнь", "jun"}, arr[0]):
 		return "Июн" + year
-	case contains([]string{"vii", "июл", "июль"}, arr[0]):
+	case contains([]string{"vii", "июл", "июль", "jul"}, arr[0]):
 		return "Июл" + year
-	case contains([]string{"viii", "iix", "авг", "август"}, arr[0]):
+	case contains([]string{"viii", "iix", "авг", "август", "aug"}, arr[0]):
 		return "Авг" + year
-	case contains([]string{"ix", "сен", "сентябрь", "сент"}, arr[0]):
+	case contains([]string{"ix", "сен", "сентябрь", "сент", "sep"}, arr[0]):
 		return "Сен" + year
-	case contains([]string{"x", "х", "окт", "октябрь"}, arr[0]):
+	case contains([]string{"x", "х", "окт", "октябрь", "oct"}, arr[0]):
 		return "Окт" + year
-	case contains([]string{"xi", "ноя", "ноябрь", "нояб"}, arr[0]):
+	case contains([]string{"xi", "ноя", "ноябрь", "нояб", "nov"}, arr[0]):
 		return "Ноя" + year
-	case contains([]string{"xii", "дек", "декабрь"}, arr[0]):
+	case contains([]string{"xii", "дек", "декабрь", ""}, arr[0]):
 		return "Дек" + year
 	default:
 		return "undefined"
