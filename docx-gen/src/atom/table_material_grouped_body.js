@@ -32,8 +32,8 @@ module.exports = function (body, titlesIndexes, titles, priceRound){
             new docx.TableRow({
                 children:[
                     cellCenter({
-                        children: [textTd(names[0], undefined, undefined, FontFamily),
-                            textTdItalic(names[1], undefined, FontFamilyThin, FontSizeTdMicro),
+                        children: [textTd(`${names[0].trim()} (${names[1].trim()})`, undefined, undefined, FontFamily),
+                            textTdItalic(`${m.DeliveryType.trim()} ${m.Market.trim()}`, undefined, FontFamilyThin, FontSizeTdMicro),
                         ]
                     }),
                     cellCenter({

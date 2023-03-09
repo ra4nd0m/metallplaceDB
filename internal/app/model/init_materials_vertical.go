@@ -218,7 +218,7 @@ var InitMaterialsVertical = []Material{
 	},
 
 	{"07.ФС (М)",
-		"FeSi, 75% Si",
+		"FeSi; 75% Si",
 		"crugroup.com",
 		"Роттердам (ЕС)",
 		"DDP",
@@ -232,7 +232,7 @@ var InitMaterialsVertical = []Material{
 	},
 
 	{"07.ФС (М)",
-		"SiMn, 65% Mn; 17% Si",
+		"SiMn; 65% Mn, 17% Si",
 		"crugroup.com",
 		"Роттердам (ЕС)",
 		"DDP",
