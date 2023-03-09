@@ -5,12 +5,10 @@ import (
 	"errors"
 	"fmt"
 	"io/ioutil"
-	"math"
 	"metallplace/internal/app/model"
 	"metallplace/pkg/chartclient"
 	"os"
 	"strings"
-	"time"
 )
 
 func (s *Service) GetChart(ctx context.Context, chartPack model.ChartPack) ([]byte, error) {
@@ -25,6 +23,9 @@ func (s *Service) GetChart(ctx context.Context, chartPack model.ChartPack) ([]by
 
 		nameArr := strings.Split(material.Name, ", ")
 		name := nameArr[0] + " (" + strings.Join(nameArr[1:], " ") + ")"
+		if chartPack.Type == "bar" {
+			name += ", " + material.Unit
+		}
 
 		dataset := chartclient.YDataSet{Label: name, Data: []float64{}}
 
@@ -41,27 +42,6 @@ func (s *Service) GetChart(ctx context.Context, chartPack model.ChartPack) ([]by
 			feed, _, err = s.GetMonthlyAvgFeed(ctx, id, chartPack.PropertyId, start, finish)
 			if err != nil {
 				return nil, fmt.Errorf("cant get material_value: %w", err)
-			}
-			if chartPack.Predict {
-				lastPrice := feed[len(feed)-1]
-				st, err := time.Parse("2006-01-02", finish)
-				if err != nil {
-					return nil, fmt.Errorf("cant parse date in a month: %w", err)
-				}
-				f, err := time.Parse("2006-01-02", finish)
-				if err != nil {
-					return nil, fmt.Errorf("cant parse date in a month: %w", err)
-				}
-				predictStart := st.AddDate(0, 1, 0)
-				predictFinish := f.AddDate(0, 3, 0)
-				predictFeed, _, err := s.GetMaterialValueForPeriod(ctx, id, 5,
-					predictStart.Format("2006-01-02"),
-					predictFinish.Format("2006-01-02"),
-				)
-				feed = append(feed, predictFeed...)
-
-				lastPricePredict, _, err := s.GetMaterialValueForPeriod(ctx, id, 5, finish, finish)
-				dataset.PredictAccuracy = math.Round(100 - (math.Abs(lastPrice.Value-lastPricePredict[0].Value)/lastPrice.Value)*100)
 			}
 		case "week":
 			feed, _, err = s.GetWeeklyAvgFeed(ctx, id, chartPack.PropertyId, start, finish)
@@ -87,7 +67,6 @@ func (s *Service) GetChart(ctx context.Context, chartPack model.ChartPack) ([]by
 		req.Options.TickLimit = 0
 		req.Options.NeedLegend = chartPack.NeedLegend
 		req.Options.ToFixed = chartPack.ToFixed
-		req.Options.Predict = chartPack.Predict
 		isFirst = false
 	}
 

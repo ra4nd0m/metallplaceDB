@@ -121,7 +121,6 @@ type ChartOptions = {
     legend: boolean,
     to_fixed: number,
     title: string,
-    predict: boolean,
 }
 
 
@@ -271,35 +270,6 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
                 }
             },
         },
-    }
-    let predictAccuracyTime = ""
-    if (options.predict) {
-        if (options.x_step=="month") {
-            for(let dsIdx = 0; dsIdx < datasets.length; dsIdx ++){
-                // @ts-ignore
-                datasets[dsIdx].pointBackgroundColor = Array(datasets[dsIdx].data.length-monthPredictAmount)
-                    .fill(colors[dsIdx]).concat(Array(monthPredictAmount).fill(predictPointColor));
-                // @ts-ignore
-                datasets[dsIdx].borderColor = Array(datasets[dsIdx].data.length-monthPredictAmount)
-                    .fill(colors[dsIdx]).concat(Array(monthPredictAmount).fill(predictPointColor));
-                predictAccuracyTime = getRuMonthFull(dateArray[dateArray.length - monthPredictAmount - 1])
-            }
-        }
-        let annotationsText: string[] = ["Точность прогноза за " + predictAccuracyTime + ":"]
-        datasets.forEach(d => {
-            annotationsText.push(d.label + " - " + d.predictAccuracy + "%")
-        })
-        // @ts-ignore
-        conf.options.plugins.title = {
-            display: true,
-            text: annotationsText,
-            position: 'bottom',
-            color: '#000000',
-            font: {
-                family: 'Montserrat Thin',
-                size: 8 * 2,
-            }
-        }
     }
 
     if (options.labels) {
