@@ -24,7 +24,7 @@ module.exports = function (feed1, feed2, unitChangeRound, percentChangeRound, sc
         const changeUnits2 = getChange(pf2, i, feed2.prev_price, false, unitChangeRound);
         const changePercents2 = getChange(pf2, i, feed2.prev_price, true, percentChangeRound);
         let font = FontFamily
-        if (i > 4 && pf2.length >= 8) font = FontFamilySemiBold
+        if (i === pf2.length-1 && pf2.length >= 8) font = FontFamilySemiBold
         if (i === 4 && pf2.length === 5) font = FontFamilySemiBold
         rows.push(
             new docx.TableRow({

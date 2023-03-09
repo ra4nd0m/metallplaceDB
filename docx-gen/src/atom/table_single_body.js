@@ -20,7 +20,7 @@ module.exports = function (input, unitChangeRound, percentChangeRound, type, pri
         const changeUnits = getChange(pf, i, input.prev_price, false, unitChangeRound);
         const changePercents = getChange(pf, i, input.prev_price, true, percentChangeRound);
         let font = FontFamily
-        if (i > 4 && pf.length >= 8) font = FontFamilySemiBold
+        if (i === pf.length-1 && pf.length >= 8) font = FontFamilySemiBold
         if (i === 4 && pf.length === 5) font = FontFamilySemiBold
 
         rows.push(

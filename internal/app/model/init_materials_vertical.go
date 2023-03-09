@@ -24,7 +24,7 @@ var InitMaterialsVertical = []Material{
 	{"02.Лом",
 		"Лом, 3A",
 		"metallplace.ru",
-		"Урал (Урал)",
+		"Урал (Россия)",
 		"CPT",
 		"₽/т",
 		"A",
