@@ -22,7 +22,12 @@ func (s *Service) GetChart(ctx context.Context, chartPack model.ChartPack) ([]by
 		}
 
 		nameArr := strings.Split(material.Name, ", ")
-		name := nameArr[0] + " (" + strings.Join(nameArr[1:], " ") + ")"
+		var name string
+		if chartPack.Type == "bar" {
+			name = nameArr[0] + " - " + strings.Join(nameArr[1:], " ") + " (" + material.Market + ")"
+		}
+		name = nameArr[0] + " (" + strings.Join(nameArr[1:], " ") + ")"
+
 		if chartPack.Type == "bar" {
 			name += ", " + material.Unit
 		}
