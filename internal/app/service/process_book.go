@@ -42,6 +42,9 @@ func (s *Service) InitialImport(ctx context.Context) error {
 				}
 
 				err = s.repo.AddMaterialProperty(ctx, materialSourceId, propertyId)
+				if err != nil {
+					return fmt.Errorf("failed to add property %s: %w", property.Name, err)
+				}
 			}
 
 			// Going through material's properties, and reading property values
@@ -108,7 +111,7 @@ func (s *Service) InitialImport(ctx context.Context) error {
 
 					err = s.repo.AddMaterialValue(ctx, materialSourceId, property.Name, valueDecimal, valueStr, createdOn)
 					if err != nil {
-						return err
+						return fmt.Errorf("failed to add material value: %w", err)
 					}
 
 					row++
@@ -549,6 +552,73 @@ func (s *Service) ParseBook(byte []byte) (chartclient.Request, error) {
 	req.Options.Title = title
 	return req, nil
 }
+
+func (s *Service) ScanRosStat(ctx context.Context, byte []byte) error {
+	reader := bytes.NewReader(byte)
+	book, err := excelize.OpenReader(reader)
+	if err != nil {
+		return fmt.Errorf("cannot open exel file %w", err)
+	}
+	title, err := book.GetCellValue("Содеожание", "B2")
+	if err != nil {
+		return fmt.Errorf("cannot get title: %w", err)
+	}
+	titleArr := strings.Split(title, " ")
+	year, err := strconv.Atoi(titleArr[len(titleArr)-2])
+	if err != nil {
+		return fmt.Errorf("cannot convert year: %w", err)
+	}
+	month, err := monthStrToNumber(titleArr[len(titleArr)-2])
+	if err != nil {
+		return fmt.Errorf("cannot convert month: %w", err)
+	}
+	date := time.Date(year, time.Month(month-1), 1, 0, 0, 0, 0, time.UTC)
+	var coordinates []model.Coordinates
+	var volumePropertyId = 4
+	switch year {
+	case 21:
+		coordinates = model.RosStatMaterials21
+	default:
+		return fmt.Errorf("cannot find year: %d", year)
+	}
+	for _, coord := range coordinates {
+
+		name, err := book.GetCellValue(coord.Sheet, "A"+strconv.Itoa(coord.Row))
+		if err != nil {
+			return fmt.Errorf("cannot get name: %w", err)
+		}
+		location, err := book.GetCellValue(coord.Sheet, "A"+strconv.Itoa(coord.Row+2))
+		if err != nil {
+			return fmt.Errorf("cannot get location: %w", err)
+		}
+		materialSourceId, err := s.AddUniqueMaterial(ctx, name, "rosstat.gov.ru", location, "тонн", "")
+		if err != nil {
+			return fmt.Errorf("cannot add material %s: %w", name, err)
+		}
+		err = s.repo.AddMaterialProperty(ctx, materialSourceId, volumePropertyId)
+		if err != nil {
+			return fmt.Errorf("failed to add property: %w", err)
+		}
+		volume, err := book.GetCellValue(coord.Sheet, "D"+strconv.Itoa(coord.Row+2))
+		if err != nil {
+			return fmt.Errorf("cannot get volume: %w", err)
+		}
+		volumeFloat, err := strconv.ParseFloat(volume, 64)
+		if err != nil {
+			return fmt.Errorf("cannot convert volume: %w", err)
+		}
+		propertyName, err := s.GetPropertyName(ctx, volumePropertyId)
+		if err != nil {
+			return fmt.Errorf("cannot get property name: %w", err)
+		}
+		err = s.repo.AddMaterialValue(ctx, materialSourceId, propertyName, volumeFloat, "", date)
+		if err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
 func getMonthDateForPredict(month string) (time.Time, error) {
 	monthsMap := map[string]string{
 		"Янв": "Jan",
@@ -707,30 +777,30 @@ func formatMonth(input string) string {
 }
 
 func monthStrToNumber(month string) (int, error) {
-	switch month {
-	case "Январь":
+	switch strings.ToLower(month) {
+	case "январь":
 		return 1, nil
-	case "Февраль":
+	case "февраль":
 		return 2, nil
-	case "Март":
+	case "март":
 		return 3, nil
-	case "Апрель":
+	case "апрель":
 		return 4, nil
-	case "Май":
+	case "май":
 		return 5, nil
-	case "Июнь":
+	case "июнь":
 		return 6, nil
-	case "Июль":
+	case "июль":
 		return 7, nil
-	case "Август":
+	case "август":
 		return 8, nil
-	case "Сентябрь":
+	case "сентябрь":
 		return 9, nil
-	case "Октябрь":
+	case "октябрь":
 		return 10, nil
-	case "Ноябрь":
+	case "ноябрь":
 		return 11, nil
-	case "Декабрь":
+	case "декабрь":
 		return 12, nil
 	}
 	return 0, fmt.Errorf("wrong month string")
