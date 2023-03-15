@@ -5,11 +5,14 @@ import (
 	"context"
 	"fmt"
 	"github.com/xuri/excelize/v2"
+	"io/ioutil"
 	"math"
 	"metallplace/internal/app/model"
 	"metallplace/internal/pkg/utils"
 	"metallplace/pkg/chartclient"
 	db "metallplace/pkg/gopkg-db"
+	"os"
+	"path/filepath"
 	"strconv"
 	"strings"
 	"time"
@@ -18,7 +21,6 @@ import (
 // InitialImport Importing data from book, using layout written by hand
 func (s *Service) InitialImport(ctx context.Context) error {
 	dateLayout := "2-Jan-06"
-
 	book, err := excelize.OpenFile("var/analytics.xlsx")
 	if err != nil {
 		return fmt.Errorf("cannot open exel file %w", err)
@@ -468,8 +470,14 @@ func (s *Service) InitialImport(ctx context.Context) error {
 		return fmt.Errorf("cant exec init import tx: %w", err)
 	}
 
+	err = s.ImportRosStat(ctx)
+	if err != nil {
+		return fmt.Errorf("can't import ros stat: %w", err)
+	}
+
 	fmt.Print("Import finished!")
 	return nil
+
 }
 
 func (s *Service) ParseBook(byte []byte) (chartclient.Request, error) {
@@ -553,13 +561,45 @@ func (s *Service) ParseBook(byte []byte) (chartclient.Request, error) {
 	return req, nil
 }
 
+func (s *Service) ImportRosStat(ctx context.Context) error {
+	directory := "var/ros_stat_books"
+	absDir, err := filepath.Abs(directory)
+	if err != nil {
+		return fmt.Errorf("cant get absolute path: %w", err)
+	}
+	err = filepath.Walk(absDir, func(path string, info os.FileInfo, err error) error {
+		if err != nil {
+			return err
+		}
+		pathArr := strings.Split(path, string(os.PathSeparator))
+		if !info.IsDir() {
+			if pathArr[len(pathArr)-1] == ".gitkeep" {
+				return nil
+			}
+			data, err := ioutil.ReadFile(path) // Read file to byte array
+			if err != nil {
+				return err
+			}
+			err = s.ScanRosStat(ctx, data)
+			if err != nil {
+				return fmt.Errorf("error in importing ros stat: %w", err)
+			} // Pass byte array to function
+		}
+		return nil
+	})
+	if err != nil {
+		return fmt.Errorf("error going through directory: %w", err)
+	}
+	return nil
+}
+
 func (s *Service) ScanRosStat(ctx context.Context, byte []byte) error {
 	reader := bytes.NewReader(byte)
 	book, err := excelize.OpenReader(reader)
 	if err != nil {
 		return fmt.Errorf("cannot open exel file %w", err)
 	}
-	title, err := book.GetCellValue("Содеожание", "B2")
+	title, err := book.GetCellValue("Содержание", "B2")
 	if err != nil {
 		return fmt.Errorf("cannot get title: %w", err)
 	}
@@ -568,7 +608,7 @@ func (s *Service) ScanRosStat(ctx context.Context, byte []byte) error {
 	if err != nil {
 		return fmt.Errorf("cannot convert year: %w", err)
 	}
-	month, err := monthStrToNumber(titleArr[len(titleArr)-2])
+	month, err := monthStrToNumber(titleArr[len(titleArr)-3])
 	if err != nil {
 		return fmt.Errorf("cannot convert month: %w", err)
 	}
@@ -576,7 +616,7 @@ func (s *Service) ScanRosStat(ctx context.Context, byte []byte) error {
 	var coordinates []model.Coordinates
 	var volumePropertyId = 4
 	switch year {
-	case 21:
+	case 2021:
 		coordinates = model.RosStatMaterials21
 	default:
 		return fmt.Errorf("cannot find year: %d", year)
@@ -587,11 +627,15 @@ func (s *Service) ScanRosStat(ctx context.Context, byte []byte) error {
 		if err != nil {
 			return fmt.Errorf("cannot get name: %w", err)
 		}
+		code, err := book.GetCellValue(coord.Sheet, "B"+strconv.Itoa(coord.Row))
+		if err != nil {
+			return fmt.Errorf("cannot get code: %w", err)
+		}
 		location, err := book.GetCellValue(coord.Sheet, "A"+strconv.Itoa(coord.Row+2))
 		if err != nil {
 			return fmt.Errorf("cannot get location: %w", err)
 		}
-		materialSourceId, err := s.AddUniqueMaterial(ctx, name, "rosstat.gov.ru", location, "тонн", "")
+		materialSourceId, err := s.AddUniqueMaterial(ctx, name+", "+code, "rosstat.gov.ru", location, "тонн", "")
 		if err != nil {
 			return fmt.Errorf("cannot add material %s: %w", name, err)
 		}
