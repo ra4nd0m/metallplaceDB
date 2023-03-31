@@ -138,6 +138,8 @@ node src/app.js
 
 # Vue Frontend
 
+В vue.config.js указать хост и порт основного сервера (по умолчанию стоит localhost:8080)
+
 ```bash
 npm install
 npm run build 
