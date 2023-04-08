@@ -5,8 +5,8 @@ module.exports = defineConfig({
   configureWebpack: {
     plugins: [
       new webpack.EnvironmentPlugin({
-        HTTP_HOST: 'localhost',
-        HTTP_PORT: 8080,
+        HTTP_HOST: process.env.HTTP_HOST,
+        HTTP_PORT: process.env.HTTP_PORT,
       })
     ]
   },

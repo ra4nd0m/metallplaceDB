@@ -126,7 +126,7 @@ sudo apt install nodejs
 sudo apt install npm
 npm install -g nodemon
 npm install -g ts-node
-npm run start:dev src/app.ts
+npm run build src/app.ts
 ```
 
 # Docxgen service
