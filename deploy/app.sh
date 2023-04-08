@@ -8,22 +8,11 @@ SHARED=$ROOT/shared
 
 RELEASE=$(date '+%Y%m%d%H%M%S')
 
+mkdir -p $SHARED
 mkdir -p $RELEASES/$RELEASE/build
 cd $RELEASES/$RELEASE/build
 
 git clone https://github.com/qusysert/metallplaceDB.git .
-
-
-## build charts
-#cd chart_service
-#npm run build
-#mv build charts
-#mkdir -p ROOT/$RELEASE/bu
-#
-#
-## build docx
-#cd docx-gen
-#node src/app.js
 
 # build go server
 export PATH="$PATH:/usr/local/go/bin/"
@@ -43,5 +32,6 @@ pkill -TERM metallplace || :
 ln -sfT $RELEASES/$RELEASE $CURRENT
 $CURRENT/metallplace >>$SHARED/app.log 2>&1 &
 
+# remove older releases
 cd $RELEASES
 ls -t ./ | tail -n+4 | xargs rm -rf | :
