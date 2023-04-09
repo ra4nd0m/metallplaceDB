@@ -2,6 +2,7 @@ package db
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgconn"
@@ -23,6 +24,11 @@ type IClient interface {
 type DBPool struct {
 	*pgxpool.Pool
 	size int
+}
+
+func (d *DBPool) Query(ctx context.Context, sql string, args ...interface{}) (pgx.Rows, error) {
+	fmt.Printf("Pool: %v\n", d.Pool)
+	return d.Pool.Query(ctx, sql, args...)
 }
 
 func (d *DBPool) Commit(ctx context.Context) error {

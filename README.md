@@ -1,3 +1,16 @@
+# Deploy
+
+Copy deploy folder to server
+
+    scp ~/deploy mp:.
+
+Deploy required service/app
+
+    ssh mp bash ./deploy/app.sh
+    ssh mp bash ./deploy/chart.sh
+    ssh mp bash ./deploy/docx.sh
+    ssh mp bash ./deploy/frontend.sh
+
 # DB Structure
 ![img.png](img.png)
 
@@ -152,3 +165,5 @@ npm run build
 ```bash
 npm run serve
 ```
+
+

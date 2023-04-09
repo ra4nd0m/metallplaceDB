@@ -34,7 +34,7 @@ func New(host string, port int, user, password, name string) (*Migrator, error) 
 }
 
 func getMigrationsDir() (string, error) {
-	dirList := []string{"internal/migrations", "../../internal/migrations"}
+	dirList := []string{"internal/migrations", "../../internal/migrations", "migrations"}
 	for _, dir := range dirList {
 		if _, err := os.Stat(dir); !os.IsNotExist(err) {
 			return dir, nil

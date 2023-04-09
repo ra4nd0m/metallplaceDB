@@ -470,10 +470,10 @@ func (s *Service) InitialImport(ctx context.Context) error {
 		return fmt.Errorf("cant exec init import tx: %w", err)
 	}
 
-	err = s.ImportRosStat(ctx)
-	if err != nil {
-		return fmt.Errorf("can't import ros stat: %w", err)
-	}
+	//err = s.ImportRosStat(ctx)
+	//if err != nil {
+	//	return fmt.Errorf("can't import ros stat: %w", err)
+	//}
 
 	fmt.Print("Import finished!")
 	return nil

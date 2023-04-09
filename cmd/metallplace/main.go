@@ -30,6 +30,9 @@ func main() {
 
 	// Creating connection to DB
 	conn, err = db.New(cfg.DBHost, cfg.DBPort, cfg.DBUser, cfg.DBPassword, cfg.DBName)
+	if err != nil {
+		log.Fatal("cannot create connection to df: ", err)
+	}
 
 	// Creating instances and setting inheritance
 	repo := repository.New()
