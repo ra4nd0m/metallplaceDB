@@ -3,9 +3,10 @@ const docx = require("docx");
 const fs = require("fs");
 
 module.exports = function (type) {
-    let coverPath = "../../src/static/cover_weekly.png"
+    console.log('Current directory: ' + process.cwd());
+    let coverPath = "static/cover_weekly.png"
     if (type === "monthly") {
-        coverPath = "../../src/static/cover_monthly.jpg"
+        coverPath = "static/cover_monthly.jpg"
     }
     return paragraph({
         children: [
