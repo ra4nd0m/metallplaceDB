@@ -19,6 +19,7 @@ cd docx-gen
 npm install
 cp -r ./* $RELEASES/$RELEASE/
 mv $RELEASES/$RELEASE/src/app.js $RELEASES/$RELEASE/src/metallplace-docx.js
+rm -rf $RELEASES/$RELEASE/build
 
 # set link and run
 ln -sfT $RELEASES/$RELEASE $CURRENT

@@ -3,9 +3,9 @@ const docx = require("docx");
 const fs = require("fs");
 
 module.exports = function (type) {
-    let coverPath = "./src/static/cover_weekly.png"
+    let coverPath = "../../src/static/cover_weekly.png"
     if (type === "monthly") {
-        coverPath = "./src/static/cover_monthly.jpg"
+        coverPath = "../../src/static/cover_monthly.jpg"
     }
     return paragraph({
         children: [
