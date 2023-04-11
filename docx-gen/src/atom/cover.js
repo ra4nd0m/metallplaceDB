@@ -1,12 +1,13 @@
 const paragraph = require("../atom/paragraph");
 const docx = require("docx");
 const fs = require("fs");
+const {staticDir} = require("../const");
 
 module.exports = function (type) {
     console.log('Current directory: ' + process.cwd());
-    let coverPath = "./static/cover_weekly.png"
+    let coverPath = staticDir + "/cover_weekly.png"
     if (type === "monthly") {
-        coverPath = "./static/cover_monthly.jpg"
+        coverPath = staticDir + "/cover_monthly.jpg"
     }
     return paragraph({
         children: [
