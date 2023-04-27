@@ -64,6 +64,9 @@ func (s *Service) InitialImport(ctx context.Context) error {
 						return err
 					}
 
+					valueCellValue = strings.TrimSpace(valueCellValue)
+					valueCalc = strings.TrimSpace(valueCalc)
+
 					if valueCellValue == "" && valueCalc == "" {
 						break
 					} else if valueCellValue != "" {
@@ -149,6 +152,7 @@ func (s *Service) InitialImport(ctx context.Context) error {
 				col := utils.AlphabetToInt(property.Column)
 				for {
 					value, err := book.CalcCellValue(material.Sheet, utils.IntToAlphabet(int32(col))+strconv.Itoa(property.Row))
+					value = strings.TrimSpace(value)
 					if err != nil {
 						return fmt.Errorf("cant calc cell %s %s%d value: %w", material.Sheet, property.Column, property.Row, err)
 					}
@@ -236,6 +240,7 @@ func (s *Service) InitialImport(ctx context.Context) error {
 					if err != nil {
 						return fmt.Errorf("cant get cell value: %w", err)
 					}
+					value = strings.TrimSpace(value)
 
 					if value == "" {
 						value, err = book.GetCellValue(material.Sheet, utils.IntToAlphabet(int32(col))+strconv.Itoa(property.Row))
@@ -323,6 +328,9 @@ func (s *Service) InitialImport(ctx context.Context) error {
 						return err
 					}
 
+					valueCellValue = strings.TrimSpace(valueCellValue)
+					valueCalc = strings.TrimSpace(valueCalc)
+
 					if valueCellValue == "" && valueCalc == "" {
 						break
 					} else if valueCellValue != "" {
@@ -409,6 +417,9 @@ func (s *Service) InitialImport(ctx context.Context) error {
 					if err != nil {
 						return err
 					}
+
+					valueCellValue = strings.TrimSpace(valueCellValue)
+					valueCalc = strings.TrimSpace(valueCalc)
 
 					if valueCellValue == "" && valueCalc == "" {
 						break
@@ -502,6 +513,7 @@ func (s *Service) ParseBook(byte []byte) (chartclient.Request, error) {
 		if err != nil {
 			return chartclient.Request{}, fmt.Errorf("cant get cell value: %w", err)
 		}
+		value = strings.TrimSpace(value)
 		if value == "" {
 			break
 		}

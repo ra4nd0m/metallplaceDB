@@ -63,7 +63,7 @@ Content-Type: application/json
 }
 
 ###
-GET localhost:8080/initImport
+POST localhost:8080/initImport
 Content-Type: application/json
 
 {
