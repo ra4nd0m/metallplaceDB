@@ -1,3 +1,5 @@
+import config from './config'
+
 export const getReport = async (date, type) => {
 
     fetch(config.apiEndpoint + `/getReport/${type}/${date}`)
