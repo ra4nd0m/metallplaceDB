@@ -1,4 +1,4 @@
-GET localhost:8080/getValueForPeriod
+POST localhost:8080/getValueForPeriod
 Content-Type: application/json
 
 {
@@ -9,7 +9,7 @@ Content-Type: application/json
 }
 
 ###
-GET localhost:8080/getMonthlyAvgFeed
+POST localhost:8080/getWeeklyAvgFeed
 Content-Type: application/json
 
 {
@@ -31,7 +31,7 @@ Content-Type: application/json
 }
 
 ###
-GET http://localhost:8080/getMaterialInfo
+POST http://localhost:8080/getMaterialInfo
 Content-Type: application/json
 
 {
@@ -39,14 +39,14 @@ Content-Type: application/json
 
 }
 
+
 ###
-GET localhost:8080/test
+POST base.metallplace.ru:8080/getMaterialList
 Content-Type: application/json
 
 {
 
 }
-
 ###
 GET localhost:8080/getMaterialList
 Content-Type: application/json
@@ -97,7 +97,7 @@ Content-Type: application/json
 GET http://localhost:8080/getChart/17-19_1_11-10-2022_12-09-2022_1_line_day_day_1_-1.png
 
 ###
-GET http://localhost:8080/getReport/weekly/2023-02-03
+GET http://localhost:8080/getReport/weekly/2023-02-13
 
 ###
 GET http://localhost:8080/getReport/monthly/2023-02-03
@@ -121,7 +121,7 @@ Content-Type: application/json
 }
 
 ###
-GET localhost:8080/getShortReport
+POST localhost:8080/getShortReport
 Content-Type: application/json
 
 {
@@ -147,7 +147,7 @@ Content-Type: application/json
 }
 
 ###
-GET localhost:8080/getShortReport
+POST localhost:8080/getShortReport
 Content-Type: application/json
 
 {
