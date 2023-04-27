@@ -42,7 +42,7 @@ func main() {
 	hdl := handler.New(srv)
 
 	c := cors.New(cors.Options{
-		AllowedOrigins:   []string{"http://localhost:8081"},
+		AllowedOrigins:   []string{"http://localhost:8081", "http://base.metallplace.ru:80"},
 		AllowCredentials: true,
 	})
 	router := mux.NewRouter()
