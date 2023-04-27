@@ -1,6 +1,6 @@
 export const getReport = async (date, type) => {
 
-    fetch(`http://localhost:8080/getReport/${type}/${date}`)
+    fetch(config.apiEndpoint + `/getReport/${type}/${date}`)
 
         // (B) RETURN AS BLOB
         .then((result) => {
