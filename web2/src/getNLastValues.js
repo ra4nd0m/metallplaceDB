@@ -1,3 +1,4 @@
+import config from './config'
 export const getNLastValues = async(materialId, propertyId, n, date) => {
     if (date === undefined){
         let today = new Date();
@@ -8,7 +9,7 @@ export const getNLastValues = async(materialId, propertyId, n, date) => {
         date = yyyy + '-' + mm + '-' + dd;
     }
     console.log(materialId + " " + propertyId + " " + n + " " + date )
-    const rawResponse = await fetch('http://localhost:8080/getNLastValues', {
+    const rawResponse = await fetch(config.apiEndpoint + '/getNLastValues', {
         method: 'POST',
         headers: {
             'Accept': 'application/json',

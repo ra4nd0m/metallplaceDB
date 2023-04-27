@@ -1,5 +1,6 @@
+import config from './config'
 export const getPropertyName = async (propertyId) => {
-    const rawResponse = await fetch('http://localhost:8080/getPropertyName', {
+    const rawResponse = await fetch(config.apiEndpoint + '/getPropertyName', {
         method: 'POST',
         headers: {
             'Accept': 'application/json',

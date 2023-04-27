@@ -1,6 +1,7 @@
+import config from './config'
 export const addProperty = async (materialId, propertyName) => {
     alert("adding req")
-    const respAddValue = await fetch('http://localhost:8080/addPropertyToMaterial', {
+    const respAddValue = await fetch(config.apiEndpoint + '/addPropertyToMaterial', {
         method: 'POST',
         headers: {
             'Accept': 'application/json',

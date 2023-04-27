@@ -1,5 +1,7 @@
+import config from './config'
+
 export const getShortReport = async (blocks, date) => {
-    fetch(`http://localhost:8080/getShortReport`, {
+    fetch(config.apiEndpoint + `/getShortReport`, {
         method: 'POST',
         headers: {
             'Accept': 'application/json',

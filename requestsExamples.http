@@ -63,7 +63,7 @@ Content-Type: application/json
 }
 
 ###
-POST localhost:8080/initImport
+POST base.metallplace.ru:8080/initImport
 Content-Type: application/json
 
 {

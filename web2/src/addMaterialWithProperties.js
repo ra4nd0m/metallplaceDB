@@ -1,7 +1,8 @@
 import {addProperty} from "@/addProperty";
+import config from './config'
 
 export const addMaterialWithProperties = async (name, source, market, unit, properties, deliveryType) => {
-    const respAddValue = await fetch('http://localhost:8080/addUniqueMaterial', {
+    const respAddValue = await fetch(config.apiEndpoint + '/addUniqueMaterial', {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
