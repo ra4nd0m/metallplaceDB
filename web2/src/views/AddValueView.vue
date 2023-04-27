@@ -152,6 +152,7 @@ import ButtonAddMaterial from "@/components/ButtonAddMaterial";
 import Navbar from "@/components/Navbar";
 import ButtonAddProperty from "@/components/ButtonAddProperty";
 import PriceTable from "@/components/PriceTable";
+import config from "@/config";
 
 export default {
   name: "AddValue",
@@ -200,7 +201,7 @@ export default {
       formData.append("file", this.file);
       formData.append("fileSize", this.file.size);
 
-      const response = await fetch(`http://${process.env.HTTP_HOST}:${process.env.HTTP_PORT}/UpdateMainFile`, {
+      const response = await fetch(config.apiEndpoint +`/UpdateMainFile`, {
         method: "POST",
         body: formData
       });
@@ -218,7 +219,7 @@ export default {
       //  return
       //}
       // send request to server
-      fetch(`http://${process.env.HTTP_HOST}:${process.env.HTTP_PORT}/initImport`, {
+      fetch(config.apiEndpoint + `/initImport`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

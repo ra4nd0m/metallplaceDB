@@ -1,7 +1,9 @@
+import config from "@/config";
+
 export const getPropertiesList = async (materialId) => {
 
     let list = []
-    const rawResponse = await fetch(`http://${process.env.HTTP_HOST}:${process.env.HTTP_PORT}/getPropertyList`, {
+    const rawResponse = await fetch(config.apiEndpoint + `/getPropertyList`, {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
