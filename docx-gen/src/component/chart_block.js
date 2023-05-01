@@ -3,7 +3,7 @@ const chart = require("../client/chart");
 const paragraph = require("../atom/paragraph")
 const paragraphCentred = require("../atom/paragraph_centred")
 const text = require("../atom/text")
-const {TableCellMarginNil, Green, Red, ColorDefault, FontFamily, FontFamilySemiBold} = require("../const");
+const {TableCellMarginNil, Green, Red, ColorDefault, FontFamily, FontFamilySemiBold, ApiEndpoint} = require("../const");
 const numFormat = require("../utils/numbers_format")
 const axios = require("axios");
 
@@ -44,14 +44,15 @@ async function getInfo(isBig, url, group, comparePeriod) {
     if (comparePeriod === undefined) comparePeriod = "н/н"
     const nValues = 2 * group
 
-    url = url.substring(`http://${process.env.HTTP_HOST}:${process.env.HTTP_PORT}/getChart/`.length, url.length)
+    baseUrl = ApiEndpoint +`/getChart/`
+    url = url.substring(baseUrl.length, url.length)
     const urlParams = url.split("_");
     const materialId = urlParams[0]
     const propertyId = urlParams[1]
     const finish = urlParams[3].split("-")
     const date = `${finish[2]}-${finish[0]}-${finish[1]}`
-    const materialInfo = await axios.post(`http://${process.env.HTTP_HOST}:${process.env.HTTP_PORT}/getMaterialInfo`, {id: Number(materialId)})
-    let prices = await axios.post(`http://${process.env.HTTP_HOST}:${process.env.HTTP_PORT}/getNLastValues`, {
+    const materialInfo = await axios.post(ApiEndpoint + `/getMaterialInfo`, {id: Number(materialId)})
+    let prices = await axios.post(ApiEndpoint + `/getNLastValues`, {
         material_source_id: Number(materialId),
         property_id: Number(propertyId),
         n_values: nValues,
@@ -68,7 +69,7 @@ async function getInfo(isBig, url, group, comparePeriod) {
     if (comparePeriod === "м/м") {
         const finish = date
         const start = subtractMonth(date)
-        prices = await axios.post(`http://${process.env.HTTP_HOST}:${process.env.HTTP_PORT}/getMonthlyAvgFeed`, {
+        prices = await axios.post(ApiEndpoint + `/getMonthlyAvgFeed`, {
             material_source_id: Number(materialId),
             property_id: Number(propertyId),
             start: start,

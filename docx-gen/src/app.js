@@ -1,14 +1,15 @@
+const path = require('path');
+const dotenv = require('dotenv');
+dotenv.config({path: path.join(__dirname, '../../.env')})
+
 const docx = require("docx");
 const WeeklyReport = require("./report/weekly_report");
 const MonthlyReport = require("./report/monthly_report")
 const ShortReport = require("./report/short_report")
 const express = require('express')
 let bodyParser = require('body-parser');
-const path = require('path');
-const dotenv = require('dotenv');
 
 let app = express()
-dotenv.config({path: path.join(__dirname, '../../.env')})
 
 const port = process.env.DOCXGEN_PORT
 const host = process.env.DOCXGEN_HOST

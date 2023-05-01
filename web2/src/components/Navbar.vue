@@ -7,13 +7,17 @@
         <v-btn flat to="/shortReport" class="px-2" v-tooltip:left="{ html: 'Short Report' }">
           <v-icon>mdi-file-document</v-icon>
         </v-btn>
+          <v-btn to="/logout">
+              Logout
+          </v-btn>
       </v-toolbar-items>
     </v-toolbar>
 </template>
 
 <script>
+
 export default {
-  name: "Navbar"
+  name: "Navbar",
 }
 </script>
 

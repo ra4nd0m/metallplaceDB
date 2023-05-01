@@ -1,6 +1,7 @@
 package config
 
 import (
+	"fmt"
 	"github.com/joho/godotenv"
 	"log"
 	"os"
@@ -25,6 +26,10 @@ type Config struct {
 
 	DocxgenHost string
 	DocxgenPort int
+
+	AuthKey []byte
+
+	InternalHttpPort string
 }
 
 func LoadConfig() (Config, error) {
@@ -35,21 +40,32 @@ func LoadConfig() (Config, error) {
 		panic(err)
 	}
 
-	DbPort, _ := strconv.Atoi(os.Getenv("DB_PORT"))
-	ChartPort, _ := strconv.Atoi(os.Getenv("CHART_PORT"))
-	DocxgenPort, _ := strconv.Atoi(os.Getenv("DOCXGEN_PORT"))
+	DbPort, err := strconv.Atoi(os.Getenv("DB_PORT"))
+	if err != nil {
+		return Config{}, fmt.Errorf("error loading db port: %v", err)
+	}
+	ChartPort, err := strconv.Atoi(os.Getenv("CHART_PORT"))
+	if err != nil {
+		return Config{}, fmt.Errorf("error loading chart port: %v", err)
+	}
+	DocxgenPort, err := strconv.Atoi(os.Getenv("DOCXGEN_PORT"))
+	if err != nil {
+		return Config{}, fmt.Errorf("error loading docxgen port: %v", err)
+	}
 	config := Config{
-		DBHost:      os.Getenv("DB_HOST"),
-		DBPort:      DbPort,
-		DBUser:      os.Getenv("DB_USER"),
-		DBPassword:  os.Getenv("DB_PASSWORD"),
-		DBName:      os.Getenv("DB_NAME"),
-		HttpPort:    os.Getenv("HTTP_PORT"),
-		HttpHost:    os.Getenv("HTTP_HOST"),
-		ChartHost:   os.Getenv("CHART_HOST"),
-		ChartPort:   ChartPort,
-		DocxgenHost: os.Getenv("DOCXGEN_HOST"),
-		DocxgenPort: DocxgenPort,
+		DBHost:           os.Getenv("DB_HOST"),
+		DBPort:           DbPort,
+		DBUser:           os.Getenv("DB_USER"),
+		DBPassword:       os.Getenv("DB_PASSWORD"),
+		DBName:           os.Getenv("DB_NAME"),
+		HttpPort:         os.Getenv("HTTP_PORT"),
+		HttpHost:         os.Getenv("HTTP_HOST"),
+		ChartHost:        os.Getenv("CHART_HOST"),
+		ChartPort:        ChartPort,
+		DocxgenHost:      os.Getenv("DOCXGEN_HOST"),
+		DocxgenPort:      DocxgenPort,
+		AuthKey:          []byte(os.Getenv("MPLBASE_AUTH_KEY")),
+		InternalHttpPort: os.Getenv("MPLBASE_INTERNAL_HTTP_PORT"),
 	}
 
 	log.Printf("config: %#v\n", config)

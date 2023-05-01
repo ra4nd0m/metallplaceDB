@@ -43,9 +43,9 @@ module.exports.h2Size = 16 * 2
 module.exports.h2Color = '#F77647'
 module.exports.h3Size = 14 * 2
 module.exports.h3Color = '#8ab440'
-module.exports.mainServerPort = 8080
 module.exports.HeaderBackgroundColor = `rgb(200,200,200)`
 module.exports.HeaderFooterMargin = 40
+module.exports.ApiEndpoint = `http://${process.env.HTTP_HOST}:${process.env.MPLBASE_INTERNAL_HTTP_PORT}`
 module.exports.PageMargins = {
     top: 400,
     right: 800,

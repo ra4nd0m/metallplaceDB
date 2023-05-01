@@ -153,7 +153,7 @@ node src/app.js
 
 В vue.config.js указать хост и порт основного сервера (по умолчанию стоит localhost:8080)
 
-```bash
+```shell
 npm install
 npm run build 
 ```
@@ -166,4 +166,13 @@ npm run build
 npm run serve
 ```
 
+# Adding user
+```postgresql
+INSERT INTO "user" (username, password) VALUES (
+  'username',
+  crypt('pwd', gen_salt('bf'))
+);
+```
 
+# Internal server
+There is also an internal server with same endpoints to handle internal needs

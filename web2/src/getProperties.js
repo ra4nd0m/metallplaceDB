@@ -1,15 +1,11 @@
 import config from "@/config";
+import agent, {fetchWithAuth} from "@/addAuthToken";
 
 export const getPropertiesList = async (materialId) => {
 
     let list = []
-    const rawResponse = await fetch(config.apiEndpoint + `/getPropertyList`, {
-        method: 'POST',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({"material_source_id": materialId.toString()})
+    const rawResponse = await agent.post(`/getPropertyList`, {
+        "material_source_id": materialId.toString()
     });
     const content = await rawResponse.json();
     content.list.forEach(p => {

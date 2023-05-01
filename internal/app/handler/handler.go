@@ -40,6 +40,10 @@ type IService interface {
 	GetPropertyList(ctx context.Context, materialSourceId int) ([]model.PropertyShortInfo, error)
 	GetPropertyName(ctx context.Context, id int) (string, error)
 	AddPropertyToMaterial(ctx context.Context, materialSourceId int, propertyName string, kind string) error
+
+	CheckCredentials(ctx context.Context, user, password string) (bool, error)
+	CreateToken(username string) (string, error)
+	Authenticate(next http.HandlerFunc) http.HandlerFunc
 }
 
 type Handler struct {

@@ -36,6 +36,8 @@ type IRepository interface {
 	AddSource(ctx context.Context, materialSource string) error
 	GetSourceId(ctx context.Context, sourceName string) (int, error)
 	GetSourceName(ctx context.Context, sourceId int) (string, error)
+
+	CheckCredentials(ctx context.Context, user, password string) (bool, error)
 }
 
 type IChartClient interface {

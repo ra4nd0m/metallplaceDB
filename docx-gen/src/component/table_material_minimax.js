@@ -3,7 +3,7 @@ const {TableNoOuterBorders, TableCellMarginNil, MinPriceId, MaxPriceId, MedPrice
     FontFamilyMedium,
     FontSizeThMain,
     FontFamilyThin,
-    FontSizeThExtraInfo, FontSizeThSecondary, FontFamily, FontSizeTh, FontFamilySemiBold
+    FontSizeThExtraInfo, FontSizeThSecondary, FontFamily, FontSizeTh, FontFamilySemiBold, ApiEndpoint
 } = require("../const");
 const textTh = require("../atom/text_th")
 const tableBody = require("../atom/table_material_minimax_body");
@@ -47,14 +47,14 @@ module.exports = async function tableMaterialMinimax(materialIds, dates, unitCha
     let bodyInfo = []
 
     for (const materialId of materialIds) {
-        const resMat = await axios.post(`http://${process.env.HTTP_HOST}:${process.env.HTTP_PORT}/getMaterialInfo`, {id: materialId})
+        const resMat = await axios.post(ApiEndpoint + `/getMaterialInfo`, {id: materialId})
         const matInfo = resMat.data.info.Name.split(", ")
-        const week1Min = await axios.post(`http://${process.env.HTTP_HOST}:${process.env.HTTP_PORT}/getValueForPeriod`, { material_source_id: materialId, property_id: MinPriceId, start: first, finish: first})
-        const week1Max = await axios.post(`http://${process.env.HTTP_HOST}:${process.env.HTTP_PORT}/getValueForPeriod`, { material_source_id: materialId, property_id: MaxPriceId, start: first, finish: first})
-        const week1Med = await axios.post(`http://${process.env.HTTP_HOST}:${process.env.HTTP_PORT}/getValueForPeriod`, { material_source_id: materialId, property_id: MedPriceId, start: first, finish: first})
-        const week2Min = await axios.post(`http://${process.env.HTTP_HOST}:${process.env.HTTP_PORT}/getValueForPeriod`, { material_source_id: materialId, property_id: MinPriceId, start: second, finish: second})
-        const week2Max = await axios.post(`http://${process.env.HTTP_HOST}:${process.env.HTTP_PORT}/getValueForPeriod`, { material_source_id: materialId, property_id: MaxPriceId, start: second, finish: second})
-        const week2Med = await axios.post(`http://${process.env.HTTP_HOST}:${process.env.HTTP_PORT}/getValueForPeriod`, { material_source_id: materialId, property_id: MedPriceId, start: second, finish: second})
+        const week1Min = await axios.post(ApiEndpoint + `/getValueForPeriod`, { material_source_id: materialId, property_id: MinPriceId, start: first, finish: first})
+        const week1Max = await axios.post(ApiEndpoint + `/getValueForPeriod`, { material_source_id: materialId, property_id: MaxPriceId, start: first, finish: first})
+        const week1Med = await axios.post(ApiEndpoint + `/getValueForPeriod`, { material_source_id: materialId, property_id: MedPriceId, start: first, finish: first})
+        const week2Min = await axios.post(ApiEndpoint + `/getValueForPeriod`, { material_source_id: materialId, property_id: MinPriceId, start: second, finish: second})
+        const week2Max = await axios.post(ApiEndpoint + `/getValueForPeriod`, { material_source_id: materialId, property_id: MaxPriceId, start: second, finish: second})
+        const week2Med = await axios.post(ApiEndpoint + `/getValueForPeriod`, { material_source_id: materialId, property_id: MedPriceId, start: second, finish: second})
 
         const location = resMat.data.info.Market.split(", ")
         //"Лом, HMS 1&2 (80:20), FOB, (недельный)"

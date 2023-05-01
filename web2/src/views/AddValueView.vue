@@ -153,6 +153,7 @@ import Navbar from "@/components/Navbar";
 import ButtonAddProperty from "@/components/ButtonAddProperty";
 import PriceTable from "@/components/PriceTable";
 import config from "@/config";
+import agent, {fetchWithAuth} from "@/addAuthToken";
 
 export default {
   name: "AddValue",
@@ -201,7 +202,7 @@ export default {
       formData.append("file", this.file);
       formData.append("fileSize", this.file.size);
 
-      const response = await fetch(config.apiEndpoint +`/UpdateMainFile`, {
+      const response = await fetchWithAuth(config.apiEndpoint +`/UpdateMainFile`, {
         method: "POST",
         body: formData
       });
@@ -219,13 +220,7 @@ export default {
       //  return
       //}
       // send request to server
-      fetch(config.apiEndpoint + `/initImport`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({})
-      })
+        agent.post(`/initImport`, {})
           .then(response => response.json())
           .then(data => {
             this.showLoading = false

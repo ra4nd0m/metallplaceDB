@@ -1,8 +1,9 @@
 import config from './config'
+import agent, {fetchWithAuth} from "@/addAuthToken";
 
 export const getReport = async (date, type) => {
 
-    fetch(config.apiEndpoint + `/getReport/${type}/${date}`)
+    agent.get(`/getReport/${type}/${date}`)
 
         // (B) RETURN AS BLOB
         .then((result) => {

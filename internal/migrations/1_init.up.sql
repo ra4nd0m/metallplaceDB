@@ -1,3 +1,13 @@
+CREATE EXTENSION pgcrypto;
+create table "user"
+(
+    id   serial
+        constraint user_pk
+            primary key,
+    username varchar not null unique,
+    password varchar not null
+);
+
 create table material
 (
     id   serial

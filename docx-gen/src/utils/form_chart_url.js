@@ -1,4 +1,4 @@
-const {mainServerPort} = require("../const")
+const {mainServerPort, ApiEndpoint} = require("../const")
 module.exports.ChartUrl = function (materialIds, propertyId, timeFrame, isBig, type, scale, xStep, needLegend, toFixed, predict){
     this.materialIds = materialIds
     this.propertyId = propertyId
@@ -13,7 +13,7 @@ module.exports.ChartUrl = function (materialIds, propertyId, timeFrame, isBig, t
 }
 
 module.exports.FormChartUrl = function (ChartUrl){
-    let url = "http://" + process.env.HTTP_HOST + ":" + mainServerPort + "/getChart/"
+    let url = ApiEndpoint + "/getChart/"
     const materialIds = ChartUrl.materialIds.join("-")
     if(ChartUrl.toFixed === undefined) ChartUrl.toFixed = -1
     if(ChartUrl.predict === undefined) ChartUrl.predict = 0

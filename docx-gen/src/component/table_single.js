@@ -9,7 +9,7 @@ const {
     FontFamilyThin,
     FontSizeThSecondary,
     FontSizeThExtraInfo,
-    MonthPredictId, FontSizeTd
+    MonthPredictId, FontSizeTd, ApiEndpoint
 } = require("../const");
 const cellCenter = require("../atom/cell_centred");
 const paragraph = require("../atom/paragraph");
@@ -24,9 +24,9 @@ module.exports = async function singleTable(materialId, propertyId, dates, unitC
     const from = `${first.getFullYear()}-${FormatDayMonth(first.getMonth() + 1)}-${FormatDayMonth(first.getDate())}`
     const to = `${last.getFullYear()}-${FormatDayMonth(last.getMonth() + 1)}-${FormatDayMonth(last.getDate())}`
 
-    const resMat = await axios.post(`http://${process.env.HTTP_HOST}:${process.env.HTTP_PORT}/getMaterialInfo`, {id: materialId})
+    const resMat = await axios.post(ApiEndpoint + `/getMaterialInfo`, {id: materialId})
     if (scale === "month") {
-        resBody = await axios.post(`http://${process.env.HTTP_HOST}:${process.env.HTTP_PORT}/getMonthlyAvgFeed`, {
+        resBody = await axios.post(ApiEndpoint + `/getMonthlyAvgFeed`, {
             material_source_id: materialId,
             property_id: propertyId,
             start: from,
@@ -35,7 +35,7 @@ module.exports = async function singleTable(materialId, propertyId, dates, unitC
 
     }
     if (scale === "day") {
-        resBody = await axios.post(`http://${process.env.HTTP_HOST}:${process.env.HTTP_PORT}/getValueForPeriod`, {
+        resBody = await axios.post(ApiEndpoint + `/getValueForPeriod`, {
             material_source_id: materialId,
             property_id: propertyId,
             start: from,
@@ -105,7 +105,7 @@ module.exports = async function singleTable(materialId, propertyId, dates, unitC
         predictFrom.setMonth(predictFrom.getMonth())
         predictTo.setMonth(predictTo.getMonth() + 3)
 
-        let predictBody = await axios.post(`http://${process.env.HTTP_HOST}:${process.env.HTTP_PORT}/getValueForPeriod`, {
+        let predictBody = await axios.post(ApiEndpoint + `/getValueForPeriod`, {
             material_source_id: materialId,
             property_id: MonthPredictId,
             start: predictFrom,

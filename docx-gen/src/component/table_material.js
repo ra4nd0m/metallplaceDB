@@ -1,5 +1,5 @@
 const docx = require("docx");
-const {TableCellMarginNil, MedPriceId} = require("../const");
+const {TableCellMarginNil, MedPriceId, ApiEndpoint} = require("../const");
 const textTh = require("../atom/text_th")
 const tableBody = require("../atom/table_material_body");
 const axios = require("axios");
@@ -18,9 +18,9 @@ module.exports = async function(materialIds, dates) {
     let bodyInfo = []
 
     for (const materialId of materialIds) {
-        const resMat = await axios.post(`http://${process.env.HTTP_HOST}:${process.env.HTTP_PORT}/getMaterialInfo`, {id: materialId})
-        const week1Med = await axios.post(`http://${process.env.HTTP_HOST}:${process.env.HTTP_PORT}/getValueForPeriod`, { material_source_id: materialId, property_id: MedPriceId, start: first, finish: first})
-        const week2Med = await axios.post(`http://${process.env.HTTP_HOST}:${process.env.HTTP_PORT}/getValueForPeriod`, { material_source_id: materialId, property_id: MedPriceId, start: second, finish: second})
+        const resMat = await axios.post(ApiEndpoint + `/getMaterialInfo`, {id: materialId})
+        const week1Med = await axios.post(ApiEndpoint + `/getValueForPeriod`, { material_source_id: materialId, property_id: MedPriceId, start: first, finish: first})
+        const week2Med = await axios.post(ApiEndpoint + `/getValueForPeriod`, { material_source_id: materialId, property_id: MedPriceId, start: second, finish: second})
 
         bodyInfo.push({
             Name: resMat.data.info.Name,

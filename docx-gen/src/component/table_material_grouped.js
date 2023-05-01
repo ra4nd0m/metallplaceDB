@@ -1,6 +1,6 @@
 const docx = require("docx");
 const {TableCellMarginNil, MedPriceId, FontFamilyMedium, FontSizeThMain, FontFamilyThin, FontSizeThExtraInfo,
-    FontFamilySemiBold, FontSizeThSecondary
+    FontFamilySemiBold, FontSizeThSecondary, ApiEndpoint
 } = require("../const");
 const textTh = require("../atom/text_th")
 const tableBody = require("../atom/table_material_grouped_body");
@@ -24,9 +24,9 @@ module.exports = async function(materialIds, dates, titlesIndexes, titles, type,
     let bodyInfo = []
 
     for (const materialId of materialIds) {
-        const resMat = await axios.post("http://localhost:8080/getMaterialInfo", {id: materialId})
+        const resMat = await axios.post(ApiEndpoint + "/getMaterialInfo", {id: materialId})
         if (type === "month"){
-            feed = await axios.post("http://localhost:8080/getValueForPeriod", { material_source_id: materialId, property_id: MedPriceId, start: first, finish: second})
+            feed = await axios.post(ApiEndpoint + "/getValueForPeriod", { material_source_id: materialId, property_id: MedPriceId, start: first, finish: second})
             feed.data.price_feed.splice(1, feed.data.price_feed.length - 2);
              med1 = {
                 "data": {
@@ -42,8 +42,8 @@ module.exports = async function(materialIds, dates, titlesIndexes, titles, type,
             title2 = new Date(feed.data.price_feed[1].date)
         }
         if (type === "week") {
-             med1 = await axios.post("http://localhost:8080/getValueForPeriod", { material_source_id: materialId, property_id: MedPriceId, start: first, finish: first})
-             med2 = await axios.post("http://localhost:8080/getValueForPeriod", { material_source_id: materialId, property_id: MedPriceId, start: second, finish: second})
+             med1 = await axios.post(ApiEndpoint + "/getValueForPeriod", { material_source_id: materialId, property_id: MedPriceId, start: first, finish: first})
+             med2 = await axios.post(ApiEndpoint + "/getValueForPeriod", { material_source_id: materialId, property_id: MedPriceId, start: second, finish: second})
         }
 
         bodyInfo.push({

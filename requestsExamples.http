@@ -9,6 +9,15 @@ Content-Type: application/json
 }
 
 ###
+POST localhost:8080/login
+Content-Type: application/json
+
+{
+  "username": "testuser",
+  "password": "testpasswort"
+}
+
+###
 POST localhost:8080/getWeeklyAvgFeed
 Content-Type: application/json
 
@@ -20,19 +29,20 @@ Content-Type: application/json
 }
 
 ###
-POST localhost:8080/getNLastValues
+POST localhost:8080/getWeeklyAvgFeed
 Content-Type: application/json
 
 {
-  "material_source_id": 1,
+  "material_source_id": 3,
   "property_id": 1,
-  "n_values": 2,
-  "finish": "2022-12-13"
+  "start": "2021-10-01",
+  "finish": "2022-07-01"
 }
 
 ###
 POST http://localhost:8080/getMaterialInfo
 Content-Type: application/json
+
 
 {
   "id": 82
@@ -58,12 +68,14 @@ Content-Type: application/json
 GET localhost:8080/getPropertyList
 Content-Type: application/json
 
+
 {
   "material_source_id": "2"
 }
 
 ###
-POST base.metallplace.ru:8080/initImport
+POST localhost:8080/initImport
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3R1c2VyIiwiZXhwIjoxNjgyODAzMjM1fQ.OtToqXeF4shGA1TDQzT6w4I79lccj75fMc4LBi9Hn1Y
 Content-Type: application/json
 
 {
@@ -98,9 +110,13 @@ GET http://localhost:8080/getChart/17-19_1_11-10-2022_12-09-2022_1_line_day_day_
 
 ###
 GET http://localhost:8080/getReport/weekly/2023-02-13
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3R1c2VyIiwiZXhwIjoxNjgyODAzMjM1fQ.OtToqXeF4shGA1TDQzT6w4I79lccj75fMc4LBi9Hn1Y
+
 
 ###
 GET http://localhost:8080/getReport/monthly/2023-02-03
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3R1c2VyIiwiZXhwIjoxNjgyODAzMjM1fQ.OtToqXeF4shGA1TDQzT6w4I79lccj75fMc4LBi9Hn1Y
+
 
 ###
 GET localhost:8080/getPropertyName
@@ -149,6 +165,7 @@ Content-Type: application/json
 ###
 POST localhost:8080/getShortReport
 Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3R1c2VyIiwiZXhwIjoxNjgyODAzMjM1fQ.OtToqXeF4shGA1TDQzT6w4I79lccj75fMc4LBi9Hn1Y
 
 {
   "date": "2006-01-02",

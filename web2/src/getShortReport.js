@@ -1,13 +1,8 @@
-import config from './config'
+import agent from "@/addAuthToken";
 
 export const getShortReport = async (blocks, date) => {
-    fetch(config.apiEndpoint + `/getShortReport`, {
-        method: 'POST',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({'date': date, 'blocks': blocks})
+    agent.post(`/getShortReport`, {
+        'date': date, 'blocks': blocks
     })
 
         // (B) RETURN AS BLOB

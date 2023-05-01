@@ -6,7 +6,7 @@ const {TableCellMarginNil, MinPriceId, MaxPriceId, MedPriceId,
     FontFamilyMedium,
     FontSizeThSecondary,
     FontFamilyThin,
-    FontSizeThExtraInfo, FontSizeThMain
+    FontSizeThExtraInfo, FontSizeThMain, ApiEndpoint
 } = require("../const");
 const tableBody = require("../atom/table_double_minimax_body")
 const {formatDateDb} = require("../utils/date_format");
@@ -17,40 +17,40 @@ module.exports = async function doubleTableMinimax(materialId1, materialId2, dat
     const from = formatDateDb(dates[0])
     const to = formatDateDb(dates[1])
 
-    const resMat1 = await axios.post(`http://${process.env.HTTP_HOST}:${process.env.HTTP_PORT}/getMaterialInfo`, {id: materialId1})
-    const minBody1 = await axios.post(`http://${process.env.HTTP_HOST}:${process.env.HTTP_PORT}/getValueForPeriod`, {
+    const resMat1 = await axios.post(ApiEndpoint + `/getMaterialInfo`, {id: materialId1})
+    const minBody1 = await axios.post(ApiEndpoint +`/getValueForPeriod`, {
         material_source_id: materialId1,
         property_id: MinPriceId,
         start: from,
         finish: to
     })
-    const maxBody1 = await axios.post(`http://${process.env.HTTP_HOST}:${process.env.HTTP_PORT}/getValueForPeriod`, {
+    const maxBody1 = await axios.post(ApiEndpoint + `/getValueForPeriod`, {
         material_source_id: materialId1,
         property_id: MaxPriceId,
         start: from,
         finish: to
     })
-    const medBody1 = await axios.post(`http://${process.env.HTTP_HOST}:${process.env.HTTP_PORT}/getValueForPeriod`, {
+    const medBody1 = await axios.post(ApiEndpoint + `/getValueForPeriod`, {
         material_source_id: materialId1,
         property_id: MedPriceId,
         start: from,
         finish: to
     })
 
-    const resMat2 = await axios.post(`http://${process.env.HTTP_HOST}:${process.env.HTTP_PORT}/getMaterialInfo`, {id: materialId2})
-    const minBody2 = await axios.post(`http://${process.env.HTTP_HOST}:${process.env.HTTP_PORT}/getValueForPeriod`, {
+    const resMat2 = await axios.post(ApiEndpoint + `/getMaterialInfo`, {id: materialId2})
+    const minBody2 = await axios.post(ApiEndpoint + `/getValueForPeriod`, {
         material_source_id: materialId2,
         property_id: MinPriceId,
         start: from,
         finish: to
     })
-    const maxBody2 = await axios.post(`http://${process.env.HTTP_HOST}:${process.env.HTTP_PORT}/getValueForPeriod`, {
+    const maxBody2 = await axios.post(ApiEndpoint + `/getValueForPeriod`, {
         material_source_id: materialId2,
         property_id: MaxPriceId,
         start: from,
         finish: to
     })
-    const medBody2 = await axios.post(`http://${process.env.HTTP_HOST}:${process.env.HTTP_PORT}/getValueForPeriod`, {
+    const medBody2 = await axios.post(ApiEndpoint + `/getValueForPeriod`, {
         material_source_id: materialId2,
         property_id: MedPriceId,
         start: from,
