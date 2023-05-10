@@ -46,10 +46,10 @@ func main() {
 	eg, egCtx := errgroup.WithContext(context.Background())
 
 	eg.Go(externalServerFn(egCtx, cfg, hdl, srv))
-	log.Printf("External externalServer started on port %s \n", cfg.HttpPort)
+	log.Printf("External Server started on port %s \n", cfg.HttpPort)
 
 	eg.Go(internalServerFn(egCtx, cfg, hdl))
-	log.Printf("Internal externalServer started on port %s \n", cfg.InternalHttpPort)
+	log.Printf("Internal Server started on port %s \n", cfg.InternalHttpPort)
 
 	eg.Go(func() error {
 		sig := make(chan os.Signal, 1)
@@ -57,7 +57,7 @@ func main() {
 		select {
 		case <-sig:
 			log.Printf("Receive TERM signal")
-			return fmt.Errorf("Termination")
+			return fmt.Errorf("termination")
 		case <-egCtx.Done():
 			return nil
 		}
