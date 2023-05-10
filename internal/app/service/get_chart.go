@@ -83,7 +83,7 @@ func (s *Service) GetChart(ctx context.Context, chartPack model.ChartPack) ([]by
 }
 
 func (s *Service) GetChartRaw(book []byte, tickLimit int) ([]byte, error) {
-	req, err := s.ParseBook(book)
+	req, err := s.ParseXlsxForChart(book)
 	if err != nil {
 		return nil, fmt.Errorf("cant parse book: %w", err)
 	}

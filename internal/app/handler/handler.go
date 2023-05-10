@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/go-playground/validator"
+	"github.com/xuri/excelize/v2"
 	"io/ioutil"
 	"metallplace/internal/app/model"
 	"metallplace/pkg/chartclient"
@@ -14,13 +15,20 @@ import (
 )
 
 type IService interface {
+	InitialImport(ctx context.Context) error
+	InitImportMaterialsVertical(ctx context.Context, book *excelize.File, dateLayout string) error
+	InitImportMaterialsHorizontalWeekly(ctx context.Context, book *excelize.File) error
+	InitImportMaterialsHorizontalMonthly(ctx context.Context, book *excelize.File) error
+	InitImportMonthlyPredict(ctx context.Context, book *excelize.File) error
+	InitImportWeeklyPredict(ctx context.Context, book *excelize.File) error
+	ScanRosStatBook(ctx context.Context, byte []byte) error
+	ParseXlsxForChart(byte []byte) (chartclient.Request, error)
+
 	AddMaterialProperty(ctx context.Context, materialSourceId, propertyId int) error
 	AddValue(ctx context.Context, materialSourceId int,
 		propertyName string, valueFloat float64, valueStr string, createdOn time.Time) error
 	AddUniqueMaterial(ctx context.Context, materialName string, sourceName string, materialMarket string, materialUnit string, deliveryType string) (int, error)
-	InitialImport(ctx context.Context) error
-	ScanRosStat(ctx context.Context, byte []byte) error
-	ParseBook(byte []byte) (chartclient.Request, error)
+
 	GetMaterialList(ctx context.Context) ([]model.MaterialShortInfo, error)
 	GetMaterialValueForPeriod(ctx context.Context, materialSourceId, propertyId int, start string, finish string) ([]model.Price, float64, error)
 	GetMaterialSourceInfo(ctx context.Context, id int) (model.MaterialShortInfo, error)

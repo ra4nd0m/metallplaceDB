@@ -1,6 +1,6 @@
 package model
 
-var InitWeekPredict = []Material{
+var InitWeeklyPredict = []Material{
 	{
 		"12.Прогноз (н)",
 		"ЖРС, концентрат, 62% Fe",
