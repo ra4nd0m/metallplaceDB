@@ -211,12 +211,8 @@ func (s *Service) ParseRosStatBook(ctx context.Context, byte []byte) error {
 	if err != nil {
 		return fmt.Errorf("cannot get volume id: %w", err)
 	}
-	bookCoords, ok := model.RosStatBookTypes[year]
-	if !ok {
-		return fmt.Errorf("cant fing roststat layoot for this year: %v", year)
-	}
 
-	for _, coord := range bookCoords.MaterialCoordinates {
+	for _, coord := range model.RosStatCoordinates {
 		name, row, err := findInRowRange(book, coord.Sheet, "A", coord.Row, 4, coord.Material)
 		if err != nil {
 			return fmt.Errorf("cannot get name: %w", err)
