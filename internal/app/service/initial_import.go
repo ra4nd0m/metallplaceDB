@@ -213,7 +213,7 @@ func (s *Service) ParseRosStatBook(ctx context.Context, byte []byte) error {
 	}
 
 	for _, coord := range model.RosStatCoordinates {
-		name, row, err := findInRowRange(book, coord.Sheet, "A", coord.Row, 4, coord.Material)
+		name, row, err := findInRowRange(book, coord.Sheet, "A", coord.Row, 5, coord.Material)
 		if err != nil {
 			return fmt.Errorf("cannot get name: %w", err)
 		}
