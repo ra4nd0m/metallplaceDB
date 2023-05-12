@@ -42,16 +42,15 @@ func (s *Service) InitialImport(ctx context.Context) error {
 		if err := s.InitImportWeeklyPredict(ctx, book); err != nil {
 			return fmt.Errorf("error initializing weekly prediction import: %w", err)
 		}
+		if err := s.ImportRosStat(ctx); err != nil {
+			return fmt.Errorf("can't import ros stat: %w", err)
+		}
+
 		return nil
 	})
 	if err != nil {
 		return fmt.Errorf("cant exec init import tx: %w", err)
 	}
-
-	//err = s.ImportRosStat(ctx)
-	//if err != nil {
-	//	return fmt.Errorf("can't import ros stat: %w", err)
-	//}
 
 	fmt.Print("Import finished!")
 	return nil
@@ -151,18 +150,20 @@ func (s *Service) ImportRosStat(ctx context.Context) error {
 			return err
 		}
 		pathArr := strings.Split(path, string(os.PathSeparator))
+		if pathArr[len(pathArr)-1] == ".gitkeep" {
+			return nil // skip .gitkeep files
+		}
 		if !info.IsDir() {
-			if pathArr[len(pathArr)-1] == ".gitkeep" {
-				return nil
-			}
-			data, err := ioutil.ReadFile(path) // Read file to byte array
+			// Read file to byte array
+			data, err := ioutil.ReadFile(path)
 			if err != nil {
 				return err
 			}
-			err = s.ScanRosStatBook(ctx, data)
+			// Pass byte array to function
+			err = s.ParseRosStatBook(ctx, data)
 			if err != nil {
 				return fmt.Errorf("error in importing ros stat: %w", err)
-			} // Pass byte array to function
+			}
 		}
 		return nil
 	})
@@ -172,17 +173,29 @@ func (s *Service) ImportRosStat(ctx context.Context) error {
 	return nil
 }
 
-func (s *Service) ScanRosStatBook(ctx context.Context, byte []byte) error {
+func (s *Service) ParseRosStatBook(ctx context.Context, byte []byte) error {
 	reader := bytes.NewReader(byte)
 	book, err := excelize.OpenReader(reader)
 	if err != nil {
 		return fmt.Errorf("cannot open exel file %w", err)
 	}
+
+	// Fetching month and year of report from the title
 	title, err := book.GetCellValue("Содержание", "B2")
 	if err != nil {
 		return fmt.Errorf("cannot get title: %w", err)
 	}
 	titleArr := strings.Split(title, " ")
+	if len(titleArr) < 7 {
+		title, err := book.GetCellValue("Содержание", "B3")
+		if err != nil {
+			return fmt.Errorf("cannot get title: %w", err)
+		}
+		titleArr = strings.Split(title, " ")
+		if len(titleArr) < 7 {
+			return fmt.Errorf("cant get title while parsing rosstat")
+		}
+	}
 	year, err := strconv.Atoi(titleArr[len(titleArr)-2])
 	if err != nil {
 		return fmt.Errorf("cannot convert year: %w", err)
@@ -191,49 +204,59 @@ func (s *Service) ScanRosStatBook(ctx context.Context, byte []byte) error {
 	if err != nil {
 		return fmt.Errorf("cannot convert month: %w", err)
 	}
-	date := time.Date(year, time.Month(month-1), 1, 0, 0, 0, 0, time.UTC)
-	var coordinates []model.Coordinates
-	var volumePropertyId = 4
-	switch year {
-	case 2021:
-		coordinates = model.RosStatMaterials21
-	default:
-		return fmt.Errorf("cannot find year: %d", year)
-	}
-	for _, coord := range coordinates {
+	date := time.Date(year, time.Month(month), 1, 0, 0, 0, 0, time.UTC)
 
-		name, err := book.GetCellValue(coord.Sheet, "A"+strconv.Itoa(coord.Row))
+	// Getting id of volume property
+	volumePropertyId, err := s.GetPropertyId(ctx, "Запас")
+	if err != nil {
+		return fmt.Errorf("cannot get volume id: %w", err)
+	}
+	bookCoords, ok := model.RosStatBookTypes[year]
+	if !ok {
+		return fmt.Errorf("cant fing roststat layoot for this year: %v", year)
+	}
+
+	for _, coord := range bookCoords.MaterialCoordinates {
+		name, row, err := findInRowRange(book, coord.Sheet, "A", coord.Row, 4, coord.Material)
 		if err != nil {
 			return fmt.Errorf("cannot get name: %w", err)
 		}
-		code, err := book.GetCellValue(coord.Sheet, "B"+strconv.Itoa(coord.Row))
+
+		code, err := book.GetCellValue(coord.Sheet, "B"+strconv.Itoa(row))
 		if err != nil {
 			return fmt.Errorf("cannot get code: %w", err)
 		}
-		location, err := book.GetCellValue(coord.Sheet, "A"+strconv.Itoa(coord.Row+2))
+
+		location, err := book.GetCellValue(coord.Sheet, "A"+strconv.Itoa(row+2))
 		if err != nil {
 			return fmt.Errorf("cannot get location: %w", err)
 		}
+
 		materialSourceId, err := s.AddUniqueMaterial(ctx, name+", "+code, "rosstat.gov.ru", location, "тонн", "")
 		if err != nil {
 			return fmt.Errorf("cannot add material %s: %w", name, err)
 		}
+
 		err = s.repo.AddMaterialProperty(ctx, materialSourceId, volumePropertyId)
 		if err != nil {
 			return fmt.Errorf("failed to add property: %w", err)
 		}
-		volume, err := book.GetCellValue(coord.Sheet, "D"+strconv.Itoa(coord.Row+2))
+
+		volume, err := book.GetCellValue(coord.Sheet, "C"+strconv.Itoa(row+2))
 		if err != nil {
 			return fmt.Errorf("cannot get volume: %w", err)
 		}
+
 		volumeFloat, err := strconv.ParseFloat(volume, 64)
 		if err != nil {
 			return fmt.Errorf("cannot convert volume: %w", err)
 		}
+
 		propertyName, err := s.GetPropertyName(ctx, volumePropertyId)
 		if err != nil {
 			return fmt.Errorf("cannot get property name: %w", err)
 		}
+
 		err = s.repo.AddMaterialValue(ctx, materialSourceId, propertyName, volumeFloat, "", date)
 		if err != nil {
 			return err

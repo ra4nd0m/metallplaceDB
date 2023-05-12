@@ -75,7 +75,7 @@ Content-Type: application/json
 
 ###
 POST localhost:8080/initImport
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IjEiLCJleHAiOjE2ODM3Nzg2NjF9.CWc0I3Dn9DS2SyjXZZbwJyB3FNTectuYGFnR489GlTc
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IjEiLCJleHAiOjE2ODM5MjQ4ODd9.LSg092-8PI5_hAtrKsobxsO_02_Xv3BFBvq5ZaVRtXI
 Content-Type: application/json
 
 {

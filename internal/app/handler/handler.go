@@ -21,7 +21,7 @@ type IService interface {
 	InitImportMaterialsHorizontalMonthly(ctx context.Context, book *excelize.File) error
 	InitImportMonthlyPredict(ctx context.Context, book *excelize.File) error
 	InitImportWeeklyPredict(ctx context.Context, book *excelize.File) error
-	ScanRosStatBook(ctx context.Context, byte []byte) error
+	ParseRosStatBook(ctx context.Context, byte []byte) error
 	ParseXlsxForChart(byte []byte) (chartclient.Request, error)
 
 	AddMaterialProperty(ctx context.Context, materialSourceId, propertyId int) error
@@ -47,6 +47,7 @@ type IService interface {
 
 	GetPropertyList(ctx context.Context, materialSourceId int) ([]model.PropertyShortInfo, error)
 	GetPropertyName(ctx context.Context, id int) (string, error)
+	GetPropertyId(ctx context.Context, name string) (int, error)
 	AddPropertyToMaterial(ctx context.Context, materialSourceId int, propertyName string, kind string) error
 
 	CheckCredentials(ctx context.Context, user, password string) (bool, error)
