@@ -207,7 +207,8 @@ func (s *Service) ParseRosStatBook(ctx context.Context, byte []byte) error {
 	date := time.Date(year, time.Month(month), 1, 0, 0, 0, 0, time.UTC)
 
 	// Getting id of volume property
-	volumePropertyId, err := s.GetPropertyId(ctx, "Запас")
+
+	volumePropertyId, err := s.AddPropertyIfNotExists(ctx, model.PropertyShortInfo{Name: "Запас", Kind: "decimal"})
 	if err != nil {
 		return fmt.Errorf("cannot get volume id: %w", err)
 	}

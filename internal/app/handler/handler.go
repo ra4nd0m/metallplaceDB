@@ -49,6 +49,7 @@ type IService interface {
 	GetPropertyName(ctx context.Context, id int) (string, error)
 	GetPropertyId(ctx context.Context, name string) (int, error)
 	AddPropertyToMaterial(ctx context.Context, materialSourceId int, propertyName string, kind string) error
+	AddPropertyIfNotExists(ctx context.Context, property model.PropertyShortInfo) (int, error)
 
 	CheckCredentials(ctx context.Context, user, password string) (bool, error)
 	CreateToken(username string) (string, error)
