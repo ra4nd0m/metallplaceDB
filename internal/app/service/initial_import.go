@@ -140,6 +140,7 @@ func (s *Service) ParseXlsxForChart(byte []byte) (chartclient.Request, error) {
 }
 
 func (s *Service) ImportRosStat(ctx context.Context) error {
+	fmt.Println("importing rosstat")
 	directory := "var/ros_stat_books"
 	absDir, err := filepath.Abs(directory)
 	if err != nil {
@@ -174,6 +175,7 @@ func (s *Service) ImportRosStat(ctx context.Context) error {
 }
 
 func (s *Service) ParseRosStatBook(ctx context.Context, byte []byte) error {
+	fmt.Println("book")
 	reader := bytes.NewReader(byte)
 	book, err := excelize.OpenReader(reader)
 	if err != nil {
@@ -229,7 +231,32 @@ func (s *Service) ParseRosStatBook(ctx context.Context, byte []byte) error {
 			return fmt.Errorf("cannot get location: %w", err)
 		}
 
-		materialSourceId, err := s.AddUniqueMaterial(ctx, name+", "+code, "rosstat.gov.ru", location, "тонн", "")
+		unitStr, err := book.GetCellValue(coord.Sheet, "B"+strconv.Itoa(row+1))
+		if err != nil {
+			return fmt.Errorf("cannot get unit: %w", err)
+		}
+		unit, err := strconv.Atoi(unitStr)
+		if err != nil {
+			return fmt.Errorf("cannot convert unit ОКПД id to int: %w", err)
+		}
+
+		var valueMultiplication float64
+		fmt.Println("Unit id: ", unit)
+
+		switch {
+		case unit == 168:
+			unitStr = "тонна"
+			valueMultiplication = 1
+			break
+		case unit == 169:
+			unitStr = "тонна"
+			valueMultiplication = 1000
+			break
+		default:
+			return fmt.Errorf("unknown ОКПД unit id: %w", unit)
+		}
+
+		materialSourceId, err := s.AddUniqueMaterial(ctx, name+", "+code, "rosstat.gov.ru", location, unitStr, "")
 		if err != nil {
 			return fmt.Errorf("cannot add material %s: %w", name, err)
 		}
@@ -254,7 +281,7 @@ func (s *Service) ParseRosStatBook(ctx context.Context, byte []byte) error {
 			return fmt.Errorf("cannot get property name: %w", err)
 		}
 
-		err = s.repo.AddMaterialValue(ctx, materialSourceId, propertyName, volumeFloat, "", date)
+		err = s.repo.AddMaterialValue(ctx, materialSourceId, propertyName, volumeFloat*valueMultiplication, "", date)
 		if err != nil {
 			return err
 		}

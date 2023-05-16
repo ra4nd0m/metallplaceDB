@@ -1,4 +1,4 @@
-CREATE EXTENSION pgcrypto;
+
 create table "user"
 (
     id   serial
