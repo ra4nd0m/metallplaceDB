@@ -231,32 +231,17 @@ func (s *Service) ParseRosStatBook(ctx context.Context, byte []byte) error {
 			return fmt.Errorf("cannot get location: %w", err)
 		}
 
-		unitStr, err := book.GetCellValue(coord.Sheet, "B"+strconv.Itoa(row+1))
+		unitCode, err := book.GetCellValue(coord.Sheet, "B"+strconv.Itoa(row+1))
 		if err != nil {
 			return fmt.Errorf("cannot get unit: %w", err)
 		}
-		unit, err := strconv.Atoi(unitStr)
+
+		unit, valueMultiplication, err := utils.OkpdUnitClassifier(unitCode)
 		if err != nil {
 			return fmt.Errorf("cannot convert unit ОКПД id to int: %w", err)
 		}
 
-		var valueMultiplication float64
-		fmt.Println("Unit id: ", unit)
-
-		switch {
-		case unit == 168:
-			unitStr = "тонна"
-			valueMultiplication = 1
-			break
-		case unit == 169:
-			unitStr = "тонна"
-			valueMultiplication = 1000
-			break
-		default:
-			return fmt.Errorf("unknown ОКПД unit id: %w", unit)
-		}
-
-		materialSourceId, err := s.AddUniqueMaterial(ctx, name+", "+code, "rosstat.gov.ru", location, unitStr, "")
+		materialSourceId, err := s.AddUniqueMaterial(ctx, name+", "+code, "rosstat.gov.ru", location, unit, "")
 		if err != nil {
 			return fmt.Errorf("cannot add material %s: %w", name, err)
 		}
