@@ -236,12 +236,12 @@ func (s *Service) ParseRosStatBook(ctx context.Context, byte []byte) error {
 			return fmt.Errorf("cannot get unit: %w", err)
 		}
 
-		unit, valueMultiplication, err := utils.OkpdUnitClassifier(unitCode)
+		unit, err := utils.OkpdUnitClassifier(unitCode)
 		if err != nil {
 			return fmt.Errorf("cannot convert unit ОКПД id to int: %w", err)
 		}
 
-		materialSourceId, err := s.AddUniqueMaterial(ctx, name+", "+code, "rosstat.gov.ru", location, unit, "")
+		materialSourceId, err := s.AddUniqueMaterial(ctx, name+", "+code, "rosstat.gov.ru", location, unit.Name, "")
 		if err != nil {
 			return fmt.Errorf("cannot add material %s: %w", name, err)
 		}
@@ -266,7 +266,7 @@ func (s *Service) ParseRosStatBook(ctx context.Context, byte []byte) error {
 			return fmt.Errorf("cannot get property name: %w", err)
 		}
 
-		err = s.repo.AddMaterialValue(ctx, materialSourceId, propertyName, volumeFloat*valueMultiplication, "", date)
+		err = s.repo.AddMaterialValue(ctx, materialSourceId, propertyName, volumeFloat*unit.ValueMultiplication, "", date)
 		if err != nil {
 			return err
 		}

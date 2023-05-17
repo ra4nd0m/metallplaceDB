@@ -2,20 +2,18 @@ package utils
 
 import (
 	"fmt"
-	"strconv"
+	"metallplace/internal/app/model"
 )
 
-func OkpdUnitClassifier(codeStr string) (string, float64, error) {
-	code, err := strconv.Atoi(codeStr)
-	if err != nil {
-		return "", 0, fmt.Errorf("cannot convert unit ОКПД id to int: %w", err)
+func OkpdUnitClassifier(codeStr string) (model.Unit, error) {
+	unit, ok := unitClassification[codeStr]
+	if !ok {
+		return model.Unit{}, fmt.Errorf("unknown ОКПД unit id: %w", codeStr)
 	}
-	switch code {
-	case 168:
-		return "", 1, nil
-	case 169:
-		return "тонна", 1000, nil
-	default:
-		return "", 0, fmt.Errorf("unknown ОКПД unit id: %w", code)
-	}
+	return unit, nil
+}
+
+var unitClassification = map[string]model.Unit{
+	"168": {"тонна", 1},
+	"169": {"тонна", 1000},
 }
