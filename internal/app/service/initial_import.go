@@ -163,7 +163,7 @@ func (s *Service) ImportRosStat(ctx context.Context) error {
 			// Pass byte array to function
 			err = s.ParseRosStatBook(ctx, data)
 			if err != nil {
-				return fmt.Errorf("error in importing ros stat: %w", err)
+				return fmt.Errorf("error in importing ros stat file `%s` %w", path, err)
 			}
 		}
 		return nil
@@ -175,7 +175,6 @@ func (s *Service) ImportRosStat(ctx context.Context) error {
 }
 
 func (s *Service) ParseRosStatBook(ctx context.Context, byte []byte) error {
-	fmt.Println("book")
 	reader := bytes.NewReader(byte)
 	book, err := excelize.OpenReader(reader)
 	if err != nil {
@@ -218,6 +217,9 @@ func (s *Service) ParseRosStatBook(ctx context.Context, byte []byte) error {
 	for _, coord := range model.RosStatCoordinates {
 		name, row, err := findInRowRange(book, coord.Sheet, "A", coord.Row, 5, coord.Material)
 		if err != nil {
+			if date.Year() == 2021 && coord.Material == "Чугун литейный" {
+				continue
+			}
 			return fmt.Errorf("cannot get name: %w", err)
 		}
 
@@ -241,6 +243,7 @@ func (s *Service) ParseRosStatBook(ctx context.Context, byte []byte) error {
 			return fmt.Errorf("cannot convert unit ОКПД id to int: %w", err)
 		}
 
+		fmt.Println(name + ", " + code)
 		materialSourceId, err := s.AddUniqueMaterial(ctx, name+", "+code, "rosstat.gov.ru", location, unit.Name, "")
 		if err != nil {
 			return fmt.Errorf("cannot add material %s: %w", name, err)

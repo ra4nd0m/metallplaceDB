@@ -9,13 +9,13 @@ import (
 	"time"
 )
 
-func findInRowRange(book *excelize.File, sheet string, column string, centerRow int, delta int, target []string) (string, int, error) {
+func findInRowRange(book *excelize.File, sheet string, column string, centerRow int, delta int, target string) (string, int, error) {
 	for row := centerRow - delta; row < centerRow+delta; row++ {
 		name, err := book.GetCellValue(sheet, column+strconv.Itoa(row))
 		if err != nil {
 			return "", 0, fmt.Errorf("cannot get name: %w", err)
 		}
-		if contains(target, name) {
+		if target == name {
 			return name, row, nil
 		}
 	}
