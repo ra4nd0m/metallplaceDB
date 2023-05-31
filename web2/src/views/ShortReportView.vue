@@ -3,15 +3,32 @@
     <v-main>
       <Navbar/>
       <v-form class="inputs" @submit.prevent="handleSubmit">
-        <h2>Компоновка отчета</h2>
+        <h1>Компоновка отчета</h1>
+          <v-container fluid>
+            <h2>Тип</h2>
+            <v-checkbox
+            v-model="reportHeader"
+            label="Мировой рынок металлургического сырья"
+            value="Мировой рынок металлургического сырья"
+            :rules="[v => !!v || 'Please select a title']"
+            ></v-checkbox>
+            <v-checkbox
+                v-model="reportHeader"
+                label="Мировой и российский рынок стали"
+                value="Мировой и российский рынок стали"
+                :rules="[v => !!v || 'Please select a title']"
+            ></v-checkbox>
+          </v-container>
+
         <v-container>
+          <h2>Содержимое</h2>
           <v-row v-for="(block, index) in reportBlocks" :key="index">
             <v-col cols="12">
-              <v-text-field solo label="Заголовок" v-model="block.title" class="ma-2"
+              <v-text-field solo label="Заголовок блока" v-model="block.title" class="ma-2"
                             :rules="[(v) => !!v || 'Введите заголовок']"/>
             </v-col>
             <v-col cols="12">
-              <v-textarea solo label="Абзац" v-model="block.paragraphsRaw" @input=splitParagraphs(block) class="ma-2"
+              <v-textarea solo label="Текст блока" v-model="block.paragraphsRaw" @input=splitParagraphs(block) class="ma-2"
                           :rules="[(v) => !!v || 'Введите текст абзаца']"/>
             </v-col>
             <v-col cols="12" class="ma-2">
@@ -74,6 +91,7 @@ export default {
   components: {PriceTable, Navbar},
   data() {
     return {
+      reportHeader: "",
       dateReport: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
       reportBlocks: [{
         title: '',
@@ -107,7 +125,7 @@ export default {
       reader.readAsDataURL(file);
     },
     handleSubmit() {
-      getShortReport(this.reportBlocks, this.dateReport)
+      getShortReport(this.reportHeader, this.reportBlocks, this.dateReport)
     },
   },
 }

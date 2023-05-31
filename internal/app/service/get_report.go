@@ -20,7 +20,7 @@ func (s *Service) GetReport(repType string, date string) ([]byte, error) {
 	return bytes, nil
 }
 
-func (s *Service) GetShortReport(date time.Time, blocks []model.ReportBlock) ([]byte, error) {
+func (s *Service) GetShortReport(reportHeader string, date time.Time, blocks []model.ReportBlock) ([]byte, error) {
 	var req docxgenclient.RequestShortReport
 	var reqBlocks []docxgenclient.Block
 	for _, b := range blocks {
@@ -28,6 +28,7 @@ func (s *Service) GetShortReport(date time.Time, blocks []model.ReportBlock) ([]
 	}
 	req.Date = date
 	req.Blocks = reqBlocks
+	req.ReportHeader = reportHeader
 	bytes, err := s.docxgen.GetShortReport(req)
 	if err != nil {
 		return nil, fmt.Errorf("cant get short report from docxgen service: %w", err)

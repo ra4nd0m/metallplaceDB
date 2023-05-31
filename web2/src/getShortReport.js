@@ -1,8 +1,8 @@
 import agent from "@/addAuthToken";
 
-export const getShortReport = async (blocks, date) => {
+export const getShortReport = async (reportHeader, blocks, date) => {
     agent.post(`/getShortReport`, {
-        'date': date, 'blocks': blocks
+        'report_header': reportHeader, 'date': date, 'blocks': blocks
     })
 
         // (B) RETURN AS BLOB

@@ -41,7 +41,7 @@ type IService interface {
 	GetChartRaw(book []byte, tickLimit int) ([]byte, error)
 
 	GetReport(repType string, date string) ([]byte, error)
-	GetShortReport(date time.Time, blocks []model.ReportBlock) ([]byte, error)
+	GetShortReport(reportHeader string, date time.Time, blocks []model.ReportBlock) ([]byte, error)
 
 	GetCachedReport(repType string, date string) ([]byte, error)
 

@@ -14,8 +14,9 @@ type Block struct {
 }
 
 type GetShortRequestRequest struct {
-	Date   string  `json:"date"`
-	Blocks []Block `json:"blocks"`
+	ReportHeader string  `json:"report_header"`
+	Date         string  `json:"date"`
+	Blocks       []Block `json:"blocks"`
 }
 type GetShortRequestResponse struct{}
 
@@ -40,7 +41,7 @@ func (h Handler) GetShortReportHandler(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			return GetShortRequestResponse{}, fmt.Errorf("cant parse date: %w", err)
 		}
-		bytes, err := h.service.GetShortReport(date, reportBlocks)
+		bytes, err := h.service.GetShortReport(req.ReportHeader, date, reportBlocks)
 		w.Header().Set("Content-Type", "application/vnd.openxmlformats-officedocument.wordprocessingml.document")
 
 		_, _ = w.Write(bytes)

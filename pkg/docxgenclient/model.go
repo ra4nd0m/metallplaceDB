@@ -8,8 +8,9 @@ type Request struct {
 }
 
 type RequestShortReport struct {
-	Date   time.Time `json:"date"`
-	Blocks []Block   `json:"blocks"`
+	ReportHeader string    `json:"report_header"`
+	Date         time.Time `json:"date"`
+	Blocks       []Block   `json:"blocks"`
 }
 
 type Block struct {

@@ -11,9 +11,12 @@ function getFooterTitle(date) {
     return `Отчетный период: ${monthDates.first.day} - ` +
         `${monthDates.last.day} ${RusMonth[monthDates.last.month]} ${monthDates.last.year} года`
 }
-function getHeaderTitle(date) {
+function getHeaderTitle(date, headerTitle) {
+    if (headerTitle === undefined) {
+        headerTitle = ShortHeaderTitle
+    }
     const monthDates = GetDates(new Date(date.substring(0, 10)), "month")
-    return ShortHeaderTitle + `${RusMonth[monthDates.last.month]} ${monthDates.last.year} года`
+    return headerTitle + `: итоги ${RusMonth[monthDates.last.month]} ${monthDates.last.year} года`
 }
 
 module.exports = class ShortReport {
@@ -63,7 +66,7 @@ module.exports = class ShortReport {
                             default: footer(getFooterTitle(req.date)),
                         },
                         headers: {
-                            default: header(getHeaderTitle(req.date))
+                            default: header(getHeaderTitle(req.date, req.report_header)),
                         },
                         properties: {
                             page: {
