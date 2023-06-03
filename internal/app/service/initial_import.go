@@ -69,13 +69,20 @@ func (s *Service) ParseXlsxForChart(byte []byte) (chartclient.Request, error) {
 	startSheet := "Лист1"
 	var req chartclient.Request
 
-	for curCol := utils.AlphabetToInt(materialStartColumn); true; curCol++ {
+	for curCol, err := utils.AlphabetToInt(materialStartColumn); true; curCol++ {
+		if err != nil {
+			return chartclient.Request{}, fmt.Errorf("cant parse xlsx for chart: %v", err)
+		}
 		var valueFloat float64
 		curRow := startRow
 		var curDate string
 		var materialAndPrices chartclient.YDataSet
 		// Reading material name
-		value, err := book.GetCellValue(startSheet, utils.IntToAlphabet(int32(curCol))+strconv.Itoa(startRow))
+		col, err := utils.IntToAlphabet(int32(curCol))
+		if err != nil {
+			return chartclient.Request{}, fmt.Errorf("cant parse excel format columb number: %v", err)
+		}
+		value, err := book.GetCellValue(startSheet, col+strconv.Itoa(startRow))
 		if err != nil {
 			return chartclient.Request{}, fmt.Errorf("cant get cell value: %w", err)
 		}
@@ -88,7 +95,11 @@ func (s *Service) ParseXlsxForChart(byte []byte) (chartclient.Request, error) {
 
 		for row := curRow + 1; true; row++ {
 			// Reading prices
-			value, err = book.GetCellValue(startSheet, utils.IntToAlphabet(int32(curCol))+strconv.Itoa(row))
+			col, err := utils.IntToAlphabet(int32(curCol))
+			if err != nil {
+				return chartclient.Request{}, fmt.Errorf("cant parse excel format columb number: %v", err)
+			}
+			value, err = book.GetCellValue(startSheet, col+strconv.Itoa(row))
 			if err != nil {
 				return chartclient.Request{}, fmt.Errorf("cant get cell value col %d, row %d: %w", row, curCol, err)
 			}
@@ -113,7 +124,11 @@ func (s *Service) ParseXlsxForChart(byte []byte) (chartclient.Request, error) {
 			materialAndPrices.Data = append(materialAndPrices.Data, math.Round(valueFloat*100)/100)
 
 			// Reading labels
-			if curCol == utils.AlphabetToInt(materialStartColumn) {
+			colNumber, err := utils.AlphabetToInt(materialStartColumn)
+			if err != nil {
+				return chartclient.Request{}, fmt.Errorf("cant get col nuber: %v", err)
+			}
+			if curCol == colNumber {
 				value, err = book.GetCellValue(startSheet, labelColumn+strconv.Itoa(row))
 				if err != nil {
 					return chartclient.Request{}, fmt.Errorf("cant get cell value: %w", err)
@@ -406,16 +421,27 @@ func (s *Service) InitImportMaterialsHorizontalWeekly(ctx context.Context, book 
 		}
 		for _, property := range material.Properties {
 			fmt.Println(property.Name)
-			col := utils.AlphabetToInt(property.Column)
+			col, err := utils.AlphabetToInt(property.Column)
+			if err != nil {
+				return fmt.Errorf("cant get int from letter: %v", err)
+			}
 			for {
-				value, err := book.CalcCellValue(material.Sheet, utils.IntToAlphabet(int32(col))+strconv.Itoa(property.Row))
+				c, err := utils.IntToAlphabet(int32(col))
+				if err != nil {
+					return fmt.Errorf("cant parse excel format columb number: %v", err)
+				}
+				value, err := book.CalcCellValue(material.Sheet, c+strconv.Itoa(property.Row))
 				value = strings.TrimSpace(value)
 				if err != nil {
 					return fmt.Errorf("cant calc cell %s %s%d value: %w", material.Sheet, property.Column, property.Row, err)
 				}
 
 				if value == "" {
-					value, err = book.GetCellValue(material.Sheet, utils.IntToAlphabet(int32(col))+strconv.Itoa(property.Row))
+					c, err := utils.IntToAlphabet(int32(col))
+					if err != nil {
+						return fmt.Errorf("cant parse excel format columb number: %v", err)
+					}
+					value, err = book.GetCellValue(material.Sheet, c+strconv.Itoa(property.Row))
 					if err != nil {
 						return fmt.Errorf("cant get cell value: %w", err)
 					}
@@ -423,7 +449,11 @@ func (s *Service) InitImportMaterialsHorizontalWeekly(ctx context.Context, book 
 						break
 					}
 				}
-				dateCell := utils.IntToAlphabet(int32(col)) + material.DateRow
+				c, err = utils.IntToAlphabet(int32(col))
+				if err != nil {
+					return fmt.Errorf("cant parse excel format columb number: %v", err)
+				}
+				dateCell := c + material.DateRow
 				dateStr, err := book.GetCellValue(material.Sheet, dateCell)
 				if err != nil {
 					return fmt.Errorf("cant get cell value: %w", err)
@@ -456,7 +486,12 @@ func (s *Service) InitImportMaterialsHorizontalWeekly(ctx context.Context, book 
 					return err
 				}
 
-				if col >= utils.AlphabetToInt("GX") {
+				// After some time interval changed
+				colNum, err := utils.AlphabetToInt("GX")
+				if err != nil {
+					return fmt.Errorf("cant get int from letter: %v", err)
+				}
+				if col >= colNum {
 					col += 5
 				} else {
 					col += 4
@@ -494,22 +529,33 @@ func (s *Service) InitImportMaterialsHorizontalMonthly(ctx context.Context, book
 		}
 		for _, property := range material.Properties {
 			fmt.Println(property.Name)
-			col := utils.AlphabetToInt(property.Column)
+			colNum, err := utils.AlphabetToInt(property.Column)
+			if err != nil {
+				return fmt.Errorf("cant get col num: %v", err)
+			}
+			col := colNum
 			for {
-
-				value, err := book.CalcCellValue(material.Sheet, utils.IntToAlphabet(int32(col))+strconv.Itoa(property.Row))
+				c, err := utils.IntToAlphabet(int32(col))
+				if err != nil {
+					return fmt.Errorf("cant parse excel format columb number: %v", err)
+				}
+				value, err := book.CalcCellValue(material.Sheet, c+strconv.Itoa(property.Row))
 				if err != nil {
 					return fmt.Errorf("cant get cell value: %w", err)
 				}
 				value = strings.TrimSpace(value)
 
 				if value == "" {
-					value, err = book.GetCellValue(material.Sheet, utils.IntToAlphabet(int32(col))+strconv.Itoa(property.Row))
+					value, err = book.GetCellValue(material.Sheet, c+strconv.Itoa(property.Row))
 					if value == "" {
 						break
 					}
 				}
-				dateCell := utils.IntToAlphabet(int32(col)) + material.DateRow
+				c, err = utils.IntToAlphabet(int32(col))
+				if err != nil {
+					return fmt.Errorf("cant parse excel format columb number: %v", err)
+				}
+				dateCell := c + material.DateRow
 				dateStr, err := book.GetCellValue(material.Sheet, dateCell)
 				if err != nil {
 					return fmt.Errorf("cant get cell value: %w", err)
@@ -542,7 +588,12 @@ func (s *Service) InitImportMaterialsHorizontalMonthly(ctx context.Context, book
 					return err
 				}
 
-				if col >= utils.AlphabetToInt("I") {
+				// After some time interval changes
+				colNum, err := utils.AlphabetToInt("I")
+				if err != nil {
+					return fmt.Errorf("cant get col num: %v", err)
+				}
+				if col >= colNum {
 					col += 5
 				} else {
 					col += 4

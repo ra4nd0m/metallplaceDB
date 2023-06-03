@@ -8,7 +8,7 @@ import (
 func OkpdUnitClassifier(codeStr string) (model.Unit, error) {
 	unit, ok := unitClassification[codeStr]
 	if !ok {
-		return model.Unit{}, fmt.Errorf("unknown ОКПД unit id: %w", codeStr)
+		return model.Unit{}, fmt.Errorf("unknown ОКПД unit id: %s", codeStr)
 	}
 	return unit, nil
 }

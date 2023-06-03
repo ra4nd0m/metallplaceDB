@@ -64,7 +64,11 @@ func getLastNotEmptyElement(slice []string) string {
 
 func areNextCellsEmpty(book *excelize.File, sheet string, col int, row int, n int) (bool, error) {
 	for i := row; i < row+n; i++ {
-		value, err := book.GetCellValue(sheet, utils.IntToAlphabet(int32(col))+strconv.Itoa(i))
+		c, err := utils.IntToAlphabet(int32(col))
+		if err != nil {
+			return false, err
+		}
+		value, err := book.GetCellValue(sheet, c+strconv.Itoa(i))
 		if err != nil {
 			return false, fmt.Errorf("cant get cell value in areNextCellsEmpty: %w", err)
 		}
