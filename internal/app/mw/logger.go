@@ -15,7 +15,6 @@ func LoggerMiddleware(next http.HandlerFunc) http.HandlerFunc {
 		}
 		next.ServeHTTP(rec, r)
 		duration := time.Since(startTime)
-
 		logger := log.Info()
 		if rec.StatusCode != http.StatusOK {
 			logger = log.Error().Bytes("body", rec.Body)
