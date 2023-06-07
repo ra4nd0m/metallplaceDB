@@ -171,7 +171,7 @@ func internalServerFn(ctx context.Context, cfg config.Config, hdl *handler.Handl
 		{route: "/addPropertyToMaterial", handler: hdl.AddPropertyToMaterialHandler},
 		{route: "/updateMainFile", handler: hdl.UpdateMainFileHandler},
 	} {
-		internalRouter.HandleFunc(rec.route, DbMiddleware(rec.handler))
+		internalRouter.HandleFunc(rec.route, LoggerMiddleware(DbMiddleware(rec.handler)))
 	}
 
 	return func() error {
