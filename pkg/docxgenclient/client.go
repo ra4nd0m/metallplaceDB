@@ -35,16 +35,16 @@ func (dc *DocxgenClient) GetReport(req Request) ([]byte, error) {
 	}
 	defer response.Body.Close()
 
-	fmt.Println("response Status:", response.Status)
-	fmt.Println("response Headers:", response.Header)
-	body, _ := ioutil.ReadAll(response.Body)
+	body, err := ioutil.ReadAll(response.Body)
+	if err != nil {
+		return nil, fmt.Errorf("cant read chart docx-gen service response body: %v", err)
+	}
 
 	return body, nil
 }
 
 func (dc *DocxgenClient) GetShortReport(req RequestShortReport) ([]byte, error) {
 	json, err := json.Marshal(req)
-	fmt.Println(json)
 	if err != nil {
 		return nil, fmt.Errorf("cant marshall docx-gen req to json: %w", err)
 	}
@@ -60,9 +60,9 @@ func (dc *DocxgenClient) GetShortReport(req RequestShortReport) ([]byte, error) 
 	}
 	defer response.Body.Close()
 
-	fmt.Println("response Status:", response.Status)
-	fmt.Println("response Headers:", response.Header)
-	body, _ := ioutil.ReadAll(response.Body)
-
+	body, err := ioutil.ReadAll(response.Body)
+	if err != nil {
+		return nil, fmt.Errorf("cant read chart docx-gen service response body: %v", err)
+	}
 	return body, nil
 }

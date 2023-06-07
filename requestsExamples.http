@@ -109,13 +109,13 @@ Content-Type: application/json
 GET http://localhost:8080/getChart/17-19_1_11-10-2022_12-09-2022_1_line_day_day_1_-1.png
 
 ###
-GET http://localhost:8080/getReport/weekly/2023-02-13
+GET http://localhost:8080/getReport/weekly/2023-01-13
 Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IjEiLCJleHAiOjE2ODYxODA4NDh9.dHjRZXhrq5mDkjsNwdpUeE4msCmlx-RlLwpt0rbYG90
 
 
 ###
 GET http://localhost:8080/getReport/monthly/2023-02-03
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3R1c2VyIiwiZXhwIjoxNjgyODAzMjM1fQ.OtToqXeF4shGA1TDQzT6w4I79lccj75fMc4LBi9Hn1Y
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IjEiLCJleHAiOjE2ODYxODA4NDh9.dHjRZXhrq5mDkjsNwdpUeE4msCmlx-RlLwpt0rbYG90
 
 
 ###
@@ -138,6 +138,8 @@ Content-Type: application/json
 
 ###
 POST localhost:8080/getShortReport
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IjEiLCJleHAiOjE2ODYxODA4NDh9.dHjRZXhrq5mDkjsNwdpUeE4msCmlx-RlLwpt0rbYG90
+
 Content-Type: application/json
 
 {
@@ -165,7 +167,7 @@ Content-Type: application/json
 ###
 POST localhost:8080/getShortReport
 Content-Type: application/json
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3R1c2VyIiwiZXhwIjoxNjgyODAzMjM1fQ.OtToqXeF4shGA1TDQzT6w4I79lccj75fMc4LBi9Hn1Y
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IjEiLCJleHAiOjE2ODYxODA4NDh9.dHjRZXhrq5mDkjsNwdpUeE4msCmlx-RlLwpt0rbYG90
 
 {
   "date": "2006-01-02",
@@ -185,4 +187,6 @@ Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3R1c2Vy
 
 ###
 GET localhost:8080/getChart/27_4_06-01-2022_11-01-2022_1_bar_month_month_1_2_0.png
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IjEiLCJleHAiOjE2ODYxODA4NDh9.dHjRZXhrq5mDkjsNwdpUeE4msCmlx-RlLwpt0rbYG90
+
 

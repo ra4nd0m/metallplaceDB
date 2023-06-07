@@ -35,10 +35,10 @@ func (cc *ChartClient) GetChart(req Request) ([]byte, error) {
 	}
 	defer response.Body.Close()
 
-	fmt.Println("response Status:", response.Status)
-	fmt.Println("response Headers:", response.Header)
-	body, _ := ioutil.ReadAll(response.Body)
-	fmt.Println("response Body:", string(body))
+	body, err := ioutil.ReadAll(response.Body)
+	if err != nil {
+		return nil, fmt.Errorf("cant read chart js service response body: %v", err)
+	}
 
 	return body, nil
 }
@@ -61,10 +61,10 @@ func (cc *ChartClient) GetChartTitled(req Request) ([]byte, error) {
 	}
 	defer response.Body.Close()
 
-	fmt.Println("response Status:", response.Status)
-	fmt.Println("response Headers:", response.Header)
-	body, _ := ioutil.ReadAll(response.Body)
-	fmt.Println("response Body:", string(body))
+	body, err := ioutil.ReadAll(response.Body)
+	if err != nil {
+		return nil, fmt.Errorf("cant read chart js service response body: %v", err)
+	}
 
 	return body, nil
 }

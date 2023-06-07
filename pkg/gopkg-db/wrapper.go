@@ -2,8 +2,6 @@ package db
 
 import (
 	"context"
-	"fmt"
-
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgconn"
 	"github.com/jackc/pgx/v5/pgxpool"
@@ -27,7 +25,6 @@ type DBPool struct {
 }
 
 func (d *DBPool) Query(ctx context.Context, sql string, args ...interface{}) (pgx.Rows, error) {
-	fmt.Printf("Pool: %v\n", d.Pool)
 	return d.Pool.Query(ctx, sql, args...)
 }
 
