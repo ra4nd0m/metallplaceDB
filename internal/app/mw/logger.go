@@ -27,7 +27,7 @@ func LoggerMiddleware(next http.HandlerFunc) http.HandlerFunc {
 			Int("status_code", rec.StatusCode).
 			Str("status_text", http.StatusText(rec.StatusCode)).
 			Dur("duration", duration).
-			Msgf("%s received a HTTP request", time.Now().UTC().Format("2006-01-02 3:04PM"))
+			Msgf("%s received a HTTP request", time.Now().UTC().Format("2006-01-02"))
 	}
 }
 
