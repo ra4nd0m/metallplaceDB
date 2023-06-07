@@ -9,6 +9,7 @@ import (
 	"github.com/rs/zerolog/log"
 	"golang.org/x/sync/errgroup"
 	"metallplace/internal/app/handler"
+	"metallplace/internal/app/mw"
 	"metallplace/internal/app/repository"
 	"metallplace/internal/app/service"
 	"metallplace/internal/pkg/config"
@@ -115,7 +116,7 @@ func externalServerFn(ctx context.Context, cfg config.Config, hdl *handler.Handl
 		if !rec.withoutAuth {
 			h = srv.Authenticate(h)
 		}
-		externalRouter.HandleFunc(rec.route, LoggerMiddleware(DbMiddleware(h)))
+		externalRouter.HandleFunc(rec.route, mw.LoggerMiddleware(DbMiddleware(h)))
 	}
 
 	return func() error {
@@ -171,7 +172,7 @@ func internalServerFn(ctx context.Context, cfg config.Config, hdl *handler.Handl
 		{route: "/addPropertyToMaterial", handler: hdl.AddPropertyToMaterialHandler},
 		{route: "/updateMainFile", handler: hdl.UpdateMainFileHandler},
 	} {
-		internalRouter.HandleFunc(rec.route, LoggerMiddleware(DbMiddleware(rec.handler)))
+		internalRouter.HandleFunc(rec.route, mw.LoggerMiddleware(DbMiddleware(rec.handler)))
 	}
 
 	return func() error {
@@ -197,45 +198,4 @@ func DbMiddleware(next http.HandlerFunc) http.HandlerFunc {
 		r = r.WithContext(db.AddToContext(ctx, conn))
 		next.ServeHTTP(w, r)
 	}
-}
-
-func LoggerMiddleware(next http.HandlerFunc) http.HandlerFunc {
-	return func(w http.ResponseWriter, r *http.Request) {
-		startTime := time.Now()
-		rec := &ResponseRecorder{
-			ResponseWriter: w,
-			StatusCode:     http.StatusOK,
-		}
-		next.ServeHTTP(rec, r)
-		duration := time.Since(startTime)
-
-		logger := log.Info()
-		if rec.StatusCode != http.StatusOK {
-			logger = log.Error().Bytes("body", rec.Body)
-		}
-
-		logger.Str("protocol", "http").
-			Str("method", r.Method).
-			Str("path", r.RequestURI).
-			Int("status_code", rec.StatusCode).
-			Str("status_text", http.StatusText(rec.StatusCode)).
-			Dur("duration", duration).
-			Msg("received a HTTP request")
-	}
-}
-
-type ResponseRecorder struct {
-	http.ResponseWriter
-	StatusCode int
-	Body       []byte
-}
-
-func (rec *ResponseRecorder) WriteHeader(statusCode int) {
-	rec.StatusCode = statusCode
-	rec.ResponseWriter.WriteHeader(statusCode)
-}
-
-func (rec *ResponseRecorder) Write(body []byte) (int, error) {
-	rec.Body = body
-	return rec.ResponseWriter.Write(body)
 }
