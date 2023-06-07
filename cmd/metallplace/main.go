@@ -5,8 +5,9 @@ import (
 	"fmt"
 	"github.com/gorilla/mux"
 	"github.com/rs/cors"
+	"github.com/rs/zerolog"
+	"github.com/rs/zerolog/log"
 	"golang.org/x/sync/errgroup"
-	"log"
 	"metallplace/internal/app/handler"
 	"metallplace/internal/app/repository"
 	"metallplace/internal/app/service"
@@ -25,15 +26,17 @@ var conn db.IClient
 
 func main() {
 	// Loading config
+	log.Logger = log.Output(zerolog.ConsoleWriter{Out: os.Stderr})
+	logger := zerolog.New(os.Stderr).With().Timestamp().Logger()
 	cfg, err := config.LoadConfig()
 	if err != nil {
-		log.Fatal("cannot load cfg:", err)
+		logger.Fatal().Err(err).Msg("cannot load cfg")
 	}
 
 	// Creating connection to DB
 	conn, err = db.New(cfg.DBHost, cfg.DBPort, cfg.DBUser, cfg.DBPassword, cfg.DBName)
 	if err != nil {
-		log.Fatal("cannot create connection to df: ", err)
+		logger.Fatal().Err(err).Msg("cannot create connection to db")
 	}
 
 	// Creating instances and setting inheritance
@@ -110,9 +113,9 @@ func externalServerFn(ctx context.Context, cfg config.Config, hdl *handler.Handl
 	} {
 		var h = rec.handler
 		if !rec.withoutAuth {
-			//h = srv.Authenticate(h)
+			h = srv.Authenticate(h)
 		}
-		externalRouter.HandleFunc(rec.route, DbMiddleware(h))
+		externalRouter.HandleFunc(rec.route, LoggerMiddleware(DbMiddleware(h)))
 	}
 
 	return func() error {
@@ -194,4 +197,45 @@ func DbMiddleware(next http.HandlerFunc) http.HandlerFunc {
 		r = r.WithContext(db.AddToContext(ctx, conn))
 		next.ServeHTTP(w, r)
 	}
+}
+
+func LoggerMiddleware(next http.HandlerFunc) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		startTime := time.Now()
+		rec := &ResponseRecorder{
+			ResponseWriter: w,
+			StatusCode:     http.StatusOK,
+		}
+		next.ServeHTTP(rec, r)
+		duration := time.Since(startTime)
+
+		logger := log.Info()
+		if rec.StatusCode != http.StatusOK {
+			logger = log.Error().Bytes("body", rec.Body)
+		}
+
+		logger.Str("protocol", "http").
+			Str("method", r.Method).
+			Str("path", r.RequestURI).
+			Int("status_code", rec.StatusCode).
+			Str("status_text", http.StatusText(rec.StatusCode)).
+			Dur("duration", duration).
+			Msg("received a HTTP request")
+	}
+}
+
+type ResponseRecorder struct {
+	http.ResponseWriter
+	StatusCode int
+	Body       []byte
+}
+
+func (rec *ResponseRecorder) WriteHeader(statusCode int) {
+	rec.StatusCode = statusCode
+	rec.ResponseWriter.WriteHeader(statusCode)
+}
+
+func (rec *ResponseRecorder) Write(body []byte) (int, error) {
+	rec.Body = body
+	return rec.ResponseWriter.Write(body)
 }

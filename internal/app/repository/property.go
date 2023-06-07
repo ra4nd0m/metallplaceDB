@@ -53,7 +53,7 @@ func (r *Repository) GetPropertyId(ctx context.Context, propertyName string) (in
 		return 0, nil
 	}
 	if err != nil {
-		return 0, fmt.Errorf("cant scan property id from row", err)
+		return 0, fmt.Errorf("cant scan property id from row: %v", err)
 	}
 
 	return id, nil

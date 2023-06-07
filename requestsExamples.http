@@ -110,7 +110,7 @@ GET http://localhost:8080/getChart/17-19_1_11-10-2022_12-09-2022_1_line_day_day_
 
 ###
 GET http://localhost:8080/getReport/weekly/2023-02-13
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3R1c2VyIiwiZXhwIjoxNjgyODAzMjM1fQ.OtToqXeF4shGA1TDQzT6w4I79lccj75fMc4LBi9Hn1Y
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IjEiLCJleHAiOjE2ODYxODA4NDh9.dHjRZXhrq5mDkjsNwdpUeE4msCmlx-RlLwpt0rbYG90
 
 
 ###
