@@ -125,47 +125,6 @@ Content-Type: application/json
 
 ```
 
-# Go Server
-
-```bash
-make build
-./bin/metallplace
-```
-
-# Chart service
-
-```bash
-sudo apt install nodejs
-sudo apt install npm
-npm install -g nodemon
-npm install -g ts-node
-npm run build src/app.ts
-```
-
-# Docxgen service
-
-```bash
-npm install
-node src/app.js
-```
-
-# Vue Frontend
-
-В vue.config.js указать хост и порт основного сервера (по умолчанию стоит localhost:8080)
-
-```shell
-npm install
-npm run build 
-```
-
-В dist соберется проект для деплоя
- 
-Для тестового локального запуска
-
-```bash
-npm run serve
-```
-
 # Adding user
 ```postgresql
 INSERT INTO "user" (username, password) VALUES (
