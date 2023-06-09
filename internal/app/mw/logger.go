@@ -20,8 +20,11 @@ func LoggerMiddleware(next http.HandlerFunc) http.HandlerFunc {
 		if r.Body != nil {
 			body, err := ioutil.ReadAll(r.Body)
 			if err == nil {
-				log.Info().Bytes("request_body", body).Msg("Received request body")
-				r.Body = ioutil.NopCloser(bytes.NewBuffer(body))
+				if body != nil {
+					log.Info().Bytes("request_body", body).Msg("Received request body")
+					r.Body = ioutil.NopCloser(bytes.NewBuffer(body))
+				}
+
 			}
 		}
 
