@@ -131,7 +131,7 @@ func externalServerFn(ctx context.Context, cfg config.Config, hdl *handler.Handl
 		case <-ctx.Done():
 			err = externalServer.Shutdown(ctx)
 		}
-		log.Printf("External externalServer finished, error: %v\n", err)
+		log.Printf("External externalServer finished, error: %w\n", err)
 		return err
 	}
 }
@@ -187,7 +187,7 @@ func internalServerFn(ctx context.Context, cfg config.Config, hdl *handler.Handl
 		case <-ctx.Done():
 			err = internalServer.Shutdown(ctx)
 		}
-		log.Printf("Internal externalServer finished, error: %v\n", err)
+		log.Printf("Internal externalServer finished, error: %w\n", err)
 		return err
 	}
 }

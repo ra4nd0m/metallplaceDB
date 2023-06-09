@@ -42,15 +42,15 @@ func LoadConfig() (Config, error) {
 
 	DbPort, err := strconv.Atoi(os.Getenv("DB_PORT"))
 	if err != nil {
-		return Config{}, fmt.Errorf("error loading db port: %v", err)
+		return Config{}, fmt.Errorf("error loading db port: %w", err)
 	}
 	ChartPort, err := strconv.Atoi(os.Getenv("CHART_PORT"))
 	if err != nil {
-		return Config{}, fmt.Errorf("error loading chart port: %v", err)
+		return Config{}, fmt.Errorf("error loading chart port: %w", err)
 	}
 	DocxgenPort, err := strconv.Atoi(os.Getenv("DOCXGEN_PORT"))
 	if err != nil {
-		return Config{}, fmt.Errorf("error loading docxgen port: %v", err)
+		return Config{}, fmt.Errorf("error loading docxgen port: %w", err)
 	}
 	config := Config{
 		DBHost:           os.Getenv("DB_HOST"),

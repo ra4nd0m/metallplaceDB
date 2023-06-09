@@ -37,7 +37,7 @@ func (dc *DocxgenClient) GetReport(req Request) ([]byte, error) {
 
 	body, err := ioutil.ReadAll(response.Body)
 	if err != nil {
-		return nil, fmt.Errorf("cant read chart docx-gen service response body: %v", err)
+		return nil, fmt.Errorf("cant read chart docx-gen service response body: %w", err)
 	}
 
 	return body, nil
@@ -62,7 +62,7 @@ func (dc *DocxgenClient) GetShortReport(req RequestShortReport) ([]byte, error) 
 
 	body, err := ioutil.ReadAll(response.Body)
 	if err != nil {
-		return nil, fmt.Errorf("cant read chart docx-gen service response body: %v", err)
+		return nil, fmt.Errorf("cant read chart docx-gen service response body: %w", err)
 	}
 	return body, nil
 }

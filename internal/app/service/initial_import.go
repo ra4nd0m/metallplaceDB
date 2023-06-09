@@ -71,7 +71,7 @@ func (s *Service) ParseXlsxForChart(byte []byte) (chartclient.Request, error) {
 
 	for curCol, err := utils.AlphabetToInt(materialStartColumn); true; curCol++ {
 		if err != nil {
-			return chartclient.Request{}, fmt.Errorf("cant parse xlsx for chart: %v", err)
+			return chartclient.Request{}, fmt.Errorf("cant parse xlsx for chart: %w", err)
 		}
 		var valueFloat float64
 		curRow := startRow
@@ -80,7 +80,7 @@ func (s *Service) ParseXlsxForChart(byte []byte) (chartclient.Request, error) {
 		// Reading material name
 		col, err := utils.IntToAlphabet(int32(curCol))
 		if err != nil {
-			return chartclient.Request{}, fmt.Errorf("cant parse excel format columb number: %v", err)
+			return chartclient.Request{}, fmt.Errorf("cant parse excel format columb number: %w", err)
 		}
 		value, err := book.GetCellValue(startSheet, col+strconv.Itoa(startRow))
 		if err != nil {
@@ -97,7 +97,7 @@ func (s *Service) ParseXlsxForChart(byte []byte) (chartclient.Request, error) {
 			// Reading prices
 			col, err := utils.IntToAlphabet(int32(curCol))
 			if err != nil {
-				return chartclient.Request{}, fmt.Errorf("cant parse excel format columb number: %v", err)
+				return chartclient.Request{}, fmt.Errorf("cant parse excel format columb number: %w", err)
 			}
 			value, err = book.GetCellValue(startSheet, col+strconv.Itoa(row))
 			if err != nil {
@@ -126,7 +126,7 @@ func (s *Service) ParseXlsxForChart(byte []byte) (chartclient.Request, error) {
 			// Reading labels
 			colNumber, err := utils.AlphabetToInt(materialStartColumn)
 			if err != nil {
-				return chartclient.Request{}, fmt.Errorf("cant get col nuber: %v", err)
+				return chartclient.Request{}, fmt.Errorf("cant get col nuber: %w", err)
 			}
 			if curCol == colNumber {
 				value, err = book.GetCellValue(startSheet, labelColumn+strconv.Itoa(row))
@@ -347,7 +347,7 @@ func (s *Service) InitImportMaterialsVertical(ctx context.Context, book *exceliz
 				style, _ := book.NewStyle(`{"number_format":15}`)
 				err = book.SetCellStyle(material.Sheet, dateCell, dateCell, style)
 				if err != nil {
-					return fmt.Errorf("cant set cell style: %v", err)
+					return fmt.Errorf("cant set cell style: %w", err)
 				}
 
 				dateStr, err := book.GetCellValue(material.Sheet, dateCell)
@@ -379,7 +379,7 @@ func (s *Service) InitImportMaterialsVertical(ctx context.Context, book *exceliz
 
 				materialSourceId, err := s.repo.GetMaterialSourceId(ctx, material.Name, material.Source, material.Market, material.Unit, material.DeliveryType)
 				if err != nil {
-					return fmt.Errorf("cann not get material source id: %v", err)
+					return fmt.Errorf("cann not get material source id: %w", err)
 				}
 
 				err = s.repo.AddMaterialValue(ctx, materialSourceId, property.Name, valueDecimal, valueStr, createdOn)
@@ -423,12 +423,12 @@ func (s *Service) InitImportMaterialsHorizontalWeekly(ctx context.Context, book 
 			fmt.Println(property.Name)
 			col, err := utils.AlphabetToInt(property.Column)
 			if err != nil {
-				return fmt.Errorf("cant get int from letter: %v", err)
+				return fmt.Errorf("cant get int from letter: %w", err)
 			}
 			for {
 				c, err := utils.IntToAlphabet(int32(col))
 				if err != nil {
-					return fmt.Errorf("cant parse excel format columb number: %v", err)
+					return fmt.Errorf("cant parse excel format columb number: %w", err)
 				}
 				value, err := book.CalcCellValue(material.Sheet, c+strconv.Itoa(property.Row))
 				value = strings.TrimSpace(value)
@@ -439,7 +439,7 @@ func (s *Service) InitImportMaterialsHorizontalWeekly(ctx context.Context, book 
 				if value == "" {
 					c, err := utils.IntToAlphabet(int32(col))
 					if err != nil {
-						return fmt.Errorf("cant parse excel format columb number: %v", err)
+						return fmt.Errorf("cant parse excel format columb number: %w", err)
 					}
 					value, err = book.GetCellValue(material.Sheet, c+strconv.Itoa(property.Row))
 					if err != nil {
@@ -451,7 +451,7 @@ func (s *Service) InitImportMaterialsHorizontalWeekly(ctx context.Context, book 
 				}
 				c, err = utils.IntToAlphabet(int32(col))
 				if err != nil {
-					return fmt.Errorf("cant parse excel format columb number: %v", err)
+					return fmt.Errorf("cant parse excel format columb number: %w", err)
 				}
 				dateCell := c + material.DateRow
 				dateStr, err := book.GetCellValue(material.Sheet, dateCell)
@@ -478,7 +478,7 @@ func (s *Service) InitImportMaterialsHorizontalWeekly(ctx context.Context, book 
 
 				materialSourceId, err := s.repo.GetMaterialSourceId(ctx, material.Name, material.Source, material.Market, material.Unit, material.DeliveryType)
 				if err != nil {
-					return fmt.Errorf("cann not get material source id: %v", err)
+					return fmt.Errorf("cann not get material source id: %w", err)
 				}
 
 				err = s.repo.AddMaterialValue(ctx, materialSourceId, property.Name, valueDecimal, valueStr, createdOn)
@@ -489,7 +489,7 @@ func (s *Service) InitImportMaterialsHorizontalWeekly(ctx context.Context, book 
 				// After some time interval changed
 				colNum, err := utils.AlphabetToInt("GX")
 				if err != nil {
-					return fmt.Errorf("cant get int from letter: %v", err)
+					return fmt.Errorf("cant get int from letter: %w", err)
 				}
 				if col >= colNum {
 					col += 5
@@ -531,13 +531,13 @@ func (s *Service) InitImportMaterialsHorizontalMonthly(ctx context.Context, book
 			fmt.Println(property.Name)
 			colNum, err := utils.AlphabetToInt(property.Column)
 			if err != nil {
-				return fmt.Errorf("cant get col num: %v", err)
+				return fmt.Errorf("cant get col num: %w", err)
 			}
 			col := colNum
 			for {
 				c, err := utils.IntToAlphabet(int32(col))
 				if err != nil {
-					return fmt.Errorf("cant parse excel format columb number: %v", err)
+					return fmt.Errorf("cant parse excel format columb number: %w", err)
 				}
 				value, err := book.CalcCellValue(material.Sheet, c+strconv.Itoa(property.Row))
 				if err != nil {
@@ -553,7 +553,7 @@ func (s *Service) InitImportMaterialsHorizontalMonthly(ctx context.Context, book
 				}
 				c, err = utils.IntToAlphabet(int32(col))
 				if err != nil {
-					return fmt.Errorf("cant parse excel format columb number: %v", err)
+					return fmt.Errorf("cant parse excel format columb number: %w", err)
 				}
 				dateCell := c + material.DateRow
 				dateStr, err := book.GetCellValue(material.Sheet, dateCell)
@@ -580,7 +580,7 @@ func (s *Service) InitImportMaterialsHorizontalMonthly(ctx context.Context, book
 
 				materialSourceId, err := s.repo.GetMaterialSourceId(ctx, material.Name, material.Source, material.Market, material.Unit, material.DeliveryType)
 				if err != nil {
-					return fmt.Errorf("cann not get material source id: %v", err)
+					return fmt.Errorf("cann not get material source id: %w", err)
 				}
 
 				err = s.repo.AddMaterialValue(ctx, materialSourceId, property.Name, valueDecimal, valueStr, createdOn)
@@ -591,7 +591,7 @@ func (s *Service) InitImportMaterialsHorizontalMonthly(ctx context.Context, book
 				// After some time interval changes
 				colNum, err := utils.AlphabetToInt("I")
 				if err != nil {
-					return fmt.Errorf("cant get col num: %v", err)
+					return fmt.Errorf("cant get col num: %w", err)
 				}
 				if col >= colNum {
 					col += 5
@@ -684,7 +684,7 @@ func (s *Service) InitImportMonthlyPredict(ctx context.Context, book *excelize.F
 
 				materialSourceId, err := s.repo.GetMaterialSourceId(ctx, material.Name, material.Source, material.Market, material.Unit, material.DeliveryType)
 				if err != nil {
-					return fmt.Errorf("cann not get material source id: %v", err)
+					return fmt.Errorf("cann not get material source id: %w", err)
 				}
 
 				err = s.repo.AddMaterialValue(ctx, materialSourceId, property.Name, valueDecimal, valueStr, createdOn)
@@ -778,7 +778,7 @@ func (s *Service) InitImportWeeklyPredict(ctx context.Context, book *excelize.Fi
 
 				materialSourceId, err := s.repo.GetMaterialSourceId(ctx, material.Name, material.Source, material.Market, material.Unit, material.DeliveryType)
 				if err != nil {
-					return fmt.Errorf("cann not get material source id: %v", err)
+					return fmt.Errorf("cann not get material source id: %w", err)
 				}
 
 				err = s.repo.AddMaterialValue(ctx, materialSourceId, property.Name, valueDecimal, valueStr, createdOn)

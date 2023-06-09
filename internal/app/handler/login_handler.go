@@ -19,14 +19,14 @@ func (h Handler) LoginHandler(w http.ResponseWriter, r *http.Request) {
 		isValid, err := h.service.CheckCredentials(r.Context(), req.Username, req.Password)
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
-			return LoginResponse{}, fmt.Errorf("erro checking credentials: %v", err)
+			return LoginResponse{}, fmt.Errorf("erro checking credentials: %w", err)
 		}
 
 		if isValid {
 			tokenString, err := h.service.CreateToken(req.Username)
 			if err != nil {
 				w.WriteHeader(http.StatusInternalServerError)
-				return LoginResponse{}, fmt.Errorf("cant generate token: %v", err)
+				return LoginResponse{}, fmt.Errorf("cant generate token: %w", err)
 			}
 			return LoginResponse{Token: tokenString}, nil
 		} else {

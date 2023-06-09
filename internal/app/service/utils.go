@@ -19,7 +19,7 @@ func findInRowRange(book *excelize.File, sheet string, column string, centerRow 
 			return name, row, nil
 		}
 	}
-	return "", 0, fmt.Errorf("cannot find %v", target)
+	return "", 0, fmt.Errorf("cannot find %w", target)
 }
 
 func getMonthDateForPredict(month string) (time.Time, error) {
