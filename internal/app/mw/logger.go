@@ -1,7 +1,9 @@
 package mw
 
 import (
+	"bytes"
 	"github.com/rs/zerolog/log"
+	"io/ioutil"
 	"net/http"
 	"time"
 )
@@ -13,6 +15,16 @@ func LoggerMiddleware(next http.HandlerFunc) http.HandlerFunc {
 			ResponseWriter: w,
 			StatusCode:     http.StatusOK,
 		}
+
+		//Log request body if there is one
+		if r.Body != nil {
+			body, err := ioutil.ReadAll(r.Body)
+			if err == nil {
+				log.Info().Bytes("request_body", body).Msg("Received request body")
+				r.Body = ioutil.NopCloser(bytes.NewBuffer(body))
+			}
+		}
+
 		next.ServeHTTP(rec, r)
 		duration := time.Since(startTime)
 		logger := log.Info()
