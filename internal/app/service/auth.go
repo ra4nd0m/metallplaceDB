@@ -34,7 +34,7 @@ func (s *Service) Authenticate(next http.HandlerFunc) http.HandlerFunc {
 		}
 		token, err := jwt.ParseWithClaims(tokenString, &model.Claims{}, func(token *jwt.Token) (interface{}, error) {
 			if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
-				return nil, fmt.Errorf("unexpected signing method: %w", token.Header["alg"])
+				return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
 			}
 			return s.cfg.AuthKey, nil
 		})

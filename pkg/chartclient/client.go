@@ -26,6 +26,9 @@ func (cc *ChartClient) GetChart(req Request) ([]byte, error) {
 
 	request, err := http.NewRequest("POST", "http://"+cc.Host+":"+strconv.Itoa(cc.Port)+"/gen",
 		bytes.NewBuffer(json))
+	if err != nil {
+		return nil, fmt.Errorf("cant create chart request: %v", err)
+	}
 	request.Header.Set("Content-Type", "application/json; charset=UTF-8")
 
 	client := &http.Client{}
@@ -52,6 +55,9 @@ func (cc *ChartClient) GetChartTitled(req Request) ([]byte, error) {
 
 	request, err := http.NewRequest("POST", "http://"+cc.Host+":"+strconv.Itoa(cc.Port)+"/gen",
 		bytes.NewBuffer(json))
+	if err != nil {
+		return nil, fmt.Errorf("cant create titled chart request: %v", err)
+	}
 	request.Header.Set("Content-Type", "application/json; charset=UTF-8")
 
 	client := &http.Client{}

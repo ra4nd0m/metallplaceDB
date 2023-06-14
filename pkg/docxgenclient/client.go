@@ -26,6 +26,9 @@ func (dc *DocxgenClient) GetReport(req Request) ([]byte, error) {
 
 	request, err := http.NewRequest("POST", "http://"+dc.Host+":"+strconv.Itoa(dc.Port)+"/gen",
 		bytes.NewBuffer(json))
+	if err != nil {
+		return nil, fmt.Errorf("cant create report request: %v", err)
+	}
 	request.Header.Set("Content-Type", "application/json; charset=UTF-8")
 
 	client := &http.Client{}
@@ -51,6 +54,9 @@ func (dc *DocxgenClient) GetShortReport(req RequestShortReport) ([]byte, error) 
 
 	request, err := http.NewRequest("POST", "http://"+dc.Host+":"+strconv.Itoa(dc.Port)+"/genShort",
 		bytes.NewBuffer(json))
+	if err != nil {
+		return nil, fmt.Errorf("cant create short report request: %v", err)
+	}
 	request.Header.Set("Content-Type", "application/json; charset=UTF-8")
 
 	client := &http.Client{}

@@ -187,6 +187,6 @@ Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IjEiLCJleHAi
 
 ###
 GET localhost:8080/getChart/27_4_06-01-2022_11-01-2022_1_bar_month_month_1_2_0.png
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IjEiLCJleHAiOjE2ODYxODA4NDh9.dHjRZXhrq5mDkjsNwdpUeE4msCmlx-RlLwpt0rbYG90
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IjEiLCJleHAiOjE2ODY4MDc3MTd9.IgHp_r1ubBj0GV6C6EZISQZHYaqWkYsjXx0zFxMrbQk
 
 

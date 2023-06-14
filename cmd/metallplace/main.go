@@ -67,7 +67,10 @@ func main() {
 		}
 	})
 
-	eg.Wait()
+	err = eg.Wait()
+	if err != nil {
+		log.Fatal()
+	}
 
 }
 

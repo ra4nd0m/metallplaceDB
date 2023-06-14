@@ -14,6 +14,6 @@ func OkpdUnitClassifier(codeStr string) (model.Unit, error) {
 }
 
 var unitClassification = map[string]model.Unit{
-	"168": {"тонна", 1},
-	"169": {"тонна", 1000},
+	"168": {Name: "тонна", ValueMultiplication: 1},
+	"169": {Name: "тонна", ValueMultiplication: 1000},
 }

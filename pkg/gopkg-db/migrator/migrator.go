@@ -40,7 +40,7 @@ func getMigrationsDir() (string, error) {
 			return dir, nil
 		}
 	}
-	return "", fmt.Errorf("cant find migrations dir in: %w", dirList)
+	return "", fmt.Errorf("cant find migrations dir in: %v", dirList)
 }
 
 type Migrator struct {
@@ -49,7 +49,7 @@ type Migrator struct {
 }
 
 func (m *Migrator) Up() error {
-	log.Printf("Rolling up migration from dir: %w\n", m.dir)
+	log.Printf("Rolling up migration from dir: %v\n", m.dir)
 	mig, err := migrate.NewWithDatabaseInstance("file://"+m.dir, "postgres", m.driver)
 	if err != nil {
 		return err

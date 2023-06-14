@@ -84,7 +84,7 @@ func handle[REQ any, RESP any](w http.ResponseWriter, r *http.Request, fn func(r
 		return
 	}
 
-	if isNil(req) != true {
+	if !isNil(req) {
 		err = json.Unmarshal(body, &req)
 		if err != nil {
 			http.Error(w, fmt.Sprintf("%+v", err), http.StatusBadRequest)

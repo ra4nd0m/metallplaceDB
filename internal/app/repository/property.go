@@ -71,7 +71,10 @@ func (r *Repository) GetPropertyList(ctx context.Context, materialSourceId int) 
 	defer rows.Close()
 
 	for rows.Next() {
-		rows.Scan(&propertyId)
+		err := rows.Scan(&propertyId)
+		if err != nil {
+			return nil, fmt.Errorf("cant scan property id from rows: %w", err)
+		}
 		propertyName, err := r.GetPropertyName(ctx, propertyId)
 		if err != nil {
 			return nil, fmt.Errorf("cant get property name: %w", err)

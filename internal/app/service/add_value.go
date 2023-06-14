@@ -18,6 +18,9 @@ func (s *Service) AddValue(ctx context.Context, materialSourceId int,
 		valueType = "string"
 	}
 	_, err := s.repo.AddPropertyIfNotExists(ctx, model.PropertyShortInfo{Name: propertyName, Kind: valueType})
+	if err != nil {
+		return fmt.Errorf("Can't add property %w", err)
+	}
 
 	err = s.repo.AddMaterialValue(ctx, materialSourceId, propertyName, valueFloat, valueStr, createdOn)
 	if err != nil {

@@ -78,7 +78,10 @@ func (r *Repository) GetMaterialList(ctx context.Context) ([]model.MaterialShort
 	defer rows.Close()
 
 	for rows.Next() {
-		rows.Scan(&id, &materialId, &sourceId, &market, &deliveryType, &unit)
+		err := rows.Scan(&id, &materialId, &sourceId, &market, &deliveryType, &unit)
+		if err != nil {
+			return nil, fmt.Errorf("cant scan from material row: %w", err)
+		}
 
 		materialName, err := r.GetMaterialName(ctx, materialId)
 		if err != nil {
