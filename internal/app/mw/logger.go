@@ -16,17 +16,14 @@ func LoggerMiddleware(next http.HandlerFunc) http.HandlerFunc {
 			StatusCode:     http.StatusOK,
 		}
 
-		//Log request body if there is one
-		if r.Body != nil {
-			body, err := ioutil.ReadAll(r.Body)
-			if err == nil {
-				if body != nil {
-					log.Info().Bytes("request_body", body).Msg("Received request body")
-					r.Body = ioutil.NopCloser(bytes.NewBuffer(body))
-				}
-
-			}
+		// Read the request body
+		body, err := ioutil.ReadAll(r.Body)
+		if err != nil {
+			log.Error().Err(err).Msg("Failed to read request body")
 		}
+
+		// Restore the request body
+		r.Body = ioutil.NopCloser(bytes.NewBuffer(body))
 
 		next.ServeHTTP(rec, r)
 		duration := time.Since(startTime)
@@ -34,14 +31,14 @@ func LoggerMiddleware(next http.HandlerFunc) http.HandlerFunc {
 		if rec.StatusCode != http.StatusOK {
 			logger = log.Error().Bytes("body", rec.Body)
 		}
-
+		// Log the request details along with the request body
 		logger.Str("protocol", "http").
 			Str("method", r.Method).
 			Str("path", r.RequestURI).
 			Int("status_code", rec.StatusCode).
 			Str("status_text", http.StatusText(rec.StatusCode)).
 			Dur("duration", duration).
-			Msgf("%s received a HTTP request", time.Now().UTC().Format("2006-01-02"))
+			Msgf("%s received a request with body: %s", time.Now().UTC().Format("02-01-2006"), string(body))
 	}
 }
 
