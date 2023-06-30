@@ -9,7 +9,7 @@ import (
 )
 
 // AddMaterialSource Adding material - source - market - unit combo
-func (r *Repository) AddMaterialSource(ctx context.Context, materialName, sourceName, market, unit, deliveryType string) (int, error) {
+func (r *Repository) AddMaterialSource(ctx context.Context, materialName, groupName, sourceName, market, unit, deliveryType string) (int, error) {
 	materialId, err := r.GetMaterialId(ctx, materialName)
 	var id int
 	if err != nil {
@@ -21,7 +21,12 @@ func (r *Repository) AddMaterialSource(ctx context.Context, materialName, source
 		return 0, fmt.Errorf("Can't get source id %w", err)
 	}
 
-	id, err = r.GetMaterialSourceId(ctx, materialName, sourceName, market, unit, deliveryType)
+	groupId, err := r.GetGroupId(ctx, groupName)
+	if err != nil {
+		return 0, fmt.Errorf("can't get group id %w", err)
+	}
+
+	id, err = r.GetMaterialSourceId(ctx, materialName, groupName, sourceName, market, unit, deliveryType)
 	if err != nil {
 		return 0, fmt.Errorf("cant get material-source id %w", err)
 	}
@@ -31,10 +36,10 @@ func (r *Repository) AddMaterialSource(ctx context.Context, materialName, source
 	}
 
 	row := db.FromContext(ctx).QueryRow(
-		ctx, `INSERT INTO material_source (material_id, source_id, target_market, unit, delivery_type) 
-		VALUES ($1, $2, $3, $4, $5) 
+		ctx, `INSERT INTO material_source (material_id, source_id, target_market, unit, delivery_type, material_group_id) 
+		VALUES ($1, $2, $3, $4, $5, $6) 
 		ON CONFLICT DO NOTHING RETURNING id`,
-		materialId, sourceId, market, unit, deliveryType)
+		materialId, sourceId, market, unit, deliveryType, groupId)
 
 	err = row.Scan(&id)
 	if err != nil {
@@ -45,7 +50,7 @@ func (r *Repository) AddMaterialSource(ctx context.Context, materialName, source
 }
 
 // GetMaterialSourceId Get unique material-source combo by material and source name
-func (r *Repository) GetMaterialSourceId(ctx context.Context, materialName, sourceName, market, unit, deliveryType string) (int, error) {
+func (r *Repository) GetMaterialSourceId(ctx context.Context, materialName, groupName, sourceName, market, unit, deliveryType string) (int, error) {
 	var id int
 	materialId, err := r.GetMaterialId(ctx, materialName)
 	if err != nil {
@@ -57,8 +62,14 @@ func (r *Repository) GetMaterialSourceId(ctx context.Context, materialName, sour
 		return 0, fmt.Errorf("Can't get source id %w", err)
 	}
 
+	groupId, err := r.GetGroupId(ctx, groupName)
+	if err != nil {
+		return 0, fmt.Errorf("Can't get source id %w", err)
+	}
+
 	row := db.FromContext(ctx).QueryRow(ctx, `SELECT id FROM material_source WHERE material_id=$1 AND
-		source_id=$2 AND target_market=$3 AND unit=$4 AND delivery_type=$5`, materialId, sourceId, market, unit, deliveryType)
+		source_id=$2 AND target_market=$3 AND unit=$4 AND delivery_type=$5 AND material_group_id=$6`,
+		materialId, sourceId, market, unit, deliveryType, groupId)
 
 	err = row.Scan(&id)
 	if err == pgx.ErrNoRows {
@@ -66,10 +77,6 @@ func (r *Repository) GetMaterialSourceId(ctx context.Context, materialName, sour
 	}
 	if err != nil {
 		return 0, fmt.Errorf("Can't get material-source pair id %w", err)
-	}
-
-	if err != nil {
-		return 0, err
 	}
 
 	return id, nil
@@ -105,7 +112,7 @@ func (r *Repository) GetMaterialSource(ctx context.Context, id int) (model.Mater
 
 func (r *Repository) GetDeliveryType(ctx context.Context, id int) (string, error) {
 	var name string
-	row := db.FromContext(ctx).QueryRow(ctx, `SELECT delivery_type FROM material WHERE id=$1`, id)
+	row := db.FromContext(ctx).QueryRow(ctx, `SELECT delivery_type FROM material_source WHERE id=$1`, id)
 
 	err := row.Scan(&name)
 	if err != nil {

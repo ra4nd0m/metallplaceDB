@@ -3,6 +3,7 @@ package model
 var TestMaterials = []Material{
 	{"sheet",
 		"Material 1",
+		"group1",
 		"Website 1",
 		"Global",
 		"FOB",
@@ -15,6 +16,7 @@ var TestMaterials = []Material{
 
 	{"sheet",
 		"Material 2",
+		"group2",
 		"Website 2",
 		"Global",
 		"CNF",

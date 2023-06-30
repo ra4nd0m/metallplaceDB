@@ -3,6 +3,7 @@ package model
 var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 	{"10.Сводка (неделя)",
 		"Лом, HMS 1&2 (80:20), недельный",
+		"Сырьевые материалы",
 		"-",
 		"Турция, Искендерун",
 		"CNF",
@@ -17,6 +18,7 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 
 	{"10.Сводка (неделя)",
 		"Лом, HMS 1&2 (80:20), недельный",
+		"Сырьевые материалы",
 		"-",
 		"Европа, Роттердам",
 		"FOB",
@@ -30,6 +32,7 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 
 	{"10.Сводка (неделя)",
 		"Лом, HMS 1&2 (80:20), недельный",
+		"Сырьевые материалы",
 		"-",
 		"Бангладеш, Читтагонг",
 		"FOB",
@@ -43,6 +46,7 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 
 	{"10.Сводка (неделя)",
 		"Лом, шредированный, недельный",
+		"Сырьевые материалы",
 		"-",
 		"Бангладеш, Читтагонг",
 		"CNF",
@@ -56,6 +60,7 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 
 	{"10.Сводка (неделя)",
 		"Лом, H2, недельный",
+		"Сырьевые материалы",
 		"-",
 		"Бангладеш, Читтагонг",
 		"CNF",
@@ -69,6 +74,7 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 
 	{"10.Сводка (неделя)",
 		"Лом, HMS 1&2 (80:20), недельный",
+		"Сырьевые материалы",
 		"-",
 		"Вьетнам, Хайфон",
 		"CNF",
@@ -82,6 +88,7 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 
 	{"10.Сводка (неделя)",
 		"Лом, H2, недельный",
+		"Сырьевые материалы",
 		"-",
 		"Вьетнам, Хайфон",
 		"CNF",
@@ -95,6 +102,7 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 
 	{"10.Сводка (неделя)",
 		"Лом, HMS 1&2 (80:20), недельный",
+		"Сырьевые материалы",
 		"-",
 		"Индия, Нава-Шева",
 		"CNF",
@@ -108,6 +116,7 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 
 	{"10.Сводка (неделя)",
 		"Лом, шредированный, недельный",
+		"Сырьевые материалы",
 		"-",
 		"Индия, Нава-Шева",
 		"CNF",
@@ -121,6 +130,7 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 
 	{"10.Сводка (неделя)",
 		"Лом, шредированный, недельный",
+		"Сырьевые материалы",
 		"-",
 		"Пакистан, Касим",
 		"CNF",
@@ -134,6 +144,7 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 
 	{"10.Сводка (неделя)",
 		"Лом, HMS 1&2 (80:20), недельный",
+		"Сырьевые материалы",
 		"-",
 		"Тайвань, Тайчжун",
 		"CNF",
@@ -147,6 +158,7 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 
 	{"10.Сводка (неделя)",
 		"Лом, HMS 1&2 (70:30), недельный",
+		"Сырьевые материалы",
 		"-",
 		"Таиланд, Лаем-Чабанг",
 		"CNF",
@@ -160,6 +172,7 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 
 	{"10.Сводка (неделя)",
 		"Лом, HMS 1&2 (80:20), недельный",
+		"Сырьевые материалы",
 		"-",
 		"США, Восточное побережье",
 		"FOB",
@@ -173,6 +186,7 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 
 	{"10.Сводка (неделя)",
 		"Лом, шредированный, недельный",
+		"Сырьевые материалы",
 		"-",
 		"США, Восточное побережье",
 		"FOB",
@@ -186,6 +200,7 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 
 	{"10.Сводка (неделя)",
 		"Лом, H2, недельный",
+		"Сырьевые материалы",
 		"-",
 		"Япония, Токийский залив",
 		"FOB",
@@ -200,6 +215,7 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 	// ЗАГОТОВКА
 	{"10.Сводка (неделя)",
 		"Заготовка, 150*150 мм; Ст3, недельная",
+		"Сталь",
 		"-",
 		"Китай, Цзянъинь",
 		"CNF",
@@ -213,6 +229,7 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 
 	{"10.Сводка (неделя)",
 		"Заготовка, 150*150 мм; Ст3, недельная",
+		"Сталь",
 		"-",
 		"Индия, Восточное побережье",
 		"FOB",
@@ -226,6 +243,7 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 
 	{"10.Сводка (неделя)",
 		"Заготовка, 95*95 мм; Ст3, недельная",
+		"Сталь",
 		"-",
 		"Индия, Восточное побережье",
 		"FOB",
@@ -239,6 +257,7 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 
 	{"10.Сводка (неделя)",
 		"Заготовка, 130*130 мм; Ст3, недельная",
+		"Сталь",
 		"-",
 		"Иран, Бендер Аббас",
 		"FOB",
@@ -252,6 +271,7 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 
 	{"10.Сводка (неделя)",
 		"Заготовка, 120*120 мм; Ст3, недельная",
+		"Сталь",
 		"-",
 		"Турция, Искендерун",
 		"CNF",
@@ -265,6 +285,7 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 
 	{"10.Сводка (неделя)",
 		"Заготовка, 150*150 мм; Ст3, недельная",
+		"Сталь",
 		"-",
 		"Филиппины, Манила",
 		"CNF",
@@ -278,6 +299,7 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 
 	{"10.Сводка (неделя)",
 		"Заготовка, 100*100 мм; IS 2831, недельная",
+		"Сталь",
 		"-",
 		"Непал, Раксол",
 		"CNF",
@@ -292,6 +314,7 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 	// СОРТОВОЙ ПРОКАТ
 	{"10.Сводка (неделя)",
 		"Сортовой прокат, Арматура 10-40 мм; HRB400, недельная",
+		"Сталь",
 		"-",
 		"Китай, Гонконг",
 		"CNF",
@@ -305,6 +328,7 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 
 	{"10.Сводка (неделя)",
 		"Сортовой прокат, Арматура 12-32 мм; HRB400, недельная",
+		"Сталь",
 		"-",
 		"Турция, Искендерун",
 		"FOB",
@@ -318,6 +342,7 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 
 	{"10.Сводка (неделя)",
 		"Сортовой прокат, Катанка 5,5-8 мм; SAE 1008, недельная",
+		"Сталь",
 		"-",
 		"Непал, Раксол",
 		"CNF",
@@ -332,6 +357,7 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 	// РУЛОННАЯ СТАЛЬ
 	{"10.Сводка (неделя)",
 		"Рулонная сталь, Рулон г/к 2 мм; SAE1006, недельная",
+		"Сталь",
 		"-",
 		"ОАЭ, Абу-Даби",
 		"CNF",
@@ -345,6 +371,7 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 
 	{"10.Сводка (неделя)",
 		"Рулонная сталь, Рулон г/к 1,5-3 мм; SAE 1006, недельная",
+		"Сталь",
 		"-",
 		"Турция, Искендерун",
 		"CNF",
@@ -358,6 +385,7 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 
 	{"10.Сводка (неделя)",
 		"Рулонная сталь, Рулон г/к 3-4 мм; S235JR, недельная",
+		"Сталь",
 		"-",
 		"Европа, Западная Европа",
 		"CNF",
@@ -371,6 +399,7 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 
 	{"10.Сводка (неделя)",
 		"Рулонная сталь, Рулон г/к 2-12 мм; SS400, недельная",
+		"Сталь",
 		"-",
 		"Индия, Западное побережье",
 		"CNF",
@@ -384,6 +413,7 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 
 	{"10.Сводка (неделя)",
 		"Рулонная сталь, Рулон г/к 2-20 мм; SAE 1006, недельная",
+		"Сталь",
 		"-",
 		"Вьетнам, Хошимин",
 		"CNF",
@@ -397,6 +427,7 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 
 	{"10.Сводка (неделя)",
 		"Рулонная сталь, Рулон г/к 2 мм; SAE 1006, недельная",
+		"Сталь",
 		"-",
 		"Бангладеш, Читтагонг",
 		"CNF",
@@ -410,6 +441,7 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 
 	{"10.Сводка (неделя)",
 		"Рулонная сталь, Рулон г/к 3-12 мм; SS400, недельная",
+		"Сталь",
 		"-",
 		"Китай, Ричжао",
 		"FOB",
@@ -423,6 +455,7 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 
 	{"10.Сводка (неделя)",
 		"Рулонная сталь, Рулон г/к 1,6-2,5 мм; SAE 1006, недельная",
+		"Сталь",
 		"-",
 		"Южная Корея, Сеул",
 		"FOB",
@@ -436,6 +469,7 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 
 	{"10.Сводка (неделя)",
 		"Рулонная сталь, Рулон г/к 2 мм; SS400, недельная",
+		"Сталь",
 		"-",
 		"Япония, Токио",
 		"FOB",
@@ -449,6 +483,7 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 
 	{"10.Сводка (неделя)",
 		"Рулонная сталь, Рулон г/к 2 мм; SS400, недельная",
+		"Сталь",
 		"-",
 		"Пакистан, Касим",
 		"CNF",
@@ -462,6 +497,7 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 
 	{"10.Сводка (неделя)",
 		"Рулонная сталь, Рулон г/к 2 мм; SAE1006, недельная",
+		"Сталь",
 		"-",
 		"Непал, Раксол",
 		"CNF",
@@ -475,6 +511,7 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 
 	{"10.Сводка (неделя)",
 		"Рулонная сталь, Рулон х/к 0,9 мм; SPCC, недельная",
+		"Сталь",
 		"-",
 		"Китай, Ричжао",
 		"FOB",
@@ -488,6 +525,7 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 
 	{"10.Сводка (неделя)",
 		"Рулонная сталь, Рулон х/к 0,9 мм; SPCC, недельная",
+		"Сталь",
 		"-",
 		"Индия, Восточное побережье",
 		"CNF",
@@ -502,6 +540,7 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 	// ЧУГУН
 	{"10.Сводка (неделя)",
 		"Чугун, чушковый, недельная",
+		"Сырьевые материалы",
 		"-",
 		"Индия, Восточное побережье",
 		"FOB",
@@ -515,6 +554,7 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 
 	{"10.Сводка (неделя)",
 		"Чугун, чушковый, недельная",
+		"Сырьевые материалы",
 		"-",
 		"Бразилия, Понта-Да-Мадейра",
 		"FOB",
@@ -528,6 +568,7 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 
 	{"10.Сводка (неделя)",
 		"Чугун, чушковый, недельная",
+		"Сырьевые материалы",
 		"-",
 		"Италия, Маргера",
 		"FOB",

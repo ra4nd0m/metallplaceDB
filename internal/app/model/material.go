@@ -12,6 +12,7 @@ type Property struct {
 type Material struct {
 	Sheet        string
 	Name         string
+	Group        string
 	Source       string
 	Market       string
 	DeliveryType string
@@ -23,6 +24,7 @@ type Material struct {
 type MaterialHorizontal struct {
 	Sheet        string
 	Name         string
+	Group        string
 	Source       string
 	Market       string
 	DeliveryType string
@@ -40,6 +42,7 @@ type PropertyShortInfo struct {
 type MaterialShortInfo struct {
 	Id           int
 	Name         string
+	Group        string
 	Source       string
 	Market       string
 	DeliveryType string

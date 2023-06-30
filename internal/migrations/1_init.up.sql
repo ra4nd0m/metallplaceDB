@@ -44,24 +44,40 @@ create table source
 create unique index source_name_uindex
     on source (name);
 
+create table material_group
+(
+    id   serial
+        constraint material_group_pk
+            primary key,
+    name varchar not null
+);
+
 create table material_source
 (
-    id            serial
+    id                serial
         constraint material_source_pk
             primary key,
-    material_id   integer not null
+    material_id       integer not null
         constraint material_source_material_fk
             references material
             on delete cascade,
-    source_id     integer not null
+    source_id         integer not null
         constraint material_source_source_fk
             references source
             on delete cascade,
-    target_market varchar not null,
-    unit          varchar not null,
-    delivery_type varchar not null ,
-    unique (material_id, source_id, target_market, unit, delivery_type)
+    target_market     varchar not null,
+    unit              varchar not null,
+    delivery_type     varchar not null,
+    material_group_id integer not null
+        constraint material_source_material_group_id_fk
+            references material_group,
+    constraint material_source_material_id_source_id_target_market_unit_de_key
+        unique (material_id, source_id, target_market, unit, delivery_type, material_group_id)
 );
+
+create unique index if not exists material_source_uniq
+    on material_source (material_id, source_id, target_market);
+
 
 create table material_property
 (
@@ -77,8 +93,6 @@ create table material_property
     unique (material_source_id, property_id)
 );
 
-create unique index material_source_uniq
-    on material_source (material_id, source_id, target_market);
 
 create table material_value
 (

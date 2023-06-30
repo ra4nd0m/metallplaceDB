@@ -27,7 +27,7 @@ type IService interface {
 	AddMaterialProperty(ctx context.Context, materialSourceId, propertyId int) error
 	AddValue(ctx context.Context, materialSourceId int,
 		propertyName string, valueFloat float64, valueStr string, createdOn time.Time) error
-	AddUniqueMaterial(ctx context.Context, materialName string, sourceName string, materialMarket string, materialUnit string, deliveryType string) (int, error)
+	AddUniqueMaterial(ctx context.Context, materialName string, groupName string, sourceName string, materialMarket string, materialUnit string, deliveryType string) (int, error)
 
 	GetMaterialList(ctx context.Context) ([]model.MaterialShortInfo, error)
 	GetMaterialValueForPeriod(ctx context.Context, materialSourceId, propertyId int, start string, finish string) ([]model.Price, float64, error)

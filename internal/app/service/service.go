@@ -18,8 +18,8 @@ type IRepository interface {
 
 	AddMaterialProperty(ctx context.Context, materialSourceId int, propertyId int) error
 
-	AddMaterialSource(ctx context.Context, materialName, sourceName, market, unit, deliveryType string) (int, error)
-	GetMaterialSourceId(ctx context.Context, materialName, sourceName, market, unit, deliveryType string) (int, error)
+	AddMaterialSource(ctx context.Context, materialName, groupName, sourceName, market, unit, deliveryType string) (int, error)
+	GetMaterialSourceId(ctx context.Context, materialName, groupName, sourceName, market, unit, deliveryType string) (int, error)
 	GetMaterialSource(ctx context.Context, id int) (model.MaterialShortInfo, error)
 	GetDeliveryType(ctx context.Context, id int) (string, error)
 
@@ -38,6 +38,10 @@ type IRepository interface {
 	GetSourceName(ctx context.Context, sourceId int) (string, error)
 
 	CheckCredentials(ctx context.Context, user, password string) (bool, error)
+
+	GetGroupId(ctx context.Context, groupName string) (int, error)
+	AddGroupIfNotExists(ctx context.Context, group string) (int, error)
+	GetGroupName(ctx context.Context, groupId int) (string, error)
 }
 
 type IChartClient interface {

@@ -65,12 +65,13 @@ func (r *Repository) GetMaterialList(ctx context.Context) ([]model.MaterialShort
 	var materialList []model.MaterialShortInfo
 	var materialId int
 	var sourceId int
+	var groupId int
 	var market string
 	var unit string
 	var id int
 	var deliveryType string
 
-	rows, err := db.FromContext(ctx).Query(ctx, `SELECT id, material_id, source_id, target_market, delivery_type, unit FROM material_source`)
+	rows, err := db.FromContext(ctx).Query(ctx, `SELECT id, material_id, source_id, target_market, delivery_type, unit, material_group_id FROM material_source`)
 	if err != nil {
 		return nil, fmt.Errorf("Can't get material_source rows %w", err)
 	}
@@ -78,7 +79,7 @@ func (r *Repository) GetMaterialList(ctx context.Context) ([]model.MaterialShort
 	defer rows.Close()
 
 	for rows.Next() {
-		err := rows.Scan(&id, &materialId, &sourceId, &market, &deliveryType, &unit)
+		err := rows.Scan(&id, &materialId, &sourceId, &market, &deliveryType, &unit, &groupId)
 		if err != nil {
 			return nil, fmt.Errorf("cant scan from material row: %w", err)
 		}
@@ -88,12 +89,17 @@ func (r *Repository) GetMaterialList(ctx context.Context) ([]model.MaterialShort
 			return nil, fmt.Errorf("cant get material name (id %d) %w", materialId, err)
 		}
 
+		groupName, err := r.GetGroupName(ctx, groupId)
+		if err != nil {
+			return nil, fmt.Errorf("cant get material name (id %d) %w", materialId, err)
+		}
+
 		sourceName, err := r.GetSourceName(ctx, sourceId)
 		if err != nil {
 			return nil, fmt.Errorf("Can't get source name %w", err)
 		}
 
-		materialList = append(materialList, model.MaterialShortInfo{Id: id, Name: materialName, Source: sourceName, Market: market, DeliveryType: deliveryType, Unit: unit})
+		materialList = append(materialList, model.MaterialShortInfo{Id: id, Name: materialName, Group: groupName, Source: sourceName, Market: market, DeliveryType: deliveryType, Unit: unit})
 	}
 
 	return materialList, nil
