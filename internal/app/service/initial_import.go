@@ -42,9 +42,9 @@ func (s *Service) InitialImport(ctx context.Context) error {
 		if err := s.InitImportWeeklyPredict(ctx, book); err != nil {
 			return fmt.Errorf("error initializing weekly prediction import: %w", err)
 		}
-		if err := s.ImportRosStat(ctx); err != nil {
-			return fmt.Errorf("can't import ros stat: %w", err)
-		}
+		//if err := s.ImportRosStat(ctx); err != nil {
+		//	return fmt.Errorf("can't import ros stat: %w", err)
+		//}
 
 		return nil
 	})
