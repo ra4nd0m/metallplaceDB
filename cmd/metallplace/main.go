@@ -117,7 +117,7 @@ func externalServerFn(ctx context.Context, cfg config.Config, hdl *handler.Handl
 	} {
 		var h = rec.handler
 		if !rec.withoutAuth {
-			//h = srv.Authenticate(h)
+			h = srv.Authenticate(h)
 		}
 		externalRouter.HandleFunc(rec.route, mw.LoggerMiddleware(DbMiddleware(h)))
 	}

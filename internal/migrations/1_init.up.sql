@@ -75,9 +75,6 @@ create table material_source
         unique (material_id, source_id, target_market, unit, delivery_type, material_group_id)
 );
 
-create unique index if not exists material_source_uniq
-    on material_source (material_id, source_id, target_market);
-
 
 create table material_property
 (

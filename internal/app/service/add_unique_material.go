@@ -28,7 +28,7 @@ func (s *Service) AddUniqueMaterial(ctx context.Context, materialName string, gr
 	materialSourceId, err := s.repo.AddMaterialSource(ctx, materialName, groupName, sourceName, materialMarket, materialUnit, deliveryType)
 
 	if err != nil {
-		return 0, fmt.Errorf("Can't tie material, source, unit and market %w", err)
+		return 0, fmt.Errorf("cant tie material, source, unit and market (%s, %s) %w", materialName, groupName, err)
 	}
 
 	return materialSourceId, nil
