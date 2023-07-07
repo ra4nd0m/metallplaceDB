@@ -118,7 +118,7 @@ create unique index material_value_all_together_uindex
 --     RETURN NEW;
 -- END
 -- $$;
--- -- repeat for each table you need to track:
+--
 -- ALTER TABLE material_value ADD COLUMN last_updated TIMESTAMP;
 -- CREATE OR REPLACE TRIGGER material_value_stamp_updated
 --     BEFORE INSERT OR UPDATE ON material_value
