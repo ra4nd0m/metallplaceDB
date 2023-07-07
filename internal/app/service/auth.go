@@ -49,3 +49,24 @@ func (s *Service) Authenticate(next http.HandlerFunc) http.HandlerFunc {
 		next.ServeHTTP(w, r)
 	}
 }
+
+func (s *Service) GetUserFromJWT(r *http.Request) (string, error) {
+	tokenString := r.Header.Get("Authorization")
+
+	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
+		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
+			return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
+		}
+		return []byte(s.cfg.AuthKey), nil
+	})
+
+	if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
+		user, ok2 := claims["username"].(string)
+		if !ok2 {
+			return "", fmt.Errorf("user claim not found in token")
+		}
+		return user, nil
+	} else {
+		return "", err
+	}
+}

@@ -41,10 +41,11 @@ func main() {
 	}
 
 	// Creating instances and setting inheritance
+	lastRequestTime := time.Time{}
 	repo := repository.New()
 	chart := chartclient.New(cfg.ChartHost, cfg.ChartPort)
 	docxgen := docxgenclient.New(cfg.DocxgenHost, cfg.DocxgenPort)
-	srv := service.New(cfg, repo, chart, docxgen)
+	srv := service.New(cfg, repo, chart, docxgen, lastRequestTime)
 	hdl := handler.New(srv)
 
 	eg, egCtx := errgroup.WithContext(context.Background())

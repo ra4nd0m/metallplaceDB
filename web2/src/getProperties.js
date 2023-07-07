@@ -1,5 +1,4 @@
-import config from "@/config";
-import agent, {fetchWithAuth} from "@/addAuthToken";
+import agent from "@/addAuthToken";
 
 export const getPropertiesList = async (materialId) => {
 

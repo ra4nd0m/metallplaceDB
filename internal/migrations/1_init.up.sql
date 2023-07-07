@@ -1,4 +1,3 @@
-
 create table "user"
 (
     id   serial
@@ -112,3 +111,15 @@ create unique index material_value_id_uindex
 
 create unique index material_value_all_together_uindex
     on material_value (material_source_id, property_id, created_on);
+
+CREATE OR REPLACE FUNCTION stamp_updated() RETURNS TRIGGER LANGUAGE 'plpgsql' AS $$
+BEGIN
+    NEW.last_updated := now();
+    RETURN NEW;
+END
+$$;
+-- repeat for each table you need to track:
+ALTER TABLE material_value ADD COLUMN last_updated TIMESTAMP;
+CREATE OR REPLACE TRIGGER material_value_stamp_updated
+    BEFORE INSERT OR UPDATE ON material_value
+    FOR EACH ROW EXECUTE PROCEDURE stamp_updated();

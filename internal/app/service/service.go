@@ -42,6 +42,8 @@ type IRepository interface {
 	GetGroupId(ctx context.Context, groupName string) (int, error)
 	AddGroupIfNotExists(ctx context.Context, group string) (int, error)
 	GetGroupName(ctx context.Context, groupId int) (string, error)
+
+	GetLastModified(ctx context.Context, table string) (time.Time, error)
 }
 
 type IChartClient interface {
@@ -55,12 +57,21 @@ type IDocxgenClient interface {
 }
 
 type Service struct {
-	cfg     config.Config
-	repo    IRepository
-	chart   IChartClient
-	docxgen IDocxgenClient
+	cfg             config.Config
+	repo            IRepository
+	chart           IChartClient
+	docxgen         IDocxgenClient
+	lastRequestTime time.Time
 }
 
-func New(cfg config.Config, r IRepository, chart IChartClient, docxgen IDocxgenClient) *Service {
-	return &Service{cfg, r, chart, docxgen}
+func (s *Service) SetLastRequestTime(lastRequestTime time.Time) {
+	s.lastRequestTime = lastRequestTime
+}
+
+func (s *Service) LastRequestTime() time.Time {
+	return s.lastRequestTime
+}
+
+func New(cfg config.Config, r IRepository, chart IChartClient, docxgen IDocxgenClient, lastRequestTime time.Time) *Service {
+	return &Service{cfg, r, chart, docxgen, lastRequestTime}
 }

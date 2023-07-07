@@ -54,6 +54,11 @@ type IService interface {
 	CheckCredentials(ctx context.Context, user, password string) (bool, error)
 	CreateToken(username string) (string, error)
 	Authenticate(next http.HandlerFunc) http.HandlerFunc
+	GetUserFromJWT(r *http.Request) (string, error)
+
+	CheckChanges(ctx context.Context, table string, lastReqTime time.Time) (bool, error)
+	LastRequestTime() time.Time
+	SetLastRequestTime(lastRequestTime time.Time)
 }
 
 type Handler struct {
