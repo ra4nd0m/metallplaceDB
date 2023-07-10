@@ -114,7 +114,7 @@ create unique index material_value_all_together_uindex
 
 CREATE OR REPLACE FUNCTION stamp_updated() RETURNS TRIGGER LANGUAGE 'plpgsql' AS $$
 BEGIN
-    NEW.last_updated := now() AT TIME ZONE 'UTC' AT TIME ZONE 'Europe/Moscow';
+    NEW.last_updated := (SELECT CURRENT_TIME AT TIME ZONE 'Europe/Moscow');
     RETURN NEW;
 END
 $$;
