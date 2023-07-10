@@ -120,6 +120,7 @@ END
 $$;
 
 ALTER TABLE material_value ADD COLUMN IF NOT EXISTS last_updated TIMESTAMP;
-CREATE OR REPLACE TRIGGER material_value_stamp_updated
+DROP TRIGGER IF EXISTS material_value_stamp_updated on material_value;
+CREATE TRIGGER material_value_stamp_updated
     BEFORE INSERT OR UPDATE ON material_value
     FOR EACH ROW EXECUTE PROCEDURE stamp_updated();
