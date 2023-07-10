@@ -28,7 +28,6 @@ func (h Handler) GetValueForPeriodHandler(w http.ResponseWriter, r *http.Request
 				return PriceResponse{}, err
 			}
 			isModified, err := h.service.CheckChanges(r.Context(), "material_value", h.service.LastRequestTime())
-			fmt.Println("SERVICE LAST REQUEST: " + h.service.LastRequestTime().Format("2006-01-02T15:04:05.999999999Z07:00"))
 			if err != nil {
 				return PriceResponse{}, fmt.Errorf("cant check if table was modified since previous request: %w", err)
 			}
