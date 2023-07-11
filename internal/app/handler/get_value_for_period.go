@@ -22,7 +22,7 @@ type PriceResponse struct {
 func (h Handler) GetValueForPeriodHandler(w http.ResponseWriter, r *http.Request) {
 	handle(w, r, func(req PriceRequest) (PriceResponse, error) {
 		if r.Header.Get("Authorization") != "" {
-			defer h.service.SetLastRequestTime(time.Now().In(time.FixedZone("Europe/Moscow", 3*60*60)))
+			defer h.service.SetLastRequestTime(time.Now().UTC())
 			user, err := h.service.GetUserFromJWT(r)
 			if err != nil {
 				return PriceResponse{}, err

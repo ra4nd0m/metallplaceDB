@@ -11,7 +11,7 @@ func (s *Service) CheckChanges(ctx context.Context, table string, lastReqTime ti
 	if err != nil {
 		return false, fmt.Errorf("cant get last modified time: %w", err)
 	}
-	if dbLastModifiedTime.After(lastReqTime) {
+	if dbLastModifiedTime.After(lastReqTime.Add(time.Second * 60 * 60 * 3)) {
 		fmt.Printf("CheckChanges(): (%v db) is AFTER (req %v)", dbLastModifiedTime.Format("2006-01-02T15:04:05.999999999Z07:00"), s.LastRequestTime().Format("2006-01-02T15:04:05.999999999Z07:00"))
 		return true, nil
 	}
