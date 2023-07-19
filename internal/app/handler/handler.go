@@ -21,6 +21,7 @@ type IService interface {
 	InitImportMaterialsHorizontalMonthly(ctx context.Context, book *excelize.File) error
 	InitImportMonthlyPredict(ctx context.Context, book *excelize.File) error
 	InitImportWeeklyPredict(ctx context.Context, book *excelize.File) error
+	InitImportDailyMaterials(ctx context.Context, book *excelize.File, dateLayout string) error
 	ParseRosStatBook(ctx context.Context, byte []byte) error
 	ParseXlsxForChart(byte []byte) (chartclient.Request, error)
 

@@ -13,6 +13,7 @@ import (
 	db "metallplace/pkg/gopkg-db"
 	"os"
 	"path/filepath"
+	"regexp"
 	"strconv"
 	"strings"
 	"time"
@@ -42,6 +43,10 @@ func (s *Service) InitialImport(ctx context.Context) error {
 		if err := s.InitImportWeeklyPredict(ctx, book); err != nil {
 			return fmt.Errorf("error initializing weekly prediction import: %w", err)
 		}
+		if err := s.InitImportDailyMaterials(ctx, book, dateLayout); err != nil {
+			return fmt.Errorf("error initializing daily import: %w", err)
+		}
+
 		//if err := s.ImportRosStat(ctx); err != nil {
 		//	return fmt.Errorf("can't import ros stat: %w", err)
 		//}
@@ -287,6 +292,168 @@ func (s *Service) ParseRosStatBook(ctx context.Context, byte []byte) error {
 		err = s.repo.AddMaterialValue(ctx, materialSourceId, propertyName, volumeFloat*unit.ValueMultiplication, "", date)
 		if err != nil {
 			return err
+		}
+	}
+	return nil
+}
+
+func (s *Service) InitImportDailyMaterials(ctx context.Context, book *excelize.File, dateLayout string) error {
+	test, err := book.GetCellValue("Daily", "DO457")
+	fmt.Printf(test, err)
+	for _, material := range model.InitDaily {
+		materialSourceId, err := s.AddUniqueMaterial(ctx, material.Name, material.Group, material.Source, material.Market, material.Unit, material.DeliveryType)
+		if err != nil {
+			return err
+		}
+
+		fmt.Println("Adding material " + material.Name)
+
+		// Adding and tying properties
+		for _, property := range material.Properties {
+			propertyId, err := s.repo.AddPropertyIfNotExists(ctx, model.PropertyShortInfo{Name: property.Name, Kind: property.Kind})
+			if err != nil {
+				return err
+			}
+
+			err = s.repo.AddMaterialProperty(ctx, materialSourceId, propertyId)
+			if err != nil {
+				return fmt.Errorf("failed to add property %s: %w", property.Name, err)
+			}
+		}
+
+		// Going through material's properties, and reading property values
+		for _, property := range material.Properties {
+			fmt.Println(property.Name)
+			row := property.Row
+			for {
+				var value string
+				valueCellValue, err := book.GetCellValue(material.Sheet, property.Column+strconv.Itoa(row))
+				if err != nil {
+					return fmt.Errorf("cant parce with GetCellValue %s:%s%d: %v", material.Sheet, property.Column, row, err)
+				}
+				valueCalc, err := book.CalcCellValue(material.Sheet, property.Column+strconv.Itoa(row))
+
+				if err != nil {
+					if err.Error() == "AVERAGE divide by zero" {
+						break
+					}
+					return fmt.Errorf("cant parce with CalcCellValue %s:%s%d: %v", material.Sheet, property.Column, row, err)
+				}
+				valueCellValue = strings.TrimSpace(valueCellValue)
+				valueCalc = strings.TrimSpace(valueCalc)
+
+				if valueCellValue == "" && valueCalc == "" {
+					break
+				} else if valueCellValue != "" {
+					value = valueCellValue
+				} else if valueCalc != "" {
+					value = valueCalc
+				}
+
+				// Calculating date cell, and formatting it
+				dateCell := material.DateColumn + strconv.Itoa(row)
+				style, _ := book.NewStyle(`{"number_format":15}`)
+				err = book.SetCellStyle(material.Sheet, dateCell, dateCell, style)
+				if err != nil {
+					return fmt.Errorf("cant set cell style: %w", err)
+				}
+
+				dateStr, err := book.GetCellValue(material.Sheet, dateCell)
+				if err != nil {
+					return fmt.Errorf("cant parce dateStr %s:%s%d: %v", material.Sheet, property.Column, row, err)
+				}
+				dateType, err := book.GetCellType(material.Sheet, dateCell)
+				if err != nil {
+					return err
+				}
+
+				// Parsing date
+				createdOn, err := time.Parse(dateLayout, dateStr)
+				if err != nil {
+					return fmt.Errorf("cant parce date [%v,%v] '%v' (%v): %w", material.Sheet, dateCell, dateStr, dateType, err)
+				}
+
+				// Checking type of value: string or decimal
+				var valueStr string
+				var valueDecimal float64
+				if property.Kind == "decimal" {
+					valueDecimal, err = strconv.ParseFloat(value, 64)
+					if err != nil {
+						return fmt.Errorf("cant parce float price at %s %s%d: %v", material.Sheet, property.Column, row, err)
+					}
+					if material.ConvSettings.Need {
+						valueDecimal = material.ConvSettings.Func(valueDecimal, material.ConvSettings.Rate)
+					}
+				} else {
+					valueStr = value
+				}
+
+				materialSourceId, err := s.repo.GetMaterialSourceId(ctx, material.Name, material.Group, material.Source, material.Market, material.Unit, material.DeliveryType)
+				if err != nil {
+					return fmt.Errorf("cann not get material source id: %w", err)
+				}
+
+				err = s.repo.AddMaterialValue(ctx, materialSourceId, property.Name, valueDecimal, valueStr, createdOn)
+				if err != nil {
+					return fmt.Errorf("failed to add material value: %w", err)
+				}
+
+				if material.NeedSplit {
+					formula, err := book.GetCellFormula(material.Sheet, property.Column+strconv.Itoa(row))
+					if err != nil {
+						return fmt.Errorf("failed to get formyla in splitting for daily init import: %v", err)
+					}
+
+					regex := regexp.MustCompile(`\((\d+)\+(\d+)\)/2`)
+					if regex.MatchString(formula) {
+						matches := regex.FindStringSubmatch(formula)
+						minPrice, err := strconv.ParseFloat(matches[1], 64)
+						if err != nil {
+							return fmt.Errorf("failed to parce from formula: %v (materialSourceId; %d, property: %s, row: %d)", err, materialSourceId, property.Name, row)
+						}
+						maxPrice, err := strconv.ParseFloat(matches[2], 64)
+						if err != nil {
+							return fmt.Errorf("failed to parce from formula: %v (materialSourceId; %d, property: %s, row: %d)", err, materialSourceId, property.Name, row)
+						}
+						if material.ConvSettings.Need {
+							minPrice = material.ConvSettings.Func(minPrice, material.ConvSettings.Rate)
+							maxPrice = material.ConvSettings.Func(maxPrice, material.ConvSettings.Rate)
+						}
+
+						propertyId, err := s.repo.AddPropertyIfNotExists(ctx, model.PropertyShortInfo{Name: "Мин цена", Kind: "decimal"})
+						if err != nil {
+							return err
+						}
+						err = s.repo.AddMaterialProperty(ctx, materialSourceId, propertyId)
+						if err != nil {
+							return fmt.Errorf("failed to add property %s: %w", property.Name, err)
+						}
+						propertyId, err = s.repo.AddPropertyIfNotExists(ctx, model.PropertyShortInfo{Name: "Макс цена", Kind: "decimal"})
+						if err != nil {
+							return err
+						}
+						err = s.repo.AddMaterialProperty(ctx, materialSourceId, propertyId)
+						if err != nil {
+							return fmt.Errorf("failed to add property %s: %w", property.Name, err)
+						}
+
+						err = s.repo.AddMaterialValue(ctx, materialSourceId, "Мин цена", minPrice, valueStr, createdOn)
+						if err != nil {
+							return fmt.Errorf("failed to add material value: %w", err)
+						}
+						err = s.repo.AddMaterialValue(ctx, materialSourceId, "Макс цена", maxPrice, valueStr, createdOn)
+						if err != nil {
+							return fmt.Errorf("failed to add material value: %w", err)
+						}
+					}
+				}
+
+				row++
+				if row%100 == 0 {
+					fmt.Print("#")
+				}
+			}
+			fmt.Println("")
 		}
 	}
 	return nil

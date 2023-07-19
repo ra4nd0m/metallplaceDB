@@ -21,6 +21,25 @@ type Material struct {
 	Properties   []Property
 }
 
+type DailyMaterial struct {
+	Sheet        string
+	Name         string
+	Group        string
+	Source       string
+	Market       string
+	DeliveryType string
+	Unit         string
+	DateColumn   string
+	Properties   []Property
+	NeedSplit    bool
+	ConvSettings ConvSettings
+}
+
+type ConvSettings struct {
+	Need bool
+	Func func(float64, float64) float64
+	Rate float64
+}
 type MaterialHorizontal struct {
 	Sheet        string
 	Name         string
