@@ -43,9 +43,6 @@ func (s *Service) InitialImport(ctx context.Context) error {
 		if err := s.InitImportWeeklyPredict(ctx, book); err != nil {
 			return fmt.Errorf("error initializing weekly prediction import: %w", err)
 		}
-		//if err := s.InitImportDailyMaterials(ctx, book, dateLayout); err != nil {
-		//	return fmt.Errorf("error initializing daily import: %w", err)
-		//}
 
 		//if err := s.ImportRosStat(ctx); err != nil {
 		//	return fmt.Errorf("can't import ros stat: %w", err)
@@ -297,7 +294,12 @@ func (s *Service) ParseRosStatBook(ctx context.Context, byte []byte) error {
 	return nil
 }
 
-func (s *Service) InitImportDailyMaterials(ctx context.Context, book *excelize.File, dateLayout string) error {
+func (s *Service) InitImportDailyMaterials(ctx context.Context) error {
+	dateLayout := "2-Jan-06"
+	book, err := excelize.OpenFile("var/analytics.xlsx")
+	if err != nil {
+		return fmt.Errorf("cannot open exel file %w", err)
+	}
 	test, err := book.GetCellValue("Daily", "DO457")
 	fmt.Printf(test, err)
 	for _, material := range model.InitDaily {

@@ -5,6 +5,7 @@ import (
 )
 
 type InitImportRequest struct {
+	Group string `json:"group"`
 }
 
 type InitImportResponse struct {
@@ -13,9 +14,18 @@ type InitImportResponse struct {
 
 func (h Handler) InitImportHandler(w http.ResponseWriter, r *http.Request) {
 	handle(w, r, func(req InitImportRequest) (InitImportResponse, error) {
-		err := h.service.InitialImport(r.Context())
-		if err != nil {
-			return InitImportResponse{false}, err
+		if req.Group == "" {
+			err := h.service.InitialImport(r.Context())
+			if err != nil {
+				return InitImportResponse{false}, err
+			}
+		} else if req.Group == "daily" {
+			err := h.service.InitImportDailyMaterials(r.Context())
+			if err != nil {
+				return InitImportResponse{false}, err
+			}
+		} else {
+			return InitImportResponse{true}, nil
 		}
 		return InitImportResponse{true}, nil
 	})
