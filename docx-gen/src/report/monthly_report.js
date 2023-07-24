@@ -16,21 +16,21 @@ const tableMaterialGrouped = require("../component/table_material_grouped")
 const {GetDates, GetFirstDayOfMonth, GetFirstDaysOfCurrentAndPrevMonth} = require("../utils/date_operations");
 const {GetNMonthRange} = require("../utils/date_ranges")
 const {ChartUrl, FormChartUrl} = require("../utils/form_chart_url")
-const coverDates = require("../atom/cover_dates");
+const coverDates = require("../atom/cover_dates_monthly");
 const cover = require("../atom/cover");
 
 function getFooterTitle(date) {
 
-    const weekDates = GetDates(date, "month")
-    return `Отчетный период: ${weekDates.first.day} ${RusMonth[weekDates.first.month]} - ` +
-        `${weekDates.last.day} ${RusMonth[weekDates.last.month]} ${weekDates.last.year} года`
+    const monthDates = GetDates(date, "month")
+    return `Отчетный период: ${monthDates.first.day} ${RusMonth[monthDates.first.month]} - ` +
+        `${monthDates.last.day} ${RusMonth[monthDates.last.month]} ${monthDates.last.year} года`
 }
 
 function getCoverTitles(date){
-    const weekDates = GetDates(date, "month")
+    const monthDates = GetDates(date, "month")
     return [
-        `${RusMonthStraight[weekDates.first.month]} ${weekDates.last.year} года`,
-        `(${weekDates.first.day} ${RusMonth[weekDates.first.month]} - ${weekDates.last.day} ${RusMonth[weekDates.last.month]})`
+        `${RusMonthStraight[monthDates.first.month]}`,
+        `${monthDates.last.year}`
     ]
 }
 
