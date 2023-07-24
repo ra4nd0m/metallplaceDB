@@ -1,5 +1,5 @@
 const docx = require("docx");
-const {TableCellMarginNil, FontFamilySemiBold, FontSizeCover, FontFamilyMedium} = require("../const");
+const {TableCellMarginNil, FontFamilySemiBold, FontSizeCoverPrimary, FontFamilyMedium} = require("../const");
 const paragraph = require("../atom/paragraph");
 const text = require("../atom/text");
 
@@ -39,7 +39,7 @@ module.exports = function (line1, line2) {
                                     text({
                                         text: line1,
                                         font: FontFamilySemiBold,
-                                        size: FontSizeCover,
+                                        size: FontSizeCoverPrimary,
                                     }),
                                 ],
                             }),
@@ -67,7 +67,7 @@ module.exports = function (line1, line2) {
                                     text({
                                         text: line2,
                                         font: FontFamilyMedium,
-                                        size: FontSizeCover * 0.8
+                                        size: FontSizeCoverPrimary * 0.8
                                     })
                                 ],
                             }),
