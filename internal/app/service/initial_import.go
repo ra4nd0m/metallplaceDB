@@ -34,9 +34,7 @@ func (s *Service) InitialImport(ctx context.Context) error {
 		if err := s.InitImportMaterialsHorizontalWeekly(ctx, book); err != nil {
 			return fmt.Errorf("error initializing weekly horizontal import: %w", err)
 		}
-		if err := s.InitImportMaterialsHorizontalMonthly(ctx, book); err != nil {
-			return fmt.Errorf("error initializing monthly horizontal import: %w", err)
-		}
+
 		if err := s.InitImportMonthlyPredict(ctx, book); err != nil {
 			return fmt.Errorf("error initializing monthly prediction import: %w", err)
 		}
@@ -44,6 +42,9 @@ func (s *Service) InitialImport(ctx context.Context) error {
 			return fmt.Errorf("error initializing weekly prediction import: %w", err)
 		}
 
+		if err := s.InitImportDailyMaterials(ctx, book, dateLayout); err != nil {
+			return fmt.Errorf("error initializing daily import: %w", err)
+		}
 		//if err := s.ImportRosStat(ctx); err != nil {
 		//	return fmt.Errorf("can't import ros stat: %w", err)
 		//}
@@ -294,14 +295,7 @@ func (s *Service) ParseRosStatBook(ctx context.Context, byte []byte) error {
 	return nil
 }
 
-func (s *Service) InitImportDailyMaterials(ctx context.Context) error {
-	dateLayout := "2-Jan-06"
-	book, err := excelize.OpenFile("var/analytics.xlsx")
-	if err != nil {
-		return fmt.Errorf("cannot open exel file %w", err)
-	}
-	test, err := book.GetCellValue("Daily", "DO457")
-	fmt.Printf(test, err)
+func (s *Service) InitImportDailyMaterials(ctx context.Context, book *excelize.File, dateLayout string) error {
 	for _, material := range model.InitDaily {
 		materialSourceId, err := s.AddUniqueMaterial(ctx, material.Name, material.Group, material.Source, material.Market, material.Unit, material.DeliveryType)
 		if err != nil {
@@ -671,109 +665,6 @@ func (s *Service) InitImportMaterialsHorizontalWeekly(ctx context.Context, book 
 				}
 			}
 		}
-	}
-	return nil
-}
-
-func (s *Service) InitImportMaterialsHorizontalMonthly(ctx context.Context, book *excelize.File) error {
-	for _, material := range model.InitMaterialsHorizontalMonthly {
-		materialSourceId, err := s.AddUniqueMaterial(ctx, material.Name, material.Group, material.Source, material.Market, material.Unit, material.DeliveryType)
-		if err != nil {
-			return fmt.Errorf("cant add unique material %v: %w", material.Name, err)
-		}
-
-		fmt.Println("Adding material " + material.Name)
-
-		// Adding and tying properties
-		for _, property := range material.Properties {
-			propertyId, err := s.repo.AddPropertyIfNotExists(ctx, model.PropertyShortInfo{Name: property.Name, Kind: property.Kind})
-			if err != nil {
-				return fmt.Errorf("cant add/get property %v: %w", property.Name, err)
-			}
-
-			err = s.repo.AddMaterialProperty(ctx, materialSourceId, propertyId)
-			if err != nil {
-				return fmt.Errorf("cant add material_property %v-%v: %w", material.Name, property.Name, err)
-			}
-		}
-		for _, property := range material.Properties {
-			fmt.Println(property.Name)
-			colNum, err := utils.AlphabetToInt(property.Column)
-			if err != nil {
-				return fmt.Errorf("cant get col num: %w", err)
-			}
-			col := colNum
-			for {
-				c, err := utils.IntToAlphabet(int32(col))
-				if err != nil {
-					return fmt.Errorf("cant parse excel format columb number: %w", err)
-				}
-				value, err := book.CalcCellValue(material.Sheet, c+strconv.Itoa(property.Row))
-				if err != nil {
-					return fmt.Errorf("cant get cell value: %w", err)
-				}
-				value = strings.TrimSpace(value)
-
-				if value == "" {
-					value, err = book.GetCellValue(material.Sheet, c+strconv.Itoa(property.Row))
-					if value == "" {
-						break
-					}
-				}
-				c, err = utils.IntToAlphabet(int32(col))
-				if err != nil {
-					return fmt.Errorf("cant parse excel format columb number: %w", err)
-				}
-				dateCell := c + material.DateRow
-				dateStr, err := book.GetCellValue(material.Sheet, dateCell)
-				if err != nil {
-					return fmt.Errorf("cant get cell value: %w", err)
-				}
-				createdOn, err := stringToDate(dateStr, "month")
-				if err != nil {
-					return fmt.Errorf("Can't parce date [%v,%v]: %w", material.Sheet, dateCell, err)
-				}
-
-				// Checking type of value: string or decimal
-				var valueStr string
-				var valueDecimal float64
-				if property.Kind == "decimal" {
-					valueDecimal, err = strconv.ParseFloat(value, 64)
-					valueDecimal = math.Round(valueDecimal)
-					if err != nil {
-						return err
-					}
-				} else {
-					valueStr = value
-				}
-
-				materialSourceId, err := s.repo.GetMaterialSourceId(ctx, material.Name, material.Group, material.Source, material.Market, material.Unit, material.DeliveryType)
-				if err != nil {
-					return fmt.Errorf("cann not get material source id: %w", err)
-				}
-
-				err = s.repo.AddMaterialValue(ctx, materialSourceId, property.Name, valueDecimal, valueStr, createdOn)
-				if err != nil {
-					return err
-				}
-
-				// After some time interval changes
-				colNum, err := utils.AlphabetToInt("I")
-				if err != nil {
-					return fmt.Errorf("cant get col num: %w", err)
-				}
-				if col >= colNum {
-					col += 5
-				} else {
-					col += 4
-				}
-
-				if col%100 == 0 {
-					fmt.Print("#")
-				}
-			}
-		}
-
 	}
 	return nil
 }

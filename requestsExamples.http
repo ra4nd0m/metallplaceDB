@@ -1,11 +1,42 @@
-POST localhost:8080/getValueForPeriod
+
+POST base.metallplace.ru:8080/getValueForPeriod
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImVnb3IiLCJleHAiOjE2ODkxMDc1MDZ9.j-IOE1F3vWkZVfXs_-UyTnBJDCTTvbFCoK3lVcCvToQ
 Content-Type: application/json
 
 {
-  "material_source_id": 70,
-  "property_id": 3,
-  "start": "2023-01-01",
-  "finish": "2023-01-01"
+  "material_source_id":1,
+  "property_id":1,
+  "start":"2022-12-01T00:00:00.000Z",
+  "finish":"2023-12-01T00:00:00.000Z"}
+
+###
+
+POST localhost:8080/getValueForPeriod
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJuZCIsImV4cCI6MTY4OTEwNjIwNH0.w6D302Fv4PjY5YNPBi8o9zLQ928tLFVr8XmS1IDNosY
+Content-Type: application/json
+
+{
+  "material_source_id":1,
+  "property_id":1,
+  "start":"2022-12-01T00:00:00.000Z",
+  "finish":"2023-12-01T00:00:00.000Z"}
+
+###
+POST base.metallplace.ru:8080/login
+Content-Type: application/json
+
+{
+  "username": "practice",
+  "password": "3Jdj(!nd"
+}
+
+###
+POST base.metallplace.ru:8080/login
+Content-Type: application/json
+
+{
+  "username": "rnd",
+  "password": "Ae8!wud0"
 }
 
 ###
@@ -13,8 +44,8 @@ POST localhost:8080/login
 Content-Type: application/json
 
 {
-  "username": "1",
-  "password": "1"
+  "username": "rnd",
+  "password": "Ae8!wud0"
 }
 
 ###
@@ -52,21 +83,24 @@ Content-Type: application/json
 
 ###
 POST base.metallplace.ru:8080/getMaterialList
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InByYWN0aWNlIiwiZXhwIjoxNjg5MTkwNTY4fQ.9opuqTVosX2l3gsvHe6NJFwgzJsR2CsmHbgRsucgLoc
 Content-Type: application/json
 
 {
 
 }
 ###
-GET localhost:8080/getMaterialList
+GET localhost:8082/getMaterialList
 Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImVnb3IiLCJleHAiOjE2ODg2NzQ3MDd9.YrnPCgdrHb_GU8tGwLwaofrpSIYryI7_rMoWbO90Lbc
 
 {
 
 }
 ###
-GET localhost:8080/getPropertyList
+GET base.metallplace.ru:8080/getPropertyList
 Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImVnb3IiLCJleHAiOjE2ODg3NjY3NDZ9.1rYYrklZXLMl0iWbEV8pCrGBxmIsqZKGzYp6hoJmB2I
 
 
 {
@@ -74,48 +108,69 @@ Content-Type: application/json
 }
 
 ###
-POST localhost:8080/initImport
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IjEiLCJleHAiOjE2ODQyNjQzNjV9.9PqeSdyFnmsY6RKUvrZ4pOmRu7mxHf9ID93eyY2OeF8
+POST base.metallplace.ru:8080/initImport
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJuZCIsImV4cCI6MTY4OTkwNzI0NX0.Ph33MBtHlcdYqk2abiN6BW8_diGKP-Ujoz2Cb5Xul68
 Content-Type: application/json
 
 {
+  "group": "daily"
+}
+###
+POST localhost:8082/initImport
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJuZCIsImV4cCI6MTY4OTA0MzA5OH0.wK7DpXN-cHfwS_0mNpTySon1v_Szg3waCqaQoAKSnio
+Content-Type: application/json
 
+{
 }
 
 
 ###
-POST localhost:8080/addUniqueMaterial
+POST localhost:8082/addUniqueMaterial
 Content-Type: application/json
 
 {
-  "name": "53",
-  "source": "3f4",
+  "name": "513",
+  "source": "31rSf4",
   "market": "Test Markwhet",
   "unit": "Test Unsdvit"
 }
 ###
-POST localhost:8080/addValue
+POST base.metallplace.ru:8080/addValue
 Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJuZCIsImV4cCI6MTY4OTEwNjc4N30.96zp64ZnEuJx4FRNPLxhLDS2FMLZyN5ZoKw6qWAHb-w
 
 {
-  "material_source_id": 1,
-  "property_name": "med_price",
-  "value_float": "100",
+  "material_source_id": 26,
+  "property_name": "Прогноз месяц",
+  "value_float": "60330",
   "value_str": "",
-  "created_on": "2025-10-14"
+  "created_on": "2029-09-14"
 }
 
 ###
-GET http://localhost:8080/getChart/17-19_1_11-10-2022_12-09-2022_1_line_day_day_1_-1.png
+POST localhost:8080/addValue
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJuZCIsImV4cCI6MTY4OTEwNjIwNH0.w6D302Fv4PjY5YNPBi8o9zLQ928tLFVr8XmS1IDNosY
+
+{
+  "material_source_id": 22,
+  "property_name": "Прогноз месяц",
+  "value_float": "60330",
+  "value_str": "",
+  "created_on": "2029-09-14"
+}
 
 ###
-GET http://localhost:8080/getReport/weekly/2023-01-13
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IjEiLCJleHAiOjE2ODYxODA4NDh9.dHjRZXhrq5mDkjsNwdpUeE4msCmlx-RlLwpt0rbYG90
+GET http://localhost:8082/getChart/4_1_01-01-2023_03-01-2023_0_line_month_month_0_-1.png
+
+###
+GET http://localhost:8082/getReport/weekly/2023-06-13
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJuZCIsImV4cCI6MTY4ODc3NTk5M30.4JNfN4fjLNi-7sYY2UHkhEnuXeuXYxGlWTGCb0DI4ME
 
 
 ###
-GET http://localhost:8080/getReport/monthly/2023-02-03
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IjEiLCJleHAiOjE2ODYxODA4NDh9.dHjRZXhrq5mDkjsNwdpUeE4msCmlx-RlLwpt0rbYG90
+GET http://localhost:8082/getReport/monthly/2023-06-03
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJuZCIsImV4cCI6MTY4ODc3NTk5M30.4JNfN4fjLNi-7sYY2UHkhEnuXeuXYxGlWTGCb0DI4ME
 
 
 ###
@@ -127,12 +182,12 @@ Content-Type: application/json
 }
 
 ###
-GET localhost:8080/addPropertyToMaterial
+GET localhost:8082/addPropertyToMaterial
 Content-Type: application/json
 
 {
-  "material_id": 2,
-  "property_name": "prop",
+  "material_id": 1,
+  "property_name": "med_price",
   "kind": "decimal"
 }
 

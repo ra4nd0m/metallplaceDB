@@ -14,18 +14,9 @@ type InitImportResponse struct {
 
 func (h Handler) InitImportHandler(w http.ResponseWriter, r *http.Request) {
 	handle(w, r, func(req InitImportRequest) (InitImportResponse, error) {
-		if req.Group == "" {
-			err := h.service.InitialImport(r.Context())
-			if err != nil {
-				return InitImportResponse{false}, err
-			}
-		} else if req.Group == "daily" {
-			err := h.service.InitImportDailyMaterials(r.Context())
-			if err != nil {
-				return InitImportResponse{false}, err
-			}
-		} else {
-			return InitImportResponse{true}, nil
+		err := h.service.InitialImport(r.Context())
+		if err != nil {
+			return InitImportResponse{false}, err
 		}
 		return InitImportResponse{true}, nil
 	})
