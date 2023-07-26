@@ -47,6 +47,8 @@ var InitMaterialsVertical = []Material{
 		"$/т",
 		"A",
 		[]Property{
+			{"Мин цена", "J", 209, "decimal"},
+			{"Макс цена", "K", 209, "decimal"},
 			{"Средняя цена", "L", 3, "decimal"},
 		},
 	},

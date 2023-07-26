@@ -39,7 +39,13 @@ function headerMaterial(title, unit, font){
 module.exports = async function tableMaterialMinimax(materialIds, dates, unitChangeRound, percentChangeRound, type, priceRound) {
     const f = new Date(dates[0])
     const s = new Date(dates[1])
+    let endpoint
     if(type === undefined) type = "week"
+    if(type === "week") {
+        endpoint ="/getWeeklyAvgFeed"
+    } else if(type === "month") {
+        endpoint ="/getMonthlyAvgFeed"
+    }
 
     const first = `${f.getFullYear()}-${FormatDayMonth(f.getMonth() + 1)}-${FormatDayMonth(f.getDate())}`
     const second = `${s.getFullYear()}-${FormatDayMonth(s.getMonth() + 1)}-${FormatDayMonth(s.getDate())}`
@@ -49,12 +55,12 @@ module.exports = async function tableMaterialMinimax(materialIds, dates, unitCha
     for (const materialId of materialIds) {
         const resMat = await axios.post(ApiEndpoint + `/getMaterialInfo`, {id: materialId})
         const matInfo = resMat.data.info.Name.split(", ")
-        const week1Min = await axios.post(ApiEndpoint + `/getValueForPeriod`, { material_source_id: materialId, property_id: MinPriceId, start: first, finish: first})
-        const week1Max = await axios.post(ApiEndpoint + `/getValueForPeriod`, { material_source_id: materialId, property_id: MaxPriceId, start: first, finish: first})
-        const week1Med = await axios.post(ApiEndpoint + `/getValueForPeriod`, { material_source_id: materialId, property_id: MedPriceId, start: first, finish: first})
-        const week2Min = await axios.post(ApiEndpoint + `/getValueForPeriod`, { material_source_id: materialId, property_id: MinPriceId, start: second, finish: second})
-        const week2Max = await axios.post(ApiEndpoint + `/getValueForPeriod`, { material_source_id: materialId, property_id: MaxPriceId, start: second, finish: second})
-        const week2Med = await axios.post(ApiEndpoint + `/getValueForPeriod`, { material_source_id: materialId, property_id: MedPriceId, start: second, finish: second})
+        const period1Min = await axios.post(ApiEndpoint + endpoint, { material_source_id: materialId, property_id: MinPriceId, start: first, finish: first})
+        const period1Max = await axios.post(ApiEndpoint + endpoint, { material_source_id: materialId, property_id: MaxPriceId, start: first, finish: first})
+        const period1Med = await axios.post(ApiEndpoint + endpoint, { material_source_id: materialId, property_id: MedPriceId, start: first, finish: first})
+        const period2Min = await axios.post(ApiEndpoint + endpoint, { material_source_id: materialId, property_id: MinPriceId, start: second, finish: second})
+        const period2Max = await axios.post(ApiEndpoint + endpoint, { material_source_id: materialId, property_id: MaxPriceId, start: second, finish: second})
+        const period2Med = await axios.post(ApiEndpoint + endpoint, { material_source_id: materialId, property_id: MedPriceId, start: second, finish: second})
 
         const location = resMat.data.info.Market.split(", ")
         //"Лом, HMS 1&2 (80:20), FOB, (недельный)"
@@ -63,12 +69,12 @@ module.exports = async function tableMaterialMinimax(materialIds, dates, unitCha
             Type: matInfo[1],
             DeliveryType: resMat.data.info.DeliveryType,
             DeliveryLocation: location[1],
-            Week1Min: week1Min.data,
-            Week1Max: week1Max.data,
-            Week1Med: week1Med.data,
-            Week2Min: week2Min.data,
-            Week2Max: week2Max.data,
-            Week2Med: week2Med.data,
+            Week1Min: period1Min.data,
+            Week1Max: period1Max.data,
+            Week1Med: period1Med.data,
+            Week2Min: period2Min.data,
+            Week2Max: period2Max.data,
+            Week2Med: period2Med.data,
         })
     }
     let title1, title2
