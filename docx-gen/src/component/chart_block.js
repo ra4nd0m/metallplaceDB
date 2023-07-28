@@ -3,7 +3,9 @@ const chart = require("../client/chart");
 const paragraph = require("../atom/paragraph")
 const paragraphCentred = require("../atom/paragraph_centred")
 const text = require("../atom/text")
-const {TableCellMarginNil, Green, Red, ColorDefault, FontFamily, FontFamilySemiBold, ApiEndpoint} = require("../const");
+const {TableCellMarginNil, Green, Red, ColorDefault, FontFamily, FontFamilySemiBold, ApiEndpoint, FontFamilyExtraBold,
+    FontFamilyMedium
+} = require("../const");
 const numFormat = require("../utils/numbers_format")
 const axios = require("axios");
 
@@ -82,10 +84,55 @@ async function getInfo(isBig, url, group, comparePeriod) {
         lastPrice = prices.data.price_feed[prices.data.price_feed.length - 1].value
     }
     let percent = Math.round((lastPrice - firstPrice) / firstPrice * 1000) / 10
-    percent = percent > 0 ? paragraphCentred(`+${numFormat(percent)}%`, Green) : (percent < 0 ? paragraphCentred(numFormat(percent) + "%", Red) : paragraphCentred(`-`, ColorDefault))
+    let percentBlock
+    if (percent > 0) {
+        percentBlock =
+                text({
+                    text: `+${numFormat(percent)}% ${comparePeriod}`,
+                    font: FontFamilyExtraBold,
+                    color: Green,
+                    size: 12 * 2,
+                })
+    } else {
+        if (percent < 0) {
+            percentBlock =
+                    text({
+                        text: `${numFormat(percent)}% ${comparePeriod}`,
+                        font: FontFamilyExtraBold,
+                        color: Red,
+                        size: 12 * 2,
+                    })
+
+        } else {
+            percentBlock =
+                    text({
+                        text: `- ${comparePeriod}`,
+                        font: FontFamilyExtraBold,
+                        color: ColorDefault,
+                        size: 12 * 2,
+                    })
+        }
+    }
     if (lastPrice > 30) {
         lastPrice = Math.round(lastPrice)
     }
+
+    let materialType
+    let materialName
+    let materialCountry
+    try {
+        let nameSeparator = ','
+        if (materialInfo.data.info.Name.indexOf(",") === -1) {
+            nameSeparator = ';'
+        }
+         materialType = materialInfo.data.info.Name.match(new RegExp(nameSeparator + '(.*)'))[1].trim();
+         materialName = materialInfo.data.info.Name.split(", ")[0].trim();
+         materialCountry =  materialInfo.data.info.Market.match(/\((.*?)\)/)?.[1].trim();
+    } catch (e) {
+        throw new Error("error getting infoRow data" + e.message)
+    }
+
+
     return [new docx.TableRow({
         children: [
             new docx.TableCell({
@@ -97,10 +144,16 @@ async function getInfo(isBig, url, group, comparePeriod) {
                         spacing: {before: 0},
                         children: [
                             text({
-                                text: materialInfo.data.info.Name,
-                                font: FontFamilySemiBold,
+                                text: materialName,
+                                font: FontFamilyExtraBold,
                                 color: '#000000',
-                                size: 10.5 * 2,
+                                size: 12 * 2,
+                            }),
+                            text({
+                                text: ` (${materialType}, ${materialInfo.data.info.DeliveryType} ${materialCountry})`,
+                                font: FontFamilyMedium,
+                                color: '#000000',
+                                size: 12 * 2,
                             }),
                         ],
                     }),
@@ -109,66 +162,44 @@ async function getInfo(isBig, url, group, comparePeriod) {
                         spacing: {before: 0},
                         children: [
                             text({
-                                text: materialInfo.data.info.DeliveryType + " " + materialInfo.data.info.Market,
-                                font: FontFamily,
-                                color: '#656667',
-                                size: 10 * 2,
-                            })
-                        ],
-                    }),
-                ],
-            }),
-
-            new docx.TableCell({
-                margins: TableCellMarginNil,
-                verticalAlign: docx.VerticalAlign.CENTER,
-                children: [
-                    paragraph({
-                        alignment: docx.AlignmentType.CENTER,
-                        spacing: {before: 0},
-                        children: [
-                            text({
                                 text: numFormat(lastPrice),
-                                font: FontFamilySemiBold,
+                                font: FontFamilyExtraBold,
                                 color: '#000000',
-                                size: 10.5 * 2,
-                            })
-                        ],
-                    }),
-                    paragraph({
-                        alignment: docx.AlignmentType.CENTER,
-                        spacing: {before: 0},
-                        children: [
+                                size: 12 * 2,
+                            }),
                             text({
-                                text: materialInfo.data.info.Unit,
-                                font: FontFamily,
-                                color: '#656667',
-                                size: 11 * 2,
-                            })
+                                text: " " + materialInfo.data.info.Unit + " ",
+                                font: FontFamilyMedium,
+                                color: '#000000',
+                                size: 12 * 2,
+                            }),
+                            percentBlock,
                         ],
                     }),
                 ],
             }),
 
-            new docx.TableCell({
-                verticalAlign: docx.VerticalAlign.CENTER,
-                margins: TableCellMarginNil,
-                children: [
-                    percent,
-                    paragraph({
-                        alignment: docx.AlignmentType.CENTER,
-                        spacing: {before: 0},
-                        children: [
-                            text({
-                                text: comparePeriod,
-                                font: FontFamily,
-                                color: '#656667',
-                                size: 11 * 2,
-                            })
-                        ],
-                    }),
-                ],
-            }),
+
+
+            // new docx.TableCell({
+            //     verticalAlign: docx.VerticalAlign.CENTER,
+            //     margins: TableCellMarginNil,
+            //     children: [
+            //         percent,
+            //         paragraph({
+            //             alignment: docx.AlignmentType.CENTER,
+            //             spacing: {before: 0},
+            //             children: [
+            //                 text({
+            //                     text: comparePeriod,
+            //                     font: FontFamily,
+            //                     color: '#656667',
+            //                     size: 11 * 2,
+            //                 })
+            //             ],
+            //         }),
+            //     ],
+            // }),
         ],
     })]
 }

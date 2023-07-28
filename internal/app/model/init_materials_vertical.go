@@ -252,7 +252,7 @@ var InitMaterialsVertical = []Material{
 	},
 
 	{"07.ФС (М)",
-		"SiMn; 65% Mn, 17% Si",
+		"SiMn, 65% Mn, 17% Si",
 		"Ферросплавы и руды",
 		"crugroup.com",
 		"Роттердам (ЕС)",

@@ -146,7 +146,6 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
     const textColor = '#000000'
     const predictPointColor = '#844a88'
     const monthPredictAmount = 3
-    let gridOnChartArea = true
 
     let dateArrayFormatted: string[]
     dateArrayFormatted = []
@@ -155,9 +154,6 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
     let tickLimit = 27
     if (options.tick_limit != 0) tickLimit = options.tick_limit
     for (let i = 0; i < dateArray.length; i++) {
-        if (options.labels) {
-            gridOnChartArea = false
-        }
         dateArrayFormatted.push(formatXLabel(dateArray[i], options.x_step))
 
         if (!options.legend){
@@ -216,11 +212,12 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
                         includeBounds: true,
                         maxRotation: 70,
                         maxTicksLimit: tickLimit,
-                        autoSkip: true
+                        autoSkip: true,
+
                     },
                     grid: {
-                        display: false,
-                        borderColor: '#000000'
+                        display: true,
+                        drawBorder: false
                     },
                 },
                 y: {
@@ -247,8 +244,8 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
                         },
                     },
                     grid: {
-                        drawOnChartArea: gridOnChartArea,
-                        borderColor: '#000000'
+                        drawOnChartArea: true,
+                        drawBorder: false
                     },
                 }
             },
