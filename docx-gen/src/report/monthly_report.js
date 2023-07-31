@@ -6,7 +6,9 @@ const h3 = require("../atom/heading3");
 const h3Fake = require("../atom/heading3_fake");
 const paragraph = require("../atom/paragraph");
 const twoChart = require("../component/two_chart");
-const {MonthlyHeaderTitle, MedPriceId, StockId, RusMonth, FontFamilyThin, RusMonthStraight, PageMargins, MonthPredictId} = require("../const");
+const {MonthlyHeaderTitle, MedPriceId, StockId, RusMonth, FontFamilyThin, RusMonthStraight, PageMargins, MonthPredictId,
+    FontFamily, FontFamilyExtraBold, FontFamilyBold
+} = require("../const");
 const oneChartText = require("../component/one_chart_text");
 const oneChart = require("../component/one_chart");
 const singleTable = require("../component/table_single");
@@ -22,8 +24,26 @@ const cover = require("../atom/cover");
 function getFooterTitle(date) {
 
     const monthDates = GetDates(date, "month")
-    return `Отчетный период: ${monthDates.first.day} ${RusMonth[monthDates.first.month]} - ` +
-        `${monthDates.last.day} ${RusMonth[monthDates.last.month]} ${monthDates.last.year} года`
+    return [
+        new docx.TextRun({
+            color: "#747474",
+            font: FontFamily,
+            text: "Отчетный период: ",
+            size: 12 * 2,
+        }),
+        new docx.TextRun({
+            color: "#747474",
+            font: FontFamilyBold,
+            text: `${monthDates.first.day} ${RusMonth[monthDates.first.month]} - ${monthDates.last.day} ${RusMonth[monthDates.last.month]} `,
+            size: 12 * 2,
+        }),
+        new docx.TextRun({
+            color: "#747474",
+            font: FontFamily,
+            text: `${monthDates.last.year} года`,
+            size: 12 * 2,
+        }),
+    ]
 }
 
 function getCoverTitles(date){

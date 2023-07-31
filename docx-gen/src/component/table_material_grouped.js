@@ -1,6 +1,6 @@
 const docx = require("docx");
 const {TableCellMarginNil, MedPriceId, FontFamilyMedium, FontSizeThMain, FontFamilyThin, FontSizeThExtraInfo,
-    FontFamilySemiBold, FontSizeThSecondary, ApiEndpoint
+    FontFamilySemiBold, FontSizeThSecondary, ApiEndpoint, FatBorder, ThinBorder
 } = require("../const");
 const textTh = require("../atom/text_th")
 const tableBody = require("../atom/table_material_grouped_body");
@@ -61,19 +61,23 @@ module.exports = async function(materialIds, dates, titlesIndexes, titles, type,
             size: 100,
             type: docx.WidthType.PERCENTAGE,
         },
+        borders: {
+            top: FatBorder,
+            bottom: FatBorder
+        },
         columnWidths: [2,1,1,1,1,1],
         rows:[
             new docx.TableRow({
                 children: [
-                    cellCenter({margins: TableCellMarginNil, children: [textTh("Продукция", FontFamilyMedium, FontSizeThMain)]}),
-                    cellCenter({margins: TableCellMarginNil, children: [textTh("Единицы измерения", FontFamilyMedium, FontSizeThMain)]}),
-                    cellCenter({margins: TableCellMarginNil, children: [textTh(formatDateTable(new Date(title1), FontFamilyMedium, FontSizeThMain))]}),
-                    cellCenter({margins: TableCellMarginNil, children: [textTh(formatDateTable(new Date(title2), FontFamilySemiBold, FontSizeThMain))]}),
-                    cellCenter({margins: TableCellMarginNil, children: [
+                    new docx.TableCell({borders: {top: FatBorder, left: ThinBorder, right: ThinBorder}, margins: TableCellMarginNil, children: [textTh("Продукция", FontFamilyMedium, FontSizeThMain)]}),
+                    new docx.TableCell({borders: {top: FatBorder, left: ThinBorder, right: ThinBorder}, margins: TableCellMarginNil, children: [textTh("Единицы измерения", FontFamilyMedium, FontSizeThMain)]}),
+                    new docx.TableCell({borders: {top: FatBorder, left: ThinBorder, right: ThinBorder}, margins: TableCellMarginNil, children: [textTh(formatDateTable(new Date(title1), FontFamilyMedium, FontSizeThMain))]}),
+                    new docx.TableCell({borders: {top: FatBorder, left: ThinBorder, right: ThinBorder}, margins: TableCellMarginNil, children: [textTh(formatDateTable(new Date(title2), FontFamilySemiBold, FontSizeThMain))]}),
+                    new docx.TableCell({borders: {top: FatBorder, left: ThinBorder, right: ThinBorder}, margins: TableCellMarginNil, children: [
                         textTh(`Изм`, FontFamilyMedium, FontSizeThMain),
                             textTh(`абс.`, FontFamilyThin, FontSizeThSecondary),
                         ], verticalAlign: docx.VerticalAlign.CENTER}),
-                    cellCenter({margins: TableCellMarginNil, children: [
+                    new docx.TableCell({borders: {top: FatBorder, left: ThinBorder, right: ThinBorder}, margins: TableCellMarginNil, children: [
                         textTh(`Изм`, FontFamilyMedium, FontSizeThMain),
                             textTh(`%`, FontFamilyThin, FontSizeThSecondary)
                         ], verticalAlign: docx.VerticalAlign.CENTER})
