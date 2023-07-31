@@ -1,5 +1,5 @@
 const docx = require("docx");
-const {TableCellMarginNil, FontFamilySemiBold, FontSizeCoverPrimary, FontFamilyMedium, FontFamilyLight, AccentClolor,AccentClolor2,
+const {TableCellMarginNil, FontFamilySemiBold, FontSizeCoverPrimary, FontFamilyMedium, FontFamilyLight, AccentColor,AccentColor2,
     FontFamilyThin
 } = require("../const");
 const paragraph = require("../atom/paragraph");
@@ -42,7 +42,7 @@ module.exports = function (month, year) {
                                         text: month,
                                         font: FontFamilySemiBold,
                                         size: FontSizeCoverPrimary,
-                                        color: AccentClolor
+                                        color: AccentColor
                                     }),
                                 ],
                             }),
@@ -71,7 +71,7 @@ module.exports = function (month, year) {
                                         text: year,
                                         font: FontFamilyThin,
                                         size: FontSizeCoverPrimary,
-                                        color: AccentClolor2
+                                        color: AccentColor2
                                     })
                                 ],
                             }),

@@ -1,7 +1,8 @@
 const docx = require("docx");
 const paragraph = require("../atom/paragraph");
 const {TableCellMarginNil, TableNoOuterBorders, FontFamilyMedium, FontSizeThMain, FontFamilyThin, FontSizeThExtraInfo,
-    FontSizeThSecondary, MonthPredictId, FontSizeTd, ApiEndpoint
+    FontSizeThSecondary, MonthPredictId, FontSizeTd, ApiEndpoint, BorderNil, AccentColor, BordersNil, ThinBorder,
+    FatBorder
 } = require("../const");
 const axios = require("axios");
 const tableBody = require("../atom/table_double_body");
@@ -20,10 +21,22 @@ function headerMaterial(name, market, delivery, unit) {
         borders: TableNoOuterBorders,
         rows: [
             new TableRow({
-                children: [cellCenter({columnSpan: 3, children: [
-                        textTh(name, FontFamilyMedium, FontSizeThMain),
-                        textTh(delivery + " " + market, FontFamilyThin, FontSizeThSecondary),
-                    ]})]
+                children: [
+                    new docx.TableCell({
+                        columnSpan: 3,
+                        children: [
+                            textTh(name, FontFamilyMedium, FontSizeThMain),
+                            textTh(delivery + " " + market, FontFamilyThin, FontSizeThSecondary),
+                         ],
+                        borders: {
+                            top: BorderNil,
+                            left: BorderNil,
+                            right: ThinBorder,
+                            bottom: FatBorder
+                        }
+                    })
+                ],
+
             }),
             new TableRow({
                 children: [
@@ -31,10 +44,34 @@ function headerMaterial(name, market, delivery, unit) {
                         children: [
                             textTh("Цена", FontFamilyMedium, FontSizeThMain),
                             textTh(unit, FontFamilyThin, FontSizeThExtraInfo)
-                        ]
+                        ],
+                        borders: {
+                            top: BorderNil,
+                            bottom: BorderNil,
+                            left: BorderNil,
+                            right: ThinBorder
+                        }
                     }),
-                    cellCenter({children: [textTh(`Изм.`, FontFamilyMedium, FontSizeThSecondary), textTh(unit, FontFamilyThin, FontSizeThExtraInfo)]}),
-                    cellCenter({children: [textTh(`Изм.`, FontFamilyMedium, FontSizeThSecondary), textTh("%", FontFamilyThin, FontSizeThExtraInfo)]}),
+                    new docx.TableCell({
+                        children: [
+                            textTh(`Изм.`, FontFamilyMedium, FontSizeThSecondary), textTh(unit, FontFamilyThin, FontSizeThExtraInfo)
+                        ],
+                        borders: {
+                            top: BorderNil,
+                            bottom: BorderNil,
+                            left: BorderNil,
+                            right: ThinBorder
+                        }
+                    }),
+                    new docx.TableCell({
+                        children: [textTh(`Изм.`, FontFamilyMedium, FontSizeThSecondary), textTh("%", FontFamilyThin, FontSizeThExtraInfo)],
+                        borders: {
+                            top: BorderNil,
+                            bottom: BorderNil,
+                            left: BorderNil,
+                            right: BorderNil
+                        }
+                    }),
                 ],
             })
         ]
@@ -96,14 +133,36 @@ module.exports = async function tableDouble(materialId1, materialId2, propertyId
         rows: [
             new TableRow({
                 children: [
-                    cellCenter({margins: TableCellMarginNil, children: [textTh("Дата", FontFamilyMedium, FontSizeThMain)]}),
-                    cellCenter({
+                    new docx.TableCell({
                         margins: TableCellMarginNil,
-                        children: [headerMaterial(`${name11} (${name12})`, resMat1.data.info.Market, resMat1.data.info.DeliveryType, resMat1.data.info.Unit)]
+                        verticalAlign: docx.VerticalAlign.CENTER,
+                        children: [textTh("Дата", FontFamilyMedium, FontSizeThMain)],
+                        borders: {
+                            left: ThinBorder,
+                            right: ThinBorder,
+                            top: FatBorder,
+                            bottom: FatBorder,
+                        }
                     }),
-                    cellCenter({
+                    new docx.TableCell({
                         margins: TableCellMarginNil,
-                        children: [headerMaterial(`${name21} (${name22})`, resMat2.data.info.Market, resMat2.data.info.DeliveryType, resMat2.data.info.Unit)]
+                        children: [headerMaterial(`${name11} (${name12})`, resMat1.data.info.Market, resMat1.data.info.DeliveryType, resMat1.data.info.Unit)],
+                        borders: {
+                            left: ThinBorder,
+                            right: ThinBorder,
+                            top: FatBorder,
+                            bottom: FatBorder,
+                        }
+                    }),
+                    new docx.TableCell({
+                        margins: TableCellMarginNil,
+                        children: [headerMaterial(`${name21} (${name22})`, resMat2.data.info.Market, resMat2.data.info.DeliveryType, resMat2.data.info.Unit)],
+                        borders: {
+                            left: ThinBorder,
+                            right: ThinBorder,
+                            top: FatBorder,
+                            bottom: FatBorder,
+                        }
                     }),
                 ],
             }),
@@ -184,7 +243,7 @@ module.exports = async function tableDouble(materialId1, materialId2, propertyId
         tableComponents.push(
             new docx.Table({
                 width: {
-                    size: 100,
+                        size: 100,
                     type: docx.WidthType.PERCENTAGE,
                 },
                 columnWidths: [9, 6],

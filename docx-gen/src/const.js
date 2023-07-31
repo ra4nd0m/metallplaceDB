@@ -5,6 +5,15 @@ module.exports.rootDir = rootDir;
 module.exports.staticDir = rootDir + '/static';
 module.exports.TableCellMarginNil = {top: 0, left: 0, bottom: 0, right: 0, marginUnitType: docx.WidthType.NIL};
 module.exports.SpacingDefault = 2500;
+module.exports.ThinBorder = {size: 0.5 * 8 , color: "#eb612b", style: docx.BorderStyle.SINGLE}
+module.exports.FatBorder = {size: 3 * 8 , color: "#eb612b", style: docx.BorderStyle.SINGLE}
+module.exports.BordersNil = {
+    top: {style: docx.BorderStyle.NONE, size: 0, color: "#FFFFFF"},
+    bottom: {style: docx.BorderStyle.NONE, size: 0, color: "#FFFFFF"},
+    left: {style: docx.BorderStyle.NONE, size: 0, color: "#FFFFFF"},
+    right: {style: docx.BorderStyle.NONE, size: 0, color: "#FFFFFF"},
+}
+module.exports.BorderNil = {style: docx.BorderStyle.NONE, size: 0, color: "#FFFFFF"}
 module.exports.FontFamily = "Montserrat";
 module.exports.FontFamilyExtraBold = "Montserrat ExtraBold";
 module.exports.FontFamilyLight = "Montserrat Light";
@@ -26,8 +35,8 @@ module.exports.MonthPredictId = 5
 module.exports.WeekPredictId = 6
 module.exports.StockId = 4;
 module.exports.LabelOffset = 5;
-module.exports.Green = '#88b707'
-module.exports.Red = "#EA3323"
+module.exports.Green = '#94bc4c'
+module.exports.Red = "#ec5c24"
 module.exports.ColorDefault = "#000000"
 module.exports.FontSizeTd = 9 * 2
 module.exports.FontSizeTdMicro = 6.5 * 2
@@ -43,8 +52,8 @@ module.exports.FontSizeParagraph = 9 * 2
 module.exports.HeadingColor = "#2E74B5"
 module.exports.h2Size = 16 * 2
 module.exports.h2Color = '#F77647'
-module.exports.AccentClolor2 = '#F77647'
-module.exports.AccentClolor = '#eb612b'
+module.exports.AccentColor2 = '#F77647'
+module.exports.AccentColor = '#eb612b'
 module.exports.h3Color = '#8ab440'
 module.exports.HeaderBackgroundColor = `rgb(200,200,200)`
 module.exports.HeaderFooterMargin = 40

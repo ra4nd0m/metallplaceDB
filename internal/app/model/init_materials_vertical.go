@@ -42,7 +42,7 @@ var InitMaterialsVertical = []Material{
 		"Лом, HMS 1&2 (80:20)",
 		"Сырьевые материалы",
 		"steelmint.com",
-		"Искендерун (Турция)",
+		"Искендерун, Турция",
 		"CNF",
 		"$/т",
 		"A",
@@ -237,7 +237,7 @@ var InitMaterialsVertical = []Material{
 	},
 
 	{"07.ФС (М)",
-		"FeSi; 75% Si",
+		"FeSi, 75% Si",
 		"Ферросплавы и руды",
 		"crugroup.com",
 		"Роттердам (ЕС)",
@@ -267,7 +267,7 @@ var InitMaterialsVertical = []Material{
 	},
 
 	{"07.ФС (М)",
-		"FeCr, HC; 62-70% Cr",
+		"FeCr HC, 62-70% Cr",
 		"Ферросплавы и руды",
 		"crugroup.com",
 		"Роттердам (ЕС)",
@@ -282,7 +282,7 @@ var InitMaterialsVertical = []Material{
 	},
 
 	{"07.ФС (М)",
-		"FeCr, LC; 0,1% Cr",
+		"FeCr LC, 0,1% Cr",
 		"Ферросплавы и руды",
 		"crugroup.com",
 		"Роттердам (ЕС)",

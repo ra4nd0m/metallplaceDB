@@ -9,7 +9,7 @@ const {
     FontFamilyThin,
     FontSizeThSecondary,
     FontSizeThExtraInfo,
-    MonthPredictId, FontSizeTd, ApiEndpoint
+    MonthPredictId, FontSizeTd, ApiEndpoint, FatBorder, ThinBorder, BorderNil
 } = require("../const");
 const cellCenter = require("../atom/cell_centred");
 const paragraph = require("../atom/paragraph");
@@ -60,6 +60,12 @@ module.exports = async function singleTable(materialId, propertyId, dates, unitC
                             rowSpan: 2,
                             verticalAlign: docx.VerticalAlign.CENTER,
                             children: [textTh("Дата", FontFamilyMedium, FontSizeThMain)],
+                            borders: {
+                                top: FatBorder,
+                                bottom: FatBorder,
+                                left: ThinBorder,
+                                right: ThinBorder
+                            }
                         }),
                         new docx.TableCell({
                             columnSpan: 3,
@@ -67,16 +73,30 @@ module.exports = async function singleTable(materialId, propertyId, dates, unitC
                                 textTh(`${name1} (${name2})`, FontFamilyMedium, FontSizeThMain),
                                 textTh(resMat.data.info.DeliveryType + " " + resMat.data.info.Market, FontFamilyThin, FontSizeThSecondary),
                             ],
+                            borders: {
+                                top: FatBorder,
+                                bottom: FatBorder,
+                                left: ThinBorder,
+                                right: ThinBorder,
+
+                            }
                         })
                     ]
                 }),
                 new docx.TableRow({
+
                     children: [
                         new docx.TableCell({
                             children: [
                                 textTh("Цена", FontFamilyMedium, FontSizeThMain),
                                 textTh(resMat.data.info.Unit, FontFamilyThin, FontSizeThExtraInfo)
-                            ]
+                            ],
+                            borders: {
+                                top: BorderNil,
+                                bottom: FatBorder,
+                                left: ThinBorder,
+                                right: ThinBorder
+                            }
                         }),
                         new docx.TableCell({
 
@@ -84,12 +104,24 @@ module.exports = async function singleTable(materialId, propertyId, dates, unitC
                                 textTh("Изм.", FontFamilyMedium, FontSizeThMain),
                                 textTh(resMat.data.info.Unit, FontFamilyThin, FontSizeThExtraInfo)],
                             verticalAlign: docx.VerticalAlign.CENTER,
+                            borders: {
+                                top: BorderNil,
+                                bottom: FatBorder,
+                                left: ThinBorder,
+                                right: ThinBorder
+                            }
                         }),
                         new docx.TableCell({
                             children: [
                                 textTh(`Изм.`, FontFamilyMedium, FontSizeThSecondary),
                                 textTh("%", FontFamilyThin, FontSizeThExtraInfo)],
                             verticalAlign: docx.VerticalAlign.CENTER,
+                            borders: {
+                                top: BorderNil,
+                                bottom: FatBorder,
+                                left: ThinBorder,
+                                right: ThinBorder
+                            }
                         }),
                     ]
                 }),

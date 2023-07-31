@@ -3,7 +3,8 @@ const {TableNoOuterBorders, TableCellMarginNil, MinPriceId, MaxPriceId, MedPrice
     FontFamilyMedium,
     FontSizeThMain,
     FontFamilyThin,
-    FontSizeThExtraInfo, FontSizeThSecondary, FontFamily, FontSizeTh, FontFamilySemiBold, ApiEndpoint
+    FontSizeThExtraInfo, FontSizeThSecondary, FontFamily, FontSizeTh, FontFamilySemiBold, ApiEndpoint,
+    FontFamilyExtraBold, FatBorder, ThinBorder, BorderNil
 } = require("../const");
 const textTh = require("../atom/text_th")
 const tableBody = require("../atom/table_material_minimax_body");
@@ -11,7 +12,7 @@ const axios = require("axios");
 const {FormatDayMonth, GetWeekNumber} = require("../utils/date_operations");
 const paragraph = require("../atom/paragraph");
 const priceBlock = require("../atom/price_block");
-const cellCenter = require("../atom/cell_centred")
+
 
 function headerMaterial(title, unit, font){
     return  new docx.Table({
@@ -23,13 +24,13 @@ function headerMaterial(title, unit, font){
         columnWidths: [3, 1, 1],
         rows: [
             new docx.TableRow({
-                children: [new docx.TableCell({columnSpan: 3, margins: TableCellMarginNil, children: [textTh(title, font, FontSizeThSecondary)]})]
+                children: [new docx.TableCell({columnSpan: 3, borders: {bottom: FatBorder, left: ThinBorder, right: ThinBorder}, margins: TableCellMarginNil, children: [textTh(title, font, FontSizeThSecondary)]})]
             }),
             new docx.TableRow({
                 children: [
-                    cellCenter({margins: TableCellMarginNil, children: [priceBlock(unit)], verticalAlign: docx.VerticalAlign.CENTER}),
-                    cellCenter({children: [textTh(`Изм`, FontFamilyMedium, FontSizeThSecondary), textTh(unit, FontFamilyThin, FontSizeThExtraInfo)]}),
-                    cellCenter({children: [textTh(`Изм`, FontFamilyMedium, FontSizeThSecondary), textTh("%", FontFamilyThin, FontSizeThExtraInfo)]}),
+                    new docx.TableCell({borders:{top:BorderNil, bottom: BorderNil, left: ThinBorder, right: ThinBorder}, margins: TableCellMarginNil, children: [priceBlock(unit)], verticalAlign: docx.VerticalAlign.CENTER}),
+                    new docx.TableCell({borders:{top:BorderNil, bottom: BorderNil, left: ThinBorder, right: ThinBorder}, children: [textTh(`Изм`, FontFamilyExtraBold, FontSizeThSecondary), textTh(unit, FontFamilyThin, FontSizeThExtraInfo)]}),
+                    new docx.TableCell({borders:{top:BorderNil, bottom: BorderNil, left: ThinBorder, right: ThinBorder}, children: [textTh(`Изм`, FontFamilyExtraBold, FontSizeThSecondary), textTh("%", FontFamilyThin, FontSizeThExtraInfo)]}),
                 ],
             }),
         ]
@@ -93,13 +94,19 @@ module.exports = async function tableMaterialMinimax(materialIds, dates, unitCha
             type: docx.WidthType.PERCENTAGE,
         },
         columnWidths: [2,2,5,5],
+        borders: {
+            top: FatBorder,
+            bottom: FatBorder,
+            left: ThinBorder,
+            right: ThinBorder
+        },
         rows:[
             new docx.TableRow({
                 children: [
-                    cellCenter({ margins: TableCellMarginNil, children: [textTh("Страна/вид", FontFamily, FontSizeThMain)], verticalAlign: docx.VerticalAlign.CENTER}),
-                    cellCenter({ margins: TableCellMarginNil, children: [textTh("Усл. поставки", FontFamily, FontSizeThMain)], verticalAlign: docx.VerticalAlign.CENTER}),
-                    cellCenter({ margins: TableCellMarginNil, children: [headerMaterial(title1, "$/т", FontFamily)], verticalAlign: docx.VerticalAlign.CENTER}),
-                    cellCenter({ margins: TableCellMarginNil, children: [headerMaterial(title2, "$/т", FontFamilySemiBold)], verticalAlign: docx.VerticalAlign.CENTER}),
+                    new docx.TableCell({borders:{top:FatBorder, bottom: FatBorder, left: ThinBorder, right: ThinBorder},  margins: TableCellMarginNil, children: [textTh("Страна/вид", FontFamilyExtraBold, FontSizeThMain)], verticalAlign: docx.VerticalAlign.CENTER}),
+                    new docx.TableCell({borders:{top:FatBorder, bottom: FatBorder, left: ThinBorder, right: ThinBorder},  margins: TableCellMarginNil, children: [textTh("Условия поставки", FontFamilyExtraBold, FontSizeThMain)], verticalAlign: docx.VerticalAlign.CENTER}),
+                    new docx.TableCell({borders:{top:FatBorder, bottom: FatBorder, left: ThinBorder, right: ThinBorder},  margins: TableCellMarginNil, children: [headerMaterial(title1, "$/т", FontFamily)], verticalAlign: docx.VerticalAlign.CENTER}),
+                    new docx.TableCell({borders:{top:FatBorder, bottom: FatBorder, left: ThinBorder, right: ThinBorder},  margins: TableCellMarginNil, children: [headerMaterial(title2, "$/т", FontFamilyExtraBold)], verticalAlign: docx.VerticalAlign.CENTER}),
                 ],
             })
         ]

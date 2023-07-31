@@ -299,7 +299,7 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 
 	// СОРТОВОЙ ПРОКАТ
 	{"10.Сводка (неделя)",
-		"Арматура 10-40 мм; HRB400",
+		"Арматура, 10-40 мм; HRB400",
 		"Сталь",
 		"-",
 		"Китай, Гонконг",
@@ -313,7 +313,7 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 	},
 
 	{"10.Сводка (неделя)",
-		"Арматура 12-32 мм; HRB400",
+		"Арматура, 12-32 мм; HRB400",
 		"Сталь",
 		"-",
 		"Турция, Искендерун",
@@ -327,7 +327,7 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 	},
 
 	{"10.Сводка (неделя)",
-		"Катанка 5,5-8 мм; SAE 1008",
+		"Катанка, 5,5-8 мм; SAE 1008",
 		"Сталь",
 		"-",
 		"Непал, Раксол",
@@ -342,7 +342,7 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 
 	// РУЛОННАЯ СТАЛЬ
 	{"10.Сводка (неделя)",
-		"Рулон г/к 2 мм; SAE1006",
+		"Рулон, г/к 2 мм; SAE1006",
 		"Сталь",
 		"-",
 		"ОАЭ, Абу-Даби",
@@ -356,7 +356,7 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 	},
 
 	{"10.Сводка (неделя)",
-		"Рулон г/к 1,5-3 мм; SAE 1006",
+		"Рулон г/к, 1,5-3 мм; SAE 1006",
 		"Сталь",
 		"-",
 		"Турция, Искендерун",
@@ -370,7 +370,7 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 	},
 
 	{"10.Сводка (неделя)",
-		"Рулон г/к 3-4 мм; S235JR",
+		"Рулон г/к, 3-4 мм; S235JR",
 		"Сталь",
 		"-",
 		"Европа, Западная Европа",
@@ -384,7 +384,7 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 	},
 
 	{"10.Сводка (неделя)",
-		"Рулон г/к 2-12 мм; SS400",
+		"Рулон г/к, 2-12 мм; SS400",
 		"Сталь",
 		"-",
 		"Индия, Западное побережье",
@@ -398,7 +398,7 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 	},
 
 	{"10.Сводка (неделя)",
-		"Рулон г/к 2-20 мм; SAE 1006",
+		"Рулон г/к, 2-20 мм; SAE 1006",
 		"Сталь",
 		"-",
 		"Вьетнам, Хошимин",
@@ -412,7 +412,7 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 	},
 
 	{"10.Сводка (неделя)",
-		"Рулон г/к 2 мм; SAE 1006",
+		"Рулон г/к, 2 мм; SAE 1006",
 		"Сталь",
 		"-",
 		"Бангладеш, Читтагонг",
@@ -426,7 +426,7 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 	},
 
 	{"10.Сводка (неделя)",
-		"Рулон г/к 3-12 мм; SS400",
+		"Рулон г/к, 3-12 мм; SS400",
 		"Сталь",
 		"-",
 		"Китай, Ричжао",
@@ -440,7 +440,7 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 	},
 
 	{"10.Сводка (неделя)",
-		"Рулон г/к 1,6-2,5 мм; SAE 1006",
+		"Рулон г/к, 1,6-2,5 мм; SAE 1006",
 		"Сталь",
 		"-",
 		"Южная Корея, Сеул",
@@ -454,7 +454,7 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 	},
 
 	{"10.Сводка (неделя)",
-		"Рулон г/к 2 мм; SS400",
+		"Рулон г/к, 2 мм; SS400",
 		"Сталь",
 		"-",
 		"Япония, Токио",
@@ -468,7 +468,7 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 	},
 
 	{"10.Сводка (неделя)",
-		"Рулон г/к 2 мм; SS400",
+		"Рулон г/к, 2 мм; SS400",
 		"Сталь",
 		"-",
 		"Пакистан, Касим",
@@ -482,7 +482,7 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 	},
 
 	{"10.Сводка (неделя)",
-		"Рулон г/к 2 мм; SAE1006",
+		"Рулон г/к, 2 мм; SAE1006",
 		"Сталь",
 		"-",
 		"Непал, Раксол",
@@ -496,7 +496,7 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 	},
 
 	{"10.Сводка (неделя)",
-		"Рулон, х/к 0,9 мм; SPCC",
+		"Рулон х/к, 0,9 мм; SPCC",
 		"Сталь",
 		"-",
 		"Китай, Ричжао",
@@ -510,7 +510,7 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 	},
 
 	{"10.Сводка (неделя)",
-		"Рулон, х/к 0,9 мм; SPCC",
+		"Рулон х/к, 0,9 мм; SPCC",
 		"Сталь",
 		"-",
 		"Индия, Восточное побережье",
