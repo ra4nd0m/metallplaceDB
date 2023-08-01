@@ -7,7 +7,7 @@ const h3Fake = require("../atom/heading3_fake");
 const paragraph = require("../atom/paragraph");
 const twoChart = require("../component/two_chart");
 const {MonthlyHeaderTitle, MedPriceId, StockId, RusMonth, FontFamilyThin, RusMonthStraight, PageMargins, MonthPredictId,
-    FontFamily, FontFamilyExtraBold, FontFamilyBold
+    FontFamily, FontFamilyExtraBold, FontFamilyBold, Grey
 } = require("../const");
 const oneChartText = require("../component/one_chart_text");
 const oneChart = require("../component/one_chart");
@@ -26,19 +26,19 @@ function getFooterTitle(date) {
     const monthDates = GetDates(date, "month")
     return [
         new docx.TextRun({
-            color: "#747474",
+            color: Grey,
             font: FontFamily,
             text: "Отчетный период: ",
             size: 12 * 2,
         }),
         new docx.TextRun({
-            color: "#747474",
+            color: Grey,
             font: FontFamilyBold,
             text: `${monthDates.first.day} ${RusMonth[monthDates.first.month]} - ${monthDates.last.day} ${RusMonth[monthDates.last.month]} `,
             size: 12 * 2,
         }),
         new docx.TextRun({
-            color: "#747474",
+            color: Grey,
             font: FontFamily,
             text: `${monthDates.last.year} года`,
             size: 12 * 2,
@@ -371,7 +371,6 @@ module.exports = class MonthlyReport {
                             children: [await oneChartText(FormChartUrl(new ChartUrl([22], MedPriceId, GetNMonthRange(date, 9), 1, "line", "month", "month", 1, 2)))]
                         }),
                         await singleTable(22, MedPriceId, GetNMonthRange(date, 9, true), 2, 1, "month", 1, 2), // Марганцевая руда
-
 
                         h3("Хромовая руда"),
                         paragraph({ // cr руда запасы в китае
