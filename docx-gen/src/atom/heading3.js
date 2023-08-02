@@ -19,7 +19,7 @@ module.exports = function (text) {
             left: 0,
             right: 0,
         },
-        columnWidths: [1, 8], // Set the second column width dynamically based on the title width
+        columnWidths: [1, 8],
         rows: [
             new docx.TableRow({
                 children: [

@@ -3,6 +3,7 @@ import ChartDataLabels from 'chartjs-plugin-datalabels';
 import {Request} from "express";
 import {Response} from "express/ts4.0";
 import {LabelOptions} from "chartjs-plugin-datalabels/types/options";
+import Annotation from 'chartjs-plugin-annotation'
 import * as dotenv from 'dotenv'
 const path = require('path');
 
@@ -121,6 +122,7 @@ type ChartOptions = {
     legend: boolean,
     to_fixed: number,
     title: string,
+    predict: boolean,
 }
 
 
@@ -268,6 +270,53 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
             },
         },
     }
+
+    if (options.predict) {
+        if (options.x_step=="month") {
+            for(let dsIdx = 0; dsIdx < datasets.length; dsIdx ++){
+                // @ts-ignore
+                datasets[dsIdx].pointBackgroundColor = Array(datasets[dsIdx].data.length-monthPredictAmount)
+                    .fill(colors[dsIdx]).concat(Array(monthPredictAmount).fill(predictPointColor));
+                // @ts-ignore
+                datasets[dsIdx].borderColor = Array(datasets[dsIdx].data.length-monthPredictAmount)
+                    .fill(colors[dsIdx]).concat(Array(monthPredictAmount).fill(predictPointColor));
+            }
+        }
+        let annotationsText: string[]
+        annotationsText = ["test"]
+        //datasets.forEach(d => {
+        //    annotationsText.push("Точность " + d.predictAccuracy)
+        //})
+        let predictBorder = formatXLabel(dateArray[dateArray.length - 4], options.x_step)
+        conf.plugins?.push(Annotation)
+
+        // @ts-ignore
+        conf.options?.plugins = {
+            ...conf.options?.plugins,
+            //modern: ['chartjs-plugin-annotation'],
+            //annotation: {
+            //    annotations: {
+            //       line1: {
+            //           type: 'line',
+            //           xMin: predictBorder,
+            //           xMax: predictBorder,
+            //           borderColor: 'rgba(232,131,94,0.57)',
+            //           borderWidth: 2,
+            //       },
+            //        label1: {
+            //            type: 'label',
+            //            backgroundColor: 'rgba(245,245,24, 0.1)',
+            //            content: annotationsText,
+            //            font: {
+            //                family: 'Montserrat Thin',
+            //                size: 18
+            //            }
+            //        }
+            //    }
+            //}
+        }
+    }
+
 
     if (options.labels) {
         let toFixed: number

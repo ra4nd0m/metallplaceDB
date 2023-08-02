@@ -114,7 +114,7 @@ func NewChartPack(url string) (ChartPack, error) {
 	}
 	c.ToFixed = toFixed
 
-	if cnt[9] == "1" {
+	if cnt[10] == "1" {
 		c.Predict = true
 	}
 

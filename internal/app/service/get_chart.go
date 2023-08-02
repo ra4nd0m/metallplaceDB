@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"io/ioutil"
+	"math"
 	"metallplace/internal/app/model"
 	"metallplace/pkg/chartclient"
 	"os"
@@ -45,10 +46,42 @@ func (s *Service) GetChart(ctx context.Context, chartPack model.ChartPack) ([]by
 			if err != nil {
 				return nil, fmt.Errorf("cant get material_value: %w", err)
 			}
+			if chartPack.Predict {
+				lastPrice := feed[len(feed)-1]
+				predictStart := chartPack.Finish.AddDate(0, 1, 0).Format("2006-01-02")
+				predictFinish := chartPack.Finish.AddDate(0, 3, 0).Format("2006-01-02")
+				predictPropertyId, err := s.GetPropertyId(ctx, "Прогноз месяц")
+				if err != nil {
+					return nil, fmt.Errorf("cant get property_id: %w", err)
+				}
+				predictFeed, _, err := s.GetMaterialValueForPeriod(ctx, id, predictPropertyId, predictStart, predictFinish)
+				if err != nil {
+					return nil, fmt.Errorf("cant get predict_feed: %w", err)
+				}
+				feed = append(feed, predictFeed...)
+				lastPricePredict, _, err := s.GetMaterialValueForPeriod(ctx, id, predictPropertyId, finish, finish)
+				dataset.PredictAccuracy = math.Round(100 - (math.Abs(lastPrice.Value-lastPricePredict[0].Value)/lastPrice.Value)*100)
+			}
 		case "week":
 			feed, _, err = s.GetWeeklyAvgFeed(ctx, id, chartPack.PropertyId, start, finish)
 			if err != nil {
 				return nil, fmt.Errorf("cant get material_value: %w", err)
+			}
+			if chartPack.Predict {
+				lastPrice := feed[len(feed)-1]
+				predictStart := chartPack.Finish.AddDate(0, 0, 7).Format("2006-01-02")
+				predictFinish := chartPack.Finish.AddDate(0, 3, 21).Format("2006-01-02")
+				predictPropertyId, err := s.GetPropertyId(ctx, "Прогноз неделя")
+				if err != nil {
+					return nil, fmt.Errorf("cant get property_id: %w", err)
+				}
+				predictFeed, _, err := s.GetMaterialValueForPeriod(ctx, id, predictPropertyId, predictStart, predictFinish)
+				if err != nil {
+					return nil, fmt.Errorf("cant get predict_feed: %w", err)
+				}
+				feed = append(feed, predictFeed...)
+				lastPricePredict, _, err := s.GetMaterialValueForPeriod(ctx, id, predictPropertyId, finish, finish)
+				dataset.PredictAccuracy = math.Round(100 - (math.Abs(lastPrice.Value-lastPricePredict[0].Value)/lastPrice.Value)*100)
 			}
 		default:
 			return nil, fmt.Errorf("wrong Scale type: %w", err)

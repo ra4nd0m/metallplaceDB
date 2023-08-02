@@ -21,4 +21,5 @@ type Options struct {
 	NeedLegend bool   `json:"legend"`
 	ToFixed    int    `json:"to_fixed"`
 	Title      string `json:"title"`
+	Predict    bool   `json:"predict"`
 }
