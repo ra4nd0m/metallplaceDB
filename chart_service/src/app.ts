@@ -152,7 +152,7 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
     let dateArrayFormatted: string[]
     dateArrayFormatted = []
     let legendBoxSize
-    options.type === 'bar' ?  legendBoxSize = 0 :  legendBoxSize = 13
+    options.type === 'bar' ?  legendBoxSize = 0 :  legendBoxSize = 10
     let tickLimit = 27
     if (options.tick_limit != 0) tickLimit = options.tick_limit
     for (let i = 0; i < dateArray.length; i++) {
@@ -186,6 +186,7 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
     })
     // for bar charts
     let bottomBorder = minVal * 0.96
+
 
     const conf: ChartConfiguration = {
         type: 'line',
@@ -256,15 +257,19 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
                 legend: {
                     display: options.legend,
                     position: "top",
+                    align: "start",
+
                     labels: {
-                        // This more specific font property overrides the global property
                         font: {
                             size: legendFontSize,
                             family: fontRegular,
                         },
                         boxWidth: legendBoxSize,
                         boxHeight: legendBoxSize,
-                        color: textColor
+                        color: textColor,
+                        usePointStyle: true,
+                        pointStyle: 'circle',
+
                     }
                 }
             },
