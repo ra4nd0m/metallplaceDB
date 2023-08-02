@@ -1,5 +1,5 @@
 const docx = require("docx");
-const {FontFamilyBold, h3Size, h3Color, BordersNil, TableCellMarginNil, ThinBorder, AccentColor, FontFamilyExtraBold,
+const {FontFamilyBold, h3Size, h3Color, BordersNil, TableCellMarginNil, BorderNil, AccentColor, FontFamilyExtraBold,
     h2Size
 } = require("../const");
 const paragraph = require("./paragraph");
@@ -22,10 +22,10 @@ const paragraph = require("./paragraph");
                             margins: TableCellMarginNil,
                             children: [],
                             borders: {
-                                top: ThinBorder,
+                                top: BorderNil,
                                 bottom: { style: docx.BorderStyle.SINGLE, size: h3Size * 4 / 2, color: AccentColor },
-                                left: ThinBorder,
-                                right: ThinBorder,
+                                left: BorderNil,
+                                right: BorderNil,
                             },
                         }),
                         new docx.TableCell({
@@ -48,12 +48,7 @@ const paragraph = require("./paragraph");
                                     ]
                                 })
                             ],
-                            borders: {
-                                top: ThinBorder,
-                                bottom: ThinBorder,
-                                left: ThinBorder,
-                                right: ThinBorder,
-                            },
+                            borders: BordersNil
                         }),
                     ],
                 }),
@@ -64,9 +59,9 @@ const paragraph = require("./paragraph");
                             children: [],
                             borders: {
                                 top: { style: docx.BorderStyle.SINGLE, size: h3Size * 4 / 2, color: AccentColor },
-                                bottom: ThinBorder,
-                                left: ThinBorder,
-                                right: ThinBorder,
+                                bottom: BorderNil,
+                                left: BorderNil,
+                                right: BorderNil,
                             },
                         }),
 

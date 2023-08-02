@@ -139,12 +139,12 @@ function getToFixed(datasets: Dataset[]): number {
 }
 
 function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOptions): ChartConfiguration {
-    const labelFontSize = 7 * 2
-    const legendFontSize = 9 * 2
-    const axesFontSize = 9 * 2
+    const labelFontSize = 8 * 2
+    const legendFontSize = 12 * 2
+    const axesFontSize = 10 * 2
     const pointRadius = 3
     const labelOffset = 10
-    const fontRegular = 'Montserrat'
+    const fontRegular = 'Montserrat Medium'
     const textColor = '#000000'
     const predictPointColor = '#844a88'
     const monthPredictAmount = 3
@@ -269,7 +269,7 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
                         color: textColor,
                         usePointStyle: true,
                         pointStyle: 'circle',
-
+                        padding: 15
                     }
                 }
             },
