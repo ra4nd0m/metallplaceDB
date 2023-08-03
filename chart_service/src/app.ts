@@ -405,9 +405,9 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
         let barColors = []
         for(let i = 0; i < datasets[0].data.length; i++){
             if (i === datasets[0].data.length - 1) {
-                barColors.push('#F77647')
+                barColors.push('#f05c24')
             } else {
-                barColors.push('#FF9C75')
+                barColors.push('rgba(255, 156, 117, 0.0)')
             }
         }
         // @ts-ignore
@@ -417,11 +417,17 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
                 label: '',
                 data: datasets[0].data,
                 backgroundColor: barColors,
-                borderColor: '#000000',
+                borderColor: '#f05c24',
+                borderWidth: {
+                    top: 1,
+                    right: 1,
+                    bottom: 1,
+                    left: 1
+                },
                 datalabels: {
                     display: false,
                 },
-                barThickness: 80
+                barThickness: 100
             }
         )
         conf.data?.datasets?.push(
