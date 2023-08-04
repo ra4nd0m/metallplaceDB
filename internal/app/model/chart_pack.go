@@ -21,6 +21,7 @@ type ChartPack struct {
 	NeedLegend     bool
 	ToFixed        int
 	Predict        bool
+	Tall           bool
 }
 
 func (c ChartPack) ToUrl() string {
@@ -38,6 +39,7 @@ func (c ChartPack) ToUrl() string {
 	needLabels := "0"
 	needLegend := "0"
 	needPredict := "0"
+	tall := "0"
 	if c.NeedLabels {
 		needLabels = "1"
 	}
@@ -47,6 +49,9 @@ func (c ChartPack) ToUrl() string {
 	if c.Predict {
 		needPredict = "1"
 	}
+	if c.Tall {
+		tall = "1"
+	}
 
 	fn += "_" + needLabels
 	fn += "_" + c.Type
@@ -55,6 +60,7 @@ func (c ChartPack) ToUrl() string {
 	fn += "_" + needLegend
 	fn += "_" + strconv.Itoa(c.ToFixed)
 	fn += "_" + needPredict
+	fn += "_" + tall
 
 	return fn + ChartRoutePostfix
 }
@@ -118,5 +124,8 @@ func NewChartPack(url string) (ChartPack, error) {
 		c.Predict = true
 	}
 
+	if cnt[11] == "1" {
+		c.Tall = true
+	}
 	return c, nil
 }

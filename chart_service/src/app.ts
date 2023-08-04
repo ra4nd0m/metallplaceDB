@@ -61,7 +61,13 @@ function getPercentChangesArr(prices: number[]): string[] {
 
 const getChart = async (XLabelSet: string[], YDataSets: YDataSet[], options: ChartOptions): Promise<Buffer> => {
     let width = 1000; //px
-    let height = width / 3; //px
+    let height
+    if (options.tall) {
+        height = width / 2;
+    } else {
+        height = width / 3;
+    }
+
     let canvasRenderService
     try{
         canvasRenderService = new ChartJSNodeCanvas({width, height, chartJsFactory});
@@ -123,6 +129,7 @@ type ChartOptions = {
     to_fixed: number,
     title: string,
     predict: boolean,
+    tall: boolean,
 }
 
 

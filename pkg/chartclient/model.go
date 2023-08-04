@@ -22,4 +22,5 @@ type Options struct {
 	ToFixed    int    `json:"to_fixed"`
 	Title      string `json:"title"`
 	Predict    bool   `json:"predict"`
+	Tall       bool   `json:"tall"`
 }
