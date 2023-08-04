@@ -7,8 +7,8 @@ module.exports = async function fetchChart(url, isBig) {
         let width = 320;
         let height = 160;
         if(isBig){
-            width = 500;
-            height = 250
+            width = 700;
+            height = width / 3
         }
         return new docx.ImageRun({
             data: image,

@@ -61,7 +61,7 @@ function getPercentChangesArr(prices: number[]): string[] {
 
 const getChart = async (XLabelSet: string[], YDataSets: YDataSet[], options: ChartOptions): Promise<Buffer> => {
     let width = 1000; //px
-    let height = 500; //px
+    let height = width / 3; //px
     let canvasRenderService
     try{
         canvasRenderService = new ChartJSNodeCanvas({width, height, chartJsFactory});
@@ -180,12 +180,21 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
         })
     }
     let minVal = Number.MAX_VALUE
+    let maxVal = Number.MIN_VALUE
+    let bottomBorder
     datasets.forEach(ds => {
         let curMin = Math.min(...ds.data)
         if (curMin < minVal) minVal = curMin
+        let curMax = Math.min(...ds.data)
+        if (curMax > maxVal) maxVal = curMax
     })
     // for bar charts
-    let bottomBorder = minVal * 0.96
+    if (maxVal - minVal > 15) {
+         bottomBorder = Math.ceil(minVal * 0.95 / 10) * 10;
+    } else {
+         bottomBorder = Math.floor(minVal * 0.95 / 10) * 10;
+    }
+
 
 
     const conf: ChartConfiguration = {
@@ -430,29 +439,29 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
                 barThickness: 100
             }
         )
-        conf.data?.datasets?.push(
-            {
-                type: 'line',
-                label: '',
-                data: halfData,
-                borderColor: 'rgba(255,255,255,0)',
-                datalabels: {
-                    display: true,
-                    formatter: function () {
-                        return changes[labelCnt]
-                    },
-                    backgroundColor: '#FFFFFF',
-                    color: function (context: { dataIndex: any; dataset: { data: { [x: string]: any; }; }; }) {
-                        const cur = changes[labelCnt]
-                        labelCnt++
-                        if (cur === "-") return 'black'
-                        if (cur.indexOf("+") != -1) return 'green'
-                        if (cur.indexOf("-") != -1) return 'red'
-                        return 'black'
-                    }
-                }
-            }
-        )
+        // conf.data?.datasets?.push(
+        //     {
+        //         type: 'line',
+        //         label: '',
+        //         data: halfData,
+        //         borderColor: 'rgba(255,255,255,0)',
+        //         datalabels: {
+        //             display: true,
+        //             formatter: function () {
+        //                 return changes[labelCnt]
+        //             },
+        //             backgroundColor: '#FFFFFF',
+        //             color: function (context: { dataIndex: any; dataset: { data: { [x: string]: any; }; }; }) {
+        //                 const cur = changes[labelCnt]
+        //                 labelCnt++
+        //                 if (cur === "-") return 'black'
+        //                 if (cur.indexOf("+") != -1) return 'green'
+        //                 if (cur.indexOf("-") != -1) return 'red'
+        //                 return 'black'
+        //             }
+        //         }
+        //     }
+        // )
     }
     return conf
 }
