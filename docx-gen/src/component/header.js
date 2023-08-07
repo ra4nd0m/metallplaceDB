@@ -1,9 +1,21 @@
 const docx = require("docx");
 const paragraph = require("../atom/paragraph");
-const pixelWidth = require('string-pixel-width');;
-const { TableCellMarginNil, FontFamily, HeaderFooterMargin, Grey, BordersNil, FontFamilyExtraBold, BorderNil } = require("../const");
+const pixelWidth = require('string-pixel-width');
+const { TableCellMarginNil, FontFamily, HeaderFooterMargin, Grey, BordersNil, FontFamilyExtraBold, BorderNil, PageWidthPx,
+    FirstLineLengthPx
+} = require("../const");
+
+function getStringLengthInMillimeters(str, fontSize, dpi) {
+    const pixelWidthValue = pixelWidth(str, { size: fontSize });
+    return (pixelWidthValue / dpi) * 25.4;
+}
+
 
 module.exports = function (title) {
+    let titleLengthPx = pixelWidth(title, { size: 30, bold: true });
+    let first = 18
+    let second = getStringLengthInMillimeters(title, 25, 96)
+    let third = 210 - first - second
     return new docx.Header({
         children: [
             new docx.Table({
@@ -16,7 +28,7 @@ module.exports = function (title) {
                     right: 0,
                 },
                 borders: BordersNil,
-                columnWidths: [1, 4, 5], // Set the second column width dynamically based on the title width
+                columnWidths: [first, second, third],
                 rows: [
                     new docx.TableRow({
                         children: [
