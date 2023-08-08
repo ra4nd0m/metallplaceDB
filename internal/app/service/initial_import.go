@@ -35,13 +35,6 @@ func (s *Service) InitialImport(ctx context.Context) error {
 			return fmt.Errorf("error initializing weekly horizontal import: %w", err)
 		}
 
-		if err := s.InitImportMonthlyPredict(ctx, book); err != nil {
-			return fmt.Errorf("error initializing monthly prediction import: %w", err)
-		}
-		if err := s.InitImportWeeklyPredict(ctx, book); err != nil {
-			return fmt.Errorf("error initializing weekly prediction import: %w", err)
-		}
-
 		if err := s.InitImportDailyMaterials(ctx, book, dateLayout); err != nil {
 			return fmt.Errorf("error initializing daily import: %w", err)
 		}
@@ -323,17 +316,17 @@ func (s *Service) InitImportDailyMaterials(ctx context.Context, book *excelize.F
 			row := property.Row
 			for {
 				var value string
-				valueCellValue, err := book.GetCellValue(material.Sheet, property.Column+strconv.Itoa(row))
+				valueCellValue, err := book.GetCellValue(property.Sheet, property.Column+strconv.Itoa(row))
 				if err != nil {
-					return fmt.Errorf("cant parce with GetCellValue %s:%s%d: %v", material.Sheet, property.Column, row, err)
+					return fmt.Errorf("cant parce with GetCellValue %s:%s%d: %v", property.Sheet, property.Column, row, err)
 				}
-				valueCalc, err := book.CalcCellValue(material.Sheet, property.Column+strconv.Itoa(row))
+				valueCalc, err := book.CalcCellValue(property.Sheet, property.Column+strconv.Itoa(row))
 
 				if err != nil {
 					if err.Error() == "AVERAGE divide by zero" {
 						break
 					}
-					return fmt.Errorf("cant parce with CalcCellValue %s:%s%d: %v", material.Sheet, property.Column, row, err)
+					return fmt.Errorf("cant parce with CalcCellValue %s:%s%d: %v", property.Sheet, property.Column, row, err)
 				}
 				valueCellValue = strings.TrimSpace(valueCellValue)
 				valueCalc = strings.TrimSpace(valueCalc)
@@ -349,16 +342,16 @@ func (s *Service) InitImportDailyMaterials(ctx context.Context, book *excelize.F
 				// Calculating date cell, and formatting it
 				dateCell := material.DateColumn + strconv.Itoa(row)
 				style, _ := book.NewStyle(`{"number_format":15}`)
-				err = book.SetCellStyle(material.Sheet, dateCell, dateCell, style)
+				err = book.SetCellStyle(property.Sheet, dateCell, dateCell, style)
 				if err != nil {
 					return fmt.Errorf("cant set cell style: %w", err)
 				}
 
-				dateStr, err := book.GetCellValue(material.Sheet, dateCell)
+				dateStr, err := book.GetCellValue(property.Sheet, dateCell)
 				if err != nil {
-					return fmt.Errorf("cant parce dateStr %s:%s%d: %v", material.Sheet, property.Column, row, err)
+					return fmt.Errorf("cant parce dateStr %s:%s%d: %v", property.Sheet, property.Column, row, err)
 				}
-				dateType, err := book.GetCellType(material.Sheet, dateCell)
+				dateType, err := book.GetCellType(property.Sheet, dateCell)
 				if err != nil {
 					return err
 				}
@@ -366,7 +359,7 @@ func (s *Service) InitImportDailyMaterials(ctx context.Context, book *excelize.F
 				// Parsing date
 				createdOn, err := time.Parse(dateLayout, dateStr)
 				if err != nil {
-					return fmt.Errorf("cant parce date [%v,%v] '%v' (%v): %w", material.Sheet, dateCell, dateStr, dateType, err)
+					return fmt.Errorf("cant parce date [%v,%v] '%v' (%v): %w", property.Sheet, dateCell, dateStr, dateType, err)
 				}
 
 				// Checking type of value: string or decimal
@@ -375,7 +368,7 @@ func (s *Service) InitImportDailyMaterials(ctx context.Context, book *excelize.F
 				if property.Kind == "decimal" {
 					valueDecimal, err = strconv.ParseFloat(value, 64)
 					if err != nil {
-						return fmt.Errorf("cant parce float price at %s %s%d: %v", material.Sheet, property.Column, row, err)
+						return fmt.Errorf("cant parce float price at %s %s%d: %v", property.Sheet, property.Column, row, err)
 					}
 					if material.ConvSettings.Need {
 						valueDecimal = material.ConvSettings.Func(valueDecimal, material.ConvSettings.Rate)
@@ -395,7 +388,7 @@ func (s *Service) InitImportDailyMaterials(ctx context.Context, book *excelize.F
 				}
 
 				if material.NeedSplit {
-					formula, err := book.GetCellFormula(material.Sheet, property.Column+strconv.Itoa(row))
+					formula, err := book.GetCellFormula(property.Sheet, property.Column+strconv.Itoa(row))
 					if err != nil {
 						return fmt.Errorf("failed to get formyla in splitting for daily init import: %v", err)
 					}
@@ -483,11 +476,11 @@ func (s *Service) InitImportMaterialsVertical(ctx context.Context, book *exceliz
 			row := property.Row
 			for {
 				var value string
-				valueCellValue, err := book.GetCellValue(material.Sheet, property.Column+strconv.Itoa(row))
+				valueCellValue, err := book.GetCellValue(property.Sheet, property.Column+strconv.Itoa(row))
 				if err != nil {
 					return err
 				}
-				valueCalc, err := book.CalcCellValue(material.Sheet, property.Column+strconv.Itoa(row))
+				valueCalc, err := book.CalcCellValue(property.Sheet, property.Column+strconv.Itoa(row))
 				if err != nil {
 					return err
 				}
@@ -502,30 +495,38 @@ func (s *Service) InitImportMaterialsVertical(ctx context.Context, book *exceliz
 				} else if valueCalc != "" {
 					value = valueCalc
 				} else {
-					value = "1000000000"
+					value = "-1000000000"
 				}
 
 				// Calculating date cell, and formatting it
 				dateCell := material.DateColumn + strconv.Itoa(row)
 				style, _ := book.NewStyle(`{"number_format":15}`)
-				err = book.SetCellStyle(material.Sheet, dateCell, dateCell, style)
+				err = book.SetCellStyle(property.Sheet, dateCell, dateCell, style)
 				if err != nil {
 					return fmt.Errorf("cant set cell style: %w", err)
 				}
 
-				dateStr, err := book.GetCellValue(material.Sheet, dateCell)
+				dateStr, err := book.GetCellValue(property.Sheet, dateCell)
 				if err != nil {
 					return err
 				}
-				dateType, err := book.GetCellType(material.Sheet, dateCell)
+				dateType, err := book.GetCellType(property.Sheet, dateCell)
 				if err != nil {
 					return err
 				}
 
 				// Parsing date
-				createdOn, err := time.Parse(dateLayout, dateStr)
-				if err != nil {
-					return fmt.Errorf("Can't parce date [%v,%v] '%v' (%v): %w", material.Sheet, dateCell, dateStr, dateType, err)
+				createdOn, errFull := time.Parse(dateLayout, dateStr)
+				var errMonth error
+				var errWeek error
+				if errFull != nil {
+					createdOn, errMonth = getMonthDateForPredict(dateStr)
+					if errMonth != nil {
+						createdOn, errWeek = stringToDate(dateStr, "weekNum")
+						if errWeek != nil {
+							return fmt.Errorf("can't parce date [%v,%v] '%v' (%v): %w-%w-%w", property.Sheet, dateCell, dateStr, dateType, errFull, errMonth, errWeek)
+						}
+					}
 				}
 
 				// Checking type of value: string or decimal
@@ -593,10 +594,10 @@ func (s *Service) InitImportMaterialsHorizontalWeekly(ctx context.Context, book 
 				if err != nil {
 					return fmt.Errorf("cant parse excel format columb number: %w", err)
 				}
-				value, err := book.CalcCellValue(material.Sheet, c+strconv.Itoa(property.Row))
+				value, err := book.CalcCellValue(property.Sheet, c+strconv.Itoa(property.Row))
 				value = strings.TrimSpace(value)
 				if err != nil {
-					return fmt.Errorf("cant calc cell %s %s%d value: %w", material.Sheet, property.Column, property.Row, err)
+					return fmt.Errorf("cant calc cell %s %s%d value: %w", property.Sheet, property.Column, property.Row, err)
 				}
 
 				if value == "" {
@@ -604,7 +605,7 @@ func (s *Service) InitImportMaterialsHorizontalWeekly(ctx context.Context, book 
 					if err != nil {
 						return fmt.Errorf("cant parse excel format columb number: %w", err)
 					}
-					value, err = book.GetCellValue(material.Sheet, c+strconv.Itoa(property.Row))
+					value, err = book.GetCellValue(property.Sheet, c+strconv.Itoa(property.Row))
 					if err != nil {
 						return fmt.Errorf("cant get cell value: %w", err)
 					}
@@ -617,13 +618,13 @@ func (s *Service) InitImportMaterialsHorizontalWeekly(ctx context.Context, book 
 					return fmt.Errorf("cant parse excel format columb number: %w", err)
 				}
 				dateCell := c + material.DateRow
-				dateStr, err := book.GetCellValue(material.Sheet, dateCell)
+				dateStr, err := book.GetCellValue(property.Sheet, dateCell)
 				if err != nil {
 					return fmt.Errorf("cant get cell value: %w", err)
 				}
 				createdOn, err := stringToDate(dateStr, "week")
 				if err != nil {
-					return fmt.Errorf("Can't parce date [%v,%v]: %w", material.Sheet, dateCell, err)
+					return fmt.Errorf("Can't parce date [%v,%v]: %w", property.Sheet, dateCell, err)
 				}
 
 				// Checking type of value: string or decimal
@@ -664,194 +665,6 @@ func (s *Service) InitImportMaterialsHorizontalWeekly(ctx context.Context, book 
 					fmt.Print("#")
 				}
 			}
-		}
-	}
-	return nil
-}
-
-func (s *Service) InitImportMonthlyPredict(ctx context.Context, book *excelize.File) error {
-	for _, material := range model.InitMonthPredict {
-		materialSourceId, err := s.AddUniqueMaterial(ctx, material.Name, material.Group, material.Source, material.Market, material.Unit, material.DeliveryType)
-		if err != nil {
-			return err
-		}
-
-		fmt.Println("Adding material " + material.Name)
-
-		// Adding and tying properties
-		for _, property := range material.Properties {
-			propertyId, err := s.repo.AddPropertyIfNotExists(ctx, model.PropertyShortInfo{Name: property.Name, Kind: property.Kind})
-			if err != nil {
-				return err
-			}
-
-			err = s.repo.AddMaterialProperty(ctx, materialSourceId, propertyId)
-		}
-
-		// Going through material's properties, and reading property values
-		for _, property := range material.Properties {
-			fmt.Println(property.Name)
-			row := property.Row
-			for {
-				var value string
-				valueCellValue, err := book.GetCellValue(material.Sheet, property.Column+strconv.Itoa(row))
-				if err != nil {
-					return err
-				}
-				valueCalc, err := book.CalcCellValue(material.Sheet, property.Column+strconv.Itoa(row))
-				if err != nil {
-					return err
-				}
-
-				valueCellValue = strings.TrimSpace(valueCellValue)
-				valueCalc = strings.TrimSpace(valueCalc)
-
-				if valueCellValue == "" && valueCalc == "" {
-					break
-				} else if valueCellValue != "" {
-					value = valueCellValue
-				} else if valueCalc != "" {
-					value = valueCalc
-				} else {
-					value = "1000000000"
-				}
-
-				// Calculating date cell, and formatting it
-				dateCell := material.DateColumn + strconv.Itoa(row)
-
-				dateStr, err := book.GetCellValue(material.Sheet, dateCell)
-				if err != nil {
-					return err
-				}
-
-				// Parsing date
-				createdOn, err := getMonthDateForPredict(dateStr)
-				if err != nil {
-					return fmt.Errorf("can't parce date [%v,%v] '%v' : %w", material.Sheet, dateCell, dateStr, err)
-				}
-
-				// Checking type of value: string or decimal
-				var valueStr string
-				var valueDecimal float64
-				if property.Kind == "decimal" {
-					valueDecimal, err = strconv.ParseFloat(value, 64)
-					if err != nil {
-						return err
-					}
-				} else {
-					valueStr = value
-				}
-
-				materialSourceId, err := s.repo.GetMaterialSourceId(ctx, material.Name, material.Group, material.Source, material.Market, material.Unit, material.DeliveryType)
-				if err != nil {
-					return fmt.Errorf("cann not get material source id: %w", err)
-				}
-
-				err = s.repo.AddMaterialValue(ctx, materialSourceId, property.Name, valueDecimal, valueStr, createdOn)
-				if err != nil {
-					return err
-				}
-
-				row++
-				if row%100 == 0 {
-					fmt.Print("#")
-				}
-			}
-			fmt.Println("")
-		}
-	}
-	return nil
-}
-
-func (s *Service) InitImportWeeklyPredict(ctx context.Context, book *excelize.File) error {
-	for _, material := range model.InitWeeklyPredict {
-		materialSourceId, err := s.AddUniqueMaterial(ctx, material.Name, material.Group, material.Source, material.Market, material.Unit, material.DeliveryType)
-		if err != nil {
-			return err
-		}
-
-		fmt.Println("Adding material " + material.Name)
-
-		// Adding and tying properties
-		for _, property := range material.Properties {
-			propertyId, err := s.repo.AddPropertyIfNotExists(ctx, model.PropertyShortInfo{Name: property.Name, Kind: property.Kind})
-			if err != nil {
-				return err
-			}
-
-			err = s.repo.AddMaterialProperty(ctx, materialSourceId, propertyId)
-		}
-
-		// Going through material's properties, and reading property values
-		for _, property := range material.Properties {
-			fmt.Println(property.Name)
-			row := property.Row
-			for {
-				var value string
-				valueCellValue, err := book.GetCellValue(material.Sheet, property.Column+strconv.Itoa(row))
-				if err != nil {
-					return err
-				}
-				valueCalc, err := book.CalcCellValue(material.Sheet, property.Column+strconv.Itoa(row))
-				if err != nil {
-					return err
-				}
-
-				valueCellValue = strings.TrimSpace(valueCellValue)
-				valueCalc = strings.TrimSpace(valueCalc)
-
-				if valueCellValue == "" && valueCalc == "" {
-					break
-				} else if valueCellValue != "" {
-					value = valueCellValue
-				} else if valueCalc != "" {
-					value = valueCalc
-				} else {
-					value = "1000000000"
-				}
-
-				// Calculating date cell, and formatting it
-				dateCell := material.DateColumn + strconv.Itoa(row)
-
-				dateStr, err := book.GetCellValue(material.Sheet, dateCell)
-				if err != nil {
-					return err
-				}
-
-				// Parsing date
-				createdOn, err := stringToDate(dateStr, "weekNum")
-				if err != nil {
-					return fmt.Errorf("can't parce date [%v,%v] '%v' : %w", material.Sheet, dateCell, dateStr, err)
-				}
-
-				// Checking type of value: string or decimal
-				var valueStr string
-				var valueDecimal float64
-				if property.Kind == "decimal" {
-					valueDecimal, err = strconv.ParseFloat(value, 64)
-					if err != nil {
-						return err
-					}
-				} else {
-					valueStr = value
-				}
-
-				materialSourceId, err := s.repo.GetMaterialSourceId(ctx, material.Name, material.Group, material.Source, material.Market, material.Unit, material.DeliveryType)
-				if err != nil {
-					return fmt.Errorf("cann not get material source id: %w", err)
-				}
-
-				err = s.repo.AddMaterialValue(ctx, materialSourceId, property.Name, valueDecimal, valueStr, createdOn)
-				if err != nil {
-					return err
-				}
-
-				row++
-				if row%100 == 0 {
-					fmt.Print("#")
-				}
-			}
-			fmt.Println("")
 		}
 	}
 	return nil

@@ -1,7 +1,7 @@
 package model
 
 var InitDaily = []DailyMaterial{
-	{"Daily",
+	{
 		"ПВЖ, 80% Feмет",
 		"Сырьевые материалы",
 		"steelmint.com",
@@ -10,12 +10,12 @@ var InitDaily = []DailyMaterial{
 		"$/т",
 		"A",
 		[]Property{
-			{"Средняя цена", "BM", 4, "decimal"},
+			{"Daily", "Средняя цена", "BM", 4, "decimal"},
 		},
 		false,
 		ConvSettings{},
 	},
-	{"Daily",
+	{
 		"Рулон, г/к",
 		"Сталь",
 		"steelmint.com",
@@ -24,14 +24,14 @@ var InitDaily = []DailyMaterial{
 		"$/т",
 		"A",
 		[]Property{
-			{"Средняя цена", "DQ", 6, "decimal"},
-			{"Мин цена", "DO", 6, "decimal"},
-			{"Макс цена", "DP", 6, "decimal"},
+			{"Daily", "Средняя цена", "DQ", 6, "decimal"},
+			{"Daily", "Мин цена", "DO", 6, "decimal"},
+			{"Daily", "Макс цена", "DP", 6, "decimal"},
 		},
 		false,
 		ConvSettings{},
 	},
-	{"Daily",
+	{
 		"Рулон, х/к",
 		"Cталь",
 		"steelmint.com",
@@ -40,14 +40,14 @@ var InitDaily = []DailyMaterial{
 		"$/т",
 		"A",
 		[]Property{
-			{"Мин цена", "ER", 4, "decimal"},
-			{"Макс цена", "ES", 4, "decimal"},
-			{"Средняя цена", "ET", 4, "decimal"},
+			{"Daily", "Мин цена", "ER", 4, "decimal"},
+			{"Daily", "Макс цена", "ES", 4, "decimal"},
+			{"Daily", "Средняя цена", "ET", 4, "decimal"},
 		},
 		false,
 		ConvSettings{},
 	},
-	{"Daily",
+	{
 		"FeSi; 75% Si",
 		"Cталь",
 		"ferroalloynet.com",
@@ -56,14 +56,14 @@ var InitDaily = []DailyMaterial{
 		"¥/т",
 		"A",
 		[]Property{
-			{"Мин цена", "GD", 4, "decimal"},
-			{"Макс цена", "GE", 4, "decimal"},
-			{"Средняя цена", "GF", 4, "decimal"},
+			{"Daily", "Мин цена", "GD", 4, "decimal"},
+			{"Daily", "Макс цена", "GE", 4, "decimal"},
+			{"Daily", "Средняя цена", "GF", 4, "decimal"},
 		},
 		false,
 		ConvSettings{},
 	},
-	{"Daily",
+	{
 		"FeSi; 75% Si",
 		"Ферросплавы и руды",
 		"ferroalloynet.com",
@@ -72,12 +72,12 @@ var InitDaily = []DailyMaterial{
 		"$/т",
 		"A",
 		[]Property{
-			{"Средняя цена", "GO", 4, "decimal"},
+			{"Daily", "Средняя цена", "GO", 4, "decimal"},
 		},
 		false,
 		ConvSettings{},
 	},
-	{"Daily",
+	{
 		"FeSi; 75% Si",
 		"Ферросплавы и руды",
 		"CRU (18 строчка)",
@@ -86,7 +86,7 @@ var InitDaily = []DailyMaterial{
 		"$/т",
 		"A",
 		[]Property{
-			{"Средняя цена", "HG", 4, "decimal"},
+			{"Daily", "Средняя цена", "HG", 4, "decimal"},
 		},
 		true,
 		ConvSettings{
@@ -95,7 +95,7 @@ var InitDaily = []DailyMaterial{
 			75,
 		},
 	},
-	{"Daily",
+	{
 		"SiMn, 65% Si, 17% Mn",
 		"Ферросплавы и руды",
 		"ferroalloynet.com",
@@ -104,12 +104,12 @@ var InitDaily = []DailyMaterial{
 		"¥/т",
 		"A",
 		[]Property{
-			{"Средняя цена", "HQ", 4, "decimal"},
+			{"Daily", "Средняя цена", "HQ", 4, "decimal"},
 		},
 		true,
 		ConvSettings{},
 	},
-	{"Daily",
+	{
 		"SiMn, 65% Si, 16% Mn",
 		"Ферросплавы и руды",
 		"ferroalloynet.com",
@@ -118,12 +118,12 @@ var InitDaily = []DailyMaterial{
 		"$/т",
 		"A",
 		[]Property{
-			{"Средняя цена", "HZ", 4, "decimal"},
+			{"Daily", "Средняя цена", "HZ", 4, "decimal"},
 		},
 		true,
 		ConvSettings{},
 	},
-	{"Daily",
+	{
 		"SiMn, 65% Mn",
 		"Ферросплавы и руды",
 		"CRU (33 строчка)",
@@ -132,7 +132,7 @@ var InitDaily = []DailyMaterial{
 		"$/т",
 		"A",
 		[]Property{
-			{"Средняя цена", "II", 4, "decimal"},
+			{"Daily", "Средняя цена", "II", 4, "decimal"},
 		},
 		true,
 		ConvSettings{
@@ -141,7 +141,7 @@ var InitDaily = []DailyMaterial{
 			100,
 		},
 	},
-	{"Daily",
+	{
 		"HC FeCr; 55% Cr, 10% C",
 		"Ферросплавы и руды",
 		"CRU (33 строчка)",
@@ -150,12 +150,12 @@ var InitDaily = []DailyMaterial{
 		"$/т",
 		"A",
 		[]Property{
-			{"Средняя цена", "JT", 4, "decimal"},
+			{"Daily", "Средняя цена", "JT", 4, "decimal"},
 		},
 		true,
 		ConvSettings{},
 	},
-	{"Daily",
+	{
 		"HC FeCr; 70% Cr, 0,5% Si",
 		"Ферросплавы и руды",
 		"ferroalloynet.com",
@@ -164,12 +164,12 @@ var InitDaily = []DailyMaterial{
 		"USDc/фунт",
 		"A",
 		[]Property{
-			{"Средняя цена", "KC", 4, "decimal"},
+			{"Daily", "Средняя цена", "KC", 4, "decimal"},
 		},
 		false,
 		ConvSettings{},
 	},
-	{"Daily",
+	{
 		"HC FeCr; 60% Cr, 4% Si",
 		"Ферросплавы и руды",
 		"ferroalloynet.com",
@@ -178,12 +178,12 @@ var InitDaily = []DailyMaterial{
 		"USDc/фунт",
 		"A",
 		[]Property{
-			{"Средняя цена", "KL", 4, "decimal"},
+			{"Daily", "Средняя цена", "KL", 4, "decimal"},
 		},
 		false,
 		ConvSettings{},
 	},
-	{"Daily",
+	{
 		"HC FeCr; 48-50% Cr, 5% Si",
 		"Ферросплавы и руды",
 		"ferroalloynet.com",
@@ -192,12 +192,12 @@ var InitDaily = []DailyMaterial{
 		"USDc/фунт",
 		"A",
 		[]Property{
-			{"Средняя цена", "KU", 4, "decimal"},
+			{"Daily", "Средняя цена", "KU", 4, "decimal"},
 		},
 		false,
 		ConvSettings{},
 	},
-	{"Daily",
+	{
 		"LC FeCr; 52-60% Cr, 0,25% C",
 		"Ферросплавы и руды",
 		"ferroalloynet.com",
@@ -206,12 +206,12 @@ var InitDaily = []DailyMaterial{
 		"¥/т",
 		"A",
 		[]Property{
-			{"Средняя цена", "LM", 4, "decimal"},
+			{"Daily", "Средняя цена", "LM", 4, "decimal"},
 		},
 		true,
 		ConvSettings{},
 	},
-	{"Daily",
+	{
 		"LC FeCr; 0,1% C",
 		"Ферросплавы и руды",
 		"CRU (19 строчка)",
@@ -220,7 +220,7 @@ var InitDaily = []DailyMaterial{
 		"USDc/фунт",
 		"A",
 		[]Property{
-			{"Средняя цена", "ME", 4, "decimal"},
+			{"Daily", "Средняя цена", "ME", 4, "decimal"},
 		},
 		true,
 		ConvSettings{},

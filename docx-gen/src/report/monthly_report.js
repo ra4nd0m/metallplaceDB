@@ -260,7 +260,7 @@ module.exports = class MonthlyReport {
                         paragraph({ //жрс 62 и 65
                             children: [await oneChartText(FormChartUrl(new ChartUrl([1,2], MedPriceId, GetNMonthRange(date, 9), 1, "line", "month", "month", 1, 0)), ["Цены на ЖРС,"," USD/т CNF Китай"])]
                         }),
-                        await tableDouble(1, 2, MedPriceId, GetNMonthRange(date, 9, true), 0, 1, "month", 1, 0),
+                        await tableDouble(1, 2, MedPriceId, GetNMonthRange(date, 9, true), 0, 1, "month", 0, 0),
                         new docx.Paragraph({children: [new docx.PageBreak()]}),
 
 
@@ -269,20 +269,20 @@ module.exports = class MonthlyReport {
                         paragraph({ // коксующийся уголь россия австралия
                             children: [await oneChartText(FormChartUrl(new ChartUrl([6,7], MedPriceId, GetNMonthRange(date, 9), 1, "line", "month", "month", 1, 0)))]
                         }),
-                        await tableDouble(6, 7, MedPriceId, GetNMonthRange(date, 9, true), 0, 1, "month", 1, 0), // коксующийся уголь россия австралия
+                        await tableDouble(6, 7, MedPriceId, GetNMonthRange(date, 9, true), 0, 1, "month", 0, 0), // коксующийся уголь россия австралия
                         paragraph({ // мет кокс
                             children: [await oneChartText(FormChartUrl(new ChartUrl([8], MedPriceId, GetNMonthRange(date, 9), 1, "line", "month", "month", 1, 0)))]
                         }),
                         new docx.Paragraph({children: [new docx.PageBreak()]}),
                         separator(),
-                        await singleTable(8, MedPriceId, GetNMonthRange(date, 9, true), 0, 1, "month", 1, 0), // мет кокс
+                        await singleTable(8, MedPriceId, GetNMonthRange(date, 9, true), 0, 1, "month", 0, 0), // мет кокс
 
 
                         h3("Лом черных металлов"),
                         paragraph({ // лом 3А
                             children: [await oneChartText(FormChartUrl(new ChartUrl([3], MedPriceId, GetNMonthRange(date, 9), 1, "line", "month", "month", 1, 0)))]
                         }),
-                        await singleTable(3, MedPriceId, GetNMonthRange(date, 9, true), 0, 1, "month", 1, 0),// лом 3А
+                        await singleTable(3, MedPriceId, GetNMonthRange(date, 9, true), 0, 1, "month", 0, 0),// лом 3А
                         await tableMaterialMinimax([4,29,30,31,32,33,34,35,36,37,38,39,40,41,42], GetFirstDaysOfCurrentAndPrevMonth(date), 0, 1, "month"),
 
 
@@ -292,7 +292,7 @@ module.exports = class MonthlyReport {
                         }),
                         new docx.Paragraph({children: [new docx.PageBreak()]}),
                         h3(""),
-                        await singleTable(5, MedPriceId, GetNMonthRange(date, 9, true), 0, 1, "month", 1, 0), // чугун фоб
+                        await singleTable(5, MedPriceId, GetNMonthRange(date, 9, true), 0, 1, "month", 0, 0), // чугун фоб
                         await tableMaterialMinimax([66, 67, 68], GetFirstDaysOfCurrentAndPrevMonth(date), 0, 1, "month", 0),
 
 
@@ -304,7 +304,7 @@ module.exports = class MonthlyReport {
                         }),
                         new docx.Paragraph({children: [new docx.PageBreak()]}),
                         h3(""),
-                        await tableDouble(9, 11, MedPriceId, GetNMonthRange(date, 9, true), 0, 1, "month", 1, 0), // коксующийся уголь россия австралия
+                        await tableDouble(9, 11, MedPriceId, GetNMonthRange(date, 9, true), 0, 1, "month", 0, 0), // коксующийся уголь россия австралия
                         await tableMaterialMinimax([43,44,45,46,47,48,49], GetFirstDaysOfCurrentAndPrevMonth(date), 0, 1, "month", 0),
 
 
@@ -315,12 +315,12 @@ module.exports = class MonthlyReport {
                         }),
                         new docx.Paragraph({children: [new docx.PageBreak()]}),
                         h3(""),
-                        await singleTable(10, MedPriceId, GetNMonthRange(date, 9, true), 0, 1, "month", 1, 0), // арматура FOB
+                        await singleTable(10, MedPriceId, GetNMonthRange(date, 9, true), 0, 1, "month", 0, 0), // арматура FOB
                         h3Fake(" "),
                         paragraph({ // арматура A1
                             children: [await oneChartText(FormChartUrl(new ChartUrl([14], MedPriceId, GetNMonthRange(date, 9), 1, "line", "month", "month", 1, 0)))]
                         }),
-                        await singleTable(14, MedPriceId, GetNMonthRange(date, 9, true), 0, 1, "month", 1, 0), // арматура A1
+                        await singleTable(14, MedPriceId, GetNMonthRange(date, 9, true), 0, 1, "month", 0, 0), // арматура A1
                         new docx.Paragraph({children: [new docx.PageBreak()]}),
                         h3Fake(" "),
                         await tableMaterialMinimax([50, 51, 52], GetFirstDaysOfCurrentAndPrevMonth(date), 0, 1, "month", 0),
@@ -330,13 +330,13 @@ module.exports = class MonthlyReport {
                         paragraph({ // гк хк FOB
                             children: [await oneChartText(FormChartUrl(new ChartUrl([12, 13], MedPriceId, GetNMonthRange(date, 9), 1, "line", "month", "month", 1, 0)))]
                         }),
-                        await tableDouble(12, 13, MedPriceId, GetNMonthRange(date, 9, true), 0, 1, "month", 1, 0), // гк хк FOB
+                        await tableDouble(12, 13, MedPriceId, GetNMonthRange(date, 9, true), 0, 1, "month", 0, 0), // гк хк FOB
                         new docx.Paragraph({children: [new docx.PageBreak()]}),
                         h3(""),
                         paragraph({ // гк хк EXW
                             children: [await oneChartText(FormChartUrl(new ChartUrl([15, 16], MedPriceId, GetNMonthRange(date, 9), 1, "line", "month", "month", 1, 0)))]
                         }),
-                        await tableDouble(15, 16, MedPriceId, GetNMonthRange(date, 9, true), 0, 1, "month", 1, 0), // гк хк EXW
+                        await tableDouble(15, 16, MedPriceId, GetNMonthRange(date, 9, true), 0, 1, "month", 0, 0), // гк хк EXW
                         new docx.Paragraph({children: [new docx.PageBreak()]}),
                         h3(""),
                         await tableMaterialMinimax([53,54,55,56,57,58,59,60,61,62,63,64,65], GetFirstDaysOfCurrentAndPrevMonth(date), 0, 1, "month", 0),
@@ -349,7 +349,7 @@ module.exports = class MonthlyReport {
                         paragraph({ // FeMn SiMn
                             children: [await oneChartText(FormChartUrl(new ChartUrl([17, 19], MedPriceId, GetNMonthRange(date, 9), 1, "line", "month", "month", 1, 0)))]
                         }),
-                        await tableDouble(17, 19, MedPriceId, GetNMonthRange(date, 9, true), 0, 1, "month", 1, 0), // гк хк EXW
+                        await tableDouble(17, 19, MedPriceId, GetNMonthRange(date, 9, true), 0, 1, "month", 0, 0), // гк хк EXW
 
 
 
@@ -359,14 +359,14 @@ module.exports = class MonthlyReport {
                         }),
                         new docx.Paragraph({children: [new docx.PageBreak()]}),
                         h3(""),
-                        await singleTable(18, MedPriceId, GetNMonthRange(date, 9, true), 0, 1, "month", 1, 0), // арматура A1
+                        await singleTable(18, MedPriceId, GetNMonthRange(date, 9, true), 0, 1, "month", 0, 0), // арматура A1
 
 
                         h3("Феррохром"),
                         paragraph({ // HC LC FeCr
                             children: [await oneChartText(FormChartUrl(new ChartUrl([20, 21], MedPriceId, GetNMonthRange(date, 9), 1, "line", "month", "month", 1, 0)))]
                         }),
-                        await tableDouble(20, 21, MedPriceId, GetNMonthRange(date, 9, true), 0, 1, "month", 1, 0), // гк хк EXW
+                        await tableDouble(20, 21, MedPriceId, GetNMonthRange(date, 9, true), 0, 1, "month", 0, 0), // гк хк EXW
 
                         h3("Марганцевая руда"),
                         paragraph({ // mn руда запасы в китае
@@ -375,7 +375,7 @@ module.exports = class MonthlyReport {
                         paragraph({ // mn руда
                             children: [await oneChartText(FormChartUrl(new ChartUrl([22], MedPriceId, GetNMonthRange(date, 9), 1, "line", "month", "month", 1, 2)))]
                         }),
-                        await singleTable(22, MedPriceId, GetNMonthRange(date, 9, true), 2, 1, "month", 1, 2), // Марганцевая руда
+                        await singleTable(22, MedPriceId, GetNMonthRange(date, 9, true), 2, 1, "month", 0, 2), // Марганцевая руда
 
                         h3("Хромовая руда"),
                         paragraph({ // cr руда запасы в китае
@@ -384,13 +384,13 @@ module.exports = class MonthlyReport {
                         paragraph({ // cr руда
                             children: [await oneChartText(FormChartUrl(new ChartUrl([23], MedPriceId, GetNMonthRange(date, 9), 1, "line", "month", "month", 1, 0)))]
                         }),
-                        await singleTable(23, MedPriceId, GetNMonthRange(date, 9, true), 0, 1, "month", 1, 0), //
+                        await singleTable(23, MedPriceId, GetNMonthRange(date, 9, true), 0, 1, "month", 0, 0), //
 
                         h2("Рынок графитированых электродов"),
                         paragraph({ // гэ 450 600 мм
                             children: [await oneChartText(FormChartUrl(new ChartUrl([24, 25], MedPriceId, GetNMonthRange(date, 9), 1, "line", "month", "month", 1, 0)))]
                         }),
-                        await tableDouble(24, 25, MedPriceId, GetNMonthRange(date, 9, true), 0, 1, "month", 1, 0),
+                        await tableDouble(24, 25, MedPriceId, GetNMonthRange(date, 9, true), 0, 1, "month", 0, 0),
                     ],
                 },
             ],

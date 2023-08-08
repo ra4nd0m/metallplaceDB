@@ -3,6 +3,7 @@ package model
 import "time"
 
 type Property struct {
+	Sheet  string
 	Name   string
 	Column string
 	Row    int
@@ -10,7 +11,6 @@ type Property struct {
 }
 
 type Material struct {
-	Sheet        string
 	Name         string
 	Group        string
 	Source       string
@@ -22,7 +22,6 @@ type Material struct {
 }
 
 type DailyMaterial struct {
-	Sheet        string
 	Name         string
 	Group        string
 	Source       string
@@ -41,7 +40,6 @@ type ConvSettings struct {
 	Rate float64
 }
 type MaterialHorizontal struct {
-	Sheet        string
 	Name         string
 	Group        string
 	Source       string
