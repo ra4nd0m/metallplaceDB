@@ -21,6 +21,7 @@ type IService interface {
 	InitImportDailyMaterials(ctx context.Context, book *excelize.File, dateLayout string) error
 	ParseRosStatBook(ctx context.Context, byte []byte) error
 	ParseXlsxForChart(byte []byte) (chartclient.Request, error)
+	InitialImportDaily(ctx context.Context) error
 
 	AddMaterialProperty(ctx context.Context, materialSourceId, propertyId int) error
 	AddValue(ctx context.Context, materialSourceId int,

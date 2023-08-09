@@ -31,7 +31,6 @@ func (h Handler) GetValueForPeriodHandler(w http.ResponseWriter, r *http.Request
 			if err != nil {
 				return PriceResponse{}, fmt.Errorf("cant check if table was modified since previous request: %w", err)
 			}
-			fmt.Printf("------------ isModified: %v, user: %s", isModified, user)
 			if !isModified && user == "rnd" {
 				return PriceResponse{}, nil
 			}

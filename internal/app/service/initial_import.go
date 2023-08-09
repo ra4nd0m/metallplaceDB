@@ -19,6 +19,27 @@ import (
 	"time"
 )
 
+func (s *Service) InitialImportDaily(ctx context.Context) error {
+	dateLayout := "2-Jan-06"
+	book, err := excelize.OpenFile("var/analytics.xlsx")
+	if err != nil {
+		return fmt.Errorf("cannot open exel file %w", err)
+	}
+
+	err = db.ExecTx(ctx, func(ctx context.Context) error {
+		if err := s.InitImportDailyMaterials(ctx, book, dateLayout); err != nil {
+			return fmt.Errorf("error initializing daily import: %w", err)
+		}
+		return nil
+	})
+	if err != nil {
+		return fmt.Errorf("cant exec init import tx: %w", err)
+	}
+
+	fmt.Print("Import finished!")
+	return nil
+}
+
 // InitialImport Importing data from book, using layout written by hand
 func (s *Service) InitialImport(ctx context.Context) error {
 	dateLayout := "2-Jan-06"
@@ -35,9 +56,6 @@ func (s *Service) InitialImport(ctx context.Context) error {
 			return fmt.Errorf("error initializing weekly horizontal import: %w", err)
 		}
 
-		if err := s.InitImportDailyMaterials(ctx, book, dateLayout); err != nil {
-			return fmt.Errorf("error initializing daily import: %w", err)
-		}
 		//if err := s.ImportRosStat(ctx); err != nil {
 		//	return fmt.Errorf("can't import ros stat: %w", err)
 		//}

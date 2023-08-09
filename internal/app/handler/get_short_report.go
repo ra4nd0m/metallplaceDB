@@ -36,7 +36,6 @@ func (h Handler) GetShortReportHandler(w http.ResponseWriter, r *http.Request) {
 
 			reportBlocks = append(reportBlocks, model.ReportBlock{Title: reqBlock.Title, Text: reqBlock.Paragraphs, Chart: chartBytes})
 		}
-		fmt.Println(reportBlocks)
 		date, err := time.Parse("2006-01-02", req.Date)
 		if err != nil {
 			return GetShortRequestResponse{}, fmt.Errorf("cant parse date: %w", err)

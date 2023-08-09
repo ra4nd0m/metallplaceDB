@@ -14,10 +14,19 @@ type InitImportResponse struct {
 
 func (h Handler) InitImportHandler(w http.ResponseWriter, r *http.Request) {
 	handle(w, r, func(req InitImportRequest) (InitImportResponse, error) {
-		err := h.service.InitialImport(r.Context())
-		if err != nil {
-			return InitImportResponse{false}, err
+		if req.Group == "daily" {
+			err := h.service.InitialImportDaily(r.Context())
+			if err != nil {
+				return InitImportResponse{false}, err
+			}
+			return InitImportResponse{true}, nil
+		} else {
+			err := h.service.InitialImport(r.Context())
+			if err != nil {
+				return InitImportResponse{false}, err
+			}
+			return InitImportResponse{true}, nil
 		}
-		return InitImportResponse{true}, nil
+
 	})
 }

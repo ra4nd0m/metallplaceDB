@@ -13,8 +13,6 @@ export const getShortReport = async (reportHeader, blocks, date) => {
 
         // (C) BLOB DATA
         .then((data) => {
-            // (C1) FILE DATA IS "READY FOR USE"
-            console.log(data);
 
             // (C2) TO "FORCE DOWNLOAD"
             let url = window.URL.createObjectURL(data),
