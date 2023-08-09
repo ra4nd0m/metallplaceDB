@@ -2,7 +2,7 @@ package model
 
 var InitMaterialsVertical = []Material{
 	{
-		"Лом, 3A",
+		"Лом (3A)",
 		"Сырьевые материалы",
 		"metallplace.ru",
 		"Урал (Россия)",
@@ -18,7 +18,7 @@ var InitMaterialsVertical = []Material{
 		},
 	},
 	{
-		"ЖРС, концентрат, 62% Fe",
+		"ЖРС (концентрат, 62% Fe)",
 		"Сырьевые материалы",
 		"ferroalloynet.com",
 		"Циндао (Китай)",
@@ -33,7 +33,7 @@ var InitMaterialsVertical = []Material{
 	},
 
 	{
-		"ЖРС, концентрат, 65% Fe",
+		"ЖРС (концентрат, 65% Fe)",
 		"Сырьевые материалы",
 		"ferroalloynet.com",
 		"Циндао (Китай)",
@@ -47,10 +47,10 @@ var InitMaterialsVertical = []Material{
 	},
 
 	{
-		"Лом, HMS 1&2 (80:20)",
+		"Лом (HMS 1&2 (80:20))",
 		"Сырьевые материалы",
 		"steelmint.com",
-		"Искендерун, Турция",
+		"Искендерун (Турция)",
 		"CNF",
 		"$/т",
 		"A",
@@ -62,7 +62,7 @@ var InitMaterialsVertical = []Material{
 	},
 
 	{
-		"Чугун, чушковый",
+		"Чугун (чушковый)",
 		"Сырьевые материалы",
 		"steelmint.com",
 		"Черное море (Россия)",
@@ -78,9 +78,9 @@ var InitMaterialsVertical = []Material{
 	},
 
 	{
-		"Кокс. уголь, австралийский",
+		"Кокс. уголь (австралийский)",
 		"Сырьевые материалы",
-		"mysteel.net",
+		"steelmint.com",
 		"Циндао (Китай)",
 		"CFR",
 		"$/т",
@@ -93,7 +93,7 @@ var InitMaterialsVertical = []Material{
 	},
 
 	{
-		"Кокс. уголь, российский",
+		"Кокс. уголь (российский)",
 		"Сырьевые материалы",
 		"mysteel.net",
 		"Циндао (Китай)",
@@ -107,7 +107,7 @@ var InitMaterialsVertical = []Material{
 	},
 
 	{
-		"Кокс, 25-90 мм; 64% CSR",
+		"Кокс (25-90 мм; 64% CSR)",
 		"Сырьевые материалы",
 		"steelmint.com",
 		"Таншань (Китай)",
@@ -121,7 +121,7 @@ var InitMaterialsVertical = []Material{
 	},
 
 	{
-		"Заготовка, 130*130 мм; Ст3",
+		"Заготовка (130*130 мм; Ст3)",
 		"Сталь",
 		"steelmint.com",
 		"Черное море (Россия)",
@@ -137,7 +137,7 @@ var InitMaterialsVertical = []Material{
 	},
 
 	{
-		"Арматура, 12-25 мм; Ст3",
+		"Арматура (12-25 мм; Ст3)",
 		"Сталь",
 		"steelmint.com",
 		"Черное море (Россия)",
@@ -153,7 +153,7 @@ var InitMaterialsVertical = []Material{
 	},
 
 	{
-		"Сляб, 150*250 мм; Ст3",
+		"Сляб (150*250 мм; Ст3)",
 		"Сталь",
 		"steelmint.com",
 		"Черное море (Россия)",
@@ -169,7 +169,7 @@ var InitMaterialsVertical = []Material{
 	},
 
 	{
-		"Рулон г/к, 3 мм; SAE 1006",
+		"Рулон г/к (3 мм; SAE 1006)",
 		"Сталь",
 		"steelmint.com",
 		"Черное море (Россия)",
@@ -185,7 +185,7 @@ var InitMaterialsVertical = []Material{
 	},
 
 	{
-		"Рулон х/к, 0,9 мм; SPCC",
+		"Рулон х/к (0,9 мм; SPCC)",
 		"Сталь",
 		"steelmint.com",
 		"Черное море (Россия)",
@@ -201,10 +201,10 @@ var InitMaterialsVertical = []Material{
 	},
 
 	{
-		"Арматура, А1 8-40 мм; Ст3",
+		"Арматура (А1 8-40 мм; Ст3)",
 		"Сталь",
 		"metallplace.ru",
-		"Россия",
+		"(Россия)",
 		"EXW",
 		"₽/т",
 		"A",
@@ -216,10 +216,10 @@ var InitMaterialsVertical = []Material{
 	},
 
 	{
-		"Рулон г/к, 1,5-20 мм; Ст3",
+		"Рулон г/к (1,5-20 мм; Ст3)",
 		"Сталь",
-		"steelmint.com",
-		"Россия",
+		"metallplace.ru",
+		"(Россия)",
 		"EXW",
 		"₽/т",
 		"A",
@@ -230,10 +230,10 @@ var InitMaterialsVertical = []Material{
 	},
 
 	{
-		"Рулон х/к, 0,5-1,5 мм; Ст08",
+		"Рулон х/к (0,5-1,5 мм; Ст08)",
 		"Сталь",
-		"steelmint.com",
-		"Россия",
+		"metallplace.ru",
+		"(Россия)",
 		"EXW",
 		"₽/т",
 		"A",
@@ -244,7 +244,7 @@ var InitMaterialsVertical = []Material{
 	},
 
 	{
-		"FeMn, HC; 76% Mn",
+		"FeMn HC (76% Mn)",
 		"Ферросплавы и руды",
 		"crugroup.com",
 		"Роттердам (ЕС)",
@@ -260,7 +260,7 @@ var InitMaterialsVertical = []Material{
 	},
 
 	{
-		"FeSi, 75% Si",
+		"FeSi (75% Si)",
 		"Ферросплавы и руды",
 		"crugroup.com",
 		"Роттердам (ЕС)",
@@ -276,7 +276,7 @@ var InitMaterialsVertical = []Material{
 	},
 
 	{
-		"SiMn, 65% Mn, 17% Si",
+		"SiMn (65% Mn, 17% Si)",
 		"Ферросплавы и руды",
 		"crugroup.com",
 		"Роттердам (ЕС)",
@@ -293,12 +293,12 @@ var InitMaterialsVertical = []Material{
 	},
 
 	{
-		"FeCr HC, 62-70% Cr",
+		"FeCr HC (62-70% Cr)",
 		"Ферросплавы и руды",
 		"crugroup.com",
 		"Роттердам (ЕС)",
 		"DDP",
-		"¢/фунт",
+		"¢/фунт Cr",
 		"A",
 		[]Property{
 			{"07.ФС (М)", "Мин цена", "Y", 11, "decimal"},
@@ -309,12 +309,12 @@ var InitMaterialsVertical = []Material{
 	},
 
 	{
-		"FeCr LC, 0,1% Cr",
+		"FeCr LC (0,1% Cr)",
 		"Ферросплавы и руды",
 		"crugroup.com",
 		"Роттердам (ЕС)",
 		"DDP",
-		"¢/фунт",
+		"¢/фунт Cr",
 		"A",
 		[]Property{
 			{"07.ФС (М)", "Мин цена", "AF", 11, "decimal"},
@@ -325,7 +325,7 @@ var InitMaterialsVertical = []Material{
 	},
 
 	{
-		"Mn руда, кусковая; 36-38% Mn",
+		"Mn руда (кусковая; 36-38% Mn)",
 		"Ферросплавы и руды",
 		"crugroup.com",
 		"Таншань (Китай)",
@@ -341,7 +341,7 @@ var InitMaterialsVertical = []Material{
 	},
 
 	{
-		"Cr руда, кусоквая; 42% Cr",
+		"Cr руда (кусоквая; 42% Cr)",
 		"Ферросплавы и руды",
 		"crugroup.com",
 		"Таншань (Китай)",
@@ -357,7 +357,7 @@ var InitMaterialsVertical = []Material{
 	},
 
 	{
-		"ГЭ, HP; 450 мм",
+		"ГЭ (HP; 450 мм)",
 		"Электроды",
 		"steelmint.com",
 		"Шэньси (Китай)",
@@ -371,7 +371,7 @@ var InitMaterialsVertical = []Material{
 	},
 
 	{
-		"ГЭ, UHP; 600 мм",
+		"ГЭ (UHP; 600 мм)",
 		"Электроды",
 		"steelmint.com",
 		"Шэньси (Китай)",

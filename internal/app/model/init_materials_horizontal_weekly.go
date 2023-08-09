@@ -3,10 +3,10 @@ package model
 var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 
 	{
-		"Лом, HMS 1&2 (80:20)",
+		"Лом (HMS 1&2 (80:20))",
 		"Сырьевые материалы",
-		"-",
-		"Европа, Роттердам",
+		"steelmint.com",
+		"Роттердам (ЕС)",
 		"FOB",
 		"$/т",
 		"1",
@@ -18,11 +18,11 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 	},
 
 	{
-		"Лом, HMS 1&2 (80:20)",
+		"Лом (HMS 1&2 (80:20))",
 		"Сырьевые материалы",
-		"-",
-		"Бангладеш, Читтагонг",
-		"FOB",
+		"steelmint.com",
+		"Читтагонг (Бангладеш)",
+		"CNF",
 		"$/т",
 		"1",
 		[]Property{
@@ -33,10 +33,10 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 	},
 
 	{
-		"Лом, шредированный",
+		"Лом (шредированный)",
 		"Сырьевые материалы",
-		"-",
-		"Бангладеш, Читтагонг",
+		"steelmint.com",
+		"Читтагонг (Бангладеш)",
 		"CNF",
 		"$/т",
 		"1",
@@ -48,10 +48,10 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 	},
 
 	{
-		"Лом, H2",
+		"Лом (H2)",
 		"Сырьевые материалы",
-		"-",
-		"Бангладеш, Читтагонг",
+		"steelmint.com",
+		"Читтагонг (Бангладеш)",
 		"CNF",
 		"$/т",
 		"1",
@@ -63,10 +63,10 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 	},
 
 	{
-		"Лом, HMS 1&2 (80:20)",
+		"Лом (HMS 1&2 (80:20))",
 		"Сырьевые материалы",
-		"-",
-		"Вьетнам, Хайфон",
+		"steelmint.com",
+		"Хайфон (Вьетнам)",
 		"CNF",
 		"$/т",
 		"1",
@@ -78,10 +78,10 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 	},
 
 	{
-		"Лом, H2",
+		"Лом (H2)",
 		"Сырьевые материалы",
-		"-",
-		"Вьетнам, Хайфон",
+		"steelmint.com",
+		"Хайфон (Вьетнам)",
 		"CNF",
 		"$/т",
 		"1",
@@ -93,10 +93,10 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 	},
 
 	{
-		"Лом, HMS 1&2 (80:20)",
+		"Лом (HMS 1&2 (80:20))",
 		"Сырьевые материалы",
-		"-",
-		"Индия, Нава-Шева",
+		"steelmint.com",
+		"Нава-Шева (Индия)",
 		"CNF",
 		"$/т",
 		"1",
@@ -108,10 +108,10 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 	},
 
 	{
-		"Лом, шредированный",
+		"Лом (шредированный)",
 		"Сырьевые материалы",
-		"-",
-		"Индия, Нава-Шева",
+		"steelmint.com",
+		"Нава-Шева (Индия)",
 		"CNF",
 		"$/т",
 		"1",
@@ -123,10 +123,10 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 	},
 
 	{
-		"Лом, шредированный",
+		"Лом (шредированный)",
 		"Сырьевые материалы",
-		"-",
-		"Пакистан, Касим",
+		"steelmint.com",
+		"Касим (Пакистан)",
 		"CNF",
 		"$/т",
 		"1",
@@ -138,10 +138,10 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 	},
 
 	{
-		"Лом, HMS 1&2 (80:20)",
+		"Лом (HMS 1&2 (80:20))",
 		"Сырьевые материалы",
-		"-",
-		"Тайвань, Тайчжун",
+		"steelmint.com",
+		"Тайчжун (Тайвань)",
 		"CNF",
 		"$/т",
 		"1",
@@ -153,10 +153,10 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 	},
 
 	{
-		"Лом, HMS 1&2 (70:30)",
+		"Лом (HMS 1&2 (70:30))",
 		"Сырьевые материалы",
-		"-",
-		"Таиланд, Лаем-Чабанг",
+		"steelmint.com",
+		"Лаем-Чабанг (Таиланд)",
 		"CNF",
 		"$/т",
 		"1",
@@ -168,10 +168,10 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 	},
 
 	{
-		"Лом, HMS 1&2 (80:20)",
+		"Лом (HMS 1&2 (80:20))",
 		"Сырьевые материалы",
-		"-",
-		"США, Восточное побережье",
+		"steelmint.com",
+		"Восточное побережье (США)",
 		"FOB",
 		"$/т",
 		"1",
@@ -183,10 +183,10 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 	},
 
 	{
-		"Лом, шредированный",
+		"Лом (шредированный)",
 		"Сырьевые материалы",
-		"-",
-		"США, Восточное побережье",
+		"steelmint.com",
+		"Восточное побережье (США)",
 		"FOB",
 		"$/т",
 		"1",
@@ -198,10 +198,10 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 	},
 
 	{
-		"Лом, H2",
+		"Лом (H2)",
 		"Сырьевые материалы",
-		"-",
-		"Япония, Токийский залив",
+		"steelmint.com",
+		"Токийский залив (Япония)",
 		"FOB",
 		"$/т",
 		"1",
@@ -214,10 +214,10 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 
 	// ЗАГОТОВКА
 	{
-		"Заготовка, 150*150 мм; Ст3",
+		"Заготовка (150*150 мм; Ст3)",
 		"Сталь",
-		"-",
-		"Китай, Цзянъинь",
+		"steelmint.com",
+		"Цзянъинь (Китай)",
 		"CNF",
 		"$/т",
 		"1",
@@ -229,10 +229,10 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 	},
 
 	{
-		"Заготовка, 150*150 мм; Ст3",
+		"Заготовка (150*150 мм; Ст3)",
 		"Сталь",
-		"-",
-		"Индия, Восточное побережье",
+		"steelmint.com",
+		"Восточное побережье (Индия)",
 		"FOB",
 		"$/т",
 		"1",
@@ -244,10 +244,10 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 	},
 
 	{
-		"Заготовка, 95*95 мм; Ст3",
+		"Заготовка (95*95 мм; Ст3)",
 		"Сталь",
-		"-",
-		"Индия, Восточное побережье",
+		"steelmint.com",
+		"Восточное побережье (Индия)",
 		"FOB",
 		"$/т",
 		"1",
@@ -259,10 +259,10 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 	},
 
 	{
-		"Заготовка, 130*130 мм; Ст3",
+		"Заготовка (130*130 мм; Ст3)",
 		"Сталь",
-		"-",
-		"Иран, Бендер Аббас",
+		"steelmint.com",
+		"Бендер Аббас (Иран)",
 		"FOB",
 		"$/т",
 		"1",
@@ -274,10 +274,10 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 	},
 
 	{
-		"Заготовка, 120*120 мм; Ст3",
+		"Заготовка (120*120 мм; Ст3)",
 		"Сталь",
-		"-",
-		"Турция, Искендерун",
+		"steelmint.com",
+		"Искендерун (Турция)",
 		"CNF",
 		"$/т",
 		"1",
@@ -289,10 +289,10 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 	},
 
 	{
-		"Заготовка, 150*150 мм; Ст3",
+		"Заготовка (150*150 мм; Ст3)",
 		"Сталь",
-		"-",
-		"Филиппины, Манила",
+		"steelmint.com",
+		"Манила (Филиппины)",
 		"CNF",
 		"$/т",
 		"1",
@@ -304,10 +304,10 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 	},
 
 	{
-		"Заготовка, 100*100 мм; IS 2831",
+		"Заготовка (100*100 мм; IS 2831)",
 		"Сталь",
-		"-",
-		"Непал, Раксол",
+		"steelmint.com",
+		"Раксол (Непал)",
 		"CNF",
 		"$/т",
 		"1",
@@ -320,10 +320,10 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 
 	// СОРТОВОЙ ПРОКАТ
 	{
-		"Арматура, 10-40 мм; HRB400",
+		"Арматура (10-40 мм; HRB400)",
 		"Сталь",
-		"-",
-		"Китай, Гонконг",
+		"steelmint.com",
+		"Гонконг (Китай)",
 		"CNF",
 		"$/т",
 		"1",
@@ -337,7 +337,7 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 	{
 		"Арматура, 12-32 мм; HRB400",
 		"Сталь",
-		"-",
+		"steelmint.com",
 		"Турция, Искендерун",
 		"FOB",
 		"$/т",
@@ -350,10 +350,10 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 	},
 
 	{
-		"Катанка, 5,5-8 мм; SAE 1008",
+		"Катанка (5,5-8 мм; SAE 1008)",
 		"Сталь",
-		"-",
-		"Непал, Раксол",
+		"steelmint.com",
+		"Раксол (Непал)",
 		"CNF",
 		"$/т",
 		"1",
@@ -366,10 +366,10 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 
 	// РУЛОННАЯ СТАЛЬ
 	{
-		"Рулон, г/к 2 мм; SAE1006",
+		"Рулон г/к (2 мм; SAE1006)",
 		"Сталь",
-		"-",
-		"ОАЭ, Абу-Даби",
+		"steelmint.com",
+		"Абу-Даби (ОАЭ)",
 		"CNF",
 		"$/т",
 		"1",
@@ -381,10 +381,10 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 	},
 
 	{
-		"Рулон г/к, 1,5-3 мм; SAE 1006",
+		"Рулон г/к (1,5-3 мм; SAE 1006)",
 		"Сталь",
-		"-",
-		"Турция, Искендерун",
+		"steelmint.com",
+		"Искендерун (Турция)",
 		"CNF",
 		"$/т",
 		"1",
@@ -396,10 +396,10 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 	},
 
 	{
-		"Рулон г/к, 3-4 мм; S235JR",
+		"Рулон г/к (3-4 мм; S235JR)",
 		"Сталь",
-		"-",
-		"Европа, Западная Европа",
+		"steelmint.com",
+		"Западная Европа (ЕС)",
 		"CNF",
 		"$/т",
 		"1",
@@ -411,10 +411,10 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 	},
 
 	{
-		"Рулон г/к, 2-12 мм; SS400",
+		"Рулон г/к (2-12 мм; SS400)",
 		"Сталь",
-		"-",
-		"Индия, Западное побережье",
+		"steelmint.com",
+		"Западное побережье (Индия)",
 		"CNF",
 		"$/т",
 		"1",
@@ -426,10 +426,10 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 	},
 
 	{
-		"Рулон г/к, 2-20 мм; SAE 1006",
+		"Рулон г/к (2-20 мм; SAE 1006)",
 		"Сталь",
-		"-",
-		"Вьетнам, Хошимин",
+		"steelmint.com",
+		"Хошимин (Вьетнам)",
 		"CNF",
 		"$/т",
 		"1",
@@ -441,10 +441,10 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 	},
 
 	{
-		"Рулон г/к, 2 мм; SAE 1006",
+		"Рулон г/к (2 мм; SAE 1006)",
 		"Сталь",
-		"-",
-		"Бангладеш, Читтагонг",
+		"steelmint.com",
+		"Читтагонг (Бангладеш)",
 		"CNF",
 		"$/т",
 		"1",
@@ -456,10 +456,10 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 	},
 
 	{
-		"Рулон г/к, 3-12 мм; SS400",
+		"Рулон г/к (3-12 мм; SS400)",
 		"Сталь",
-		"-",
-		"Китай, Ричжао",
+		"steelmint.com",
+		"Ричжао (Китай)",
 		"FOB",
 		"$/т",
 		"1",
@@ -471,10 +471,10 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 	},
 
 	{
-		"Рулон г/к, 1,6-2,5 мм; SAE 1006",
+		"Рулон г/к (1,6-2,5 мм; SAE 1006)",
 		"Сталь",
-		"-",
-		"Южная Корея, Сеул",
+		"steelmint.com",
+		"Сеул (Южная Корея)",
 		"FOB",
 		"$/т",
 		"1",
@@ -486,10 +486,10 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 	},
 
 	{
-		"Рулон г/к, 2 мм; SS400",
+		"Рулон г/к (2 мм; SS400)",
 		"Сталь",
-		"-",
-		"Япония, Токио",
+		"steelmint.com",
+		"Токио (Япония)",
 		"FOB",
 		"$/т",
 		"1",
@@ -501,10 +501,10 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 	},
 
 	{
-		"Рулон г/к, 2 мм; SS400",
+		"Рулон г/к (2 мм; SS400)",
 		"Сталь",
-		"-",
-		"Пакистан, Касим",
+		"steelmint.com",
+		"Касим (Пакистан)",
 		"CNF",
 		"$/т",
 		"1",
@@ -516,10 +516,10 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 	},
 
 	{
-		"Рулон г/к, 2 мм; SAE1006",
+		"Рулон г/к (2 мм; SAE1006)",
 		"Сталь",
-		"-",
-		"Непал, Раксол",
+		"steelmint.com",
+		"Раксол (Непал)",
 		"CNF",
 		"$/т",
 		"1",
@@ -531,10 +531,10 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 	},
 
 	{
-		"Рулон х/к, 0,9 мм; SPCC",
+		"Рулон х/к (0,9 мм; SPCC)",
 		"Сталь",
-		"-",
-		"Китай, Ричжао",
+		"steelmint.com",
+		"Ричжао (Китай)",
 		"FOB",
 		"$/т",
 		"1",
@@ -546,10 +546,10 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 	},
 
 	{
-		"Рулон х/к, 0,9 мм; SPCC",
+		"Рулон х/к (0,9 мм; SPCC)",
 		"Сталь",
-		"-",
-		"Индия, Восточное побережье",
+		"steelmint.com",
+		"Восточное побережье (Индия)",
 		"CNF",
 		"$/т",
 		"1",
@@ -562,10 +562,10 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 
 	// ЧУГУН
 	{
-		"Чугун, чушковый",
+		"Чугун (чушковый)",
 		"Сырьевые материалы",
-		"-",
-		"Индия, Восточное побережье",
+		"steelmint.com",
+		"Восточное побережье (Индия)",
 		"FOB",
 		"$/т",
 		"1",
@@ -577,10 +577,10 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 	},
 
 	{
-		"Чугун, чушковый",
+		"Чугун (чушковый)",
 		"Сырьевые материалы",
-		"-",
-		"Бразилия, Понта-Да-Мадейра",
+		"steelmint.com",
+		"Понта-Да-Мадейра (Бразилия)",
 		"FOB",
 		"$/т",
 		"1",
@@ -592,10 +592,10 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 	},
 
 	{
-		"Чугун, чушковый",
+		"Чугун (чушковый)",
 		"Сырьевые материалы",
-		"-",
-		"Италия, Маргера",
+		"steelmint.com",
+		"Маргера (Италия)",
 		"FOB",
 		"$/т",
 		"1",
