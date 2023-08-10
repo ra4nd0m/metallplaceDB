@@ -55,7 +55,7 @@ module.exports = async function tableMaterialMinimax(materialIds, dates, unitCha
 
     for (const materialId of materialIds) {
         const resMat = await axios.post(ApiEndpoint + `/getMaterialInfo`, {id: materialId})
-        const matInfo = resMat.data.info.Name.split(", ")
+        const materialType = resMat.data.info.Name.match(/\((.*?)\)/)[1].trim();
         const period1Min = await axios.post(ApiEndpoint + endpoint, { material_source_id: materialId, property_id: MinPriceId, start: first, finish: first})
         const period1Max = await axios.post(ApiEndpoint + endpoint, { material_source_id: materialId, property_id: MaxPriceId, start: first, finish: first})
         const period1Med = await axios.post(ApiEndpoint + endpoint, { material_source_id: materialId, property_id: MedPriceId, start: first, finish: first})
@@ -63,13 +63,13 @@ module.exports = async function tableMaterialMinimax(materialIds, dates, unitCha
         const period2Max = await axios.post(ApiEndpoint + endpoint, { material_source_id: materialId, property_id: MaxPriceId, start: second, finish: second})
         const period2Med = await axios.post(ApiEndpoint + endpoint, { material_source_id: materialId, property_id: MedPriceId, start: second, finish: second})
 
-        const location = resMat.data.info.Market.split(", ")
-        //"Лом, HMS 1&2 (80:20), FOB, (недельный)"
+        const materialCountry =  resMat.data.info.Market.match(/\((.*?)\)/)?.[1].trim();
+        const materialFerry=  resMat.data.info.Market.match(/^(.*?)\s*\(/)?.[1].trim();
         bodyInfo.push({
-            Country: location[0],
-            Type: matInfo[1],
+            Country: materialCountry,
+            Type: materialType,
             DeliveryType: resMat.data.info.DeliveryType,
-            DeliveryLocation: location[1],
+            DeliveryLocation: materialFerry,
             Week1Min: period1Min.data,
             Week1Max: period1Max.data,
             Week1Med: period1Med.data,
@@ -78,14 +78,14 @@ module.exports = async function tableMaterialMinimax(materialIds, dates, unitCha
             Week2Med: period2Med.data,
         })
     }
-    let title1, title2
+    let dateTitleFirst, dateTitleSecond
     if (type === "week"){
-        title1 = `${GetWeekNumber(dates[0])} неделя ${dates[0].getFullYear()} год`
-            title2 = `${GetWeekNumber(dates[1])} неделя ${dates[1].getFullYear()} год`
+        dateTitleFirst = `${GetWeekNumber(dates[0])} неделя ${dates[0].getFullYear()} год`
+            dateTitleSecond = `${GetWeekNumber(dates[1])} неделя ${dates[1].getFullYear()} год`
     }
     if (type === "month"){
-        title1 = createTitle(dates[0]);
-        title2 = createTitle(dates[1]);
+        dateTitleFirst = createTitle(dates[0]);
+        dateTitleSecond = createTitle(dates[1]);
     }
 
     const header = new docx.Table({
@@ -105,8 +105,8 @@ module.exports = async function tableMaterialMinimax(materialIds, dates, unitCha
                 children: [
                     new docx.TableCell({borders:{top:FatBorder, bottom: FatBorder, left: ThinBorder, right: ThinBorder},  margins: TableCellMarginNil, children: [textTh("Страна/вид", FontFamilyExtraBold, FontSizeThMain)], verticalAlign: docx.VerticalAlign.CENTER}),
                     new docx.TableCell({borders:{top:FatBorder, bottom: FatBorder, left: ThinBorder, right: ThinBorder},  margins: TableCellMarginNil, children: [textTh("Условия поставки", FontFamilyExtraBold, FontSizeThMain)], verticalAlign: docx.VerticalAlign.CENTER}),
-                    new docx.TableCell({borders:{top:FatBorder, bottom: FatBorder, left: ThinBorder, right: ThinBorder},  margins: TableCellMarginNil, children: [headerMaterial(title1, "$/т", FontFamily)], verticalAlign: docx.VerticalAlign.CENTER}),
-                    new docx.TableCell({borders:{top:FatBorder, bottom: FatBorder, left: ThinBorder, right: ThinBorder},  margins: TableCellMarginNil, children: [headerMaterial(title2, "$/т", FontFamilyExtraBold)], verticalAlign: docx.VerticalAlign.CENTER}),
+                    new docx.TableCell({borders:{top:FatBorder, bottom: FatBorder, left: ThinBorder, right: ThinBorder},  margins: TableCellMarginNil, children: [headerMaterial(dateTitleFirst, "$/т", FontFamily)], verticalAlign: docx.VerticalAlign.CENTER}),
+                    new docx.TableCell({borders:{top:FatBorder, bottom: FatBorder, left: ThinBorder, right: ThinBorder},  margins: TableCellMarginNil, children: [headerMaterial(dateTitleSecond, "$/т", FontFamilyExtraBold)], verticalAlign: docx.VerticalAlign.CENTER}),
                 ],
             })
         ]

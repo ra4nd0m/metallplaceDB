@@ -116,14 +116,6 @@ module.exports = async function tableDouble(materialId1, materialId2, propertyId
         })
     }
 
-    let nameRaw1 = resMat1.data.info.Name.split(", ")
-    let nameRaw2 = resMat2.data.info.Name.split(", ")
-    let name11 = nameRaw1.shift()
-    let name12 = nameRaw1.join(" ")
-    let name21 = nameRaw2.shift()
-    let name22 = nameRaw2.join(" ")
-
-
     const header = new docx.Table({
         width: {
             size: 100,
@@ -146,7 +138,7 @@ module.exports = async function tableDouble(materialId1, materialId2, propertyId
                     }),
                     new docx.TableCell({
                         margins: TableCellMarginNil,
-                        children: [headerMaterial(`${name11} (${name12})`, resMat1.data.info.Market, resMat1.data.info.DeliveryType, resMat1.data.info.Unit)],
+                        children: [headerMaterial(resMat1.data.info.Name, resMat1.data.info.Market, resMat1.data.info.DeliveryType, resMat1.data.info.Unit)],
                         borders: {
                             left: ThinBorder,
                             right: ThinBorder,
@@ -156,7 +148,7 @@ module.exports = async function tableDouble(materialId1, materialId2, propertyId
                     }),
                     new docx.TableCell({
                         margins: TableCellMarginNil,
-                        children: [headerMaterial(`${name21} (${name22})`, resMat2.data.info.Market, resMat2.data.info.DeliveryType, resMat2.data.info.Unit)],
+                        children: [headerMaterial(resMat2.data.info.Name, resMat2.data.info.Market, resMat2.data.info.DeliveryType, resMat2.data.info.Unit)],
                         borders: {
                             left: ThinBorder,
                             right: ThinBorder,

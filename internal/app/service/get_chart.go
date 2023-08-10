@@ -9,7 +9,6 @@ import (
 	"metallplace/internal/app/model"
 	"metallplace/pkg/chartclient"
 	"os"
-	"strings"
 )
 
 func (s *Service) GetChart(ctx context.Context, chartPack model.ChartPack) ([]byte, error) {
@@ -22,16 +21,7 @@ func (s *Service) GetChart(ctx context.Context, chartPack model.ChartPack) ([]by
 			return nil, fmt.Errorf("cant get material_source: %w", err)
 		}
 
-		nameArr := strings.Split(material.Name, ", ")
-		var name string
-		name = nameArr[0] + " (" + strings.Join(nameArr[1:], " ") + ")"
-
-		if chartPack.Type == "bar" {
-			name += ", " + material.Unit
-		}
-
-		dataset := chartclient.YDataSet{Label: name, Data: []float64{}}
-
+		dataset := chartclient.YDataSet{Label: material.Name, Data: []float64{}}
 		start := chartPack.Start.Format("2006-01-02")
 		finish := chartPack.Finish.Format("2006-01-02")
 		var feed []model.Price

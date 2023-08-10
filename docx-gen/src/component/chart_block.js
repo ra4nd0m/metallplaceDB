@@ -119,12 +119,8 @@ async function getInfo(isBig, url, group, comparePeriod) {
     let materialName
     let materialCountry
     try {
-        let nameSeparator = ','
-        if (materialInfo.data.info.Name.indexOf(",") === -1) {
-            nameSeparator = ';'
-        }
-         materialType = materialInfo.data.info.Name.match(new RegExp(nameSeparator + '(.*)'))[1].trim();
-         materialName = materialInfo.data.info.Name.split(", ")[0].trim();
+         materialType = materialInfo.data.info.Name.match(/\((.*?)\)/)[1].trim();
+         materialName = materialInfo.data.info.Name.match(/^(.*?)\s*\(/)[1].trim();
          materialCountry =  materialInfo.data.info.Market.match(/\((.*?)\)/)?.[1].trim();
     } catch (e) {
         throw new Error("error getting infoRow data" + e.message)

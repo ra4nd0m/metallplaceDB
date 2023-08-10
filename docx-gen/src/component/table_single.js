@@ -43,9 +43,6 @@ module.exports = async function singleTable(materialId, propertyId, dates, unitC
         })
     }
 
-    let nameRaw = resMat.data.info.Name.split(", ")
-    let name1 = nameRaw.shift()
-    let name2 = nameRaw.join(" ")
     let tableComponents = []
 
     tableComponents.push(new docx.Table({
@@ -70,7 +67,7 @@ module.exports = async function singleTable(materialId, propertyId, dates, unitC
                         new docx.TableCell({
                             columnSpan: 3,
                             children: [
-                                textTh(`${name1} (${name2})`, FontFamilyMedium, FontSizeThMain),
+                                textTh(resMat.data.info.Name, FontFamilyMedium, FontSizeThMain),
                                 textTh(resMat.data.info.DeliveryType + " " + resMat.data.info.Market, FontFamilyThin, FontSizeThSecondary),
                             ],
                             borders: {

@@ -335,10 +335,10 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 	},
 
 	{
-		"Арматура, 12-32 мм; HRB400",
+		"Арматура (12-32 мм; HRB400)",
 		"Сталь",
 		"steelmint.com",
-		"Турция, Искендерун",
+		"Искендерун (Турция)",
 		"FOB",
 		"$/т",
 		"1",

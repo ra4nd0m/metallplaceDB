@@ -57,13 +57,6 @@ module.exports = async function doubleTableMinimax(materialId1, materialId2, dat
         finish: to
     })
 
-    let nameRaw1 = resMat1.data.info.Name.split(", ")
-    let nameRaw2 = resMat2.data.info.Name.split(", ")
-    let name11 = nameRaw1.shift()
-    let name12 = nameRaw1.join(" ")
-    let name21 = nameRaw2.shift()
-    let name22 = nameRaw2.join(" ")
-
     const header = new docx.Table({
         width: {
             size: 100,
@@ -85,7 +78,7 @@ module.exports = async function doubleTableMinimax(materialId1, materialId2, dat
                         margins: TableCellMarginNil,
                         verticalAlign: docx.VerticalAlign.CENTER,
                         children: [
-                            textTh(`${name11} (${name12})`, FontFamilyMedium, FontSizeThMain),
+                            textTh(resMat1.data.info.Name, FontFamilyMedium, FontSizeThMain),
                             textTh(resMat1.data.info.DeliveryType + " " + resMat1.data.info.Market, FontFamilyThin, FontSizeThSecondary),
                         ]
                     }),
@@ -94,7 +87,7 @@ module.exports = async function doubleTableMinimax(materialId1, materialId2, dat
                         columnSpan: 3,
                         margins: TableCellMarginNil,
                         children: [
-                            textTh(`${name21} (${name22})`, FontFamilyMedium, FontSizeThMain),
+                            textTh(resMat2.data.info.Name, FontFamilyMedium, FontSizeThMain),
                             textTh(resMat2.data.info.DeliveryType + " " + resMat2.data.info.Market, FontFamilyThin, FontSizeThSecondary),
                         ]
                     })
