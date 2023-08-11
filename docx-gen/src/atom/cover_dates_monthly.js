@@ -14,8 +14,8 @@ module.exports = function (month, year) {
             right: {style: docx.BorderStyle.NONE, size: 0, color: "FFFFFF"},
         },
         float: {
-            absoluteVerticalPosition: 600 * 20,
-            absoluteHorizontalPosition: 75 * 20,
+            absoluteVerticalPosition: 660 * 20,
+            absoluteHorizontalPosition: 65 * 20,
         },
         width: {
             size: 70,
@@ -69,7 +69,7 @@ module.exports = function (month, year) {
                                 children: [
                                     text({
                                         text: year,
-                                        font: FontFamilyThin,
+                                        font: FontFamilyLight,
                                         size: FontSizeCoverPrimary,
                                         color: AccentColor2
                                     })
