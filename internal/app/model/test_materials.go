@@ -10,7 +10,7 @@ var TestMaterials = []Material{
 		"usd/t",
 		"A",
 		[]Property{
-			{"sheet", "med_price", "C", 2, "decimal"},
+			{"sheet", "med_price", "C", 2, "decimal", ""},
 		},
 	},
 
@@ -22,9 +22,9 @@ var TestMaterials = []Material{
 		"CNF",
 		"usd/t",
 		"A",
-		[]Property{{"sheet", "min_price", "F", 2, "decimal"},
-			{"sheet", "max_price", "G", 2, "decimal"},
-			{"sheet", "med_price", "H", 2, "decimal"},
+		[]Property{{"sheet", "min_price", "F", 2, "decimal", ""},
+			{"sheet", "max_price", "G", 2, "decimal", ""},
+			{"sheet", "med_price", "H", 2, "decimal", ""},
 		},
 	},
 }

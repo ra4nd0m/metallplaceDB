@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/xuri/excelize/v2"
 	"metallplace/internal/pkg/utils"
+	"regexp"
 	"strconv"
 	"strings"
 	"time"
@@ -81,17 +82,17 @@ func areNextCellsEmpty(book *excelize.File, sheet string, col int, row int, n in
 
 func stringToDate(str string, style string) (time.Time, error) {
 	if style == "week" {
-		arr := strings.Split(str, " ")
-		week, err := strconv.Atoi(arr[0])
-		if err != nil {
-			return time.Time{}, fmt.Errorf("cant parce week (%v): %w", arr[0], err)
+		re := regexp.MustCompile(`\((.*?)\)`)
+		match := re.FindStringSubmatch(str)
+		if len(match) > 1 {
+			date, err := time.Parse("02.01.2006", match[1])
+			if err != nil {
+				return time.Time{}, fmt.Errorf("cant convert string %s to date: %w", match[1], err)
+			}
+			return date, nil
+		} else {
+			return time.Time{}, fmt.Errorf("cant parce date from string %s", str)
 		}
-		year, err := strconv.Atoi(arr[2])
-		if err != nil {
-			return time.Time{}, fmt.Errorf("cant parce year: %w", err)
-		}
-		mon := firstDayOfISOWeek(year, week)
-		return mon, nil
 	}
 	if style == "weekNum" {
 		arr := strings.Split(str, " ")

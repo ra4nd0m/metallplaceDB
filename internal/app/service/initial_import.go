@@ -358,7 +358,12 @@ func (s *Service) InitImportDailyMaterials(ctx context.Context, book *excelize.F
 				}
 
 				// Calculating date cell, and formatting it
-				dateCell := material.DateColumn + strconv.Itoa(row)
+				var dateCell string
+				if property.DateColumn != "" {
+					dateCell = property.DateColumn + strconv.Itoa(row)
+				} else {
+					dateCell = material.DateColumn + strconv.Itoa(row)
+				}
 				style, _ := book.NewStyle(`{"number_format":15}`)
 				err = book.SetCellStyle(property.Sheet, dateCell, dateCell, style)
 				if err != nil {
@@ -517,8 +522,16 @@ func (s *Service) InitImportMaterialsVertical(ctx context.Context, book *exceliz
 				}
 
 				// Calculating date cell, and formatting it
-				dateCell := material.DateColumn + strconv.Itoa(row)
-				style, _ := book.NewStyle(`{"number_format":15}`)
+				var dateCell string
+				if property.DateColumn != "" {
+					dateCell = property.DateColumn + strconv.Itoa(row)
+				} else {
+					dateCell = material.DateColumn + strconv.Itoa(row)
+				}
+				style, err := book.NewStyle(`{"number_format":15}`)
+				if err != nil {
+					return fmt.Errorf("cant create date style: %w", err)
+				}
 				err = book.SetCellStyle(property.Sheet, dateCell, dateCell, style)
 				if err != nil {
 					return fmt.Errorf("cant set cell style: %w", err)

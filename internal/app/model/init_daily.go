@@ -10,7 +10,7 @@ var InitDaily = []DailyMaterial{
 		"$/т",
 		"A",
 		[]Property{
-			{"Daily", "Средняя цена", "BM", 4, "decimal"},
+			{"Daily", "Средняя цена", "BM", 4, "decimal", ""},
 		},
 		false,
 		ConvSettings{},
@@ -24,9 +24,9 @@ var InitDaily = []DailyMaterial{
 		"$/т",
 		"A",
 		[]Property{
-			{"Daily", "Средняя цена", "DQ", 6, "decimal"},
-			{"Daily", "Мин цена", "DO", 6, "decimal"},
-			{"Daily", "Макс цена", "DP", 6, "decimal"},
+			{"Daily", "Средняя цена", "DQ", 6, "decimal", ""},
+			{"Daily", "Мин цена", "DO", 6, "decimal", ""},
+			{"Daily", "Макс цена", "DP", 6, "decimal", ""},
 		},
 		false,
 		ConvSettings{},
@@ -40,9 +40,9 @@ var InitDaily = []DailyMaterial{
 		"$/т",
 		"A",
 		[]Property{
-			{"Daily", "Мин цена", "ER", 4, "decimal"},
-			{"Daily", "Макс цена", "ES", 4, "decimal"},
-			{"Daily", "Средняя цена", "ET", 4, "decimal"},
+			{"Daily", "Мин цена", "ER", 4, "decimal", ""},
+			{"Daily", "Макс цена", "ES", 4, "decimal", ""},
+			{"Daily", "Средняя цена", "ET", 4, "decimal", ""},
 		},
 		false,
 		ConvSettings{},
@@ -56,9 +56,9 @@ var InitDaily = []DailyMaterial{
 		"¥/т",
 		"A",
 		[]Property{
-			{"Daily", "Мин цена", "GD", 4, "decimal"},
-			{"Daily", "Макс цена", "GE", 4, "decimal"},
-			{"Daily", "Средняя цена", "GF", 4, "decimal"},
+			{"Daily", "Мин цена", "GD", 4, "decimal", ""},
+			{"Daily", "Макс цена", "GE", 4, "decimal", ""},
+			{"Daily", "Средняя цена", "GF", 4, "decimal", ""},
 		},
 		false,
 		ConvSettings{},
@@ -72,7 +72,7 @@ var InitDaily = []DailyMaterial{
 		"$/т",
 		"A",
 		[]Property{
-			{"Daily", "Средняя цена", "GO", 4, "decimal"},
+			{"Daily", "Средняя цена", "GO", 4, "decimal", ""},
 		},
 		true,
 		ConvSettings{},
@@ -86,7 +86,7 @@ var InitDaily = []DailyMaterial{
 		"$/т",
 		"A",
 		[]Property{
-			{"Daily", "Средняя цена", "HG", 4, "decimal"},
+			{"Daily", "Средняя цена", "HG", 4, "decimal", ""},
 		},
 		true,
 		ConvSettings{
@@ -104,7 +104,7 @@ var InitDaily = []DailyMaterial{
 		"¥/т",
 		"A",
 		[]Property{
-			{"Daily", "Средняя цена", "HQ", 4, "decimal"},
+			{"Daily", "Средняя цена", "HQ", 4, "decimal", ""},
 		},
 		true,
 		ConvSettings{},
@@ -118,7 +118,7 @@ var InitDaily = []DailyMaterial{
 		"$/т",
 		"A",
 		[]Property{
-			{"Daily", "Средняя цена", "HZ", 4, "decimal"},
+			{"Daily", "Средняя цена", "HZ", 4, "decimal", ""},
 		},
 		true,
 		ConvSettings{},
@@ -132,7 +132,7 @@ var InitDaily = []DailyMaterial{
 		"$/т",
 		"A",
 		[]Property{
-			{"Daily", "Средняя цена", "II", 4, "decimal"},
+			{"Daily", "Средняя цена", "II", 4, "decimal", ""},
 		},
 		true,
 		ConvSettings{
@@ -150,7 +150,7 @@ var InitDaily = []DailyMaterial{
 		"¥/т",
 		"A",
 		[]Property{
-			{"Daily", "Средняя цена", "JT", 4, "decimal"},
+			{"Daily", "Средняя цена", "JT", 4, "decimal", ""},
 		},
 		true,
 		ConvSettings{},
@@ -164,7 +164,7 @@ var InitDaily = []DailyMaterial{
 		"¢/фунт Cr",
 		"A",
 		[]Property{
-			{"Daily", "Средняя цена", "KC", 4, "decimal"},
+			{"Daily", "Средняя цена", "KC", 4, "decimal", ""},
 		},
 		true,
 		ConvSettings{},
@@ -178,7 +178,7 @@ var InitDaily = []DailyMaterial{
 		"¢/фунт Cr",
 		"A",
 		[]Property{
-			{"Daily", "Средняя цена", "KL", 4, "decimal"},
+			{"Daily", "Средняя цена", "KL", 4, "decimal", ""},
 		},
 		true,
 		ConvSettings{},
@@ -192,7 +192,7 @@ var InitDaily = []DailyMaterial{
 		"¢/фунт Cr",
 		"A",
 		[]Property{
-			{"Daily", "Средняя цена", "KU", 4, "decimal"},
+			{"Daily", "Средняя цена", "KU", 4, "decimal", ""},
 		},
 		true,
 		ConvSettings{},
@@ -206,7 +206,7 @@ var InitDaily = []DailyMaterial{
 		"¥/т",
 		"A",
 		[]Property{
-			{"Daily", "Средняя цена", "LM", 4, "decimal"},
+			{"Daily", "Средняя цена", "LM", 4, "decimal", ""},
 		},
 		true,
 		ConvSettings{},
@@ -220,7 +220,7 @@ var InitDaily = []DailyMaterial{
 		"¢/фунт Cr",
 		"A",
 		[]Property{
-			{"Daily", "Средняя цена", "ME", 4, "decimal"},
+			{"Daily", "Средняя цена", "ME", 4, "decimal", ""},
 		},
 		true,
 		ConvSettings{},

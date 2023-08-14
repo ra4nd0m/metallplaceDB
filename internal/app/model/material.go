@@ -3,11 +3,12 @@ package model
 import "time"
 
 type Property struct {
-	Sheet  string
-	Name   string
-	Column string
-	Row    int
-	Kind   string
+	Sheet      string
+	Name       string
+	Column     string
+	Row        int
+	Kind       string
+	DateColumn string
 }
 
 type Material struct {
