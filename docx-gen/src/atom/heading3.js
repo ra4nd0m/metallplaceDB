@@ -6,10 +6,13 @@ const {FontFamilyBold, h3Size, h3Color,
     BorderNil,
     Grey,
     FontFamilyExtraBold,
-    HeaderFooterMargin, AccentColor, h2Size, FatBorder
+    HeaderFooterMargin, AccentColor, h2Size, FatBorder, FirstLineLength, PageWidth
 } = require("../const");
+const getStringLengthInMillimeters = require("../utils/get_string_length");
 
 module.exports = function (text) {
+    let first = FirstLineLength
+    let second = getStringLengthInMillimeters(text, 22, 96)
     return new docx.Table({
         width: {
             size: 100,
@@ -19,7 +22,7 @@ module.exports = function (text) {
             left: 0,
             right: 0,
         },
-        columnWidths: [1, 8],
+        columnWidths: [first, second],
         rows: [
             new docx.TableRow({
                 children: [
