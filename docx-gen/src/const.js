@@ -67,6 +67,11 @@ module.exports.PageMargins = {
     right: 800,
     left: 800,
 }
+module.exports.PageZeroMargins = {
+    top: 0,
+    right: 0,
+    left: 0,
+}
 const NONE_BORDER = {
     style: docx.BorderStyle.NONE,
     size: 0,

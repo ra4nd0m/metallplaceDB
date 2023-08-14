@@ -2,10 +2,11 @@ const docx = require("docx");
 const chartBlock = require("./chart_block")
 
 const {TableCellMarginNil} = require("../const");
+const margins = require("../atom/margins");
 module.exports = async function oneChart(url, avgGroup, comparePeriod){
     if(avgGroup === undefined) avgGroup = 1
     const block = await chartBlock(url, false, avgGroup, comparePeriod)
-    return new docx.Table({
+    return margins([new docx.Table({
         width: {
             size: 100,
             type: docx.WidthType.PERCENTAGE,
@@ -30,4 +31,5 @@ module.exports = async function oneChart(url, avgGroup, comparePeriod){
 
         ],
     })
+        ])
 }

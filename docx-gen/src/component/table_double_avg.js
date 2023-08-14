@@ -9,6 +9,7 @@ const textTh = require("../atom/text_th")
 
 const tableBody = require("../atom/table_double_avg_body");
 const {formatDateDb, formatDateTable} = require("../utils/date_format");
+const margins = require("../atom/margins");
 
 const {TableRow} = docx;
 
@@ -118,5 +119,5 @@ module.exports = async function tableDoubleWithWeekAvg(materialId1, materialId2,
         rows: tableBody(resBody1.data, resBody2.data, unitChangeRound, percentChangeRound, avgRound),
     })
 
-    return paragraph({children: [header, body]})
+    return margins([paragraph({children: [header, body]})])
 }

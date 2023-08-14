@@ -14,6 +14,7 @@ const {
 const cellCenter = require("../atom/cell_centred");
 const paragraph = require("../atom/paragraph");
 const {formatDateTable} = require("../utils/date_format");
+const margins = require("../atom/margins");
 
 module.exports = async function singleTable(materialId, propertyId, dates, unitChangeRound, percentChangeRound, scale, predict, priceRound) {
     const first = new Date(dates[0])
@@ -199,5 +200,5 @@ module.exports = async function singleTable(materialId, propertyId, dates, unitC
 
     }
 
-    return paragraph({children: tableComponents})
+    return margins([paragraph({children: tableComponents})])
 }

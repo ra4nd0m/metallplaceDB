@@ -11,6 +11,7 @@ const tableBody = require("../atom/table_single_minimax_body")
 const textTh = require("../atom/text_th")
 const priceBlock = require("../atom/price_block")
 const cellCenter = require("../atom/cell_centred");
+const margins = require("../atom/margins");
 
 
 module.exports = async function singleTableMinimax(materialId, dates, unitChangeRound, percentChangeRound, type) {
@@ -101,5 +102,5 @@ module.exports = async function singleTableMinimax(materialId, dates, unitChange
         rows: tableBody(minBody.data, maxBody.data, medBody.data, unitChangeRound, percentChangeRound, type),
     })
 
-    return paragraph({children: [header, body]})
+    return margins([paragraph({children: [header, body]})])
 }

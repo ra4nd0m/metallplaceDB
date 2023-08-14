@@ -12,6 +12,7 @@ const axios = require("axios");
 const {FormatDayMonth, GetWeekNumber} = require("../utils/date_operations");
 const paragraph = require("../atom/paragraph");
 const priceBlock = require("../atom/price_block");
+const margins = require("../atom/margins");
 
 
 function headerMaterial(title, unit, font){
@@ -121,7 +122,7 @@ module.exports = async function tableMaterialMinimax(materialIds, dates, unitCha
         rows: tableBody(bodyInfo, unitChangeRound, percentChangeRound, priceRound),
     })
 
-    return paragraph({children: [header, body]})
+    return margins([paragraph({children: [header, body]})])
 }
 
 function createTitle(date){

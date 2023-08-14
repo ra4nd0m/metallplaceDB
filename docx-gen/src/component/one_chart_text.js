@@ -2,6 +2,7 @@ const docx = require("docx");
 const chartBlock = require("./chart_block")
 const paragraph = require("../atom/paragraph")
 const {TableCellMarginNil, LineWidth, LineColor, FontFamily, FontSizeParagraph, FontFamilyExtraBold, FontFamilyMedium} = require("../const");
+const margins = require("../atom/margins");
 
 module.exports = async function oneChartText(url, titles){
     const block = await chartBlock(url, true)
@@ -12,7 +13,7 @@ module.exports = async function oneChartText(url, titles){
         titleMedium = titles[1]
     }
 
-    return new docx.Table({
+    return margins([new docx.Table({
         width: {
             size: 100,
             type: docx.WidthType.PERCENTAGE,
@@ -54,4 +55,5 @@ module.exports = async function oneChartText(url, titles){
             }),
         ],
     })
+        ])
 }

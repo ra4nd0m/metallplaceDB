@@ -9,6 +9,7 @@ const tableBody = require("../atom/table_double_body");
 const {formatDateDb, formatDateTable} = require("../utils/date_format");
 const cellCenter = require("../atom/cell_centred")
 const textTh = require("../atom/text_th")
+const margins = require("../atom/margins");
 
 const {TableRow} = docx;
 
@@ -255,5 +256,5 @@ module.exports = async function tableDouble(materialId1, materialId2, propertyId
         )
 
     }
-    return paragraph({children: tableComponents})
+    return margins([paragraph({children: tableComponents})])
 }
