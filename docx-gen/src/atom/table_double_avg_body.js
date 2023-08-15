@@ -4,7 +4,7 @@ const cellCenter = require("../atom/cell_centred")
 const textTd = require("../atom/text_td")
 const {formatDateTable} = require("../utils/date_format");
 const getToFixed = require("../utils/get_to_fixed")
-const {FontFamily, FontFamilySemiBold} = require("../const");
+const {FontFamily, FontFamilySemiBold, TableCellMarginNil, ThinBorder} = require("../const");
 
 function insertMed(i, feed1, feed2, avgRound){
     let cells = []
@@ -18,17 +18,32 @@ function insertMed(i, feed1, feed2, avgRound){
         let font = FontFamily
         if (i > 4) font = FontFamilySemiBold
         cells.push(
-            cellCenter({
+            new docx.TableCell({
+                margins: TableCellMarginNil,
                 rowSpan: 5,
-                children: [textTd(Math.round(sum1 / 5 * Math.pow(10, avgRound)) / Math.pow(10, avgRound), undefined, avgRound, font)]
+                children: [textTd(Math.round(sum1 / 5 * Math.pow(10, avgRound)) / Math.pow(10, avgRound), undefined, avgRound, font)],
+                verticalAlign: docx.VerticalAlign.CENTER,
+                borders: {
+                    top: ThinBorder,
+                    bottom: ThinBorder,
+                    left: ThinBorder,
+                    right: ThinBorder,
+                },
+            }),
+            new docx.TableCell({
+                margins: TableCellMarginNil,
+                rowSpan: 5,
+                children: [textTd(Math.round(sum2 / 5 * Math.pow(10, avgRound)) / Math.pow(10, avgRound), undefined, avgRound, font)],
+                verticalAlign: docx.VerticalAlign.CENTER,
+                borders: {
+                    top: ThinBorder,
+                    bottom: ThinBorder,
+                    left: ThinBorder,
+                    right: ThinBorder,
+                },
             }),
         )
-        cells.push(
-            cellCenter({
-                rowSpan: 5,
-                children: [textTd(Math.round(sum2 / 5 * Math.pow(10, avgRound)) / Math.pow(10, avgRound), undefined, avgRound, font)]
-            })
-        )
+
         return cells
     }
     return []

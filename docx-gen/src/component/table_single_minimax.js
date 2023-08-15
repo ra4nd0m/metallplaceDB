@@ -4,7 +4,7 @@ const paragraph = require("../atom/paragraph")
 const axios = require("axios");
 const {TableCellMarginNil, MinPriceId, MaxPriceId, MedPriceId, FontFamilyMedium, FontSizeThMain,
     FontFamilyThin,
-    FontSizeThSecondary, FontSizeThExtraInfo, ApiEndpoint
+    FontSizeThSecondary, FontSizeThExtraInfo, ApiEndpoint, FatBorder, ThinBorder, BorderNil, BordersNil
 } = require("../const");
 const {FormatDayMonth} = require("../utils/date_operations");
 const tableBody = require("../atom/table_single_minimax_body")
@@ -49,11 +49,13 @@ module.exports = async function singleTableMinimax(materialId, dates, unitChange
             new docx.TableRow({
                 children: [
                     new docx.TableCell({
+                        borders: {top: FatBorder, right: ThinBorder, bottom: FatBorder, left: ThinBorder},
                         rowSpan: 2,
                         verticalAlign: docx.VerticalAlign.CENTER,
                         children: [textTh("Дата", FontFamilyMedium, FontSizeThMain)]
                     }),
                     new docx.TableCell({
+                        borders: {top: FatBorder, right: ThinBorder, bottom: FatBorder, left: BorderNil},
                         alignment: docx.AlignmentType.CENTER,
                         verticalAlign: docx.VerticalAlign.CENTER,
                         columnSpan: 3,
@@ -68,6 +70,7 @@ module.exports = async function singleTableMinimax(materialId, dates, unitChange
             new docx.TableRow({
                 children: [
                     new docx.TableCell({
+                        borders: {top: BorderNil, right: ThinBorder, bottom: FatBorder, left: ThinBorder},
                         margins: TableCellMarginNil,
                         children: [
                             paragraph({
@@ -77,12 +80,14 @@ module.exports = async function singleTableMinimax(materialId, dates, unitChange
                         ]
                     }),
                     new docx.TableCell({
+                        borders: {top: BorderNil, right: ThinBorder, bottom: FatBorder, left: ThinBorder},
                         children: [textTh("Изм.", FontFamilyMedium, FontSizeThMain),
                             textTh(resMat.data.info.Unit, FontFamilyThin, FontSizeThExtraInfo)
                         ],
                         verticalAlign: docx.VerticalAlign.CENTER,
                     }),
                     new docx.TableCell({
+                        borders: {top: BorderNil, right: ThinBorder, bottom: FatBorder, left: ThinBorder},
                         children: [textTh("Изм.", FontFamilyMedium, FontSizeThMain),
                             textTh("%", FontFamilyThin, FontSizeThExtraInfo)
                         ],

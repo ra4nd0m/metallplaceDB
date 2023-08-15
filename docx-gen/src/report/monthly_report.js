@@ -266,7 +266,7 @@ module.exports = class MonthlyReport {
                         paragraph({ //жрс 62 и 65
                             children: [await oneChartText(FormChartUrl(new ChartUrl([2,3], MedPriceId, GetNMonthRange(date, 9), 1, "line", "month", "month", 1, 0)), ["Цены на ЖРС,"," USD/т CNF Китай"])]
                         }),
-                        await tableDouble(1, 2, MedPriceId, GetNMonthRange(date, 9, true), 0, 1, "month", 0, 0),
+                        await tableDouble(2, 3, MedPriceId, GetNMonthRange(date, 9, true), 0, 1, "month", 0, 0),
                         new docx.Paragraph({children: [new docx.PageBreak()]}),
 
 

@@ -1,7 +1,7 @@
 const docx = require("docx");
 const paragraph = require("../atom/paragraph");
 const {TableCellMarginNil, TableNoOuterBorders, FontFamilyMedium, FontSizeThMain, FontFamily, FontFamilySemiBold,
-    FontSizeThSecondary, FontSizeThExtraInfo, FontFamilyThin, ApiEndpoint
+    FontSizeThSecondary, FontSizeThExtraInfo, FontFamilyThin, ApiEndpoint, BordersNil, ThinBorder, BorderNil, FatBorder
 } = require("../const");
 const axios = require("axios");
 const cellCenter = require("../atom/cell_centred")
@@ -10,6 +10,7 @@ const textTh = require("../atom/text_th")
 const tableBody = require("../atom/table_double_avg_body");
 const {formatDateDb, formatDateTable} = require("../utils/date_format");
 const margins = require("../atom/margins");
+const {tr} = require("date-fns/locale");
 
 const {TableRow} = docx;
 
@@ -19,19 +20,25 @@ function headerMaterial(name, market, delivery, unit) {
             size: 100,
             type: docx.WidthType.PERCENTAGE,
         },
-        borders: TableNoOuterBorders,
+        borders: BordersNil,
         rows: [
             new TableRow({
-                children: [cellCenter({columnSpan: 3, children: [
+                children: [
+                    cellCenter({
+                            borders: {top: BorderNil, right: BorderNil, bottom: FatBorder, left: BorderNil},
+                            columnSpan: 3, children: [
                     textTh(name, FontFamilyMedium, FontSizeThMain),
-                        textTh( delivery + " " + market, FontFamilyThin, FontSizeThSecondary)]})
+                        textTh( delivery + " " + market, FontFamilyThin, FontSizeThSecondary)]
+                    },
+                    true
+                    )
                 ]
             }),
             new TableRow({
                 children: [
-                    cellCenter({children: [textTh(`Цена`, FontFamilyMedium, FontSizeThSecondary), textTh(unit, FontFamilyThin, FontSizeThExtraInfo)]}),
-                    cellCenter({children: [textTh(`Изм.`, FontFamilyMedium, FontSizeThSecondary), textTh(unit, FontFamilyThin, FontSizeThExtraInfo)]}),
-                    cellCenter({children: [textTh(`Изм.`, FontFamilyMedium, FontSizeThSecondary), textTh("%", FontFamilyThin, FontSizeThExtraInfo)]}),
+                    cellCenter({borders: {top: BorderNil, right: ThinBorder, bottom: BorderNil, left: BorderNil}, children: [textTh(`Цена`, FontFamilyMedium, FontSizeThSecondary), textTh(unit, FontFamilyThin, FontSizeThExtraInfo)]}, true),
+                    cellCenter({borders: {top: BorderNil, right: ThinBorder, bottom: BorderNil, left: BorderNil}, children: [textTh(`Изм.`, FontFamilyMedium, FontSizeThSecondary), textTh(unit, FontFamilyThin, FontSizeThExtraInfo)]}, true),
+                    cellCenter({borders: {top: BorderNil, right: BorderNil, bottom: BorderNil, left: BorderNil}, children: [textTh(`Изм.`, FontFamilyMedium, FontSizeThSecondary), textTh("%", FontFamilyThin, FontSizeThExtraInfo)]}, true),
                 ],
             })
         ]
@@ -44,18 +51,22 @@ function avgBlock(name1, name2, unit) {
             size: 100,
             type: docx.WidthType.PERCENTAGE,
         },
-        borders: TableNoOuterBorders,
+        borders: BordersNil,
         rows: [
             new TableRow({
                 children: [
-                    cellCenter({children: [textTh(name1, FontFamilyMedium, FontSizeThSecondary)]}),
-                    cellCenter({children: [textTh(name2, FontFamilyMedium, FontSizeThSecondary)]}),
+                    cellCenter({borders: {top: BorderNil, right: ThinBorder, bottom: BorderNil, left: BorderNil}, children: [textTh(name1, FontFamilyMedium, FontSizeThSecondary)]}, true),
+                    cellCenter({borders: {top: BorderNil, right: BorderNil, bottom: BorderNil, left: BorderNil}, children: [textTh(name2, FontFamilyMedium, FontSizeThSecondary)]}, true),
                 ]
             }),
             new TableRow({
                 children: [
-                    cellCenter({children: [textTh(`Средняя за неделю`, FontFamilyMedium, FontSizeThSecondary),
-                            textTh(unit, FontFamilyThin, FontSizeThExtraInfo)]})
+                    cellCenter({
+                            borders: {top: FatBorder, right: BorderNil, bottom: BorderNil, left: BorderNil},
+                            children: [textTh(`Средняя за неделю`, FontFamilyMedium, FontSizeThSecondary),
+                            textTh(unit, FontFamilyThin, FontSizeThExtraInfo)]},
+                        true
+                    )
                 ],
             })
         ]
@@ -90,21 +101,24 @@ module.exports = async function tableDoubleWithWeekAvg(materialId1, materialId2,
         rows: [
             new TableRow({
                 children: [
-                    cellCenter({margins: TableCellMarginNil, children: [textTh("Дата", FontFamilyMedium, FontSizeThMain)]}),
+                    cellCenter({borders: {top: FatBorder, right: ThinBorder, bottom: FatBorder, left: ThinBorder}, margins: TableCellMarginNil, children: [textTh("Дата", FontFamilyMedium, FontSizeThMain)]}, true),
                     cellCenter({
+                        borders: {top: FatBorder, right: ThinBorder, bottom: FatBorder, left: ThinBorder},
                         margins: TableCellMarginNil,
                         children: [headerMaterial(resMat1.data.info.Name, resMat1.data.info.Market,
                             resMat1.data.info.DeliveryType, resMat1.data.info.Unit)]
-                    }),
+                    }, true),
                     cellCenter({
+                        borders: {top: FatBorder, right: ThinBorder, bottom: FatBorder, left: ThinBorder},
                         margins: TableCellMarginNil,
                         children: [headerMaterial(resMat2.data.info.Name, resMat2.data.info.Market,
                             resMat2.data.info.DeliveryType, resMat2.data.info.Unit)]
-                    }),
+                    }, true),
                     cellCenter({
+                        borders: {top: FatBorder, right: ThinBorder, bottom: FatBorder, left: ThinBorder},
                         margins: TableCellMarginNil,
-                        children: [ avgBlock(`${name11} (${name12})`, `${name21} (${name22})`, resMat1.data.info.Unit)]
-                    }),
+                        children: [ avgBlock(resMat1.data.info.Name, resMat2.data.info.Name, resMat1.data.info.Unit)]
+                    }, true),
                 ],
             }),
         ]
