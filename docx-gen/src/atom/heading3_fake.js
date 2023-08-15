@@ -1,10 +1,13 @@
 const docx = require("docx");
 const {FontFamilyBold, h3Size, h3Color, BordersNil, TableCellMarginNil, BorderNil, AccentColor, FontFamilyExtraBold,
-    h2Size
+    h2Size, FirstLineLength, PageWidth
 } = require("../const");
 const paragraph = require("./paragraph");
+const getStringLengthInMillimeters = require("../utils/get_string_length");
 
     module.exports = function (text) {
+        let first = FirstLineLength
+        let second = PageWidth - first
         return new docx.Table({
             width: {
                 size: 100,
@@ -14,7 +17,7 @@ const paragraph = require("./paragraph");
                 left: 0,
                 right: 0,
             },
-            columnWidths: [1, 4], // Set the second column width dynamically based on the title width
+            columnWidths: [first, second], // Set the second column width dynamically based on the title width
             rows: [
                 new docx.TableRow({
                     children: [
