@@ -1,4 +1,6 @@
 const docx = require("docx");
+const pageBreak = require("../atom/page_break");
+const separator = require("../atom/separator");
 const footer = require("../component/footer");
 const header = require("../component/header");
 const h2 = require("../atom/heading2");
@@ -6,7 +8,7 @@ const h3 = require("../atom/heading3");
 const h3Fake = require("../atom/heading3_fake");
 const paragraph = require("../atom/paragraph");
 const twoChart = require("../component/two_chart");
-const { WeeklyHeaderTitle, MedPriceId, StockId, RusMonth, FontFamilyThin, PageMargins, PageZeroMargins} = require("../const");
+const { WeeklyHeaderTitle, MedPriceId, StockId, RusMonth, FontFamilyThin} = require("../const");
 const coverDates = require("../atom/cover_dates_weekly")
 const oneChartText = require("../component/one_chart_text");
 const cover = require("../atom/cover")
@@ -25,7 +27,7 @@ const {
     Get2LastThursdays,
     GetLastDayOfWeek
 } = require("../utils/date_operations");
-const {GetMonthRange, Get2WeekRange, GetYearRange, GetNMonthRange} = require("../utils/date_ranges")
+const {GetMonthRange, Get2WeekRange, GetYearRange} = require("../utils/date_ranges")
 const {ChartUrl, FormChartUrl} = require("../utils/form_chart_url")
 
 function getFooterTitle(date) {
@@ -108,9 +110,9 @@ module.exports = class WeeklyReport {
                             })]
                         }),
 
-                        new docx.Paragraph({children: [new docx.PageBreak()]}),
+                        pageBreak(),
                         h2("Краткая сводка новостей по мировому рынку"),
-                        new docx.Paragraph({children: [new docx.PageBreak()]}),
+                        pageBreak(),
 
                         h2("Краткая сводка цен по мировому рынку"),
                         h3Fake("Сырьевые материалы"),
@@ -161,7 +163,7 @@ module.exports = class WeeklyReport {
                             ]
                         }),
 
-                        new docx.Paragraph({children: [new docx.PageBreak()]}),
+                        pageBreak(),
                         paragraph({
                             children: [
                                 await twoChart(
@@ -220,7 +222,7 @@ module.exports = class WeeklyReport {
                             ]
                         }),
 
-                        new docx.Paragraph({children: [new docx.PageBreak()]}),
+                        pageBreak(),
                         h2("Рынок сырьевых материалов"),
                         h3("Железорудное сырье"),
 
@@ -233,7 +235,7 @@ module.exports = class WeeklyReport {
                         }),
                         await tableDoubleAvg(2, 3, MedPriceId, Get2WeekRange(date, true), 2, 1, 1), //жрс 62 и 65
 
-                        new docx.Paragraph({children: [new docx.PageBreak()]}),
+                        pageBreak(),
                         h3("Уголь и кокс"),
 
                         paragraph({ // коксующийся уголь россия австралия
@@ -243,8 +245,8 @@ module.exports = class WeeklyReport {
                         paragraph({ // мет кокс
                             children: [await oneChartText(FormChartUrl(new ChartUrl([8], MedPriceId, GetMonthRange(date), 1, "line", "day", "day", 1, -1)))]
                         }),
-                        new docx.Paragraph({children: [new docx.PageBreak()]}),
-                        h3Fake(),
+                        pageBreak(),
+                        separator(),
                         await singleTable(8, MedPriceId, GetMonthRange(date, true)), // мет кокс
 
 
@@ -263,8 +265,8 @@ module.exports = class WeeklyReport {
                         }),
                         await singleTableMinimax(5, GetMonthRange(date, true)), // чугун фоб
                         await tableMaterialMinimax([66, 67, 68], Get2LastMondays(date), 0, 1, "week"),
-                        new docx.Paragraph({children: [new docx.PageBreak()]}),
-                        h3Fake(),
+                        pageBreak(),
+                        separator(),
 
                         h2("Рынок стали"),
                         h3("Полуфабрикаты"),
@@ -272,8 +274,8 @@ module.exports = class WeeklyReport {
                         paragraph({ //заготовка, сляб
                             children: [await oneChartText(FormChartUrl(new ChartUrl([9, 11], MedPriceId, GetMonthRange(date), 1, "line", "day", "day", 1, -1)))]
                         }),
-                        new docx.Paragraph({children: [new docx.PageBreak()]}),
-                        h3Fake(""),
+                        pageBreak(),
+                        separator(),
                         await doubleTableMinimax(9, 11, GetMonthRange(date, true), 0, 1), //заготовка, сляб
 
 
@@ -284,13 +286,13 @@ module.exports = class WeeklyReport {
                             children: [await oneChartText(FormChartUrl(new ChartUrl([10], MedPriceId, GetMonthRange(date), 1, "line", "day", "day", 1, -1)))]
                         }),
                         await singleTableMinimax(10, GetMonthRange(date, true), 0, 1), //арматура FOB
-                        new docx.Paragraph({children: [new docx.PageBreak()]}),
-                        h3Fake(),
+                        pageBreak(),
+                        separator(),
                         paragraph({ //арматура A1 EXW
                             children: [await oneChartText(FormChartUrl(new ChartUrl([14], MedPriceId, GetMonthRange(date), 1, "line", "day", "day", 1, -1)))]
                         }),
                         await singleTable(14, MedPriceId, GetMonthRange(date, true), 0, 1), //арматура A1 EXW
-                        new docx.Paragraph({children: [new docx.PageBreak()]}),
+                        pageBreak(),
 
                         h3("Плоский прокат"),
                         await tableMaterialMinimax(getRangeArr(53, 65), Get2LastMondays(date), 0, 1, "week"),
@@ -298,15 +300,15 @@ module.exports = class WeeklyReport {
                             children: [await oneChartText(FormChartUrl(new ChartUrl([12, 13], MedPriceId, GetMonthRange(date), 1, "line", "day", "day", 1, -1)))]
                         }),
 
-                        new docx.Paragraph({children: [new docx.PageBreak()]}),
+                        pageBreak(),
 
-                        h3(""),
+                        separator(),
                         await doubleTableMinimax(12, 13, GetMonthRange(date, true), 0, 1), // рулон гк рулон хк FOB
                         paragraph({ // рулон гк рулон хк EXW
                             children: [await oneChartText(FormChartUrl(new ChartUrl([15, 16], MedPriceId, GetMonthRange(date), 1, "line", "day", "day", 1, -1)))]
                         }),
                         await tableDouble(15, 16, MedPriceId, GetMonthRange(date, true), 0, 1), // рулон гк рулон хк EXW
-                        new docx.Paragraph({children: [new docx.PageBreak()]}),
+                        pageBreak(),
 
 
                         h2("Рынок ферросплавов и руд"),
@@ -320,7 +322,7 @@ module.exports = class WeeklyReport {
                             children: [await oneChartText(FormChartUrl(new ChartUrl([17, 19], MedPriceId, GetMonthRange(date), 1, "line", "day", "day", 1, -1)))]
                         }),
                         await doubleTableMinimax(17, 19, GetMonthRange(date, true), 0, 1), // FeMn76, SiMn65
-                        new docx.Paragraph({children: [new docx.PageBreak()]}),
+                        pageBreak(),
 
                         h3("Ферросилиций"),
                         paragraph({ // FeSi
@@ -332,8 +334,8 @@ module.exports = class WeeklyReport {
                         paragraph({ // HC LC FeCr
                             children: [await oneChartText(FormChartUrl(new ChartUrl([20, 21], MedPriceId, GetMonthRange(date), 1, "line", "day", "day", 1, -1)))]
                         }),
-                        new docx.Paragraph({children: [new docx.PageBreak()]}),
-                        h3Fake(""),
+                        pageBreak(),
+                        separator(),
                         await doubleTableMinimax(20, 21, GetMonthRange(date, true), 0, 1), // HC LC FeCr
 
 
@@ -344,8 +346,8 @@ module.exports = class WeeklyReport {
                         paragraph({ //mn руда цена
                             children: [await oneChartText(FormChartUrl(new ChartUrl([22], MedPriceId, GetMonthRange(date), 1, "line", "day", "day", 1, -1)))]
                         }),
-                        new docx.Paragraph({children: [new docx.PageBreak()]}),
-                        h3Fake(""),
+                        pageBreak(),
+                        separator(),
                         await singleTableMinimax(22, GetMonthRange(date, true)),
 
 
@@ -356,8 +358,8 @@ module.exports = class WeeklyReport {
                         paragraph({ //cr руда цена
                             children: [await oneChartText(FormChartUrl(new ChartUrl([23], MedPriceId, GetMonthRange(date), 1, "line", "day", "day", 1, -1)))]
                         }),
-                        new docx.Paragraph({children: [new docx.PageBreak()]}),
-                        h3Fake(""),
+                        pageBreak(),
+                        separator(),
                         await singleTableMinimax(23, GetMonthRange(date, true), 1, 1),
 
                         h2("Рынок графитированых электродов"),

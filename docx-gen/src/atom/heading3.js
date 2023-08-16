@@ -12,7 +12,7 @@ const getStringLengthInMillimeters = require("../utils/get_string_length");
 
 module.exports = function (text) {
     let first = FirstLineLength
-    let second = getStringLengthInMillimeters(text, 22, 96)
+    let second = PageWidth - FirstLineLength
     return new docx.Table({
         width: {
             size: 100,
