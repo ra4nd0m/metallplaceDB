@@ -50,7 +50,8 @@ func (r *Repository) GetMaterialValueForPeriod(ctx context.Context, materialSour
 		FROM material_value WHERE material_source_id=$1 AND property_id=$3 AND created_on < $2 ORDER BY created_on DESC LIMIT 1`, materialSourceId, start, propertyId)
 	err = row.Scan(&prevPrice)
 	if err != nil {
-		return nil, 0, fmt.Errorf("Can't get prev price %w", err)
+		prevPrice = priceFeed[0].Value
+		priceFeed = priceFeed[1:]
 	}
 
 	return priceFeed, prevPrice, nil
