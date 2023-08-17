@@ -2,6 +2,7 @@ package repository
 
 import (
 	"context"
+	"database/sql"
 	"fmt"
 	"github.com/jackc/pgx/v5"
 	"metallplace/internal/app/model"
@@ -35,11 +36,31 @@ func (r *Repository) AddMaterialSource(ctx context.Context, uid int, materialNam
 		return id, nil
 	}
 
+	var finalUId int
+	if uid == 0 {
+		finalUId, err = r.GetMaxUId(ctx)
+		finalUId++
+		if err != nil {
+			return 0, fmt.Errorf("cant get max uid: %w", err)
+		}
+	} else {
+		exists, err := r.CheckIfUIdExists(ctx, uid)
+		if err != nil {
+			return 0, fmt.Errorf("cant check if uid exists: %w", err)
+		}
+		if !exists {
+			finalUId = uid
+		} else {
+			return 0, fmt.Errorf("uid already exists: %d", uid)
+		}
+
+	}
+
 	row := db.FromContext(ctx).QueryRow(
 		ctx, `INSERT INTO material_source (uid, material_id, source_id, target_market, unit, delivery_type, material_group_id) 
 		VALUES ($1, $2, $3, $4, $5, $6, $7) 
-		ON CONFLICT DO NOTHING RETURNING id`,
-		uid, materialId, sourceId, market, unit, deliveryType, groupId)
+		ON CONFLICT DO NOTHING RETURNING uid`,
+		finalUId, materialId, sourceId, market, unit, deliveryType, groupId)
 
 	err = row.Scan(&id)
 	if err != nil {
@@ -47,6 +68,35 @@ func (r *Repository) AddMaterialSource(ctx context.Context, uid int, materialNam
 	}
 
 	return id, nil
+}
+
+func (r *Repository) GetMaxUId(ctx context.Context) (int, error) {
+	var id sql.NullInt64
+	row := db.FromContext(ctx).QueryRow(
+		ctx, `SELECT MAX(uid) FROM material_source`)
+	err := row.Scan(&id)
+	if err != nil {
+		return 0, fmt.Errorf("can't get max uid: %w", err)
+	}
+
+	if !id.Valid {
+		return 0, nil
+	}
+
+	return int(id.Int64), nil
+}
+
+func (r *Repository) CheckIfUIdExists(ctx context.Context, uid int) (bool, error) {
+	var exists bool
+	row := db.FromContext(ctx).QueryRow(
+		ctx, `SELECT EXISTS(SELECT 1 FROM material_source WHERE uid = $1)`,
+		uid)
+	err := row.Scan(&exists)
+	if err != nil {
+		return false, fmt.Errorf("can't check if entry exists: %w", err)
+	}
+
+	return exists, nil
 }
 
 // GetMaterialSourceId Get unique material-source combo by material and source name

@@ -20,10 +20,10 @@ type AddUniqueMaterialResponse struct {
 
 func (h Handler) AddUniqueMaterialHandler(w http.ResponseWriter, r *http.Request) {
 	handle(w, r, func(req AddUniqueMaterialRequest) (AddUniqueMaterialResponse, error) {
-		err := h.service.AddUniqueMaterial(r.Context(), req.UId, req.Name, req.Group, req.Source, req.Market, req.Unit, req.DeliveryType)
+		id, err := h.service.AddUniqueMaterial(r.Context(), req.UId, req.Name, req.Group, req.Source, req.Market, req.Unit, req.DeliveryType)
 		if err != nil {
 			return AddUniqueMaterialResponse{0}, err
 		}
-		return AddUniqueMaterialResponse{req.UId}, nil
+		return AddUniqueMaterialResponse{id}, nil
 	})
 }

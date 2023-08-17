@@ -73,6 +73,7 @@ create table material_source
             references material_group,
     constraint material_source_material_id_source_id_target_market_unit_de_key
         unique (material_id, source_id, target_market, unit, delivery_type, material_group_id)
+
 );
 
 

@@ -305,7 +305,7 @@ func (s *Service) ParseXlsxForChart(byte []byte) (chartclient.Request, error) {
 
 func (s *Service) InitImportDailyMaterials(ctx context.Context, book *excelize.File, dateLayout string) error {
 	for _, material := range model.InitDaily {
-		err := s.AddUniqueMaterial(ctx, material.UId, material.Name, material.Group, material.Source, material.Market, material.Unit, material.DeliveryType)
+		id, err := s.AddUniqueMaterial(ctx, material.UId, material.Name, material.Group, material.Source, material.Market, material.Unit, material.DeliveryType)
 		if err != nil {
 			return err
 		}
@@ -319,7 +319,7 @@ func (s *Service) InitImportDailyMaterials(ctx context.Context, book *excelize.F
 				return err
 			}
 
-			err = s.repo.AddMaterialProperty(ctx, material.UId, propertyId)
+			err = s.repo.AddMaterialProperty(ctx, id, propertyId)
 			if err != nil {
 				return fmt.Errorf("failed to add property %s: %w", property.Name, err)
 			}
@@ -397,7 +397,7 @@ func (s *Service) InitImportDailyMaterials(ctx context.Context, book *excelize.F
 					valueStr = value
 				}
 
-				err = s.repo.AddMaterialValue(ctx, material.UId, property.Name, valueDecimal, valueStr, createdOn)
+				err = s.repo.AddMaterialValue(ctx, id, property.Name, valueDecimal, valueStr, createdOn)
 				if err != nil {
 					return fmt.Errorf("failed to add material value: %w", err)
 				}
@@ -417,7 +417,7 @@ func (s *Service) InitImportDailyMaterials(ctx context.Context, book *excelize.F
 						}
 						maxPrice, err := strconv.ParseFloat(matches[2], 64)
 						if err != nil {
-							return fmt.Errorf("failed to parce from formula: %v (uid; %d, property: %s, row: %d)", err, material.UId, property.Name, row)
+							return fmt.Errorf("failed to parce from formula: %v (uid; %d, property: %s, row: %d)", err, id, property.Name, row)
 						}
 						if material.ConvSettings.Need {
 							minPrice = material.ConvSettings.Func(minPrice, material.ConvSettings.Rate)
@@ -428,7 +428,7 @@ func (s *Service) InitImportDailyMaterials(ctx context.Context, book *excelize.F
 						if err != nil {
 							return err
 						}
-						err = s.repo.AddMaterialProperty(ctx, material.UId, propertyId)
+						err = s.repo.AddMaterialProperty(ctx, id, propertyId)
 						if err != nil {
 							return fmt.Errorf("failed to add property %s: %w", property.Name, err)
 						}
@@ -436,16 +436,16 @@ func (s *Service) InitImportDailyMaterials(ctx context.Context, book *excelize.F
 						if err != nil {
 							return err
 						}
-						err = s.repo.AddMaterialProperty(ctx, material.UId, propertyId)
+						err = s.repo.AddMaterialProperty(ctx, id, propertyId)
 						if err != nil {
 							return fmt.Errorf("failed to add property %s: %w", property.Name, err)
 						}
 
-						err = s.repo.AddMaterialValue(ctx, material.UId, "Мин цена", minPrice, valueStr, createdOn)
+						err = s.repo.AddMaterialValue(ctx, id, "Мин цена", minPrice, valueStr, createdOn)
 						if err != nil {
 							return fmt.Errorf("failed to add material value: %w", err)
 						}
-						err = s.repo.AddMaterialValue(ctx, material.UId, "Макс цена", maxPrice, valueStr, createdOn)
+						err = s.repo.AddMaterialValue(ctx, id, "Макс цена", maxPrice, valueStr, createdOn)
 						if err != nil {
 							return fmt.Errorf("failed to add material value: %w", err)
 						}
@@ -465,7 +465,7 @@ func (s *Service) InitImportDailyMaterials(ctx context.Context, book *excelize.F
 
 func (s *Service) InitImportMaterialsVertical(ctx context.Context, book *excelize.File, dateLayout string) error {
 	for _, material := range model.InitMaterialsVertical {
-		err := s.AddUniqueMaterial(ctx, material.UId, material.Name, material.Group, material.Source, material.Market, material.Unit, material.DeliveryType)
+		id, err := s.AddUniqueMaterial(ctx, material.UId, material.Name, material.Group, material.Source, material.Market, material.Unit, material.DeliveryType)
 		if err != nil {
 			return err
 		}
@@ -479,7 +479,7 @@ func (s *Service) InitImportMaterialsVertical(ctx context.Context, book *exceliz
 				return err
 			}
 
-			err = s.repo.AddMaterialProperty(ctx, material.UId, propertyId)
+			err = s.repo.AddMaterialProperty(ctx, id, propertyId)
 			if err != nil {
 				return fmt.Errorf("failed to add property %s: %w", property.Name, err)
 			}
@@ -564,7 +564,7 @@ func (s *Service) InitImportMaterialsVertical(ctx context.Context, book *exceliz
 					valueStr = value
 				}
 
-				err = s.repo.AddMaterialValue(ctx, material.UId, property.Name, valueDecimal, valueStr, createdOn)
+				err = s.repo.AddMaterialValue(ctx, id, property.Name, valueDecimal, valueStr, createdOn)
 				if err != nil {
 					return fmt.Errorf("failed to add material value: %w", err)
 				}
@@ -582,7 +582,7 @@ func (s *Service) InitImportMaterialsVertical(ctx context.Context, book *exceliz
 
 func (s *Service) InitImportMaterialsHorizontalWeekly(ctx context.Context, book *excelize.File) error {
 	for _, material := range model.InitMaterialsHorizontalWeekly {
-		err := s.AddUniqueMaterial(ctx, material.UId, material.Name, material.Group, material.Source, material.Market, material.Unit, material.DeliveryType)
+		id, err := s.AddUniqueMaterial(ctx, material.UId, material.Name, material.Group, material.Source, material.Market, material.Unit, material.DeliveryType)
 		if err != nil {
 			return fmt.Errorf("cant add unique material %v: %w", material.Name, err)
 		}
@@ -596,7 +596,7 @@ func (s *Service) InitImportMaterialsHorizontalWeekly(ctx context.Context, book 
 				return fmt.Errorf("cant add/get property %v: %w", property.Name, err)
 			}
 
-			err = s.repo.AddMaterialProperty(ctx, material.UId, propertyId)
+			err = s.repo.AddMaterialProperty(ctx, id, propertyId)
 			if err != nil {
 				return fmt.Errorf("cant add material_property %v-%v: %w", material.Name, property.Name, err)
 			}
@@ -658,7 +658,7 @@ func (s *Service) InitImportMaterialsHorizontalWeekly(ctx context.Context, book 
 					valueStr = value
 				}
 
-				err = s.repo.AddMaterialValue(ctx, material.UId, property.Name, valueDecimal, valueStr, createdOn)
+				err = s.repo.AddMaterialValue(ctx, id, property.Name, valueDecimal, valueStr, createdOn)
 				if err != nil {
 					return err
 				}
