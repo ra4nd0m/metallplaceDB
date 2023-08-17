@@ -8,7 +8,7 @@ import (
 )
 
 // AddValue Adding property value to the specific material combo (material-source)
-func (s *Service) AddValue(ctx context.Context, materialSourceId int,
+func (s *Service) AddValue(ctx context.Context, uid int,
 	propertyName string, valueFloat float64, valueStr string, createdOn time.Time) error {
 	var valueType string
 
@@ -22,7 +22,7 @@ func (s *Service) AddValue(ctx context.Context, materialSourceId int,
 		return fmt.Errorf("Can't add property %w", err)
 	}
 
-	err = s.repo.AddMaterialValue(ctx, materialSourceId, propertyName, valueFloat, valueStr, createdOn)
+	err = s.repo.AddMaterialValue(ctx, uid, propertyName, valueFloat, valueStr, createdOn)
 	if err != nil {
 		return fmt.Errorf("Can't add value %w", err)
 	}

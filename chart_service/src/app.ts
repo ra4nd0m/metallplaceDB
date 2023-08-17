@@ -202,8 +202,6 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
          bottomBorder = Math.floor(minVal * 0.95 / 10) * 10;
     }
 
-
-
     const conf: ChartConfiguration = {
         type: 'line',
         plugins: [],
@@ -615,6 +613,8 @@ function formatYLabel(num: number) {
     }
     return numStr.replace(".", ",")
 }
+
+
 
 app.post('/gen', (req: Request, res: Response) => {
     getChart(req.body.x_label_set, req.body.y_data_set, req.body.chart_options)

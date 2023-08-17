@@ -5,6 +5,6 @@ import (
 	"metallplace/internal/app/model"
 )
 
-func (s *Service) GetPropertyList(ctx context.Context, materialSourceId int) ([]model.PropertyShortInfo, error) {
-	return s.repo.GetPropertyList(ctx, materialSourceId)
+func (s *Service) GetPropertyList(ctx context.Context, uid int) ([]model.PropertyShortInfo, error) {
+	return s.repo.GetPropertyList(ctx, uid)
 }

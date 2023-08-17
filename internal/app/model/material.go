@@ -11,18 +11,37 @@ type Property struct {
 	DateColumn string
 }
 
+// swagger:model Product
 type Material struct {
-	Name         string
-	Group        string
-	Source       string
-	Market       string
+	UId int
+	// Name of material
+	// in: string
+	Name string
+	// Group of materials
+	// in: string
+	Group string
+	// Source (website) of materials
+	// in: string
+	Source string
+	// Market (country and ferry) of materials
+	// in: string
+	Market string
+	// DeliveryType INCOTERMS of materials
+	// in: string
 	DeliveryType string
-	Unit         string
-	DateColumn   string
-	Properties   []Property
+	// Unit (currency and weight unit) of materials
+	// in: string
+	Unit string
+	// DateColumn column of date sequence in xlsx sheet
+	// in: string
+	DateColumn string
+	// Properties of material
+	// in: string
+	Properties []Property
 }
 
 type DailyMaterial struct {
+	UId          int
 	Name         string
 	Group        string
 	Source       string
@@ -41,6 +60,7 @@ type ConvSettings struct {
 	Rate float64
 }
 type MaterialHorizontal struct {
+	UId          int
 	Name         string
 	Group        string
 	Source       string

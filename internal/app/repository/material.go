@@ -71,7 +71,7 @@ func (r *Repository) GetMaterialList(ctx context.Context) ([]model.MaterialShort
 	var id int
 	var deliveryType string
 
-	rows, err := db.FromContext(ctx).Query(ctx, `SELECT id, material_id, source_id, target_market, delivery_type, unit, material_group_id FROM material_source`)
+	rows, err := db.FromContext(ctx).Query(ctx, `SELECT uid, material_id, source_id, target_market, delivery_type, unit, material_group_id FROM material_source`)
 	if err != nil {
 		return nil, fmt.Errorf("Can't get material_source rows %w", err)
 	}

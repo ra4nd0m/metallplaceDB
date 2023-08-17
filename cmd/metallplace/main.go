@@ -7,6 +7,7 @@ import (
 	"github.com/rs/cors"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
+	httpSwagger "github.com/swaggo/http-swagger"
 	"golang.org/x/sync/errgroup"
 	"metallplace/internal/app/handler"
 	"metallplace/internal/app/mw"
@@ -25,6 +26,20 @@ import (
 
 var conn db.IClient
 
+// @title Swagger Example API
+// @version 1.0
+// @description This is a sample server Petstore server.
+// @termsOfService http://swagger.io/terms/
+
+// @contact.name API Support
+// @contact.url http://www.swagger.io/support
+// @contact.email support@swagger.io
+
+// @license.name Apache 2.0
+// @license.url http://www.apache.org/licenses/LICENSE-2.0.html
+
+// @host petstore.swagger.io
+// @BasePath /v2
 func main() {
 	// Loading config
 	log.Logger = log.Output(zerolog.ConsoleWriter{Out: os.Stderr})
@@ -115,6 +130,7 @@ func externalServerFn(ctx context.Context, cfg config.Config, hdl *handler.Handl
 		{route: "/addPropertyToMaterial", handler: hdl.AddPropertyToMaterialHandler},
 		{route: "/updateMainFile", handler: hdl.UpdateMainFileHandler},
 		{route: "/login", handler: hdl.LoginHandler, withoutAuth: true},
+		{route: "/swagger/*", handler: httpSwagger.Handler(httpSwagger.URL("http://localhost:8080/swagger/doc.json")), withoutAuth: true},
 	} {
 		var h = rec.handler
 		if !rec.withoutAuth {

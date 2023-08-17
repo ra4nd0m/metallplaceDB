@@ -16,22 +16,22 @@ type IRepository interface {
 	GetMaterialId(ctx context.Context, materialName string) (int, error)
 	GetMaterialName(ctx context.Context, materialId int) (string, error)
 
-	AddMaterialProperty(ctx context.Context, materialSourceId int, propertyId int) error
+	AddMaterialProperty(ctx context.Context, uid int, propertyId int) error
 
-	AddMaterialSource(ctx context.Context, materialName, groupName, sourceName, market, unit, deliveryType string) (int, error)
+	AddMaterialSource(ctx context.Context, uid int, materialName, groupName, sourceName, market, unit, deliveryType string) (int, error)
 	GetMaterialSourceId(ctx context.Context, materialName, groupName, sourceName, market, unit, deliveryType string) (int, error)
 	GetMaterialSource(ctx context.Context, id int) (model.MaterialShortInfo, error)
 	GetDeliveryType(ctx context.Context, id int) (string, error)
 
-	AddMaterialValue(ctx context.Context, materialSourceId int, propertyName string, valueFloat float64, valueStr string, createdOn time.Time) error
-	GetMaterialValueForPeriod(ctx context.Context, materialSourceId, propertyId int, start string, finish string) ([]model.Price, float64, error)
-	GetNLastValues(ctx context.Context, materialSourceId, propertyId int, nValues int, finish string) ([]model.Price, error)
+	AddMaterialValue(ctx context.Context, uid int, propertyName string, valueFloat float64, valueStr string, createdOn time.Time) error
+	GetMaterialValueForPeriod(ctx context.Context, uid, propertyId int, start string, finish string) ([]model.Price, float64, error)
+	GetNLastValues(ctx context.Context, uid, propertyId int, nValues int, finish string) ([]model.Price, error)
 
 	AddPropertyIfNotExists(ctx context.Context, property model.PropertyShortInfo) (int, error)
 	GetPropertyId(ctx context.Context, propertyName string) (int, error)
 	GetPropertyName(ctx context.Context, id int) (string, error)
 	GetPropertyKind(ctx context.Context, propertyId int) (string, error)
-	GetPropertyList(ctx context.Context, materialSourceId int) ([]model.PropertyShortInfo, error)
+	GetPropertyList(ctx context.Context, uid int) ([]model.PropertyShortInfo, error)
 
 	AddSource(ctx context.Context, materialSource string) error
 	GetSourceId(ctx context.Context, sourceName string) (int, error)

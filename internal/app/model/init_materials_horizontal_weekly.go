@@ -3,6 +3,7 @@ package model
 var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 
 	{
+		29,
 		"Лом (HMS 1&2 (80:20))",
 		"Сырьевые материалы",
 		"steelmint.com",
@@ -18,6 +19,7 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 	},
 
 	{
+		30,
 		"Лом (HMS 1&2 (80:20))",
 		"Сырьевые материалы",
 		"steelmint.com",
@@ -32,7 +34,7 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 		},
 	},
 
-	{
+	{31,
 		"Лом (шредированный)",
 		"Сырьевые материалы",
 		"steelmint.com",
@@ -48,6 +50,7 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 	},
 
 	{
+		32,
 		"Лом (H2)",
 		"Сырьевые материалы",
 		"steelmint.com",
@@ -63,6 +66,7 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 	},
 
 	{
+		33,
 		"Лом (HMS 1&2 (80:20))",
 		"Сырьевые материалы",
 		"steelmint.com",
@@ -78,6 +82,7 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 	},
 
 	{
+		34,
 		"Лом (H2)",
 		"Сырьевые материалы",
 		"steelmint.com",
@@ -93,6 +98,7 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 	},
 
 	{
+		35,
 		"Лом (HMS 1&2 (80:20))",
 		"Сырьевые материалы",
 		"steelmint.com",
@@ -108,6 +114,7 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 	},
 
 	{
+		36,
 		"Лом (шредированный)",
 		"Сырьевые материалы",
 		"steelmint.com",
@@ -123,6 +130,7 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 	},
 
 	{
+		37,
 		"Лом (шредированный)",
 		"Сырьевые материалы",
 		"steelmint.com",
@@ -138,6 +146,7 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 	},
 
 	{
+		38,
 		"Лом (HMS 1&2 (80:20))",
 		"Сырьевые материалы",
 		"steelmint.com",
@@ -153,6 +162,7 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 	},
 
 	{
+		39,
 		"Лом (HMS 1&2 (70:30))",
 		"Сырьевые материалы",
 		"steelmint.com",
@@ -168,6 +178,7 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 	},
 
 	{
+		40,
 		"Лом (HMS 1&2 (80:20))",
 		"Сырьевые материалы",
 		"steelmint.com",
@@ -183,6 +194,7 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 	},
 
 	{
+		41,
 		"Лом (шредированный)",
 		"Сырьевые материалы",
 		"steelmint.com",
@@ -198,6 +210,7 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 	},
 
 	{
+		42,
 		"Лом (H2)",
 		"Сырьевые материалы",
 		"steelmint.com",
@@ -214,6 +227,7 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 
 	// ЗАГОТОВКА
 	{
+		43,
 		"Заготовка (150*150 мм; Ст3)",
 		"Сталь",
 		"steelmint.com",
@@ -229,6 +243,7 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 	},
 
 	{
+		44,
 		"Заготовка (150*150 мм; Ст3)",
 		"Сталь",
 		"steelmint.com",
@@ -244,6 +259,7 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 	},
 
 	{
+		45,
 		"Заготовка (95*95 мм; Ст3)",
 		"Сталь",
 		"steelmint.com",
@@ -259,6 +275,7 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 	},
 
 	{
+		46,
 		"Заготовка (130*130 мм; Ст3)",
 		"Сталь",
 		"steelmint.com",
@@ -274,6 +291,7 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 	},
 
 	{
+		47,
 		"Заготовка (120*120 мм; Ст3)",
 		"Сталь",
 		"steelmint.com",
@@ -289,6 +307,7 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 	},
 
 	{
+		48,
 		"Заготовка (150*150 мм; Ст3)",
 		"Сталь",
 		"steelmint.com",
@@ -304,6 +323,7 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 	},
 
 	{
+		49,
 		"Заготовка (100*100 мм; IS 2831)",
 		"Сталь",
 		"steelmint.com",
@@ -320,6 +340,7 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 
 	// СОРТОВОЙ ПРОКАТ
 	{
+		50,
 		"Арматура (10-40 мм; HRB400)",
 		"Сталь",
 		"steelmint.com",
@@ -335,6 +356,7 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 	},
 
 	{
+		51,
 		"Арматура (12-32 мм; HRB400)",
 		"Сталь",
 		"steelmint.com",
@@ -350,6 +372,7 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 	},
 
 	{
+		52,
 		"Катанка (5,5-8 мм; SAE 1008)",
 		"Сталь",
 		"steelmint.com",
@@ -366,6 +389,7 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 
 	// РУЛОННАЯ СТАЛЬ
 	{
+		53,
 		"Рулон г/к (2 мм; SAE1006)",
 		"Сталь",
 		"steelmint.com",
@@ -381,6 +405,7 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 	},
 
 	{
+		54,
 		"Рулон г/к (1,5-3 мм; SAE 1006)",
 		"Сталь",
 		"steelmint.com",
@@ -396,6 +421,7 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 	},
 
 	{
+		55,
 		"Рулон г/к (3-4 мм; S235JR)",
 		"Сталь",
 		"steelmint.com",
@@ -411,6 +437,7 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 	},
 
 	{
+		56,
 		"Рулон г/к (2-12 мм; SS400)",
 		"Сталь",
 		"steelmint.com",
@@ -426,6 +453,7 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 	},
 
 	{
+		57,
 		"Рулон г/к (2-20 мм; SAE 1006)",
 		"Сталь",
 		"steelmint.com",
@@ -441,6 +469,7 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 	},
 
 	{
+		58,
 		"Рулон г/к (2 мм; SAE 1006)",
 		"Сталь",
 		"steelmint.com",
@@ -456,6 +485,7 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 	},
 
 	{
+		59,
 		"Рулон г/к (3-12 мм; SS400)",
 		"Сталь",
 		"steelmint.com",
@@ -471,6 +501,7 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 	},
 
 	{
+		60,
 		"Рулон г/к (1,6-2,5 мм; SAE 1006)",
 		"Сталь",
 		"steelmint.com",
@@ -486,6 +517,7 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 	},
 
 	{
+		61,
 		"Рулон г/к (2 мм; SS400)",
 		"Сталь",
 		"steelmint.com",
@@ -501,6 +533,7 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 	},
 
 	{
+		62,
 		"Рулон г/к (2 мм; SS400)",
 		"Сталь",
 		"steelmint.com",
@@ -516,6 +549,7 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 	},
 
 	{
+		63,
 		"Рулон г/к (2 мм; SAE1006)",
 		"Сталь",
 		"steelmint.com",
@@ -531,6 +565,7 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 	},
 
 	{
+		64,
 		"Рулон х/к (0,9 мм; SPCC)",
 		"Сталь",
 		"steelmint.com",
@@ -546,6 +581,7 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 	},
 
 	{
+		65,
 		"Рулон х/к (0,9 мм; SPCC)",
 		"Сталь",
 		"steelmint.com",
@@ -562,6 +598,7 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 
 	// ЧУГУН
 	{
+		66,
 		"Чугун (чушковый)",
 		"Сырьевые материалы",
 		"steelmint.com",
@@ -577,6 +614,7 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 	},
 
 	{
+		67,
 		"Чугун (чушковый)",
 		"Сырьевые материалы",
 		"steelmint.com",
@@ -592,6 +630,7 @@ var InitMaterialsHorizontalWeekly = []MaterialHorizontal{
 	},
 
 	{
+		68,
 		"Чугун (чушковый)",
 		"Сырьевые материалы",
 		"steelmint.com",

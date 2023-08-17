@@ -2,6 +2,7 @@ package model
 
 var InitDaily = []DailyMaterial{
 	{
+		69,
 		"ПВЖ (80% Feмет)",
 		"Сырьевые материалы",
 		"steelmint.com",
@@ -16,6 +17,7 @@ var InitDaily = []DailyMaterial{
 		ConvSettings{},
 	},
 	{
+		70,
 		"Рулон г/к (2,5 мм; SAE1006)",
 		"Сталь",
 		"steelmint.com",
@@ -32,6 +34,7 @@ var InitDaily = []DailyMaterial{
 		ConvSettings{},
 	},
 	{
+		71,
 		"Рулон х/к (0,9 мм, IS 513 Gr.O)",
 		"Cталь",
 		"steelmint.com",
@@ -48,6 +51,7 @@ var InitDaily = []DailyMaterial{
 		ConvSettings{},
 	},
 	{
+		72,
 		"FeSi (75% Si)",
 		"Cталь",
 		"ferroalloynet.com",
@@ -64,6 +68,7 @@ var InitDaily = []DailyMaterial{
 		ConvSettings{},
 	},
 	{
+		73,
 		"FeSi (75% Si)",
 		"Ферросплавы и руды",
 		"ferroalloynet.com",
@@ -78,6 +83,7 @@ var InitDaily = []DailyMaterial{
 		ConvSettings{},
 	},
 	{
+		74,
 		"FeSi (75% Si)",
 		"Ферросплавы и руды",
 		"crugroup.com",
@@ -96,6 +102,7 @@ var InitDaily = []DailyMaterial{
 		},
 	},
 	{
+		75,
 		"SiMn (65% Si; 17% Mn)",
 		"Ферросплавы и руды",
 		"ferroalloynet.com",
@@ -110,6 +117,7 @@ var InitDaily = []DailyMaterial{
 		ConvSettings{},
 	},
 	{
+		76,
 		"SiMn (65% Si; 16% Mn)",
 		"Ферросплавы и руды",
 		"ferroalloynet.com",
@@ -124,6 +132,7 @@ var InitDaily = []DailyMaterial{
 		ConvSettings{},
 	},
 	{
+		77,
 		"SiMn (65% Mn)",
 		"Ферросплавы и руды",
 		"crugroup.com",
@@ -142,6 +151,7 @@ var InitDaily = []DailyMaterial{
 		},
 	},
 	{
+		78,
 		"FeCr HC (55% Cr; 10% C)",
 		"Ферросплавы и руды",
 		"crugroup.com",
@@ -156,6 +166,7 @@ var InitDaily = []DailyMaterial{
 		ConvSettings{},
 	},
 	{
+		79,
 		"FeCr HC (Казахстан; 70% Cr; 0,5% Si)",
 		"Ферросплавы и руды",
 		"ferroalloynet.com",
@@ -170,6 +181,7 @@ var InitDaily = []DailyMaterial{
 		ConvSettings{},
 	},
 	{
+		80,
 		"FeCr HC (Индия; 60% Cr; 4% Si)",
 		"Ферросплавы и руды",
 		"ferroalloynet.com",
@@ -184,6 +196,7 @@ var InitDaily = []DailyMaterial{
 		ConvSettings{},
 	},
 	{
+		81,
 		"FeCr HC (ЮАР; 48-50% Cr; 5% Si)",
 		"Ферросплавы и руды",
 		"ferroalloynet.com",
@@ -198,6 +211,7 @@ var InitDaily = []DailyMaterial{
 		ConvSettings{},
 	},
 	{
+		82,
 		"FeCr LC (52-60% Cr; 0,25% C)",
 		"Ферросплавы и руды",
 		"ferroalloynet.com",
@@ -212,6 +226,7 @@ var InitDaily = []DailyMaterial{
 		ConvSettings{},
 	},
 	{
+		83,
 		"FeCr LC (0,1% C)",
 		"Ферросплавы и руды",
 		"crugroup.com",

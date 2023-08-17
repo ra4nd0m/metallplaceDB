@@ -2,6 +2,7 @@ package model
 
 var InitMaterialsVertical = []Material{
 	{
+		1,
 		"Лом (3A)",
 		"Сырьевые материалы",
 		"metallplace.ru",
@@ -18,6 +19,7 @@ var InitMaterialsVertical = []Material{
 		},
 	},
 	{
+		2,
 		"ЖРС (концентрат, 62% Fe)",
 		"Сырьевые материалы",
 		"ferroalloynet.com",
@@ -33,6 +35,7 @@ var InitMaterialsVertical = []Material{
 	},
 
 	{
+		3,
 		"ЖРС (концентрат, 65% Fe)",
 		"Сырьевые материалы",
 		"ferroalloynet.com",
@@ -47,6 +50,7 @@ var InitMaterialsVertical = []Material{
 	},
 
 	{
+		4,
 		"Лом (HMS 1&2 (80:20))",
 		"Сырьевые материалы",
 		"steelmint.com",
@@ -62,6 +66,7 @@ var InitMaterialsVertical = []Material{
 	},
 
 	{
+		5,
 		"Чугун (чушковый)",
 		"Сырьевые материалы",
 		"steelmint.com",
@@ -78,6 +83,7 @@ var InitMaterialsVertical = []Material{
 	},
 
 	{
+		6,
 		"Кокс. уголь (австралийский)",
 		"Сырьевые материалы",
 		"steelmint.com",
@@ -93,6 +99,7 @@ var InitMaterialsVertical = []Material{
 	},
 
 	{
+		7,
 		"Кокс. уголь (российский)",
 		"Сырьевые материалы",
 		"mysteel.net",
@@ -107,6 +114,7 @@ var InitMaterialsVertical = []Material{
 	},
 
 	{
+		8,
 		"Кокс (25-90 мм; 64% CSR)",
 		"Сырьевые материалы",
 		"steelmint.com",
@@ -121,6 +129,7 @@ var InitMaterialsVertical = []Material{
 	},
 
 	{
+		9,
 		"Заготовка (130*130 мм; Ст3)",
 		"Сталь",
 		"steelmint.com",
@@ -137,6 +146,7 @@ var InitMaterialsVertical = []Material{
 	},
 
 	{
+		10,
 		"Арматура (12-25 мм; Ст3)",
 		"Сталь",
 		"steelmint.com",
@@ -153,6 +163,7 @@ var InitMaterialsVertical = []Material{
 	},
 
 	{
+		11,
 		"Сляб (150*250 мм; Ст3)",
 		"Сталь",
 		"steelmint.com",
@@ -169,6 +180,7 @@ var InitMaterialsVertical = []Material{
 	},
 
 	{
+		12,
 		"Рулон г/к (3 мм; SAE 1006)",
 		"Сталь",
 		"steelmint.com",
@@ -185,6 +197,7 @@ var InitMaterialsVertical = []Material{
 	},
 
 	{
+		13,
 		"Рулон х/к (0,9 мм; SPCC)",
 		"Сталь",
 		"steelmint.com",
@@ -201,6 +214,7 @@ var InitMaterialsVertical = []Material{
 	},
 
 	{
+		14,
 		"Арматура (А1 8-40 мм; Ст3)",
 		"Сталь",
 		"metallplace.ru",
@@ -216,6 +230,7 @@ var InitMaterialsVertical = []Material{
 	},
 
 	{
+		15,
 		"Рулон г/к (1,5-20 мм; Ст3)",
 		"Сталь",
 		"metallplace.ru",
@@ -230,6 +245,7 @@ var InitMaterialsVertical = []Material{
 	},
 
 	{
+		16,
 		"Рулон х/к (0,5-1,5 мм; Ст08)",
 		"Сталь",
 		"metallplace.ru",
@@ -244,6 +260,7 @@ var InitMaterialsVertical = []Material{
 	},
 
 	{
+		17,
 		"FeMn HC (76% Mn)",
 		"Ферросплавы и руды",
 		"crugroup.com",
@@ -260,6 +277,7 @@ var InitMaterialsVertical = []Material{
 	},
 
 	{
+		18,
 		"FeSi (75% Si)",
 		"Ферросплавы и руды",
 		"crugroup.com",
@@ -276,6 +294,7 @@ var InitMaterialsVertical = []Material{
 	},
 
 	{
+		19,
 		"SiMn (65% Mn, 17% Si)",
 		"Ферросплавы и руды",
 		"crugroup.com",
@@ -293,6 +312,7 @@ var InitMaterialsVertical = []Material{
 	},
 
 	{
+		20,
 		"FeCr HC (62-70% Cr)",
 		"Ферросплавы и руды",
 		"crugroup.com",
@@ -309,6 +329,7 @@ var InitMaterialsVertical = []Material{
 	},
 
 	{
+		21,
 		"FeCr LC (0,1% Cr)",
 		"Ферросплавы и руды",
 		"crugroup.com",
@@ -325,6 +346,7 @@ var InitMaterialsVertical = []Material{
 	},
 
 	{
+		22,
 		"Mn руда (кусковая; 36-38% Mn)",
 		"Ферросплавы и руды",
 		"crugroup.com",
@@ -341,6 +363,7 @@ var InitMaterialsVertical = []Material{
 	},
 
 	{
+		23,
 		"Cr руда (кусоквая; 42% Cr)",
 		"Ферросплавы и руды",
 		"crugroup.com",
@@ -357,6 +380,7 @@ var InitMaterialsVertical = []Material{
 	},
 
 	{
+		24,
 		"ГЭ (HP; 450 мм)",
 		"Электроды",
 		"steelmint.com",
@@ -371,6 +395,7 @@ var InitMaterialsVertical = []Material{
 	},
 
 	{
+		25,
 		"ГЭ (UHP; 600 мм)",
 		"Электроды",
 		"steelmint.com",
@@ -385,6 +410,7 @@ var InitMaterialsVertical = []Material{
 	},
 
 	{
+		26,
 		"Запасы в портах, Mn руда",
 		"Ферросплавы и руды",
 		"ferroalloynet.com",
@@ -398,6 +424,7 @@ var InitMaterialsVertical = []Material{
 	},
 
 	{
+		27,
 		"Запасы в портах, Cr руда",
 		"Ферросплавы и руды",
 		"ferroalloynet.com",
@@ -411,6 +438,7 @@ var InitMaterialsVertical = []Material{
 	},
 
 	{
+		28,
 		"Запасы в портах, Fe руда",
 		"Ферросплавы и руды",
 		"steelmint.com",

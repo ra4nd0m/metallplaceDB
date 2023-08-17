@@ -19,20 +19,20 @@ type IService interface {
 	InitImportMaterialsVertical(ctx context.Context, book *excelize.File, dateLayout string) error
 	InitImportMaterialsHorizontalWeekly(ctx context.Context, book *excelize.File) error
 	InitImportDailyMaterials(ctx context.Context, book *excelize.File, dateLayout string) error
-	ParseRosStatBook(ctx context.Context, byte []byte) error
+	//ParseRosStatBook(ctx context.Context, byte []byte) error
 	ParseXlsxForChart(byte []byte) (chartclient.Request, error)
 	InitialImportDaily(ctx context.Context) error
 
-	AddMaterialProperty(ctx context.Context, materialSourceId, propertyId int) error
-	AddValue(ctx context.Context, materialSourceId int,
+	AddMaterialProperty(ctx context.Context, uid, propertyId int) error
+	AddValue(ctx context.Context, uid int,
 		propertyName string, valueFloat float64, valueStr string, createdOn time.Time) error
-	AddUniqueMaterial(ctx context.Context, materialName string, groupName string, sourceName string, materialMarket string, materialUnit string, deliveryType string) (int, error)
+	AddUniqueMaterial(ctx context.Context, uid int, materialName string, groupName string, sourceName string, materialMarket string, materialUnit string, deliveryType string) error
 
 	GetMaterialList(ctx context.Context) ([]model.MaterialShortInfo, error)
-	GetMaterialValueForPeriod(ctx context.Context, materialSourceId, propertyId int, start string, finish string) ([]model.Price, float64, error)
+	GetMaterialValueForPeriod(ctx context.Context, uid, propertyId int, start string, finish string) ([]model.Price, float64, error)
 	GetMaterialSourceInfo(ctx context.Context, id int) (model.MaterialShortInfo, error)
-	GetNLastValues(ctx context.Context, materialSourceId, propertyId int, nValues int, finish string) ([]model.Price, error)
-	GetMonthlyAvgFeed(ctx context.Context, materialSourceId, propertyId int, start string, finish string) ([]model.Price, float64, error)
+	GetNLastValues(ctx context.Context, uid, propertyId int, nValues int, finish string) ([]model.Price, error)
+	GetMonthlyAvgFeed(ctx context.Context, uid, propertyId int, start string, finish string) ([]model.Price, float64, error)
 	GetWeeklyAvgFeed(ctx context.Context, materialSourceId, propertyId int, start string, finish string) ([]model.Price, float64, error)
 
 	GetChart(ctx context.Context, chartPack model.ChartPack) ([]byte, error)
@@ -44,10 +44,10 @@ type IService interface {
 
 	GetCachedReport(repType string, date string) ([]byte, error)
 
-	GetPropertyList(ctx context.Context, materialSourceId int) ([]model.PropertyShortInfo, error)
+	GetPropertyList(ctx context.Context, uid int) ([]model.PropertyShortInfo, error)
 	GetPropertyName(ctx context.Context, id int) (string, error)
 	GetPropertyId(ctx context.Context, name string) (int, error)
-	AddPropertyToMaterial(ctx context.Context, materialSourceId int, propertyName string, kind string) error
+	AddPropertyToMaterial(ctx context.Context, uid int, propertyName string, kind string) error
 	AddPropertyIfNotExists(ctx context.Context, property model.PropertyShortInfo) (int, error)
 
 	CheckCredentials(ctx context.Context, user, password string) (bool, error)

@@ -60,10 +60,10 @@ func (r *Repository) GetPropertyId(ctx context.Context, propertyName string) (in
 }
 
 // GetPropertyList Returns property list for unique material
-func (r *Repository) GetPropertyList(ctx context.Context, materialSourceId int) ([]model.PropertyShortInfo, error) {
+func (r *Repository) GetPropertyList(ctx context.Context, uid int) ([]model.PropertyShortInfo, error) {
 	var propertyList []model.PropertyShortInfo
 	var propertyId int
-	rows, err := db.FromContext(ctx).Query(ctx, `SELECT property_id FROM material_property WHERE material_source_id=$1`, materialSourceId)
+	rows, err := db.FromContext(ctx).Query(ctx, `SELECT property_id FROM material_property WHERE uid=$1`, uid)
 	if err != nil {
 		return nil, fmt.Errorf("Can't get property_id rows %w", err)
 	}

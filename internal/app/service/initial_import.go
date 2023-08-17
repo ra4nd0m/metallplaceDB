@@ -5,14 +5,11 @@ import (
 	"context"
 	"fmt"
 	"github.com/xuri/excelize/v2"
-	"io/ioutil"
 	"math"
 	"metallplace/internal/app/model"
 	"metallplace/internal/pkg/utils"
 	"metallplace/pkg/chartclient"
 	db "metallplace/pkg/gopkg-db"
-	"os"
-	"path/filepath"
 	"regexp"
 	"strconv"
 	"strings"
@@ -168,147 +165,147 @@ func (s *Service) ParseXlsxForChart(byte []byte) (chartclient.Request, error) {
 	return req, nil
 }
 
-func (s *Service) ImportRosStat(ctx context.Context) error {
-	fmt.Println("importing rosstat")
-	directory := "var/ros_stat_books"
-	absDir, err := filepath.Abs(directory)
-	if err != nil {
-		return fmt.Errorf("cant get absolute path: %w", err)
-	}
-	err = filepath.Walk(absDir, func(path string, info os.FileInfo, err error) error {
-		if err != nil {
-			return err
-		}
-		pathArr := strings.Split(path, string(os.PathSeparator))
-		if pathArr[len(pathArr)-1] == ".gitkeep" {
-			return nil // skip .gitkeep files
-		}
-		if !info.IsDir() {
-			// Read file to byte array
-			data, err := ioutil.ReadFile(path)
-			if err != nil {
-				return err
-			}
-			// Pass byte array to function
-			err = s.ParseRosStatBook(ctx, data)
-			if err != nil {
-				return fmt.Errorf("error in importing ros stat file `%s` %w", path, err)
-			}
-		}
-		return nil
-	})
-	if err != nil {
-		return fmt.Errorf("error going through directory: %w", err)
-	}
-	return nil
-}
+//func (s *Service) ImportRosStat(ctx context.Context) error {
+//	fmt.Println("importing rosstat")
+//	directory := "var/ros_stat_books"
+//	absDir, err := filepath.Abs(directory)
+//	if err != nil {
+//		return fmt.Errorf("cant get absolute path: %w", err)
+//	}
+//	err = filepath.Walk(absDir, func(path string, info os.FileInfo, err error) error {
+//		if err != nil {
+//			return err
+//		}
+//		pathArr := strings.Split(path, string(os.PathSeparator))
+//		if pathArr[len(pathArr)-1] == ".gitkeep" {
+//			return nil // skip .gitkeep files
+//		}
+//		if !info.IsDir() {
+//			// Read file to byte array
+//			data, err := ioutil.ReadFile(path)
+//			if err != nil {
+//				return err
+//			}
+//			// Pass byte array to function
+//			err = s.ParseRosStatBook(ctx, data)
+//			if err != nil {
+//				return fmt.Errorf("error in importing ros stat file `%s` %w", path, err)
+//			}
+//		}
+//		return nil
+//	})
+//	if err != nil {
+//		return fmt.Errorf("error going through directory: %w", err)
+//	}
+//	return nil
+//}
 
-func (s *Service) ParseRosStatBook(ctx context.Context, byte []byte) error {
-	reader := bytes.NewReader(byte)
-	book, err := excelize.OpenReader(reader)
-	if err != nil {
-		return fmt.Errorf("cannot open exel file %w", err)
-	}
-
-	// Fetching month and year of report from the title
-	title, err := book.GetCellValue("Содержание", "B2")
-	if err != nil {
-		return fmt.Errorf("cannot get title: %w", err)
-	}
-	titleArr := strings.Split(title, " ")
-	if len(titleArr) < 7 {
-		title, err := book.GetCellValue("Содержание", "B3")
-		if err != nil {
-			return fmt.Errorf("cannot get title: %w", err)
-		}
-		titleArr = strings.Split(title, " ")
-		if len(titleArr) < 7 {
-			return fmt.Errorf("cant get title while parsing rosstat")
-		}
-	}
-	year, err := strconv.Atoi(titleArr[len(titleArr)-2])
-	if err != nil {
-		return fmt.Errorf("cannot convert year: %w", err)
-	}
-	month, err := monthStrToNumber(titleArr[len(titleArr)-3])
-	if err != nil {
-		return fmt.Errorf("cannot convert month: %w", err)
-	}
-	date := time.Date(year, time.Month(month), 1, 0, 0, 0, 0, time.UTC)
-
-	// Getting id of volume property
-
-	volumePropertyId, err := s.AddPropertyIfNotExists(ctx, model.PropertyShortInfo{Name: "Запас", Kind: "decimal"})
-	if err != nil {
-		return fmt.Errorf("cannot get volume id: %w", err)
-	}
-
-	for _, coord := range model.RosStatCoordinates {
-		name, row, err := findInRowRange(book, coord.Sheet, "A", coord.Row, 5, coord.Material)
-		if err != nil {
-			if date.Year() == 2021 && coord.Material == "Чугун литейный" {
-				continue
-			}
-			return fmt.Errorf("cannot get name: %w", err)
-		}
-
-		code, err := book.GetCellValue(coord.Sheet, "B"+strconv.Itoa(row))
-		if err != nil {
-			return fmt.Errorf("cannot get code: %w", err)
-		}
-
-		location, err := book.GetCellValue(coord.Sheet, "A"+strconv.Itoa(row+2))
-		if err != nil {
-			return fmt.Errorf("cannot get location: %w", err)
-		}
-
-		unitCode, err := book.GetCellValue(coord.Sheet, "B"+strconv.Itoa(row+1))
-		if err != nil {
-			return fmt.Errorf("cannot get unit: %w", err)
-		}
-
-		unit, err := utils.OkpdUnitClassifier(unitCode)
-		if err != nil {
-			return fmt.Errorf("cannot convert unit ОКПД id to int: %w", err)
-		}
-
-		fmt.Println(name + ", " + code)
-		materialSourceId, err := s.AddUniqueMaterial(ctx, name+", "+code, "", "rosstat.gov.ru", location, unit.Name, "")
-		if err != nil {
-			return fmt.Errorf("cannot add material %s: %w", name, err)
-		}
-
-		err = s.repo.AddMaterialProperty(ctx, materialSourceId, volumePropertyId)
-		if err != nil {
-			return fmt.Errorf("failed to add property: %w", err)
-		}
-
-		volume, err := book.GetCellValue(coord.Sheet, "C"+strconv.Itoa(row+2))
-		if err != nil {
-			return fmt.Errorf("cannot get volume: %w", err)
-		}
-
-		volumeFloat, err := strconv.ParseFloat(volume, 64)
-		if err != nil {
-			return fmt.Errorf("cannot convert volume: %w", err)
-		}
-
-		propertyName, err := s.GetPropertyName(ctx, volumePropertyId)
-		if err != nil {
-			return fmt.Errorf("cannot get property name: %w", err)
-		}
-
-		err = s.repo.AddMaterialValue(ctx, materialSourceId, propertyName, volumeFloat*unit.ValueMultiplication, "", date)
-		if err != nil {
-			return err
-		}
-	}
-	return nil
-}
+//func (s *Service) ParseRosStatBook(ctx context.Context, byte []byte) error {
+//	reader := bytes.NewReader(byte)
+//	book, err := excelize.OpenReader(reader)
+//	if err != nil {
+//		return fmt.Errorf("cannot open exel file %w", err)
+//	}
+//
+//	// Fetching month and year of report from the title
+//	title, err := book.GetCellValue("Содержание", "B2")
+//	if err != nil {
+//		return fmt.Errorf("cannot get title: %w", err)
+//	}
+//	titleArr := strings.Split(title, " ")
+//	if len(titleArr) < 7 {
+//		title, err := book.GetCellValue("Содержание", "B3")
+//		if err != nil {
+//			return fmt.Errorf("cannot get title: %w", err)
+//		}
+//		titleArr = strings.Split(title, " ")
+//		if len(titleArr) < 7 {
+//			return fmt.Errorf("cant get title while parsing rosstat")
+//		}
+//	}
+//	year, err := strconv.Atoi(titleArr[len(titleArr)-2])
+//	if err != nil {
+//		return fmt.Errorf("cannot convert year: %w", err)
+//	}
+//	month, err := monthStrToNumber(titleArr[len(titleArr)-3])
+//	if err != nil {
+//		return fmt.Errorf("cannot convert month: %w", err)
+//	}
+//	date := time.Date(year, time.Month(month), 1, 0, 0, 0, 0, time.UTC)
+//
+//	// Getting id of volume property
+//
+//	volumePropertyId, err := s.AddPropertyIfNotExists(ctx, model.PropertyShortInfo{Name: "Запас", Kind: "decimal"})
+//	if err != nil {
+//		return fmt.Errorf("cannot get volume id: %w", err)
+//	}
+//
+//	for _, coord := range model.RosStatCoordinates {
+//		name, row, err := findInRowRange(book, coord.Sheet, "A", coord.Row, 5, coord.Material)
+//		if err != nil {
+//			if date.Year() == 2021 && coord.Material == "Чугун литейный" {
+//				continue
+//			}
+//			return fmt.Errorf("cannot get name: %w", err)
+//		}
+//
+//		code, err := book.GetCellValue(coord.Sheet, "B"+strconv.Itoa(row))
+//		if err != nil {
+//			return fmt.Errorf("cannot get code: %w", err)
+//		}
+//
+//		location, err := book.GetCellValue(coord.Sheet, "A"+strconv.Itoa(row+2))
+//		if err != nil {
+//			return fmt.Errorf("cannot get location: %w", err)
+//		}
+//
+//		unitCode, err := book.GetCellValue(coord.Sheet, "B"+strconv.Itoa(row+1))
+//		if err != nil {
+//			return fmt.Errorf("cannot get unit: %w", err)
+//		}
+//
+//		unit, err := utils.OkpdUnitClassifier(unitCode)
+//		if err != nil {
+//			return fmt.Errorf("cannot convert unit ОКПД id to int: %w", err)
+//		}
+//
+//		fmt.Println(name + ", " + code)
+//		err := s.AddUniqueMaterial(ctx, name+", "+code, "", "rosstat.gov.ru", location, unit.Name, "")
+//		if err != nil {
+//			return fmt.Errorf("cannot add material %s: %w", name, err)
+//		}
+//
+//		err = s.repo.AddMaterialProperty(ctx, materialSourceId, volumePropertyId)
+//		if err != nil {
+//			return fmt.Errorf("failed to add property: %w", err)
+//		}
+//
+//		volume, err := book.GetCellValue(coord.Sheet, "C"+strconv.Itoa(row+2))
+//		if err != nil {
+//			return fmt.Errorf("cannot get volume: %w", err)
+//		}
+//
+//		volumeFloat, err := strconv.ParseFloat(volume, 64)
+//		if err != nil {
+//			return fmt.Errorf("cannot convert volume: %w", err)
+//		}
+//
+//		propertyName, err := s.GetPropertyName(ctx, volumePropertyId)
+//		if err != nil {
+//			return fmt.Errorf("cannot get property name: %w", err)
+//		}
+//
+//		err = s.repo.AddMaterialValue(ctx, materialSourceId, propertyName, volumeFloat*unit.ValueMultiplication, "", date)
+//		if err != nil {
+//			return err
+//		}
+//	}
+//	return nil
+//}
 
 func (s *Service) InitImportDailyMaterials(ctx context.Context, book *excelize.File, dateLayout string) error {
 	for _, material := range model.InitDaily {
-		materialSourceId, err := s.AddUniqueMaterial(ctx, material.Name, material.Group, material.Source, material.Market, material.Unit, material.DeliveryType)
+		err := s.AddUniqueMaterial(ctx, material.UId, material.Name, material.Group, material.Source, material.Market, material.Unit, material.DeliveryType)
 		if err != nil {
 			return err
 		}
@@ -322,7 +319,7 @@ func (s *Service) InitImportDailyMaterials(ctx context.Context, book *excelize.F
 				return err
 			}
 
-			err = s.repo.AddMaterialProperty(ctx, materialSourceId, propertyId)
+			err = s.repo.AddMaterialProperty(ctx, material.UId, propertyId)
 			if err != nil {
 				return fmt.Errorf("failed to add property %s: %w", property.Name, err)
 			}
@@ -400,12 +397,7 @@ func (s *Service) InitImportDailyMaterials(ctx context.Context, book *excelize.F
 					valueStr = value
 				}
 
-				materialSourceId, err := s.repo.GetMaterialSourceId(ctx, material.Name, material.Group, material.Source, material.Market, material.Unit, material.DeliveryType)
-				if err != nil {
-					return fmt.Errorf("cann not get material source id: %w", err)
-				}
-
-				err = s.repo.AddMaterialValue(ctx, materialSourceId, property.Name, valueDecimal, valueStr, createdOn)
+				err = s.repo.AddMaterialValue(ctx, material.UId, property.Name, valueDecimal, valueStr, createdOn)
 				if err != nil {
 					return fmt.Errorf("failed to add material value: %w", err)
 				}
@@ -421,11 +413,11 @@ func (s *Service) InitImportDailyMaterials(ctx context.Context, book *excelize.F
 						matches := regex.FindStringSubmatch(formula)
 						minPrice, err := strconv.ParseFloat(matches[1], 64)
 						if err != nil {
-							return fmt.Errorf("failed to parce from formula: %v (materialSourceId; %d, property: %s, row: %d)", err, materialSourceId, property.Name, row)
+							return fmt.Errorf("failed to parce from formula: %v (uid; %d, property: %s, row: %d)", err, material.UId, property.Name, row)
 						}
 						maxPrice, err := strconv.ParseFloat(matches[2], 64)
 						if err != nil {
-							return fmt.Errorf("failed to parce from formula: %v (materialSourceId; %d, property: %s, row: %d)", err, materialSourceId, property.Name, row)
+							return fmt.Errorf("failed to parce from formula: %v (uid; %d, property: %s, row: %d)", err, material.UId, property.Name, row)
 						}
 						if material.ConvSettings.Need {
 							minPrice = material.ConvSettings.Func(minPrice, material.ConvSettings.Rate)
@@ -436,7 +428,7 @@ func (s *Service) InitImportDailyMaterials(ctx context.Context, book *excelize.F
 						if err != nil {
 							return err
 						}
-						err = s.repo.AddMaterialProperty(ctx, materialSourceId, propertyId)
+						err = s.repo.AddMaterialProperty(ctx, material.UId, propertyId)
 						if err != nil {
 							return fmt.Errorf("failed to add property %s: %w", property.Name, err)
 						}
@@ -444,16 +436,16 @@ func (s *Service) InitImportDailyMaterials(ctx context.Context, book *excelize.F
 						if err != nil {
 							return err
 						}
-						err = s.repo.AddMaterialProperty(ctx, materialSourceId, propertyId)
+						err = s.repo.AddMaterialProperty(ctx, material.UId, propertyId)
 						if err != nil {
 							return fmt.Errorf("failed to add property %s: %w", property.Name, err)
 						}
 
-						err = s.repo.AddMaterialValue(ctx, materialSourceId, "Мин цена", minPrice, valueStr, createdOn)
+						err = s.repo.AddMaterialValue(ctx, material.UId, "Мин цена", minPrice, valueStr, createdOn)
 						if err != nil {
 							return fmt.Errorf("failed to add material value: %w", err)
 						}
-						err = s.repo.AddMaterialValue(ctx, materialSourceId, "Макс цена", maxPrice, valueStr, createdOn)
+						err = s.repo.AddMaterialValue(ctx, material.UId, "Макс цена", maxPrice, valueStr, createdOn)
 						if err != nil {
 							return fmt.Errorf("failed to add material value: %w", err)
 						}
@@ -473,7 +465,7 @@ func (s *Service) InitImportDailyMaterials(ctx context.Context, book *excelize.F
 
 func (s *Service) InitImportMaterialsVertical(ctx context.Context, book *excelize.File, dateLayout string) error {
 	for _, material := range model.InitMaterialsVertical {
-		materialSourceId, err := s.AddUniqueMaterial(ctx, material.Name, material.Group, material.Source, material.Market, material.Unit, material.DeliveryType)
+		err := s.AddUniqueMaterial(ctx, material.UId, material.Name, material.Group, material.Source, material.Market, material.Unit, material.DeliveryType)
 		if err != nil {
 			return err
 		}
@@ -487,7 +479,7 @@ func (s *Service) InitImportMaterialsVertical(ctx context.Context, book *exceliz
 				return err
 			}
 
-			err = s.repo.AddMaterialProperty(ctx, materialSourceId, propertyId)
+			err = s.repo.AddMaterialProperty(ctx, material.UId, propertyId)
 			if err != nil {
 				return fmt.Errorf("failed to add property %s: %w", property.Name, err)
 			}
@@ -572,12 +564,7 @@ func (s *Service) InitImportMaterialsVertical(ctx context.Context, book *exceliz
 					valueStr = value
 				}
 
-				materialSourceId, err := s.repo.GetMaterialSourceId(ctx, material.Name, material.Group, material.Source, material.Market, material.Unit, material.DeliveryType)
-				if err != nil {
-					return fmt.Errorf("cann not get material source id: %w", err)
-				}
-
-				err = s.repo.AddMaterialValue(ctx, materialSourceId, property.Name, valueDecimal, valueStr, createdOn)
+				err = s.repo.AddMaterialValue(ctx, material.UId, property.Name, valueDecimal, valueStr, createdOn)
 				if err != nil {
 					return fmt.Errorf("failed to add material value: %w", err)
 				}
@@ -595,7 +582,7 @@ func (s *Service) InitImportMaterialsVertical(ctx context.Context, book *exceliz
 
 func (s *Service) InitImportMaterialsHorizontalWeekly(ctx context.Context, book *excelize.File) error {
 	for _, material := range model.InitMaterialsHorizontalWeekly {
-		materialSourceId, err := s.AddUniqueMaterial(ctx, material.Name, material.Group, material.Source, material.Market, material.Unit, material.DeliveryType)
+		err := s.AddUniqueMaterial(ctx, material.UId, material.Name, material.Group, material.Source, material.Market, material.Unit, material.DeliveryType)
 		if err != nil {
 			return fmt.Errorf("cant add unique material %v: %w", material.Name, err)
 		}
@@ -609,7 +596,7 @@ func (s *Service) InitImportMaterialsHorizontalWeekly(ctx context.Context, book 
 				return fmt.Errorf("cant add/get property %v: %w", property.Name, err)
 			}
 
-			err = s.repo.AddMaterialProperty(ctx, materialSourceId, propertyId)
+			err = s.repo.AddMaterialProperty(ctx, material.UId, propertyId)
 			if err != nil {
 				return fmt.Errorf("cant add material_property %v-%v: %w", material.Name, property.Name, err)
 			}
@@ -671,12 +658,7 @@ func (s *Service) InitImportMaterialsHorizontalWeekly(ctx context.Context, book 
 					valueStr = value
 				}
 
-				materialSourceId, err := s.repo.GetMaterialSourceId(ctx, material.Name, material.Group, material.Source, material.Market, material.Unit, material.DeliveryType)
-				if err != nil {
-					return fmt.Errorf("cann not get material source id: %w", err)
-				}
-
-				err = s.repo.AddMaterialValue(ctx, materialSourceId, property.Name, valueDecimal, valueStr, createdOn)
+				err = s.repo.AddMaterialValue(ctx, material.UId, property.Name, valueDecimal, valueStr, createdOn)
 				if err != nil {
 					return err
 				}

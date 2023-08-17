@@ -8,7 +8,7 @@ import (
 	"time"
 )
 
-func (s *Service) GetMonthlyAvgFeed(ctx context.Context, materialSourceId, propertyId int, start string, finish string) ([]model.Price, float64, error) {
+func (s *Service) GetMonthlyAvgFeed(ctx context.Context, uid, propertyId int, start string, finish string) ([]model.Price, float64, error) {
 	layout := "2006-01-02"
 	var avgFeed []model.Price
 	cur, err := time.Parse(layout, start)
@@ -33,7 +33,7 @@ func (s *Service) GetMonthlyAvgFeed(ctx context.Context, materialSourceId, prope
 		if cur.After(fin) {
 			break
 		}
-		curFeed, _, err := s.repo.GetMaterialValueForPeriod(ctx, materialSourceId, propertyId, cur.Format(layout), cur.AddDate(0, 1, -1).Format(layout))
+		curFeed, _, err := s.repo.GetMaterialValueForPeriod(ctx, uid, propertyId, cur.Format(layout), cur.AddDate(0, 1, -1).Format(layout))
 		if err != nil {
 			return nil, 0, fmt.Errorf("cant get month feed: %w", err)
 		}
@@ -45,7 +45,7 @@ func (s *Service) GetMonthlyAvgFeed(ctx context.Context, materialSourceId, prope
 	return avgFeed, prevPrice, nil
 }
 
-func (s *Service) GetWeeklyAvgFeed(ctx context.Context, materialSourceId, propertyId int, start string, finish string) ([]model.Price, float64, error) {
+func (s *Service) GetWeeklyAvgFeed(ctx context.Context, uid, propertyId int, start string, finish string) ([]model.Price, float64, error) {
 	layout := "2006-01-02"
 	var avgFeed []model.Price
 
@@ -65,7 +65,7 @@ func (s *Service) GetWeeklyAvgFeed(ctx context.Context, materialSourceId, proper
 		if cur.After(fin) {
 			break
 		}
-		curFeed, _, err := s.repo.GetMaterialValueForPeriod(ctx, materialSourceId, propertyId, cur.Format(layout), cur.AddDate(0, 0, 5).Format(layout))
+		curFeed, _, err := s.repo.GetMaterialValueForPeriod(ctx, uid, propertyId, cur.Format(layout), cur.AddDate(0, 0, 5).Format(layout))
 		if err != nil {
 			return nil, 0, fmt.Errorf("cant get month feed: %w", err)
 		}

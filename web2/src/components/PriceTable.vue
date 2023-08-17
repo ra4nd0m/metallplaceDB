@@ -28,8 +28,8 @@ export default {
   name: "PriceTable",
   data: () => ({
     materialId: null,
-    monthPredictId: 5,
-    weekPredictId: 6,
+    monthPredictId: 4,
+    weekPredictId: 5,
     nVals: 8,
     currentPredictId: null,
     data: []

@@ -56,6 +56,7 @@ create table material_source
     id                serial
         constraint material_source_pk
             primary key,
+    uid integer not null unique ,
     material_id       integer not null
         constraint material_source_material_fk
             references material
@@ -80,13 +81,13 @@ create table material_property
     id                 serial
         constraint material_property_pk
             primary key,
-    material_source_id integer not null
-        constraint material_property_material_source_id_fk
+    uid integer not null
+        constraint material_property_uid_fk
             references material_source,
     property_id        integer not null
         constraint material_property_property_fk
             references property,
-    unique (material_source_id, property_id)
+    unique (uid, property_id)
 );
 
 
@@ -95,7 +96,7 @@ create table material_value
     id                 serial
         constraint material_value_pk
             primary key,
-    material_source_id integer not null
+    uid integer not null
         constraint material_value_material_source_fk
             references material_source,
     property_id        integer not null
@@ -110,7 +111,7 @@ create unique index material_value_id_uindex
     on material_value (id);
 
 create unique index material_value_all_together_uindex
-    on material_value (material_source_id, property_id, created_on);
+    on material_value (uid, property_id, created_on);
 
 CREATE OR REPLACE FUNCTION stamp_updated() RETURNS TRIGGER LANGUAGE 'plpgsql' AS $$
 BEGIN
