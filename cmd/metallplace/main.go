@@ -21,6 +21,7 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
+	"path"
 	"syscall"
 	"time"
 )
@@ -139,7 +140,10 @@ func externalServerFn(ctx context.Context, cfg config.Config, hdl *handler.Handl
 		{route: "/login", handler: hdl.LoginHandler, withoutAuth: true},
 		{route: "/swagger/{any:.+}", handler: httpSwagger.Handler(httpSwagger.URL("/swagger.json")), withoutAuth: true},
 		{route: "/swagger.json", handler: func(w http.ResponseWriter, r *http.Request) {
-			http.ServeFile(w, r, "docs/swagger.json")
+			cwd, _ := os.Getwd()
+			p := path.Join(cwd, "docs/swagger.json")
+			fmt.Println("Path swagger.json: " + p)
+			http.ServeFile(w, r, p)
 		}, withoutAuth: true},
 	} {
 		var h = rec.handler
