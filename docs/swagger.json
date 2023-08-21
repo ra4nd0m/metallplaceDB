@@ -1,0 +1,1167 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "Swagger documentation fo metallplace service",
+        "title": "Metallplace API",
+        "termsOfService": "http://swagger.io/terms/",
+        "contact": {
+            "name": "Ivan Demchuk",
+            "url": "http://www.swagger.io/support",
+            "email": "is.demchuk@gmail.com"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "1.0"
+    },
+    "host": "localhost:8080",
+    "paths": {
+        "/addPropertyToMaterial": {
+            "post": {
+                "description": "add property to material by id",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "property"
+                ],
+                "summary": "Add property to material",
+                "parameters": [
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/handler.AddPropertyToMaterialRequest"
+                        }
+                    },
+                    {
+                        "type": "string",
+                        "description": "Authorization",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/handler.AddPropertyToMaterialResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/handler.ErrorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/handler.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/handler.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/addUniqueMaterial": {
+            "post": {
+                "description": "get short info about all unique materials",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "material"
+                ],
+                "summary": "Get material",
+                "parameters": [
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/handler.AddUniqueMaterialRequest"
+                        }
+                    },
+                    {
+                        "type": "string",
+                        "description": "Authorization",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/handler.AddUniqueMaterialResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/handler.ErrorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/handler.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/handler.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/addValue": {
+            "post": {
+                "description": "get n last values of specific property of specific material",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "value"
+                ],
+                "summary": "Get last values",
+                "parameters": [
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/handler.AddValueRequest"
+                        }
+                    },
+                    {
+                        "type": "string",
+                        "description": "Authorization",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/handler.AddValueResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/handler.ErrorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/handler.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/handler.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/getMaterialInfo": {
+            "post": {
+                "description": "get short info about unique material by id",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "material"
+                ],
+                "summary": "Get material info",
+                "parameters": [
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/handler.GetMaterialInfoRequest"
+                        }
+                    },
+                    {
+                        "type": "string",
+                        "description": "Authorization",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/handler.GetMaterialInfoResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/handler.ErrorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/handler.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/handler.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/getMaterialList": {
+            "post": {
+                "description": "get short info about all unique materials",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "material"
+                ],
+                "summary": "Get material",
+                "parameters": [
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/handler.GetMaterialsRequest"
+                        }
+                    },
+                    {
+                        "type": "string",
+                        "description": "Authorization",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/handler.GetMaterialsResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/handler.ErrorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/handler.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/handler.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/getMonthlyAvgFeed": {
+            "post": {
+                "description": "get n last values of specific property of specific material",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "value"
+                ],
+                "summary": "Get last values",
+                "parameters": [
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/handler.AvgPriceRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/handler.AvgPriceResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/handler.ErrorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/handler.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/handler.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/getNLastValues": {
+            "post": {
+                "description": "get values of specified period for specified material and property",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "value"
+                ],
+                "summary": "Get values",
+                "parameters": [
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/handler.LastValuesRequest"
+                        }
+                    },
+                    {
+                        "type": "string",
+                        "description": "Authorization",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/handler.LastValuesResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/handler.ErrorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/handler.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/handler.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/getPropertyList": {
+            "post": {
+                "description": "get list of existing properties",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "property"
+                ],
+                "summary": "Get all properties",
+                "parameters": [
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/handler.GetPropertyListRequest"
+                        }
+                    },
+                    {
+                        "type": "string",
+                        "description": "Authorization",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/handler.GetPropertyListResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/handler.ErrorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/handler.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/handler.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/getPropertyName": {
+            "post": {
+                "description": "get property name by id",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "property"
+                ],
+                "summary": "Get property name",
+                "parameters": [
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/handler.GetPropertyNameRequest"
+                        }
+                    },
+                    {
+                        "type": "string",
+                        "description": "Authorization",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/handler.GetPropertyNameResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/handler.ErrorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/handler.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/handler.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/getReport/{type}/{date}": {
+            "get": {
+                "description": "get generated report in docx format. Type could be ether \"weekly\" or \"monthly\". Date of report in format YYYY-MM-DD",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "report"
+                ],
+                "summary": "Get report file",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Authorization",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/handler.ErrorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/handler.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/handler.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/getWeeklyAvgFeed": {
+            "post": {
+                "description": "returns weekly feed of average values during the week",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "value"
+                ],
+                "summary": "Get weekly feed",
+                "parameters": [
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/handler.AvgPriceRequest"
+                        }
+                    },
+                    {
+                        "type": "string",
+                        "description": "Authorization",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/handler.AvgPriceResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/handler.ErrorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/handler.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/handler.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/initImport": {
+            "post": {
+                "description": "import materials, properties and values form .xlsx file on server",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "value"
+                ],
+                "summary": "Initial import",
+                "parameters": [
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/handler.InitImportRequest"
+                        }
+                    },
+                    {
+                        "type": "string",
+                        "description": "Authorization",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/handler.InitImportResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/handler.ErrorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/handler.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/handler.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/login": {
+            "post": {
+                "description": "log in with username and password",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Log in",
+                "parameters": [
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/handler.LoginRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/handler.LoginResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/handler.ErrorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/handler.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/handler.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "handler.AddPropertyToMaterialRequest": {
+            "type": "object",
+            "properties": {
+                "kind": {
+                    "type": "string",
+                    "format": "string",
+                    "example": "decimal"
+                },
+                "material_id": {
+                    "type": "integer",
+                    "format": "int64",
+                    "example": 1
+                },
+                "property_name": {
+                    "type": "string",
+                    "format": "string",
+                    "example": "Средняя цена"
+                }
+            }
+        },
+        "handler.AddPropertyToMaterialResponse": {
+            "type": "object",
+            "properties": {
+                "success": {
+                    "type": "boolean",
+                    "format": "boolean",
+                    "example": true
+                }
+            }
+        },
+        "handler.AddUniqueMaterialRequest": {
+            "type": "object",
+            "properties": {
+                "delivery_type": {
+                    "type": "string",
+                    "format": "string",
+                    "example": "CIF"
+                },
+                "group": {
+                    "type": "string",
+                    "format": "string",
+                    "example": "Стальная продукция"
+                },
+                "market": {
+                    "type": "string",
+                    "format": "string",
+                    "example": "Восточное поборежье (США)"
+                },
+                "name": {
+                    "type": "string",
+                    "format": "string",
+                    "example": "Сталь суперпрочная"
+                },
+                "source": {
+                    "type": "string",
+                    "format": "string",
+                    "example": "steel.com"
+                },
+                "uid": {
+                    "type": "integer",
+                    "format": "int64",
+                    "example": 0
+                },
+                "unit": {
+                    "type": "string",
+                    "format": "string",
+                    "example": "$/т"
+                }
+            }
+        },
+        "handler.AddUniqueMaterialResponse": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "handler.AddValueRequest": {
+            "type": "object",
+            "properties": {
+                "created_on": {
+                    "type": "string",
+                    "format": "string",
+                    "example": "2029-09-14"
+                },
+                "material_source_id": {
+                    "type": "integer",
+                    "format": "int64",
+                    "example": 2
+                },
+                "property_name": {
+                    "type": "string",
+                    "format": "string",
+                    "example": "Средняя цена"
+                },
+                "value_float": {
+                    "type": "string",
+                    "format": "string",
+                    "example": "123.98"
+                },
+                "value_str": {
+                    "type": "string",
+                    "format": "string",
+                    "example": ""
+                }
+            }
+        },
+        "handler.AddValueResponse": {
+            "type": "object",
+            "properties": {
+                "success": {
+                    "type": "boolean",
+                    "format": "bool",
+                    "example": true
+                }
+            }
+        },
+        "handler.AvgPriceRequest": {
+            "type": "object",
+            "properties": {
+                "finish": {
+                    "type": "string",
+                    "format": "string",
+                    "example": "2020-01-01"
+                },
+                "material_source_id": {
+                    "type": "integer",
+                    "format": "int64",
+                    "example": 2
+                },
+                "property_id": {
+                    "type": "integer",
+                    "format": "int64",
+                    "example": 1
+                },
+                "start": {
+                    "type": "string",
+                    "format": "string",
+                    "example": "2019-01-01"
+                }
+            }
+        },
+        "handler.AvgPriceResponse": {
+            "type": "object",
+            "properties": {
+                "prev_price": {
+                    "type": "number",
+                    "format": "float64",
+                    "example": 42.55
+                },
+                "price_feed": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.Price"
+                    }
+                }
+            }
+        },
+        "handler.ErrorResponse": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "integer"
+                },
+                "data": {},
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "handler.GetMaterialInfoRequest": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "format": "int64",
+                    "example": 2
+                }
+            }
+        },
+        "handler.GetMaterialInfoResponse": {
+            "type": "object",
+            "properties": {
+                "info": {
+                    "$ref": "#/definitions/model.MaterialShortInfo"
+                }
+            }
+        },
+        "handler.GetMaterialsRequest": {
+            "type": "object"
+        },
+        "handler.GetMaterialsResponse": {
+            "type": "object",
+            "properties": {
+                "list": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.MaterialShortInfo"
+                    }
+                }
+            }
+        },
+        "handler.GetPropertyListRequest": {
+            "type": "object",
+            "properties": {
+                "material_source_id": {
+                    "type": "string",
+                    "format": "int64",
+                    "example": "12"
+                }
+            }
+        },
+        "handler.GetPropertyListResponse": {
+            "type": "object",
+            "properties": {
+                "list": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.PropertyShortInfo"
+                    }
+                }
+            }
+        },
+        "handler.GetPropertyNameRequest": {
+            "type": "object",
+            "properties": {
+                "property_id": {
+                    "type": "integer",
+                    "format": "int64",
+                    "example": 2
+                }
+            }
+        },
+        "handler.GetPropertyNameResponse": {
+            "type": "object",
+            "properties": {
+                "property_name": {
+                    "type": "string",
+                    "example": "Средняя ценв"
+                }
+            }
+        },
+        "handler.InitImportRequest": {
+            "type": "object",
+            "properties": {
+                "group": {
+                    "type": "string",
+                    "format": "string",
+                    "example": ""
+                }
+            }
+        },
+        "handler.InitImportResponse": {
+            "type": "object",
+            "properties": {
+                "success": {
+                    "type": "boolean",
+                    "format": "boolean",
+                    "example": true
+                }
+            }
+        },
+        "handler.LastValuesRequest": {
+            "type": "object",
+            "properties": {
+                "finish": {
+                    "type": "string",
+                    "format": "string",
+                    "example": "2022-03-17"
+                },
+                "material_source_id": {
+                    "type": "integer",
+                    "format": "int64",
+                    "example": 3
+                },
+                "n_values": {
+                    "type": "integer",
+                    "format": "int64",
+                    "example": 10
+                },
+                "property_id": {
+                    "type": "integer",
+                    "format": "int64",
+                    "example": 1
+                }
+            }
+        },
+        "handler.LastValuesResponse": {
+            "type": "object",
+            "properties": {
+                "price_feed": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.Price"
+                    }
+                }
+            }
+        },
+        "handler.LoginRequest": {
+            "type": "object",
+            "properties": {
+                "password": {
+                    "type": "string",
+                    "format": "string",
+                    "example": "password"
+                },
+                "username": {
+                    "type": "string",
+                    "format": "string",
+                    "example": "user"
+                }
+            }
+        },
+        "handler.LoginResponse": {
+            "type": "object",
+            "properties": {
+                "token": {
+                    "type": "string",
+                    "format": "string",
+                    "example": "token"
+                }
+            }
+        },
+        "model.MaterialShortInfo": {
+            "type": "object",
+            "properties": {
+                "deliveryType": {
+                    "type": "string",
+                    "format": "string",
+                    "example": "FOB"
+                },
+                "group": {
+                    "type": "string",
+                    "format": "string",
+                    "example": "Сырьевые материалы"
+                },
+                "id": {
+                    "type": "integer",
+                    "format": "int64",
+                    "example": 2
+                },
+                "market": {
+                    "type": "string",
+                    "format": "string",
+                    "example": "Россия"
+                },
+                "name": {
+                    "type": "string",
+                    "format": "string",
+                    "example": "ЖРС 65%"
+                },
+                "source": {
+                    "type": "string",
+                    "format": "string",
+                    "example": "metallplace.ru"
+                },
+                "unit": {
+                    "type": "string",
+                    "format": "string",
+                    "example": "$/т"
+                }
+            }
+        },
+        "model.Price": {
+            "type": "object",
+            "properties": {
+                "date": {
+                    "type": "string",
+                    "format": "string",
+                    "example": "2022-03-23"
+                },
+                "value": {
+                    "type": "number",
+                    "format": "float64",
+                    "example": 12.97
+                }
+            }
+        },
+        "model.PropertyShortInfo": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "format": "int64",
+                    "example": 2
+                },
+                "kind": {
+                    "type": "string",
+                    "format": "string",
+                    "example": "decimal"
+                },
+                "name": {
+                    "type": "string",
+                    "format": "string",
+                    "example": "Средняя цена"
+                }
+            }
+        }
+    },
+    "externalDocs": {
+        "description": "OpenAPI",
+        "url": "https://swagger.io/resources/open-api/"
+    }
+}

@@ -16,6 +16,7 @@ git clone https://github.com/qusysert/metallplaceDB.git .
 
 # build go server
 export PATH="$PATH:/usr/local/go/bin/"
+make gen-swagger
 make build
 cd $RELEASES/$RELEASE
 cp build/bin/metallplace .

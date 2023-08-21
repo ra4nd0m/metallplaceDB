@@ -1,0 +1,798 @@
+definitions:
+  handler.AddPropertyToMaterialRequest:
+    properties:
+      kind:
+        example: decimal
+        format: string
+        type: string
+      material_id:
+        example: 1
+        format: int64
+        type: integer
+      property_name:
+        example: Средняя цена
+        format: string
+        type: string
+    type: object
+  handler.AddPropertyToMaterialResponse:
+    properties:
+      success:
+        example: true
+        format: boolean
+        type: boolean
+    type: object
+  handler.AddUniqueMaterialRequest:
+    properties:
+      delivery_type:
+        example: CIF
+        format: string
+        type: string
+      group:
+        example: Стальная продукция
+        format: string
+        type: string
+      market:
+        example: Восточное поборежье (США)
+        format: string
+        type: string
+      name:
+        example: Сталь суперпрочная
+        format: string
+        type: string
+      source:
+        example: steel.com
+        format: string
+        type: string
+      uid:
+        example: 0
+        format: int64
+        type: integer
+      unit:
+        example: $/т
+        format: string
+        type: string
+    type: object
+  handler.AddUniqueMaterialResponse:
+    properties:
+      id:
+        type: integer
+    type: object
+  handler.AddValueRequest:
+    properties:
+      created_on:
+        example: "2029-09-14"
+        format: string
+        type: string
+      material_source_id:
+        example: 2
+        format: int64
+        type: integer
+      property_name:
+        example: Средняя цена
+        format: string
+        type: string
+      value_float:
+        example: "123.98"
+        format: string
+        type: string
+      value_str:
+        example: ""
+        format: string
+        type: string
+    type: object
+  handler.AddValueResponse:
+    properties:
+      success:
+        example: true
+        format: bool
+        type: boolean
+    type: object
+  handler.AvgPriceRequest:
+    properties:
+      finish:
+        example: "2020-01-01"
+        format: string
+        type: string
+      material_source_id:
+        example: 2
+        format: int64
+        type: integer
+      property_id:
+        example: 1
+        format: int64
+        type: integer
+      start:
+        example: "2019-01-01"
+        format: string
+        type: string
+    type: object
+  handler.AvgPriceResponse:
+    properties:
+      prev_price:
+        example: 42.55
+        format: float64
+        type: number
+      price_feed:
+        items:
+          $ref: '#/definitions/model.Price'
+        type: array
+    type: object
+  handler.ErrorResponse:
+    properties:
+      code:
+        type: integer
+      data: {}
+      message:
+        type: string
+    type: object
+  handler.GetMaterialInfoRequest:
+    properties:
+      id:
+        example: 2
+        format: int64
+        type: integer
+    type: object
+  handler.GetMaterialInfoResponse:
+    properties:
+      info:
+        $ref: '#/definitions/model.MaterialShortInfo'
+    type: object
+  handler.GetMaterialsRequest:
+    type: object
+  handler.GetMaterialsResponse:
+    properties:
+      list:
+        items:
+          $ref: '#/definitions/model.MaterialShortInfo'
+        type: array
+    type: object
+  handler.GetPropertyListRequest:
+    properties:
+      material_source_id:
+        example: "12"
+        format: int64
+        type: string
+    type: object
+  handler.GetPropertyListResponse:
+    properties:
+      list:
+        items:
+          $ref: '#/definitions/model.PropertyShortInfo'
+        type: array
+    type: object
+  handler.GetPropertyNameRequest:
+    properties:
+      property_id:
+        example: 2
+        format: int64
+        type: integer
+    type: object
+  handler.GetPropertyNameResponse:
+    properties:
+      property_name:
+        example: Средняя ценв
+        type: string
+    type: object
+  handler.InitImportRequest:
+    properties:
+      group:
+        example: ""
+        format: string
+        type: string
+    type: object
+  handler.InitImportResponse:
+    properties:
+      success:
+        example: true
+        format: boolean
+        type: boolean
+    type: object
+  handler.LastValuesRequest:
+    properties:
+      finish:
+        example: "2022-03-17"
+        format: string
+        type: string
+      material_source_id:
+        example: 3
+        format: int64
+        type: integer
+      n_values:
+        example: 10
+        format: int64
+        type: integer
+      property_id:
+        example: 1
+        format: int64
+        type: integer
+    type: object
+  handler.LastValuesResponse:
+    properties:
+      price_feed:
+        items:
+          $ref: '#/definitions/model.Price'
+        type: array
+    type: object
+  handler.LoginRequest:
+    properties:
+      password:
+        example: password
+        format: string
+        type: string
+      username:
+        example: user
+        format: string
+        type: string
+    type: object
+  handler.LoginResponse:
+    properties:
+      token:
+        example: token
+        format: string
+        type: string
+    type: object
+  model.MaterialShortInfo:
+    properties:
+      deliveryType:
+        example: FOB
+        format: string
+        type: string
+      group:
+        example: Сырьевые материалы
+        format: string
+        type: string
+      id:
+        example: 2
+        format: int64
+        type: integer
+      market:
+        example: Россия
+        format: string
+        type: string
+      name:
+        example: ЖРС 65%
+        format: string
+        type: string
+      source:
+        example: metallplace.ru
+        format: string
+        type: string
+      unit:
+        example: $/т
+        format: string
+        type: string
+    type: object
+  model.Price:
+    properties:
+      date:
+        example: "2022-03-23"
+        format: string
+        type: string
+      value:
+        example: 12.97
+        format: float64
+        type: number
+    type: object
+  model.PropertyShortInfo:
+    properties:
+      id:
+        example: 2
+        format: int64
+        type: integer
+      kind:
+        example: decimal
+        format: string
+        type: string
+      name:
+        example: Средняя цена
+        format: string
+        type: string
+    type: object
+externalDocs:
+  description: OpenAPI
+  url: https://swagger.io/resources/open-api/
+host: localhost:8080
+info:
+  contact:
+    email: is.demchuk@gmail.com
+    name: Ivan Demchuk
+    url: http://www.swagger.io/support
+  description: Swagger documentation fo metallplace service
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: Metallplace API
+  version: "1.0"
+paths:
+  /addPropertyToMaterial:
+    post:
+      consumes:
+      - application/json
+      description: add property to material by id
+      parameters:
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/handler.AddPropertyToMaterialRequest'
+      - description: Authorization
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.AddPropertyToMaterialResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+      summary: Add property to material
+      tags:
+      - property
+  /addUniqueMaterial:
+    post:
+      consumes:
+      - application/json
+      description: get short info about all unique materials
+      parameters:
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/handler.AddUniqueMaterialRequest'
+      - description: Authorization
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.AddUniqueMaterialResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+      summary: Get material
+      tags:
+      - material
+  /addValue:
+    post:
+      consumes:
+      - application/json
+      description: get n last values of specific property of specific material
+      parameters:
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/handler.AddValueRequest'
+      - description: Authorization
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.AddValueResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+      summary: Get last values
+      tags:
+      - value
+  /getMaterialInfo:
+    post:
+      consumes:
+      - application/json
+      description: get short info about unique material by id
+      parameters:
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/handler.GetMaterialInfoRequest'
+      - description: Authorization
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.GetMaterialInfoResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+      summary: Get material info
+      tags:
+      - material
+  /getMaterialList:
+    post:
+      consumes:
+      - application/json
+      description: get short info about all unique materials
+      parameters:
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/handler.GetMaterialsRequest'
+      - description: Authorization
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.GetMaterialsResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+      summary: Get material
+      tags:
+      - material
+  /getMonthlyAvgFeed:
+    post:
+      consumes:
+      - application/json
+      description: get n last values of specific property of specific material
+      parameters:
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/handler.AvgPriceRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.AvgPriceResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+      summary: Get last values
+      tags:
+      - value
+  /getNLastValues:
+    post:
+      consumes:
+      - application/json
+      description: get values of specified period for specified material and property
+      parameters:
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/handler.LastValuesRequest'
+      - description: Authorization
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.LastValuesResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+      summary: Get values
+      tags:
+      - value
+  /getPropertyList:
+    post:
+      consumes:
+      - application/json
+      description: get list of existing properties
+      parameters:
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/handler.GetPropertyListRequest'
+      - description: Authorization
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.GetPropertyListResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+      summary: Get all properties
+      tags:
+      - property
+  /getPropertyName:
+    post:
+      consumes:
+      - application/json
+      description: get property name by id
+      parameters:
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/handler.GetPropertyNameRequest'
+      - description: Authorization
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.GetPropertyNameResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+      summary: Get property name
+      tags:
+      - property
+  /getReport/{type}/{date}:
+    get:
+      description: get generated report in docx format. Type could be ether "weekly"
+        or "monthly". Date of report in format YYYY-MM-DD
+      parameters:
+      - description: Authorization
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+      summary: Get report file
+      tags:
+      - report
+  /getWeeklyAvgFeed:
+    post:
+      consumes:
+      - application/json
+      description: returns weekly feed of average values during the week
+      parameters:
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/handler.AvgPriceRequest'
+      - description: Authorization
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.AvgPriceResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+      summary: Get weekly feed
+      tags:
+      - value
+  /initImport:
+    post:
+      consumes:
+      - application/json
+      description: import materials, properties and values form .xlsx file on server
+      parameters:
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/handler.InitImportRequest'
+      - description: Authorization
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.InitImportResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+      summary: Initial import
+      tags:
+      - value
+  /login:
+    post:
+      consumes:
+      - application/json
+      description: log in with username and password
+      parameters:
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/handler.LoginRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.LoginResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+      summary: Log in
+      tags:
+      - Auth
+swagger: "2.0"

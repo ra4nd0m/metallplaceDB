@@ -2,44 +2,30 @@ package model
 
 import "time"
 
+// Property example
 type Property struct {
-	Sheet      string
-	Name       string
-	Column     string
-	Row        int
-	Kind       string
-	DateColumn string
+	Sheet      string `example:"01. ЖРС"`
+	Name       string `example:"ЖРС 65%"`
+	Column     string `example:"C"`
+	Row        int    `example:"34" format:"int64"`
+	Kind       string `example:"decimal"`
+	DateColumn string `example:"A"`
 }
 
-// swagger:model Product
+// Material example
 type Material struct {
-	UId int
-	// Name of material
-	// in: string
-	Name string
-	// Group of materials
-	// in: string
-	Group string
-	// Source (website) of materials
-	// in: string
-	Source string
-	// Market (country and ferry) of materials
-	// in: string
-	Market string
-	// DeliveryType INCOTERMS of materials
-	// in: string
+	UId          int
+	Name         string
+	Group        string
+	Source       string
+	Market       string
 	DeliveryType string
-	// Unit (currency and weight unit) of materials
-	// in: string
-	Unit string
-	// DateColumn column of date sequence in xlsx sheet
-	// in: string
-	DateColumn string
-	// Properties of material
-	// in: string
-	Properties []Property
+	Unit         string
+	DateColumn   string
+	Properties   []Property
 }
 
+// DailyMaterial example
 type DailyMaterial struct {
 	UId          int
 	Name         string
@@ -72,24 +58,25 @@ type MaterialHorizontal struct {
 }
 
 type PropertyShortInfo struct {
-	Id   int
-	Name string
-	Kind string
+	Id   int    `example:"2" format:"int64"`
+	Name string `example:"Средняя цена" format:"string"`
+	Kind string `example:"decimal" format:"string"`
 }
 
+// MaterialShortInfo example
 type MaterialShortInfo struct {
-	Id           int
-	Name         string
-	Group        string
-	Source       string
-	Market       string
-	DeliveryType string
-	Unit         string
+	Id           int    `example:"2" format:"int64"`
+	Name         string `example:"ЖРС 65%" format:"string"`
+	Group        string `example:"Сырьевые материалы" format:"string"`
+	Source       string `example:"metallplace.ru" format:"string"`
+	Market       string `example:"Россия" format:"string"`
+	DeliveryType string `example:"FOB" format:"string"`
+	Unit         string `example:"$/т" format:"string"`
 }
 
 type Price struct {
-	Date  time.Time `json:"date"`
-	Value float64   `json:"value"`
+	Date  time.Time `json:"date" example:"2022-03-23" format:"string"`
+	Value float64   `json:"value" example:"12.97" format:"float64"`
 }
 
 type PriceFeed struct {

@@ -7,18 +7,35 @@ import (
 	"time"
 )
 
+// AddValueRequest example
 type AddValueRequest struct {
-	MaterialSourceId int    `json:"material_source_id"`
-	PropertyName     string `json:"property_name"`
-	ValueFloat       string `json:"value_float"`
-	ValueStr         string `json:"value_str"`
-	CreatedOn        string `json:"created_on"`
+	MaterialSourceId int    `json:"material_source_id" example:"2" format:"int64"`
+	PropertyName     string `json:"property_name" example:"Средняя цена" format:"string"`
+	ValueFloat       string `json:"value_float" example:"123.98" format:"string"`
+	ValueStr         string `json:"value_str" example:"" format:"string"`
+	CreatedOn        string `json:"created_on" example:"2029-09-14" format:"string"`
 }
 
+// AddValueResponse example
 type AddValueResponse struct {
-	Success bool `json:"success"`
+	Success bool `json:"success" example:"true" format:"bool"`
 }
 
+// AddValueHandler godoc
+//
+//	@Summary		Get last values
+//	@Description	get n last values of specific property of specific material
+//	@Tags			value
+//	@Accept			json
+//	@Produce		json
+//	@Param request body AddValueRequest true "query params"
+//	@Param Authorization header string true "Authorization"
+//	@SecurityDefinitions.apikey ApiKeyAuth
+//	@Success		200	{object}	AddValueResponse
+//	@Failure		400	{object}	ErrorResponse
+//	@Failure		404	{object}	ErrorResponse
+//	@Failure		500	{object}	ErrorResponse
+//	@Router			/addValue [post]
 func (h Handler) AddValueHandler(w http.ResponseWriter, r *http.Request) {
 	handle(w, r, func(req AddValueRequest) (AddValueResponse, error) {
 		var valueFloat float64

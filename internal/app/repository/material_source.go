@@ -53,7 +53,6 @@ func (r *Repository) AddMaterialSource(ctx context.Context, uid int, materialNam
 		} else {
 			return 0, fmt.Errorf("uid already exists: %d", uid)
 		}
-
 	}
 
 	row := db.FromContext(ctx).QueryRow(
