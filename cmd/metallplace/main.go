@@ -121,6 +121,13 @@ func externalServerFn(ctx context.Context, cfg config.Config, hdl *handler.Handl
 		handler     http.HandlerFunc
 		withoutAuth bool
 	}{
+		{route: "/swagger.json", handler: func(w http.ResponseWriter, r *http.Request) {
+			cwd, _ := os.Getwd()
+			p := path.Join(cwd, "docs/swagger.json")
+			fmt.Println("Path swagger.json: " + p)
+			http.ServeFile(w, r, p)
+		}, withoutAuth: true},
+		{route: "/swagger/{any:.+}", handler: httpSwagger.Handler(httpSwagger.URL("/swagger.json")), withoutAuth: true},
 		{route: "/getValueForPeriod", handler: hdl.GetValueForPeriodHandler},
 		{route: "/getMonthlyAvgFeed", handler: hdl.GetMonthlyAvgHandler},
 		{route: "/getWeeklyAvgFeed", handler: hdl.GetWeeklyAvgHandler},
@@ -138,12 +145,8 @@ func externalServerFn(ctx context.Context, cfg config.Config, hdl *handler.Handl
 		{route: "/addPropertyToMaterial", handler: hdl.AddPropertyToMaterialHandler},
 		{route: "/updateMainFile", handler: hdl.UpdateMainFileHandler},
 		{route: "/login", handler: hdl.LoginHandler, withoutAuth: true},
-		{route: "/swagger/{any:.+}", handler: httpSwagger.Handler(httpSwagger.URL("/swagger.json")), withoutAuth: true},
-		{route: "/swagger.json", handler: func(w http.ResponseWriter, r *http.Request) {
-			cwd, _ := os.Getwd()
-			p := path.Join(cwd, "docs/swagger.json")
-			fmt.Println("Path swagger.json: " + p)
-			http.ServeFile(w, r, p)
+		{route: "/", handler: func(w http.ResponseWriter, r *http.Request) {
+			fmt.Println("UNKNOWN PATH")
 		}, withoutAuth: true},
 	} {
 		var h = rec.handler
