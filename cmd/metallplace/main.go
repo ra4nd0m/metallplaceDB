@@ -148,7 +148,7 @@ func externalServerFn(ctx context.Context, cfg config.Config, hdl *handler.Handl
 		}
 		externalRouter.HandleFunc(rec.route, mw.LoggerMiddleware(DbMiddleware(h)))
 	}
-
+	fmt.Println(os.Getwd())
 	return func() error {
 		errCh := make(chan error)
 		go func() {
