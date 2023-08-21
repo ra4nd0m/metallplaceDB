@@ -145,9 +145,6 @@ func externalServerFn(ctx context.Context, cfg config.Config, hdl *handler.Handl
 		{route: "/addPropertyToMaterial", handler: hdl.AddPropertyToMaterialHandler},
 		{route: "/updateMainFile", handler: hdl.UpdateMainFileHandler},
 		{route: "/login", handler: hdl.LoginHandler, withoutAuth: true},
-		{route: "/", handler: func(w http.ResponseWriter, r *http.Request) {
-			fmt.Println("UNKNOWN PATH")
-		}, withoutAuth: true},
 	} {
 		var h = rec.handler
 		if !rec.withoutAuth {
@@ -155,6 +152,9 @@ func externalServerFn(ctx context.Context, cfg config.Config, hdl *handler.Handl
 		}
 		externalRouter.HandleFunc(rec.route, mw.LoggerMiddleware(DbMiddleware(h)))
 	}
+	externalRouter.PathPrefix("/").HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		fmt.Println("CATCH-ALL PATH")
+	})
 	fmt.Println(os.Getwd())
 	return func() error {
 		errCh := make(chan error)
