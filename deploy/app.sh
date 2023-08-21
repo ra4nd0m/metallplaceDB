@@ -20,6 +20,7 @@ make gen-swagger
 make build
 cd $RELEASES/$RELEASE
 cp build/bin/metallplace .
+cp build/docs/swagger.json .
 cp -r build/internal/migrations .
 rm -rf build
 touch .env
