@@ -35,7 +35,7 @@ type PriceResponse struct {
 //	@Failure		400	{object}	ErrorResponse
 //	@Failure		404	{object}	ErrorResponse
 //	@Failure		500	{object}	ErrorResponse
-//	@Router			/getNLastValues [post]
+//	@Router			/getValueForPeriod [post]
 func (h Handler) GetValueForPeriodHandler(w http.ResponseWriter, r *http.Request) {
 	handle(w, r, func(req PriceRequest) (PriceResponse, error) {
 		if r.Header.Get("Authorization") != "" {

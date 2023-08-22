@@ -374,7 +374,7 @@ const docTemplate = `{
         },
         "/getNLastValues": {
             "post": {
-                "description": "get values of specified period for specified material and property",
+                "description": "get n last values of specific property of specific material",
                 "consumes": [
                     "application/json"
                 ],
@@ -384,7 +384,7 @@ const docTemplate = `{
                 "tags": [
                     "value"
                 ],
-                "summary": "Get values",
+                "summary": "Get last values",
                 "parameters": [
                     {
                         "description": "query params",
@@ -573,6 +573,124 @@ const docTemplate = `{
                         "description": "OK",
                         "schema": {
                             "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/handler.ErrorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/handler.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/handler.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/getShortReport": {
+            "post": {
+                "description": "get report passing blocks of text and xlsx files in defined format. File field can be empty (or we pass bytes of xlsx file there)",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "report"
+                ],
+                "summary": "Get non-regular report",
+                "parameters": [
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/handler.GetShortRequestRequest"
+                        }
+                    },
+                    {
+                        "type": "string",
+                        "description": "Authorization",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/handler.GetShortRequestResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/handler.ErrorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/handler.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/handler.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/getValueForPeriod": {
+            "post": {
+                "description": "get values of specified period for specified material and property",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "value"
+                ],
+                "summary": "Get values",
+                "parameters": [
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/handler.LastValuesRequest"
+                        }
+                    },
+                    {
+                        "type": "string",
+                        "description": "Authorization",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/handler.LastValuesResponse"
                         }
                     },
                     "400": {
@@ -927,6 +1045,33 @@ const docTemplate = `{
                 }
             }
         },
+        "handler.Block": {
+            "type": "object",
+            "properties": {
+                "file": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
+                },
+                "paragraphs": {
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "format": "array"
+                    },
+                    "example": [
+                        "[\"First paragraph\"",
+                        " \"Second paragraph\"]"
+                    ]
+                },
+                "title": {
+                    "type": "string",
+                    "format": "string",
+                    "example": "Short report title"
+                }
+            }
+        },
         "handler.ErrorResponse": {
             "type": "object",
             "properties": {
@@ -1010,6 +1155,30 @@ const docTemplate = `{
                     "example": "Средняя ценв"
                 }
             }
+        },
+        "handler.GetShortRequestRequest": {
+            "type": "object",
+            "properties": {
+                "blocks": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/handler.Block"
+                    }
+                },
+                "date": {
+                    "type": "string",
+                    "format": "string",
+                    "example": "2006-01-02"
+                },
+                "report_header": {
+                    "type": "string",
+                    "format": "string",
+                    "example": "Short report header"
+                }
+            }
+        },
+        "handler.GetShortRequestResponse": {
+            "type": "object"
         },
         "handler.InitImportRequest": {
             "type": "object",

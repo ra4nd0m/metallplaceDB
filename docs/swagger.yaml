@@ -117,6 +117,25 @@ definitions:
           $ref: '#/definitions/model.Price'
         type: array
     type: object
+  handler.Block:
+    properties:
+      file:
+        items:
+          type: integer
+        type: array
+      paragraphs:
+        example:
+        - '["First paragraph"'
+        - ' "Second paragraph"]'
+        items:
+          format: array
+          type: string
+        type: array
+      title:
+        example: Short report title
+        format: string
+        type: string
+    type: object
   handler.ErrorResponse:
     properties:
       code:
@@ -172,6 +191,23 @@ definitions:
       property_name:
         example: Средняя ценв
         type: string
+    type: object
+  handler.GetShortRequestRequest:
+    properties:
+      blocks:
+        items:
+          $ref: '#/definitions/handler.Block'
+        type: array
+      date:
+        example: "2006-01-02"
+        format: string
+        type: string
+      report_header:
+        example: Short report header
+        format: string
+        type: string
+    type: object
+  handler.GetShortRequestResponse:
     type: object
   handler.InitImportRequest:
     properties:
@@ -538,7 +574,7 @@ paths:
     post:
       consumes:
       - application/json
-      description: get values of specified period for specified material and property
+      description: get n last values of specific property of specific material
       parameters:
       - description: query params
         in: body
@@ -570,7 +606,7 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/handler.ErrorResponse'
-      summary: Get values
+      summary: Get last values
       tags:
       - value
   /getPropertyList:
@@ -683,6 +719,85 @@ paths:
       summary: Get report file
       tags:
       - report
+  /getShortReport:
+    post:
+      consumes:
+      - application/json
+      description: get report passing blocks of text and xlsx files in defined format.
+        File field can be empty (or we pass bytes of xlsx file there)
+      parameters:
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/handler.GetShortRequestRequest'
+      - description: Authorization
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.GetShortRequestResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+      summary: Get non-regular report
+      tags:
+      - report
+  /getValueForPeriod:
+    post:
+      consumes:
+      - application/json
+      description: get values of specified period for specified material and property
+      parameters:
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/handler.LastValuesRequest'
+      - description: Authorization
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.LastValuesResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+      summary: Get values
+      tags:
+      - value
   /getWeeklyAvgFeed:
     post:
       consumes:

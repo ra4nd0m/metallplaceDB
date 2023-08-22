@@ -7,19 +7,36 @@ import (
 	"time"
 )
 
+// Block example
 type Block struct {
-	Title      string   `json:"title"`
-	Paragraphs []string `json:"paragraphs"`
+	Title      string   `json:"title" example:"Short report title" format:"string"`
+	Paragraphs []string `json:"paragraphs" example:"[\"First paragraph\", \"Second paragraph\"]" format:"array"`
 	File       []byte   `json:"file"`
 }
 
+// GetShortRequestRequest example
 type GetShortRequestRequest struct {
-	ReportHeader string  `json:"report_header"`
-	Date         string  `json:"date"`
+	ReportHeader string  `json:"report_header" example:"Short report header" format:"string"`
+	Date         string  `json:"date" example:"2006-01-02" format:"string"`
 	Blocks       []Block `json:"blocks"`
 }
 type GetShortRequestResponse struct{}
 
+// GetShortReportHandler godoc
+//
+//	@Summary		Get non-regular report
+//	@Description	get report passing blocks of text and xlsx files in defined format. File field can be empty (or we pass bytes of xlsx file there)
+//	@Tags			report
+//	@Accept			json
+//	@Produce		json
+//	@Param request body GetShortRequestRequest true "query params"
+//	@Param Authorization header string true "Authorization"
+//	@SecurityDefinitions.apikey ApiKeyAuth
+//	@Success		200	{object}	GetShortRequestResponse
+//	@Failure		400	{object}	ErrorResponse
+//	@Failure		404	{object}	ErrorResponse
+//	@Failure		500	{object}	ErrorResponse
+//	@Router			/getShortReport [post]
 func (h Handler) GetShortReportHandler(w http.ResponseWriter, r *http.Request) {
 	handle(w, r, func(req GetShortRequestRequest) (GetShortRequestResponse, error) {
 
