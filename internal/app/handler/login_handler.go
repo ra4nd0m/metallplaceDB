@@ -31,21 +31,23 @@ type LoginResponse struct {
 //	@Router			/login [post]
 func (h Handler) LoginHandler(w http.ResponseWriter, r *http.Request) {
 	handle(w, r, func(req LoginRequest) (LoginResponse, error) {
+
 		isValid, err := h.service.CheckCredentials(r.Context(), req.Username, req.Password)
 		if err != nil {
+			SentrySend(r, err)
 			w.WriteHeader(http.StatusInternalServerError)
-			return LoginResponse{}, fmt.Errorf("erro checking credentials: %w", err)
+			return LoginResponse{}, fmt.Errorf("error checking credentials: %w", err)
 		}
 
 		if isValid {
 			tokenString, err := h.service.CreateToken(req.Username)
 			if err != nil {
+				SentrySend(r, err)
 				w.WriteHeader(http.StatusInternalServerError)
 				return LoginResponse{}, fmt.Errorf("cant generate token: %w", err)
 			}
 			return LoginResponse{Token: tokenString}, nil
 		} else {
-			w.WriteHeader(http.StatusUnauthorized)
 			return LoginResponse{}, fmt.Errorf("wrong credentials")
 		}
 	})

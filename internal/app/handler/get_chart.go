@@ -11,12 +11,14 @@ func (h Handler) GetChartHandler(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	chartPack, err := model.NewChartPack(strings.TrimRight(vars["specs"], "."))
 	if err != nil {
+		SentrySend(r, err)
 		http.Error(w, "cant pack request to struct: "+err.Error(), http.StatusBadRequest)
 		return
 	}
 
 	bytes, err := h.service.GetCachedChart(r.Context(), chartPack)
 	if err != nil {
+		SentrySend(r, err)
 		http.Error(w, "cant get img bytes: "+err.Error(), http.StatusBadRequest)
 		return
 	}

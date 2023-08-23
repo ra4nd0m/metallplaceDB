@@ -34,12 +34,14 @@ func (h Handler) InitImportHandler(w http.ResponseWriter, r *http.Request) {
 		if req.Group == "daily" {
 			err := h.service.InitialImportDaily(r.Context())
 			if err != nil {
+				SentrySend(r, err)
 				return InitImportResponse{false}, err
 			}
 			return InitImportResponse{true}, nil
 		} else {
 			err := h.service.InitialImport(r.Context())
 			if err != nil {
+				SentrySend(r, err)
 				return InitImportResponse{false}, err
 			}
 			return InitImportResponse{true}, nil

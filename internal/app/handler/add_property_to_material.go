@@ -33,6 +33,7 @@ func (h Handler) AddPropertyToMaterialHandler(w http.ResponseWriter, r *http.Req
 	handle(w, r, func(req AddPropertyToMaterialRequest) (AddPropertyToMaterialResponse, error) {
 		err := h.service.AddPropertyToMaterial(r.Context(), req.MaterialId, req.PropertyName, req.Kind)
 		if err != nil {
+			SentrySend(r, err)
 			return AddPropertyToMaterialResponse{false}, err
 		}
 		return AddPropertyToMaterialResponse{true}, nil

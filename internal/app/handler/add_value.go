@@ -43,6 +43,7 @@ func (h Handler) AddValueHandler(w http.ResponseWriter, r *http.Request) {
 		createdOn, err := time.Parse("2006-01-02", req.CreatedOn)
 		if err != nil {
 			if err != nil {
+				SentrySend(r, err)
 				return AddValueResponse{false}, fmt.Errorf("cant parse date: %w", err)
 			}
 		}
@@ -52,14 +53,16 @@ func (h Handler) AddValueHandler(w http.ResponseWriter, r *http.Request) {
 		}
 
 		if err != nil {
+			SentrySend(r, err)
 			return AddValueResponse{false}, fmt.Errorf("cant parse float: %w", err)
 		}
 
 		err = h.service.AddValue(r.Context(), req.MaterialSourceId,
 			req.PropertyName, valueFloat, req.ValueStr, createdOn)
 		if err != nil {
+			SentrySend(r, err)
 			return AddValueResponse{false}, fmt.Errorf("cant add value: %w", err)
 		}
-		return AddValueResponse{true}, err
+		return AddValueResponse{true}, nil
 	})
 }

@@ -30,6 +30,8 @@ type Config struct {
 	AuthKey []byte
 
 	InternalHttpPort string
+
+	SentryDSN string
 }
 
 func LoadConfig() (Config, error) {
@@ -66,6 +68,7 @@ func LoadConfig() (Config, error) {
 		DocxgenPort:      DocxgenPort,
 		AuthKey:          []byte(os.Getenv("MPLBASE_AUTH_KEY")),
 		InternalHttpPort: os.Getenv("MPLBASE_INTERNAL_HTTP_PORT"),
+		SentryDSN:        os.Getenv("MPLBASE_SENTRY_DSN"),
 	}
 
 	log.Printf("config: %#v\n", config)

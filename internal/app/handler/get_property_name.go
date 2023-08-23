@@ -33,6 +33,7 @@ func (h Handler) GetPropertyNameHandler(w http.ResponseWriter, r *http.Request) 
 	handle(w, r, func(req GetPropertyNameRequest) (GetPropertyNameResponse, error) {
 		name, err := h.service.GetPropertyName(r.Context(), req.PropertyId)
 		if err != nil {
+			SentrySend(r, err)
 			return GetPropertyNameResponse{}, err
 		}
 		return GetPropertyNameResponse{PropertyName: name}, nil

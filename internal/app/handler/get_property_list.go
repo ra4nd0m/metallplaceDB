@@ -35,6 +35,7 @@ func (h Handler) GetPropertyListHandler(w http.ResponseWriter, r *http.Request) 
 	handle(w, r, func(req GetPropertyListRequest) (GetPropertyListResponse, error) {
 		id, err := strconv.Atoi(req.MaterialSourceId)
 		if err != nil {
+			SentrySend(r, err)
 			return GetPropertyListResponse{}, err
 		}
 		list, err := h.service.GetPropertyList(r.Context(), id)

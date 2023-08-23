@@ -22,6 +22,7 @@ func (h Handler) GetReportHandler(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	bytes, err := h.service.GetCachedReport(vars["repType"], vars["date"])
 	if err != nil {
+		SentrySend(r, err)
 		http.Error(w, "cant get docx bytes: "+err.Error(), http.StatusBadRequest)
 		return
 	}

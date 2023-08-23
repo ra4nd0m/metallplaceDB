@@ -31,6 +31,10 @@ type GetMaterialsResponse struct {
 func (h Handler) GetMaterialListHandler(w http.ResponseWriter, r *http.Request) {
 	handle(w, r, func(GetMaterialsRequest) (GetMaterialsResponse, error) {
 		list, err := h.service.GetMaterialList(r.Context())
-		return GetMaterialsResponse{List: list}, err
+		if err != nil {
+			SentrySend(r, err)
+			return GetMaterialsResponse{}, err
+		}
+		return GetMaterialsResponse{List: list}, nil
 	})
 }

@@ -1,6 +1,7 @@
 package model
 
 import (
+	"errors"
 	"fmt"
 	"strconv"
 	"strings"
@@ -69,6 +70,9 @@ func NewChartPack(url string) (ChartPack, error) {
 	fn := strings.TrimRight(url, ChartRoutePostfix)
 	var c ChartPack
 	cnt := strings.Split(fn, "_")
+	if len(cnt) < 11 {
+		return ChartPack{}, errors.New("chart's url config too short")
+	}
 
 	var MaterialIdList []int
 	idStrList := strings.Split(cnt[0], "-")

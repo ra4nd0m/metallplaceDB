@@ -35,6 +35,7 @@ func (h Handler) GetMaterialSourceInfoHandler(w http.ResponseWriter, r *http.Req
 
 		info, err := h.service.GetMaterialSourceInfo(r.Context(), req.Id)
 		if err != nil {
+			SentrySend(r, err)
 			return GetMaterialInfoResponse{}, err
 		}
 		return GetMaterialInfoResponse{Info: info}, nil

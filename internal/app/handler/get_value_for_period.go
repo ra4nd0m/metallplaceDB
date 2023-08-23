@@ -42,13 +42,16 @@ func (h Handler) GetValueForPeriodHandler(w http.ResponseWriter, r *http.Request
 			defer h.service.SetLastRequestTime(time.Now().UTC())
 			user, err := h.service.GetUserFromJWT(r)
 			if err != nil {
+				SentrySend(r, err)
 				return PriceResponse{}, err
 			}
 			isModified, err := h.service.CheckChanges(r.Context(), "material_value", h.service.LastRequestTime())
 			if err != nil {
+				SentrySend(r, err)
 				return PriceResponse{}, fmt.Errorf("cant check if table was modified since previous request: %w", err)
 			}
 			if !isModified && user == "rnd" {
+				SentrySend(r, err)
 				return PriceResponse{}, nil
 			}
 		}

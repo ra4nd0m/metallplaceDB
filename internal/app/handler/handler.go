@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"github.com/getsentry/sentry-go"
 	"github.com/go-playground/validator"
 	"github.com/xuri/excelize/v2"
 	"io"
@@ -83,6 +84,12 @@ func isNil(i interface{}) bool {
 		return reflect.ValueOf(i).IsNil()
 	}
 	return false
+}
+
+func SentrySend(r *http.Request, err error) {
+	hub := sentry.GetHubFromContext(r.Context())
+	hub.CaptureException(err)
+	hub.Flush(2 * time.Second)
 }
 
 // Unmarshal request, do work fn(), then marshall response into JSON anf return

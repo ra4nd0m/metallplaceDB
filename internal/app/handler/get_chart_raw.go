@@ -15,6 +15,7 @@ func (h Handler) GetChartRawHandler(w http.ResponseWriter, r *http.Request) {
 	handle(w, r, func(req GetChartRawRequest) (GetChartRawResponse, error) {
 		bytes, err := h.service.GetChartRaw(req.Book, req.TickLimit)
 		if err != nil {
+			SentrySend(r, err)
 			return GetChartRawResponse{}, err
 		}
 

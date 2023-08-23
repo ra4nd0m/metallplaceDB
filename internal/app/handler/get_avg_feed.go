@@ -57,6 +57,10 @@ func (h Handler) GetMonthlyAvgHandler(w http.ResponseWriter, r *http.Request) {
 func (h Handler) GetWeeklyAvgHandler(w http.ResponseWriter, r *http.Request) {
 	handle(w, r, func(req AvgPriceRequest) (AvgPriceResponse, error) {
 		priceFeed, prevPrice, err := h.service.GetWeeklyAvgFeed(r.Context(), req.MaterialSourceId, req.PropertyId, req.Start, req.Finish)
-		return AvgPriceResponse{priceFeed, prevPrice}, err
+		if err != nil {
+			SentrySend(r, err)
+			return AvgPriceResponse{}, err
+		}
+		return AvgPriceResponse{priceFeed, prevPrice}, nil
 	})
 }

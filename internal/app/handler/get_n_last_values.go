@@ -36,6 +36,10 @@ type LastValuesResponse struct {
 func (h Handler) GetNLastValues(w http.ResponseWriter, r *http.Request) {
 	handle(w, r, func(req LastValuesRequest) (LastValuesResponse, error) {
 		priceFeed, err := h.service.GetNLastValues(r.Context(), req.MaterialSourceId, req.PropertyId, req.NValues, req.Finish)
-		return LastValuesResponse{priceFeed}, err
+		if err != nil {
+			SentrySend(r, err)
+			return LastValuesResponse{}, err
+		}
+		return LastValuesResponse{priceFeed}, nil
 	})
 }

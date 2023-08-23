@@ -47,6 +47,7 @@ func (h Handler) GetShortReportHandler(w http.ResponseWriter, r *http.Request) {
 				var err error
 				chartBytes, err = h.service.GetChartRaw(reqBlock.File, 10000)
 				if err != nil {
+					SentrySend(r, err)
 					return GetShortRequestResponse{}, err
 				}
 			}
@@ -55,10 +56,12 @@ func (h Handler) GetShortReportHandler(w http.ResponseWriter, r *http.Request) {
 		}
 		date, err := time.Parse("2006-01-02", req.Date)
 		if err != nil {
+			SentrySend(r, err)
 			return GetShortRequestResponse{}, fmt.Errorf("cant parse date: %w", err)
 		}
 		bytes, err := h.service.GetShortReport(req.ReportHeader, date, reportBlocks)
 		if err != nil {
+			SentrySend(r, err)
 			return GetShortRequestResponse{}, fmt.Errorf("cant get short report: %w", err)
 		}
 		w.Header().Set("Content-Type", "application/vnd.openxmlformats-officedocument.wordprocessingml.document")

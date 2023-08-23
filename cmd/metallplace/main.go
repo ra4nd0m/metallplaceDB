@@ -3,6 +3,8 @@ package main
 import (
 	"context"
 	"fmt"
+	"github.com/getsentry/sentry-go"
+	sentryhttp "github.com/getsentry/sentry-go/http"
 	"github.com/gorilla/mux"
 	"github.com/rs/cors"
 	"github.com/rs/zerolog"
@@ -105,6 +107,17 @@ func externalServerFn(ctx context.Context, cfg config.Config, hdl *handler.Handl
 		AllowedHeaders:   []string{"*"},
 	})
 
+	if err := sentry.Init(sentry.ClientOptions{
+		Dsn:              cfg.SentryDSN,
+		EnableTracing:    true,
+		TracesSampleRate: 1.0,
+	}); err != nil {
+		fmt.Printf("Sentry initialization failed: %v", err)
+	}
+
+	// Create an instance of sentryhttp
+	sentryHandler := sentryhttp.New(sentryhttp.Options{})
+
 	externalRouter := mux.NewRouter()
 
 	// Setting timeout for the externalServer
@@ -150,11 +163,8 @@ func externalServerFn(ctx context.Context, cfg config.Config, hdl *handler.Handl
 		if !rec.withoutAuth {
 			h = srv.Authenticate(h)
 		}
-		externalRouter.HandleFunc(rec.route, mw.LoggerMiddleware(DbMiddleware(h)))
+		externalRouter.HandleFunc(rec.route, sentryHandler.HandleFunc(mw.LoggerMiddleware(DbMiddleware(h))))
 	}
-	externalRouter.PathPrefix("/").HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		fmt.Println("CATCH-ALL PATH")
-	})
 	fmt.Println(os.Getwd())
 	return func() error {
 		errCh := make(chan error)
