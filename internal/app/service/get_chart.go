@@ -110,6 +110,7 @@ func (s *Service) GetChartRaw(book []byte, tickLimit int) ([]byte, error) {
 	}
 	req.Options.TickLimit = tickLimit
 	req.Options.NeedLegend = true
+	req.Options.Tall = true
 
 	bytes, err := s.chart.GetChart(req)
 	if err != nil {
