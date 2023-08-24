@@ -1,15 +1,20 @@
 const docx = require("docx");
 const paragraph = require("../atom/paragraph");
+const lineCell = require("../atom/line_cell");
+const getTextWidthInMm = require("../utils/get_text_width");
+const { createCanvas, registerFont } = require('canvas');
 const getStringLengthInMillimeters = require('../utils/get_string_length')
 const { TableCellMarginNil, FontFamily, HeaderFooterMargin, Grey, BordersNil, FontFamilyExtraBold, BorderNil, PageWidth,
-    FirstLineLength
+    FirstLineLength, staticDir
 } = require("../const");
+const {readFileSync} = require("fs");
 
 
 module.exports = function (title) {
     let first = FirstLineLength
-    let second = getStringLengthInMillimeters(title, 22, 96)
+    let second = getTextWidthInMm(title,12 * 2, FontFamilyExtraBold)
     let third = PageWidth - first - second
+
     return new docx.Header({
         children: [
             new docx.Table({
@@ -21,70 +26,30 @@ module.exports = function (title) {
                     left: 0,
                     right: 0,
                 },
-                borders: BordersNil,
                 columnWidths: [first, second, third],
+                borders: BordersNil,
                 rows: [
                     new docx.TableRow({
                         children: [
+                            lineCell("/line_grey.png", 10, FirstLineLength * 4),
                             new docx.TableCell({
                                 margins: TableCellMarginNil,
-                                children: [],
-                                borders: {
-                                    top: BorderNil,
-                                    right: BorderNil,
-                                    left: BorderNil,
-                                    bottom: { style: docx.BorderStyle.SINGLE, size: 12 * 4, color: Grey },
-                                },
-                            }),
-                            new docx.TableCell({
-                                margins: TableCellMarginNil,
-                                rowSpan: 2,
                                 verticalAlign: docx.VerticalAlign.CENTER,
                                 children: [
-                                    paragraph({
-                                        alignment: docx.AlignmentType.JUSTIFIED,
-                                        children: [new docx.TextRun({ text: title, font: FontFamilyExtraBold, size: 12 * 2, color: Grey })],
+                                    new docx.Paragraph({
+                                        alignment: docx.AlignmentType.LEFT,
+                                        children: [
+                                            new docx.TextRun({ text: title, font: FontFamilyExtraBold, size: 12 * 2, color: Grey }),
+                                        ],
                                         spacing: {
                                             after: HeaderFooterMargin,
                                         },
                                     }),
+
                                 ],
                                 borders: BordersNil,
                             }),
-                            new docx.TableCell({
-                                margins: TableCellMarginNil,
-                                children: [],
-                                borders: {
-                                    top: BorderNil,
-                                    right: BorderNil,
-                                    left: BorderNil,
-                                    bottom: { style: docx.BorderStyle.SINGLE, size: 12 * 4, color: Grey },
-                                },
-                            }),
-                        ],
-                    }),
-                    new docx.TableRow({
-                        children: [
-                            new docx.TableCell({
-                                margins: TableCellMarginNil,
-                                children: [],
-                                borders: {
-                                    top: { style: docx.BorderStyle.SINGLE, size: 12 * 4, color: Grey },
-                                    right: BorderNil,
-                                    left: BorderNil,
-                                    bottom: BorderNil,
-                                },
-                            }),
-                            new docx.TableCell({
-                                margins: TableCellMarginNil,
-                                children: [],
-                                borders: {
-                                    top: { style: docx.BorderStyle.SINGLE, size: 12 * 4, color: Grey },
-                                    right: BorderNil,
-                                    left: BorderNil,
-                                    bottom: BorderNil,
-                                },
-                            }),
+                            lineCell("/line_grey.png", 10, 500),
                         ],
                     }),
                 ],

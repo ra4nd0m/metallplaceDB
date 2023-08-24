@@ -7,11 +7,14 @@ const {h2Size, FontFamilyExtraBold, BordersNil, TableCellMarginNil, BorderNil, A
     PageWidth,
 
 } = require("../const")
+const getTextWidthInMm = require("../utils/get_text_width");
+const lineCell = require("./line_cell");
 
 module.exports = function (text) {
     let first = FirstLineLength
-    let second = getStringLengthInMillimeters(text, 22, 96)
+    let second = getTextWidthInMm(text,h2Size, FontFamilyExtraBold)
     let third = PageWidth - first - second
+    if (third < 0) third = 0
     return new docx.Table({
         width: {
             size: 100,
@@ -26,19 +29,9 @@ module.exports = function (text) {
         rows: [
             new docx.TableRow({
                 children: [
+                    lineCell("/line_orange.png", 20, FirstLineLength * 4),
                     new docx.TableCell({
                         margins: TableCellMarginNil,
-                        children: [],
-                        borders: {
-                            top: BorderNil,
-                            right: BorderNil,
-                            left: BorderNil,
-                            bottom: { style: docx.BorderStyle.SINGLE, size: h2Size * 4 / 2, color: AccentColor },
-                        },
-                    }),
-                    new docx.TableCell({
-                        margins: TableCellMarginNil,
-                        rowSpan: 2,
                         verticalAlign: docx.VerticalAlign.CENTER,
                         children: [
                                     paragraph({
@@ -59,42 +52,10 @@ module.exports = function (text) {
                         ],
                         borders: BordersNil,
                     }),
-                    new docx.TableCell({
-                        margins: TableCellMarginNil,
-                        children: [],
-                        borders: {
-                            top: BorderNil,
-                            right: BorderNil,
-                            left: BorderNil,
-                            bottom: { style: docx.BorderStyle.SINGLE, size: h2Size * 4 / 2, color: AccentColor },
-                        },
-                    }),
+                    lineCell("/line_orange.png", 20, 500),
                 ],
             }),
-            new docx.TableRow({
-                children: [
-                    new docx.TableCell({
-                        margins: TableCellMarginNil,
-                        children: [],
-                        borders: {
-                            top: { style: docx.BorderStyle.SINGLE, size: h2Size * 4 / 2, color: AccentColor },
-                            right: BorderNil,
-                            left: BorderNil,
-                            bottom: BorderNil,
-                        },
-                    }),
-                    new docx.TableCell({
-                        margins: TableCellMarginNil,
-                        children: [],
-                        borders: {
-                            top: { style: docx.BorderStyle.SINGLE, size: h2Size * 4 / 2, color: AccentColor },
-                            right: BorderNil,
-                            left: BorderNil,
-                            bottom: BorderNil,
-                        },
-                    }),
-                ],
-            }),
+
         ],
     })
 
