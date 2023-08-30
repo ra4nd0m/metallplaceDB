@@ -34,7 +34,7 @@ type Dataset = {
     borderColor: string
     backgroundColor: string
     pointStyle?: string
-    pointRadius?: number
+    pointRadius?: any
     pointBackgroundColor?: string
     borderWidth?: number
     predictAccuracy?: number
@@ -152,6 +152,7 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
     const pointRadius = 3
     const labelOffset = 10
     const fontRegular = 'Montserrat Medium'
+    const fontExtrabold = 'Montserrat Extrabold'
     const textColor = '#000000'
     const predictPointColor = '#844a88'
     const monthPredictAmount = 3
@@ -183,6 +184,7 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
             ds.pointStyle = 'round'
             ds.pointRadius = pointRadius
             ds.pointBackgroundColor = colors[i]
+            ds.borderColor = colors[i]
             i++
         })
     }
@@ -290,17 +292,57 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
         },
     }
 
+    let tickCounter = 0
+    let newArray;
     if (options.predict) {
-        if (options.x_step=="month") {
-            for(let dsIdx = 0; dsIdx < datasets.length; dsIdx ++){
+        // @ts-ignore
+        conf.options?.scales?.x.grid =
+            {
+                color: (context) => {
+                    // @ts-ignore
+                    const tickOverall = context.chart.data.labels.length;
+
+                    // @ts-ignore
+                    if (tickCounter === tickOverall - 3) {
+                        tickCounter++
+                        return 'rgba(0, 0, 0, 0.6)';
+                    }
+                    tickCounter++
+                    return 'rgba(0, 0, 0, 0.2)';
+                },
+
+                lineWidth: 1,
+            }
+        if (options.x_step == "month") {
+            for (let dsIdx = 0; dsIdx < datasets.length; dsIdx++) {
+                const length: number = dateArrayFormatted.length;
+                const newArray: number[] = Array(length).fill(datasets[dsIdx].pointRadius);
+                newArray[length - 3] = datasets[dsIdx].pointRadius * 2;
                 // @ts-ignore
-                datasets[dsIdx].pointBackgroundColor = Array(datasets[dsIdx].data.length-monthPredictAmount)
-                    .fill(colors[dsIdx]).concat(Array(monthPredictAmount).fill(predictPointColor));
-                // @ts-ignore
-                datasets[dsIdx].borderColor = Array(datasets[dsIdx].data.length-monthPredictAmount)
-                    .fill(colors[dsIdx]).concat(Array(monthPredictAmount).fill(predictPointColor));
+                datasets[dsIdx].pointRadius = newArray
             }
         }
+        // @ts-ignore
+        conf.options?.plugins?.datalabels = {
+            formatter: (value, context) => {
+                // @ts-ignore
+                const dataIndex = context.dataIndex;
+                // @ts-ignore
+                const dataLength = context.chart.data.labels.length;
+
+                if (dataIndex === dataLength - 3) {
+                    return {
+                        text: value,
+
+                        font: {
+                            weight: 'bold'
+                        }
+                    };
+                }
+
+                return value;
+            }
+        };
         let annotationsText: string[]
         annotationsText = ["test"]
         //datasets.forEach(d => {
@@ -388,6 +430,7 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
                     } else {
                         return labelOffset - 45; // Bottom line label on bottom
                     }
+
                 },
                 align: 'top',
                 textAlign: 'center',
