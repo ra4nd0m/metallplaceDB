@@ -60,7 +60,7 @@ function getPercentChangesArr(prices: number[]): string[] {
 }
 
 const getChart = async (XLabelSet: string[], YDataSets: YDataSet[], options: ChartOptions): Promise<Buffer> => {
-    let width = 1000; //px
+    let width = 1900; //px
     let height
     if (options.tall) {
         height = width / 2;
@@ -85,7 +85,7 @@ const getChart = async (XLabelSet: string[], YDataSets: YDataSet[], options: Cha
         colors = ['#F77647', '#8ab440']
     }
     let i = 0
-    let lineThickness = 6
+    let lineThickness = 6*2
     if (options.labels || YDataSets.length >= 2 || options.title.length > 0) lineThickness = 4
 
     // Creating dataset lines: material - price feed
@@ -146,11 +146,11 @@ function getToFixed(datasets: Dataset[]): number {
 }
 
 function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOptions): ChartConfiguration {
-    const labelFontSize = 8 * 2
-    const legendFontSize = 12 * 2
-    const axesFontSize = 10 * 2
-    const pointRadius = 3
-    const labelOffset = 10
+    const labelFontSize = 8 * 2 * 2
+    const legendFontSize = 12 * 2 * 2
+    const axesFontSize = 10 * 2 * 2
+    const pointRadius = 3 * 2
+    const labelOffset = 10 * 2
     const fontRegular = 'Montserrat Medium'
     const fontExtrabold = 'Montserrat Extrabold'
     const textColor = '#000000'
@@ -296,7 +296,7 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
                         color: textColor,
                         usePointStyle: true,
                         pointStyle: 'circle',
-                        padding: 15
+                        padding: 20
                     }
                 }
             },

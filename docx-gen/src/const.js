@@ -7,6 +7,7 @@ module.exports.TableCellMarginNil = {top: 0, left: 0, bottom: 0, right: 0, margi
 module.exports.SpacingDefault = 2500;
 module.exports.ThinBorder = {size: 0.5 * 8 , color: "#eb612b", style: docx.BorderStyle.SINGLE}
 module.exports.FatBorder = {size: 3 * 8 , color: "#eb612b", style: docx.BorderStyle.SINGLE}
+module.exports.HeaderSideMargin = 6*20
 module.exports.BordersNil = {
     top: {style: docx.BorderStyle.NONE, size: 0, color: "#FFFFFF"},
     bottom: {style: docx.BorderStyle.NONE, size: 0, color: "#FFFFFF"},

@@ -1,6 +1,6 @@
 const docx = require("docx");
 const paragraph = require("./paragraph")
-const {BordersNil, TableCellMarginNil, BorderNil, Grey, FontFamilyExtraBold, HeaderFooterMargin} = require("../const");
+const {BordersNil, TableCellMarginNil, BorderNil, Grey, FontFamilyExtraBold, HeaderFooterMargin, HeaderSideMargin} = require("../const");
 
 module.exports = function (text) {
     return new docx.Table({
@@ -28,7 +28,7 @@ module.exports = function (text) {
                         },
                     }),
                     new docx.TableCell({
-                        margins: TableCellMarginNil,
+                        margins: {top: 0, left: HeaderSideMargin, bottom: 0, right: HeaderSideMargin, marginUnitType: docx.WidthType.DXA},
                         rowSpan: 2,
                         verticalAlign: docx.VerticalAlign.CENTER,
                         children: [
