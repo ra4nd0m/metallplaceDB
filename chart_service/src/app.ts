@@ -434,9 +434,19 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
                 },
                 align: 'top',
                 textAlign: 'center',
-                font: {
-                    size: labelFontSize,
-                    family: fontRegular,
+                font: function(context) {
+                    // Check if it's the third-from-the-end label
+                    if (context.dataIndex === context.dataset.data.length - 3) {
+                        return {
+                            family: fontExtrabold,
+                            size: labelFontSize,
+                        };
+                    } else {
+                        return {
+                            family: fontRegular,
+                            size: labelFontSize,
+                        };
+                    }
                 },
                 clamp: true,
 
