@@ -223,20 +223,31 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
                     offset: true,
                     type: "category",
                     ticks: {
-                        font: {
-                            size: axesFontSize,
-                            family: fontRegular,
+                        font: function(context) {
+                            // Check if it's the third-from-the-end label
+                            if (context.index === dateArray.length - 3) {
+                                return {
+                                    family: fontExtrabold,
+                                    size: axesFontSize,
+                                };
+                            } else {
+                                return {
+                                    family: fontRegular,
+                                    size: axesFontSize,
+                                };
+                            }
                         },
                         color: textColor,
                         includeBounds: true,
-                        maxRotation: 70,
+                        minRotation: 90,
                         maxTicksLimit: tickLimit,
                         autoSkip: true,
+                        labelOffset: -11
 
                     },
                     grid: {
                         display: true,
-                        drawBorder: false
+                        drawBorder: false,
                     },
                 },
                 y: {
@@ -264,7 +275,7 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
                     },
                     grid: {
                         drawOnChartArea: true,
-                        drawBorder: false
+                        drawBorder: false,
                     },
                 }
             },
@@ -352,30 +363,32 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
         conf.plugins?.push(Annotation)
 
         // @ts-ignore
-        conf.options?.plugins = {
-            ...conf.options?.plugins,
-            //modern: ['chartjs-plugin-annotation'],
-            //annotation: {
-            //    annotations: {
-            //       line1: {
-            //           type: 'line',
-            //           xMin: predictBorder,
-            //           xMax: predictBorder,
-            //           borderColor: 'rgba(232,131,94,0.57)',
-            //           borderWidth: 2,
-            //       },
-            //        label1: {
-            //            type: 'label',
-            //            backgroundColor: 'rgba(245,245,24, 0.1)',
-            //            content: annotationsText,
-            //            font: {
-            //                family: 'Montserrat Thin',
-            //                size: 18
-            //            }
-            //        }
-            //    }
-            //}
-        }
+        // conf.options?.plugins = {
+        //     ...conf.options?.plugins,
+        //     annotation: {
+        //         annotations: {
+        //             line1: {
+        //                 type: 'line',
+        //                 borderColor: 'green',
+        //                 borderDash: [6, 6],
+        //                 borderWidth: 3,
+        //                 label: {
+        //                     enabled: true,
+        //                     backgroundColor: 'lightGreen',
+        //                     borderRadius: 0,
+        //                     color: 'green',
+        //                     content: 'Summer time'
+        //                 },
+        //                 xMax: dateArray.length-1,
+        //                 xMin: dateArray.length-3,
+        //                 xScaleID: 'x',
+        //                 yMax: 110,
+        //                 yMin: 110,
+        //                 yScaleID: 'y'
+        //             }
+        //         }
+        //     }
+        // }
     }
 
 
