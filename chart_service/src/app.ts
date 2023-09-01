@@ -225,12 +225,19 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
                     ticks: {
                         font: function(context) {
                             // Check if it's the third-from-the-end label
-                            if (context.index === dateArray.length - 3) {
+                            if (context.index === dateArray.length - 3 && options.predict) {
                                 return {
                                     family: fontExtrabold,
                                     size: axesFontSize,
                                 };
-                            } else {
+                                // @ts-ignore
+                            } else if (options.tall && context.tick.label.includes("Янв")) {
+                                return {
+                                    family: fontExtrabold,
+                                    size: axesFontSize,
+                                };
+                            }
+                            else {
                                 return {
                                     family: fontRegular,
                                     size: axesFontSize,
@@ -449,7 +456,7 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
                 textAlign: 'center',
                 font: function(context) {
                     // Check if it's the third-from-the-end label
-                    if (context.dataIndex === context.dataset.data.length - 3) {
+                    if (context.dataIndex === context.dataset.data.length - 3 && options.predict) {
                         return {
                             family: fontExtrabold,
                             size: labelFontSize,
