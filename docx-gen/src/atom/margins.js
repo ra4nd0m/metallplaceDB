@@ -1,5 +1,5 @@
 const docx = require("docx");
-const {BordersNil, TableNoOuterBorders} = require("../const");
+const {SideMargin, TableNoOuterBorders} = require("../const");
 module.exports = function(v) {
     return new docx.Table({
         columnWidths: [1],
@@ -15,8 +15,8 @@ module.exports = function(v) {
                     new docx.TableCell({
                         borders: TableNoOuterBorders,
                         margins: {
-                            left: 900,
-                            right: 900,
+                            left: SideMargin,
+                            right: SideMargin,
                         },
                         children: v
                     })

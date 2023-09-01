@@ -1,7 +1,8 @@
 const docx = require("docx");
 const {TextRun} = require("docx");
 const paragraph = require("../atom/paragraph")
-const {FontFamily, LineWidth, LineColor, HeaderFooterMargin, BordersNil} = require("../const");
+const {FontFamily, SideMargin, HeaderFooterMargin, BordersNil} = require("../const");
+const margins = require("../atom/margins");
 
 module.exports = function(title) {
     return new docx.Footer({
@@ -13,6 +14,11 @@ module.exports = function(title) {
                 },
                 columnWidths: [25, 6],
                 borders: BordersNil,
+                margins:{
+                    left: SideMargin,
+                    right: SideMargin,
+                    bottom: docx.convertMillimetersToTwip(1)
+                },
                 rows: [
                     new docx.TableRow({
                         children: [
@@ -23,7 +29,7 @@ module.exports = function(title) {
                                         alignment: docx.AlignmentType.JUSTIFIED,
                                         children: title,
                                         spacing: {
-                                            before: HeaderFooterMargin
+                                            before: HeaderFooterMargin,
                                         }
                                     })
                                 ],
