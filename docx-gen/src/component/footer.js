@@ -17,7 +17,6 @@ module.exports = function(title) {
                 margins:{
                     left: SideMargin,
                     right: SideMargin,
-                    bottom: docx.convertMillimetersToTwip(1)
                 },
                 rows: [
                     new docx.TableRow({

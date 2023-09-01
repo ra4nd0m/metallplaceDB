@@ -13,6 +13,9 @@ module.exports = async function oneChart(url, avgGroup, comparePeriod){
         },
         columnWidths: [10.5 , 20, 10.5],
         borders: docx.TableBorders.NONE,
+        margins:{
+            top: docx.convertMillimetersToTwip(15)
+        },
         rows: [
             new docx.TableRow({
                 children: [
