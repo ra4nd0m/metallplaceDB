@@ -249,12 +249,29 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
                         minRotation: 90,
                         maxTicksLimit: tickLimit,
                         autoSkip: true,
-                        labelOffset: -11
+                        labelOffset: -20
 
                     },
                     grid: {
                         display: true,
                         drawBorder: false,
+                        color: (context) => {
+                            if (options.tall) {
+                                const value = context.tick.value;
+                                // @ts-ignore
+                                const label = context.chart.data.labels[value];
+                                // @ts-ignore
+                                if (label.includes('Янв')) {
+                                    return 'rgba(0, 0, 0, 0.6)';
+                                }
+                                return 'rgba(0, 0, 0, 0)';
+                            } else if (options.type == "bar"){
+                                return 'rgba(0, 0, 0, 0)';
+                            }
+                            else {
+                                return 'rgba(0, 0, 0, 0.2)';
+                            }
+                        },
                     },
                 },
                 y: {
@@ -283,6 +300,7 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
                     grid: {
                         drawOnChartArea: true,
                         drawBorder: false,
+                        color: 'rgba(0,0,0, 0.2)'
                     },
                 }
             },
@@ -309,6 +327,7 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
             },
         },
     }
+
 
     let tickCounter = 0
     let newArray;
