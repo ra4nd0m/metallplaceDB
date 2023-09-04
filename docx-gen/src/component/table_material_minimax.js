@@ -3,8 +3,7 @@ const {TableNoOuterBorders, TableCellMarginNil, MinPriceId, MaxPriceId, MedPrice
     FontFamilyMedium,
     FontSizeThMain,
     FontFamilyThin,
-    FontSizeThExtraInfo, FontSizeThSecondary, FontFamily, FontSizeTh, FontFamilySemiBold, ApiEndpoint,
-    FontFamilyExtraBold, FatBorder, ThinBorder, BorderNil
+    FontSizeThExtraInfo, FontSizeThSecondary, FontFamily, FontSizeTh, FontFamilySemiBold, ApiEndpoint
 } = require("../const");
 const textTh = require("../atom/text_th")
 const tableBody = require("../atom/table_material_minimax_body");
@@ -12,8 +11,7 @@ const axios = require("axios");
 const {FormatDayMonth, GetWeekNumber} = require("../utils/date_operations");
 const paragraph = require("../atom/paragraph");
 const priceBlock = require("../atom/price_block");
-const margins = require("../atom/margins");
-
+const cellCenter = require("../atom/cell_centred")
 
 function headerMaterial(title, unit, font){
     return  new docx.Table({
@@ -25,13 +23,13 @@ function headerMaterial(title, unit, font){
         columnWidths: [3, 1, 1],
         rows: [
             new docx.TableRow({
-                children: [new docx.TableCell({columnSpan: 3, borders: {bottom: FatBorder, left: ThinBorder, right: ThinBorder}, margins: TableCellMarginNil, children: [textTh(title, font, FontSizeThSecondary)]})]
+                children: [new docx.TableCell({columnSpan: 3, margins: TableCellMarginNil, children: [textTh(title, font, FontSizeThSecondary)]})]
             }),
             new docx.TableRow({
                 children: [
-                    new docx.TableCell({borders:{top:BorderNil, bottom: BorderNil, left: ThinBorder, right: ThinBorder}, margins: TableCellMarginNil, children: [priceBlock(unit)], verticalAlign: docx.VerticalAlign.CENTER}),
-                    new docx.TableCell({borders:{top:BorderNil, bottom: BorderNil, left: ThinBorder, right: ThinBorder}, children: [textTh(`Изм`, FontFamilyExtraBold, FontSizeThSecondary), textTh(unit, FontFamilyThin, FontSizeThExtraInfo)]}),
-                    new docx.TableCell({borders:{top:BorderNil, bottom: BorderNil, left: ThinBorder, right: ThinBorder}, children: [textTh(`Изм`, FontFamilyExtraBold, FontSizeThSecondary), textTh("%", FontFamilyThin, FontSizeThExtraInfo)]}),
+                    cellCenter({margins: TableCellMarginNil, children: [priceBlock(unit)], verticalAlign: docx.VerticalAlign.CENTER}),
+                    cellCenter({children: [textTh(`Изм`, FontFamilyMedium, FontSizeThSecondary), textTh(unit, FontFamilyThin, FontSizeThExtraInfo)]}),
+                    cellCenter({children: [textTh(`Изм`, FontFamilyMedium, FontSizeThSecondary), textTh("%", FontFamilyThin, FontSizeThExtraInfo)]}),
                 ],
             }),
         ]
@@ -41,13 +39,7 @@ function headerMaterial(title, unit, font){
 module.exports = async function tableMaterialMinimax(materialIds, dates, unitChangeRound, percentChangeRound, type, priceRound) {
     const f = new Date(dates[0])
     const s = new Date(dates[1])
-    let endpoint
     if(type === undefined) type = "week"
-    if(type === "week") {
-        endpoint ="/getWeeklyAvgFeed"
-    } else if(type === "month") {
-        endpoint ="/getMonthlyAvgFeed"
-    }
 
     const first = `${f.getFullYear()}-${FormatDayMonth(f.getMonth() + 1)}-${FormatDayMonth(f.getDate())}`
     const second = `${s.getFullYear()}-${FormatDayMonth(s.getMonth() + 1)}-${FormatDayMonth(s.getDate())}`
@@ -56,37 +48,37 @@ module.exports = async function tableMaterialMinimax(materialIds, dates, unitCha
 
     for (const materialId of materialIds) {
         const resMat = await axios.post(ApiEndpoint + `/getMaterialInfo`, {id: materialId})
-        const materialType = resMat.data.info.Name.match(/\((.*?)\)/)[1].trim();
-        const period1Min = await axios.post(ApiEndpoint + endpoint, { material_source_id: materialId, property_id: MinPriceId, start: first, finish: first})
-        const period1Max = await axios.post(ApiEndpoint + endpoint, { material_source_id: materialId, property_id: MaxPriceId, start: first, finish: first})
-        const period1Med = await axios.post(ApiEndpoint + endpoint, { material_source_id: materialId, property_id: MedPriceId, start: first, finish: first})
-        const period2Min = await axios.post(ApiEndpoint + endpoint, { material_source_id: materialId, property_id: MinPriceId, start: second, finish: second})
-        const period2Max = await axios.post(ApiEndpoint + endpoint, { material_source_id: materialId, property_id: MaxPriceId, start: second, finish: second})
-        const period2Med = await axios.post(ApiEndpoint + endpoint, { material_source_id: materialId, property_id: MedPriceId, start: second, finish: second})
+        const matInfo = resMat.data.info.Name.split(", ")
+        const week1Min = await axios.post(ApiEndpoint + `/getValueForPeriod`, { material_source_id: materialId, property_id: MinPriceId, start: first, finish: first})
+        const week1Max = await axios.post(ApiEndpoint + `/getValueForPeriod`, { material_source_id: materialId, property_id: MaxPriceId, start: first, finish: first})
+        const week1Med = await axios.post(ApiEndpoint + `/getValueForPeriod`, { material_source_id: materialId, property_id: MedPriceId, start: first, finish: first})
+        const week2Min = await axios.post(ApiEndpoint + `/getValueForPeriod`, { material_source_id: materialId, property_id: MinPriceId, start: second, finish: second})
+        const week2Max = await axios.post(ApiEndpoint + `/getValueForPeriod`, { material_source_id: materialId, property_id: MaxPriceId, start: second, finish: second})
+        const week2Med = await axios.post(ApiEndpoint + `/getValueForPeriod`, { material_source_id: materialId, property_id: MedPriceId, start: second, finish: second})
 
-        const materialCountry =  resMat.data.info.Market.match(/\((.*?)\)/)?.[1].trim();
-        const materialFerry=  resMat.data.info.Market.match(/^(.*?)\s*\(/)?.[1].trim();
+        const location = resMat.data.info.Market.split(", ")
+        //"Лом, HMS 1&2 (80:20), FOB, (недельный)"
         bodyInfo.push({
-            Country: materialCountry,
-            Type: materialType,
+            Country: location[0],
+            Type: matInfo[1],
             DeliveryType: resMat.data.info.DeliveryType,
-            DeliveryLocation: materialFerry,
-            Week1Min: period1Min.data,
-            Week1Max: period1Max.data,
-            Week1Med: period1Med.data,
-            Week2Min: period2Min.data,
-            Week2Max: period2Max.data,
-            Week2Med: period2Med.data,
+            DeliveryLocation: location[1],
+            Week1Min: week1Min.data,
+            Week1Max: week1Max.data,
+            Week1Med: week1Med.data,
+            Week2Min: week2Min.data,
+            Week2Max: week2Max.data,
+            Week2Med: week2Med.data,
         })
     }
-    let dateTitleFirst, dateTitleSecond
+    let title1, title2
     if (type === "week"){
-        dateTitleFirst = `${GetWeekNumber(dates[0])} неделя ${dates[0].getFullYear()} год`
-            dateTitleSecond = `${GetWeekNumber(dates[1])} неделя ${dates[1].getFullYear()} год`
+        title1 = `${GetWeekNumber(dates[0])} неделя ${dates[0].getFullYear()} год`
+            title2 = `${GetWeekNumber(dates[1])} неделя ${dates[1].getFullYear()} год`
     }
     if (type === "month"){
-        dateTitleFirst = createTitle(dates[0]);
-        dateTitleSecond = createTitle(dates[1]);
+        title1 = createTitle(dates[0]);
+        title2 = createTitle(dates[1]);
     }
 
     const header = new docx.Table({
@@ -95,19 +87,13 @@ module.exports = async function tableMaterialMinimax(materialIds, dates, unitCha
             type: docx.WidthType.PERCENTAGE,
         },
         columnWidths: [2,2,5,5],
-        borders: {
-            top: FatBorder,
-            bottom: FatBorder,
-            left: ThinBorder,
-            right: ThinBorder
-        },
         rows:[
             new docx.TableRow({
                 children: [
-                    new docx.TableCell({borders:{top:FatBorder, bottom: FatBorder, left: ThinBorder, right: ThinBorder},  margins: TableCellMarginNil, children: [textTh("Страна/вид", FontFamilyExtraBold, FontSizeThMain)], verticalAlign: docx.VerticalAlign.CENTER}),
-                    new docx.TableCell({borders:{top:FatBorder, bottom: FatBorder, left: ThinBorder, right: ThinBorder},  margins: TableCellMarginNil, children: [textTh("Условия поставки", FontFamilyExtraBold, FontSizeThMain)], verticalAlign: docx.VerticalAlign.CENTER}),
-                    new docx.TableCell({borders:{top:FatBorder, bottom: FatBorder, left: ThinBorder, right: ThinBorder},  margins: TableCellMarginNil, children: [headerMaterial(dateTitleFirst, "$/т", FontFamily)], verticalAlign: docx.VerticalAlign.CENTER}),
-                    new docx.TableCell({borders:{top:FatBorder, bottom: FatBorder, left: ThinBorder, right: ThinBorder},  margins: TableCellMarginNil, children: [headerMaterial(dateTitleSecond, "$/т", FontFamilyExtraBold)], verticalAlign: docx.VerticalAlign.CENTER}),
+                    cellCenter({ margins: TableCellMarginNil, children: [textTh("Страна/вид", FontFamily, FontSizeThMain)], verticalAlign: docx.VerticalAlign.CENTER}),
+                    cellCenter({ margins: TableCellMarginNil, children: [textTh("Усл. поставки", FontFamily, FontSizeThMain)], verticalAlign: docx.VerticalAlign.CENTER}),
+                    cellCenter({ margins: TableCellMarginNil, children: [headerMaterial(title1, "$/т", FontFamily)], verticalAlign: docx.VerticalAlign.CENTER}),
+                    cellCenter({ margins: TableCellMarginNil, children: [headerMaterial(title2, "$/т", FontFamilySemiBold)], verticalAlign: docx.VerticalAlign.CENTER}),
                 ],
             })
         ]
@@ -122,7 +108,7 @@ module.exports = async function tableMaterialMinimax(materialIds, dates, unitCha
         rows: tableBody(bodyInfo, unitChangeRound, percentChangeRound, priceRound),
     })
 
-    return margins([paragraph({children: [header, body]})])
+    return paragraph({children: [header, body]})
 }
 
 function createTitle(date){

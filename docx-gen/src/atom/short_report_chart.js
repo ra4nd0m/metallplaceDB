@@ -4,8 +4,8 @@ module.exports = function shortReportChart(bytes){
         alignment: docx.AlignmentType.CENTER,
         data: bytes,
         transformation: {
-            width: 670,
-            height: 670 / 2,
+            width: 520,
+            height: 260,
         }
     });
 }

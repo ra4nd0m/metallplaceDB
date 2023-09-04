@@ -2,7 +2,6 @@ const docx = require("docx");
 const chartBlock = require("./chart_block")
 
 const {TableCellMarginNil} = require("../const");
-const margins = require("../atom/margins");
 module.exports = async function twoChart(url1, url2, avgGroup, comparePeriod){
     if(avgGroup === undefined) avgGroup = [1, 1]
     for (let i = 0; i < avgGroup.length; i++){
@@ -10,16 +9,13 @@ module.exports = async function twoChart(url1, url2, avgGroup, comparePeriod){
     }
     const block1 = await chartBlock(url1, false, avgGroup[0], comparePeriod)
     const block2 = await chartBlock(url2, false, avgGroup[1], comparePeriod)
-    return margins([new docx.Table({
+    return new docx.Table({
         width: {
             size: 100,
             type: docx.WidthType.PERCENTAGE,
         },
         columnWidths: [20, 1, 20],
         borders: docx.TableBorders.NONE,
-        margins: {
-            top: docx.convertMillimetersToTwip(15)
-        },
         rows: [
             new docx.TableRow({
                 children: [
@@ -40,5 +36,4 @@ module.exports = async function twoChart(url1, url2, avgGroup, comparePeriod){
             }),
         ],
     })
-        ])
 }

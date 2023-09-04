@@ -4,14 +4,13 @@ const paragraph = require("../atom/paragraph")
 const axios = require("axios");
 const {TableCellMarginNil, MinPriceId, MaxPriceId, MedPriceId, FontFamilyMedium, FontSizeThMain,
     FontFamilyThin,
-    FontSizeThSecondary, FontSizeThExtraInfo, ApiEndpoint, FatBorder, ThinBorder, BorderNil, BordersNil
+    FontSizeThSecondary, FontSizeThExtraInfo, ApiEndpoint
 } = require("../const");
 const {FormatDayMonth} = require("../utils/date_operations");
 const tableBody = require("../atom/table_single_minimax_body")
 const textTh = require("../atom/text_th")
 const priceBlock = require("../atom/price_block")
 const cellCenter = require("../atom/cell_centred");
-const margins = require("../atom/margins");
 
 
 module.exports = async function singleTableMinimax(materialId, dates, unitChangeRound, percentChangeRound, type) {
@@ -38,7 +37,9 @@ module.exports = async function singleTableMinimax(materialId, dates, unitChange
         medBody = await axios.post(ApiEndpoint + `/getMonthlyAvgFeed`, { material_source_id: materialId, property_id: MedPriceId, start: from, finish: to})
     }
 
-
+    let nameRaw = resMat.data.info.Name.split(", ")
+    let name1 = nameRaw.shift()
+    let name2 = nameRaw.join(" ")
     const header = new docx.Table({
         width: {
             size: 100,
@@ -49,19 +50,17 @@ module.exports = async function singleTableMinimax(materialId, dates, unitChange
             new docx.TableRow({
                 children: [
                     new docx.TableCell({
-                        borders: {top: FatBorder, right: ThinBorder, bottom: FatBorder, left: ThinBorder},
                         rowSpan: 2,
                         verticalAlign: docx.VerticalAlign.CENTER,
                         children: [textTh("Дата", FontFamilyMedium, FontSizeThMain)]
                     }),
                     new docx.TableCell({
-                        borders: {top: FatBorder, right: ThinBorder, bottom: FatBorder, left: BorderNil},
                         alignment: docx.AlignmentType.CENTER,
                         verticalAlign: docx.VerticalAlign.CENTER,
                         columnSpan: 3,
                         margins: TableCellMarginNil,
                         children: [
-                            textTh(resMat.data.info.Name, FontFamilyMedium, FontSizeThMain),
+                            textTh(`${name1} (${name2})`, FontFamilyMedium, FontSizeThMain),
                             textTh(resMat.data.info.DeliveryType + " " + resMat.data.info.Market, FontFamilyThin, FontSizeThSecondary),
                         ]
                     })
@@ -70,7 +69,6 @@ module.exports = async function singleTableMinimax(materialId, dates, unitChange
             new docx.TableRow({
                 children: [
                     new docx.TableCell({
-                        borders: {top: BorderNil, right: ThinBorder, bottom: FatBorder, left: ThinBorder},
                         margins: TableCellMarginNil,
                         children: [
                             paragraph({
@@ -80,14 +78,12 @@ module.exports = async function singleTableMinimax(materialId, dates, unitChange
                         ]
                     }),
                     new docx.TableCell({
-                        borders: {top: BorderNil, right: ThinBorder, bottom: FatBorder, left: ThinBorder},
                         children: [textTh("Изм.", FontFamilyMedium, FontSizeThMain),
                             textTh(resMat.data.info.Unit, FontFamilyThin, FontSizeThExtraInfo)
                         ],
                         verticalAlign: docx.VerticalAlign.CENTER,
                     }),
                     new docx.TableCell({
-                        borders: {top: BorderNil, right: ThinBorder, bottom: FatBorder, left: ThinBorder},
                         children: [textTh("Изм.", FontFamilyMedium, FontSizeThMain),
                             textTh("%", FontFamilyThin, FontSizeThExtraInfo)
                         ],
@@ -107,5 +103,5 @@ module.exports = async function singleTableMinimax(materialId, dates, unitChange
         rows: tableBody(minBody.data, maxBody.data, medBody.data, unitChangeRound, percentChangeRound, type),
     })
 
-    return margins([paragraph({children: [header, body]})])
+    return paragraph({children: [header, body]})
 }

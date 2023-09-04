@@ -4,9 +4,10 @@ const fs = require("fs");
 const {staticDir} = require("../const");
 
 module.exports = function (type) {
+    console.log('Current directory: ' + process.cwd());
     let coverPath = staticDir + "/cover_weekly.png"
     if (type === "monthly") {
-        coverPath = staticDir + "/cover_monthly.png"
+        coverPath = staticDir + "/cover_monthly.jpg"
     }
     return paragraph({
         children: [

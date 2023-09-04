@@ -1,8 +1,7 @@
 const docx = require("docx");
 const {TextRun} = require("docx");
 const paragraph = require("../atom/paragraph")
-const {FontFamily, SideMargin, HeaderFooterMargin, BordersNil} = require("../const");
-const margins = require("../atom/margins");
+const {FontFamily, LineWidth, LineColor, HeaderFooterMargin} = require("../const");
 
 module.exports = function(title) {
     return new docx.Footer({
@@ -13,28 +12,37 @@ module.exports = function(title) {
                     type: docx.WidthType.PERCENTAGE,
                 },
                 columnWidths: [25, 6],
-                borders: BordersNil,
-                margins:{
-                    left: SideMargin,
-                    right: SideMargin,
+                borders: {
+                    top: {style: docx.BorderStyle.DASHED, size: LineWidth, color: LineColor},
+                    right: {size: 0, color: "#FFFFFF"},
+                    left: {size: 0, color: "#FFFFFF"},
+                    bottom: {size: 0, color: "#FFFFFF"},
                 },
                 rows: [
                     new docx.TableRow({
                         children: [
                             new docx.TableCell({
-                                borders: BordersNil,
+                                borders: {
+                                    bottom: {style: docx.BorderStyle.NONE, size: 0, color: "#FFFFFF"},
+                                    left: {style: docx.BorderStyle.NONE, size: 0, color: "#FFFFFF"},
+                                    right: {style: docx.BorderStyle.NONE, size: 0, color: "#FFFFFF"},
+                                },
                                 children: [
                                     paragraph({
                                         alignment: docx.AlignmentType.JUSTIFIED,
-                                        children: title,
+                                        children: [new docx.TextRun({text: title,  font: FontFamily})],
                                         spacing: {
-                                            before: HeaderFooterMargin,
+                                            before: HeaderFooterMargin
                                         }
                                     })
                                 ],
                             }),
                             new docx.TableCell({
-                                borders: BordersNil,
+                                borders: {
+                                    bottom: {style: docx.BorderStyle.NONE, size: 0, color: "#FFFFFF"},
+                                    left: {style: docx.BorderStyle.NONE, size: 0, color: "#FFFFFF"},
+                                    right: {style: docx.BorderStyle.NONE, size: 0, color: "#FFFFFF"},
+                                },
                                 children: [
                                     paragraph(
                                         {
@@ -44,8 +52,10 @@ module.exports = function(title) {
                                             },
                                             children: [
                                                 new TextRun({
-                                                    font: FontFamily,
-                                                    children: [docx.PageNumber.CURRENT],
+                                                    font: {
+                                                        name: FontFamily,
+                                                    },
+                                                    children: ["Страница | ", docx.PageNumber.CURRENT],
                                                 }),
                                             ],
                                         }

@@ -1,18 +1,6 @@
 const docx = require("docx");
-const {AccentColor, TableCellMarginNil, ThinBorder} = require("../const");
-module.exports = function (v, raw){
-    if (raw) {
-        return new docx.TableCell(v)
-    }
-   return new docx.TableCell({
-       children: v.children,
-       margins: TableCellMarginNil,
-       verticalAlign: docx.VerticalAlign.CENTER,
-       borders: {
-           top: ThinBorder,
-           bottom: ThinBorder,
-           left: ThinBorder,
-           right: ThinBorder,
-       },
-   });
+module.exports = function (v){
+    let cell = new docx.TableCell(v)
+    cell.options.verticalAlign = docx.VerticalAlign.CENTER
+    return new docx.TableCell(v)
 }

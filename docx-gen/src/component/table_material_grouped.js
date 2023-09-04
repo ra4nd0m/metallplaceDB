@@ -1,6 +1,6 @@
 const docx = require("docx");
 const {TableCellMarginNil, MedPriceId, FontFamilyMedium, FontSizeThMain, FontFamilyThin, FontSizeThExtraInfo,
-    FontFamilySemiBold, FontSizeThSecondary, ApiEndpoint, FatBorder, ThinBorder
+    FontFamilySemiBold, FontSizeThSecondary, ApiEndpoint
 } = require("../const");
 const textTh = require("../atom/text_th")
 const tableBody = require("../atom/table_material_grouped_body");
@@ -9,7 +9,6 @@ const {FormatDayMonth} = require("../utils/date_operations");
 const paragraph = require("../atom/paragraph");
 const cellCenter = require("../atom/cell_centred")
 const {formatDateTable} = require("../utils/date_format")
-const margins = require("../atom/margins");
 
 module.exports = async function(materialIds, dates, titlesIndexes, titles, type, priceRound) {
     const f = new Date(dates[0])
@@ -62,23 +61,19 @@ module.exports = async function(materialIds, dates, titlesIndexes, titles, type,
             size: 100,
             type: docx.WidthType.PERCENTAGE,
         },
-        borders: {
-            top: FatBorder,
-            bottom: FatBorder
-        },
         columnWidths: [2,1,1,1,1,1],
         rows:[
             new docx.TableRow({
                 children: [
-                    new docx.TableCell({borders: {top: FatBorder, left: ThinBorder, right: ThinBorder}, margins: TableCellMarginNil, children: [textTh("Продукция", FontFamilyMedium, FontSizeThMain)]}),
-                    new docx.TableCell({borders: {top: FatBorder, left: ThinBorder, right: ThinBorder}, margins: TableCellMarginNil, children: [textTh("Единицы измерения", FontFamilyMedium, FontSizeThMain)]}),
-                    new docx.TableCell({borders: {top: FatBorder, left: ThinBorder, right: ThinBorder}, margins: TableCellMarginNil, children: [textTh(formatDateTable(new Date(title1), FontFamilyMedium, FontSizeThMain))]}),
-                    new docx.TableCell({borders: {top: FatBorder, left: ThinBorder, right: ThinBorder}, margins: TableCellMarginNil, children: [textTh(formatDateTable(new Date(title2), FontFamilySemiBold, FontSizeThMain))]}),
-                    new docx.TableCell({borders: {top: FatBorder, left: ThinBorder, right: ThinBorder}, margins: TableCellMarginNil, children: [
+                    cellCenter({margins: TableCellMarginNil, children: [textTh("Продукция", FontFamilyMedium, FontSizeThMain)]}),
+                    cellCenter({margins: TableCellMarginNil, children: [textTh("Единицы измерения", FontFamilyMedium, FontSizeThMain)]}),
+                    cellCenter({margins: TableCellMarginNil, children: [textTh(formatDateTable(new Date(title1), FontFamilyMedium, FontSizeThMain))]}),
+                    cellCenter({margins: TableCellMarginNil, children: [textTh(formatDateTable(new Date(title2), FontFamilySemiBold, FontSizeThMain))]}),
+                    cellCenter({margins: TableCellMarginNil, children: [
                         textTh(`Изм`, FontFamilyMedium, FontSizeThMain),
                             textTh(`абс.`, FontFamilyThin, FontSizeThSecondary),
                         ], verticalAlign: docx.VerticalAlign.CENTER}),
-                    new docx.TableCell({borders: {top: FatBorder, left: ThinBorder, right: ThinBorder}, margins: TableCellMarginNil, children: [
+                    cellCenter({margins: TableCellMarginNil, children: [
                         textTh(`Изм`, FontFamilyMedium, FontSizeThMain),
                             textTh(`%`, FontFamilyThin, FontSizeThSecondary)
                         ], verticalAlign: docx.VerticalAlign.CENTER})
@@ -96,6 +91,6 @@ module.exports = async function(materialIds, dates, titlesIndexes, titles, type,
         rows: tableBody(bodyInfo, titlesIndexes, titles, priceRound),
     })
 
-    return margins([paragraph({children: [header, body]})])
+    return paragraph({children: [header, body]})
 }
 

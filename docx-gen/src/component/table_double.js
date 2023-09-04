@@ -1,15 +1,13 @@
 const docx = require("docx");
 const paragraph = require("../atom/paragraph");
 const {TableCellMarginNil, TableNoOuterBorders, FontFamilyMedium, FontSizeThMain, FontFamilyThin, FontSizeThExtraInfo,
-    FontSizeThSecondary, MonthPredictId, FontSizeTd, ApiEndpoint, BorderNil, AccentColor, BordersNil, ThinBorder,
-    FatBorder
+    FontSizeThSecondary, MonthPredictId, FontSizeTd, ApiEndpoint
 } = require("../const");
 const axios = require("axios");
 const tableBody = require("../atom/table_double_body");
 const {formatDateDb, formatDateTable} = require("../utils/date_format");
 const cellCenter = require("../atom/cell_centred")
 const textTh = require("../atom/text_th")
-const margins = require("../atom/margins");
 
 const {TableRow} = docx;
 
@@ -22,22 +20,10 @@ function headerMaterial(name, market, delivery, unit) {
         borders: TableNoOuterBorders,
         rows: [
             new TableRow({
-                children: [
-                    new docx.TableCell({
-                        columnSpan: 3,
-                        children: [
-                            textTh(name, FontFamilyMedium, FontSizeThMain),
-                            textTh(delivery + " " + market, FontFamilyThin, FontSizeThSecondary),
-                         ],
-                        borders: {
-                            top: BorderNil,
-                            left: BorderNil,
-                            right: ThinBorder,
-                            bottom: FatBorder
-                        }
-                    })
-                ],
-
+                children: [cellCenter({columnSpan: 3, children: [
+                        textTh(name, FontFamilyMedium, FontSizeThMain),
+                        textTh(delivery + " " + market, FontFamilyThin, FontSizeThSecondary),
+                    ]})]
             }),
             new TableRow({
                 children: [
@@ -45,34 +31,10 @@ function headerMaterial(name, market, delivery, unit) {
                         children: [
                             textTh("Цена", FontFamilyMedium, FontSizeThMain),
                             textTh(unit, FontFamilyThin, FontSizeThExtraInfo)
-                        ],
-                        borders: {
-                            top: BorderNil,
-                            bottom: BorderNil,
-                            left: BorderNil,
-                            right: ThinBorder
-                        }
+                        ]
                     }),
-                    new docx.TableCell({
-                        children: [
-                            textTh(`Изм.`, FontFamilyMedium, FontSizeThSecondary), textTh(unit, FontFamilyThin, FontSizeThExtraInfo)
-                        ],
-                        borders: {
-                            top: BorderNil,
-                            bottom: BorderNil,
-                            left: BorderNil,
-                            right: ThinBorder
-                        }
-                    }),
-                    new docx.TableCell({
-                        children: [textTh(`Изм.`, FontFamilyMedium, FontSizeThSecondary), textTh("%", FontFamilyThin, FontSizeThExtraInfo)],
-                        borders: {
-                            top: BorderNil,
-                            bottom: BorderNil,
-                            left: BorderNil,
-                            right: BorderNil
-                        }
-                    }),
+                    cellCenter({children: [textTh(`Изм.`, FontFamilyMedium, FontSizeThSecondary), textTh(unit, FontFamilyThin, FontSizeThExtraInfo)]}),
+                    cellCenter({children: [textTh(`Изм.`, FontFamilyMedium, FontSizeThSecondary), textTh("%", FontFamilyThin, FontSizeThExtraInfo)]}),
                 ],
             })
         ]
@@ -117,6 +79,14 @@ module.exports = async function tableDouble(materialId1, materialId2, propertyId
         })
     }
 
+    let nameRaw1 = resMat1.data.info.Name.split(", ")
+    let nameRaw2 = resMat2.data.info.Name.split(", ")
+    let name11 = nameRaw1.shift()
+    let name12 = nameRaw1.join(" ")
+    let name21 = nameRaw2.shift()
+    let name22 = nameRaw2.join(" ")
+
+
     const header = new docx.Table({
         width: {
             size: 100,
@@ -126,36 +96,14 @@ module.exports = async function tableDouble(materialId1, materialId2, propertyId
         rows: [
             new TableRow({
                 children: [
-                    new docx.TableCell({
+                    cellCenter({margins: TableCellMarginNil, children: [textTh("Дата", FontFamilyMedium, FontSizeThMain)]}),
+                    cellCenter({
                         margins: TableCellMarginNil,
-                        verticalAlign: docx.VerticalAlign.CENTER,
-                        children: [textTh("Дата", FontFamilyMedium, FontSizeThMain)],
-                        borders: {
-                            left: ThinBorder,
-                            right: ThinBorder,
-                            top: FatBorder,
-                            bottom: FatBorder,
-                        }
+                        children: [headerMaterial(`${name11} (${name12})`, resMat1.data.info.Market, resMat1.data.info.DeliveryType, resMat1.data.info.Unit)]
                     }),
-                    new docx.TableCell({
+                    cellCenter({
                         margins: TableCellMarginNil,
-                        children: [headerMaterial(resMat1.data.info.Name, resMat1.data.info.Market, resMat1.data.info.DeliveryType, resMat1.data.info.Unit)],
-                        borders: {
-                            left: ThinBorder,
-                            right: ThinBorder,
-                            top: FatBorder,
-                            bottom: FatBorder,
-                        }
-                    }),
-                    new docx.TableCell({
-                        margins: TableCellMarginNil,
-                        children: [headerMaterial(resMat2.data.info.Name, resMat2.data.info.Market, resMat2.data.info.DeliveryType, resMat2.data.info.Unit)],
-                        borders: {
-                            left: ThinBorder,
-                            right: ThinBorder,
-                            top: FatBorder,
-                            bottom: FatBorder,
-                        }
+                        children: [headerMaterial(`${name21} (${name22})`, resMat2.data.info.Market, resMat2.data.info.DeliveryType, resMat2.data.info.Unit)]
                     }),
                 ],
             }),
@@ -236,7 +184,7 @@ module.exports = async function tableDouble(materialId1, materialId2, propertyId
         tableComponents.push(
             new docx.Table({
                 width: {
-                        size: 100,
+                    size: 100,
                     type: docx.WidthType.PERCENTAGE,
                 },
                 columnWidths: [9, 6],
@@ -256,5 +204,5 @@ module.exports = async function tableDouble(materialId1, materialId2, propertyId
         )
 
     }
-    return margins([paragraph({children: tableComponents})])
+    return paragraph({children: tableComponents})
 }

@@ -1,20 +1,8 @@
 const docx = require("docx");
-const paragraph = require("../atom/paragraph");
-const lineCell = require("../atom/line_cell");
-const getTextWidthInMm = require("../utils/get_text_width");
-const { createCanvas, registerFont } = require('canvas');
-const getStringLengthInMillimeters = require('../utils/get_string_length')
-const { TableCellMarginNil, FontFamily, HeaderFooterMargin, Grey, BordersNil, FontFamilyExtraBold, BorderNil, PageWidth,HeaderSideMargin,
-    FirstLineLength, staticDir
-} = require("../const");
-const {readFileSync} = require("fs");
+const paragraph = require("../atom/paragraph")
+const {TableCellMarginNil, FontFamily, HeaderFooterMargin} = require("../const");
 
-
-module.exports = function (title) {
-    let first = FirstLineLength
-    let second = getTextWidthInMm(title,12 * 2, FontFamilyExtraBold)
-    let third = PageWidth - first - second
-
+module.exports = function (title){
     return new docx.Header({
         children: [
             new docx.Table({
@@ -22,38 +10,38 @@ module.exports = function (title) {
                     size: 100,
                     type: docx.WidthType.PERCENTAGE,
                 },
-                margins: {
-                    left: 0,
-                    right: 0,
+                borders: {
+                    top: {size: 0},
+                    right: {size: 0},
+                    left: {size: 0},
+                    bottom: {style: docx.BorderStyle.DASHED, size: 20, color: "#d3d3d3"},
                 },
-                columnWidths: [first, second, third],
-                borders: BordersNil,
                 rows: [
                     new docx.TableRow({
                         children: [
-                            lineCell("/line_grey.png", 10, FirstLineLength * 4),
                             new docx.TableCell({
-                                margins: {top: 0, left: HeaderSideMargin, bottom: 0, right: HeaderSideMargin, marginUnitType: docx.WidthType.DXA},
-                                verticalAlign: docx.VerticalAlign.CENTER,
+                                margins: TableCellMarginNil,
                                 children: [
-                                    new docx.Paragraph({
-                                        alignment: docx.AlignmentType.LEFT,
-                                        children: [
-                                            new docx.TextRun({ text: title, font: FontFamilyExtraBold, size: 12 * 2, color: Grey }),
-                                        ],
+                                    paragraph({
+                                        alignment: docx.AlignmentType.JUSTIFIED,
+                                        children: [new docx.TextRun({text: title,  font: FontFamily})],
                                         spacing: {
-                                            after: HeaderFooterMargin,
-                                        },
-                                    }),
-
+                                            after: HeaderFooterMargin
+                                        }
+                                    })
                                 ],
-                                borders: BordersNil,
-                            }),
-                            lineCell("/line_grey.png", 10, 500),
+                                borders: {
+                                    top: {size: 0},
+                                    right: {size: 0},
+                                    left: {size: 0},
+                                    bottom: {style: docx.BorderStyle.DASHED, size: 20, color: "#d3d3d3"},
+                                },
+                            })
                         ],
-                    }),
-                ],
+
+                    })
+                ]
             }),
         ],
     });
-};
+}

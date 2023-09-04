@@ -4,7 +4,7 @@ const cellCenter = require("../atom/cell_centred")
 const textTd = require("../atom/text_td")
 const textTdItalic = require("../atom/text_td_small_cursive")
 const textTh = require("../atom/text_th")
-const {FontFamily, FontFamilyThin, FontFamilySemiBold, FontSizeThSecondary, FontSizeTdMicro, FatBorder} = require("../const");
+const {FontFamily, FontFamilyThin, FontFamilySemiBold, FontSizeThSecondary, FontSizeTdMicro} = require("../const");
 
 module.exports = function (body, titlesIndexes, titles, priceRound){
     let rows = [];
@@ -19,13 +19,9 @@ module.exports = function (body, titlesIndexes, titles, priceRound){
             rows.push(
                 new docx.TableRow({
                     children:[
-                        new docx.TableCell({
+                        cellCenter({
                             children: [textTh(titles[idxCnt], FontFamilySemiBold, FontSizeThSecondary)],
-                            columnSpan: 6,
-                            borders: {
-                                top: FatBorder,
-                                bottom: FatBorder
-                            }
+                            columnSpan: 6
                         }),
                     ]
                 })

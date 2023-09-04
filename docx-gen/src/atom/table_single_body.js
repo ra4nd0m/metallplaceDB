@@ -19,21 +19,24 @@ module.exports = function (input, unitChangeRound, percentChangeRound, type, pri
     for (let i = 0; i < pf.length; i++) {
         const changeUnits = getChange(pf, i, input.prev_price, false, unitChangeRound);
         const changePercents = getChange(pf, i, input.prev_price, true, percentChangeRound);
+        let font = FontFamily
+        if (i === pf.length-1 && pf.length >= 8) font = FontFamilySemiBold
+        if (i === 4 && pf.length === 5) font = FontFamilySemiBold
 
         rows.push(
             new docx.TableRow({
                 children: [
                     cellCenter({
-                        children: [textTd(formatDateTable(pf[i].date.substring(0, 10), type), undefined, undefined, FontFamily)]
+                        children: [textTd(formatDateTable(pf[i].date.substring(0, 10), type), undefined, undefined, font)]
                     }),
                     cellCenter({
-                        children: [textTd(pf[i].value, undefined, fixed, FontFamily)]
+                        children: [textTd(pf[i].value, undefined, fixed, font)]
                     }),
                     cellCenter({
-                        children: [textTd(changeUnits.Text, changeUnits.Color, undefined, FontFamily)]
+                        children: [textTd(changeUnits.Text, changeUnits.Color, undefined, font)]
                     }),
                     cellCenter({
-                        children: [textTd(changePercents.Text, changePercents.Color, undefined, FontFamily)]
+                        children: [textTd(changePercents.Text, changePercents.Color, undefined, font)]
                     }),
                 ]
             })
