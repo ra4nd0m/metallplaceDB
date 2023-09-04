@@ -151,6 +151,7 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
     const axesFontSize = 10 * 2 * 2
     const pointRadius = 3 * 2
     const labelOffset = 10 * 2
+    const labelOffsetDelta = -70
     const fontRegular = 'Montserrat Medium'
     const fontExtrabold = 'Montserrat Extrabold'
     const textColor = '#000000'
@@ -249,7 +250,7 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
                         minRotation: 90,
                         maxTicksLimit: tickLimit,
                         autoSkip: true,
-                        labelOffset: -20
+                        labelOffset: -labelOffset
 
                     },
                     grid: {
@@ -380,43 +381,7 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
                 return value;
             }
         };
-        let annotationsText: string[]
-        annotationsText = ["test"]
-        //datasets.forEach(d => {
-        //    annotationsText.push("Точность " + d.predictAccuracy)
-        //})
-        let predictBorder = formatXLabel(dateArray[dateArray.length - 4], options.x_step)
-        conf.plugins?.push(Annotation)
-
-        // @ts-ignore
-        // conf.options?.plugins = {
-        //     ...conf.options?.plugins,
-        //     annotation: {
-        //         annotations: {
-        //             line1: {
-        //                 type: 'line',
-        //                 borderColor: 'green',
-        //                 borderDash: [6, 6],
-        //                 borderWidth: 3,
-        //                 label: {
-        //                     enabled: true,
-        //                     backgroundColor: 'lightGreen',
-        //                     borderRadius: 0,
-        //                     color: 'green',
-        //                     content: 'Summer time'
-        //                 },
-        //                 xMax: dateArray.length-1,
-        //                 xMin: dateArray.length-3,
-        //                 xScaleID: 'x',
-        //                 yMax: 110,
-        //                 yMin: 110,
-        //                 yScaleID: 'y'
-        //             }
-        //         }
-        //     }
-        // }
     }
-
 
     if (options.labels) {
         let toFixed: number
@@ -467,7 +432,7 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
                     if (isTopLine) {
                         return labelOffset; // Top line label on top
                     } else {
-                        return labelOffset - 45; // Bottom line label on bottom
+                        return -labelOffset * 3 ; // Bottom line label on bottom
                     }
 
                 },
