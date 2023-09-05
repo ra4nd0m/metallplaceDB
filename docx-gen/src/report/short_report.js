@@ -4,6 +4,7 @@ const header = require("../component/header");
 const {ShortHeaderTitle, RusMonth} = require("../const");
 const {GetDates} = require("../utils/date_operations");
 const h2 = require("../atom/heading2");
+const margins = require("../atom/margins")
 const paragraph = require("../atom/paragraph");
 const chart = require("../atom/short_report_chart");
 function getFooterTitle(date) {
@@ -25,7 +26,7 @@ module.exports = class ShortReport {
         req.blocks.forEach(block => {
             body.push(h2(block.title))
             block.text.forEach(p => {
-                body.push(paragraph(p))
+                body.push(margins([paragraph(p)]))
                 body.push(paragraph(" "))
             })
             if (block.chart !== null) {
@@ -71,8 +72,10 @@ module.exports = class ShortReport {
                         properties: {
                             page: {
                                 margin: {
-                                    right: 800,
-                                    left: 800,
+                                    top: 0,
+                                    right: 0,
+                                    bottom: 0,
+                                    left: 0,
                                 },
                             },
                         },

@@ -1,5 +1,9 @@
 const docx = require("docx");
-const {TableNoOuterBorders, TableCellMarginNil, FontFamilyMedium, FontSizeThMain, FontFamilyThin, FontSizeThExtraInfo} = require("../const");
+const {TableNoOuterBorders, TableCellMarginNil, FontFamilyMedium, FontSizeThMain, FontFamilyThin, FontSizeThExtraInfo,
+    BorderNil,
+    FatBorder,
+    ThinBorder, BordersNil
+} = require("../const");
 const textTh = require("./text_th");
 module.exports = function (unit) {
     return new docx.Table({
@@ -15,13 +19,14 @@ module.exports = function (unit) {
                     new docx.TableCell({columnSpan: 3, children: [
                         textTh("Цена", FontFamilyMedium, FontSizeThMain),
                             textTh(unit, FontFamilyThin, FontSizeThExtraInfo)]})
-                ]
+                ],
+                margins: TableCellMarginNil
             }),
             new docx.TableRow({
                 children: [
-                    new docx.TableCell({margins: TableCellMarginNil,children: [textTh(`мин`, FontFamilyThin, FontSizeThExtraInfo)]}),
-                    new docx.TableCell({margins: TableCellMarginNil,children: [textTh(`макс`, FontFamilyThin, FontSizeThExtraInfo)]}),
-                    new docx.TableCell({margins: TableCellMarginNil,children: [textTh(`сред`, FontFamilyThin, FontSizeThExtraInfo)]}),
+                    new docx.TableCell({borders:{top: FatBorder, bottom: BorderNil, left: ThinBorder, right: ThinBorder}, margins: TableCellMarginNil,children: [textTh(`мин`, FontFamilyThin, FontSizeThExtraInfo)]}),
+                    new docx.TableCell({borders:{top: FatBorder, bottom: BorderNil, left: ThinBorder, right: ThinBorder}, margins: TableCellMarginNil,children: [textTh(`макс`, FontFamilyThin, FontSizeThExtraInfo)]}),
+                    new docx.TableCell({borders:{top: FatBorder, bottom: BorderNil, left: ThinBorder, right: ThinBorder}, margins: TableCellMarginNil,children: [textTh(`сред`, FontFamilyThin, FontSizeThExtraInfo)]}),
                 ]
             })
         ]

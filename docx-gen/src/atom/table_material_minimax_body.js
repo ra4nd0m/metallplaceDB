@@ -3,7 +3,7 @@ const docx = require("docx");
 const cellCenter = require("../atom/cell_centred")
 const textTd = require("../atom/text_td")
 const textTdItalic = require("../atom/text_td_small_cursive")
-const {FontFamilyThin, FontSizeTd, FontSizeTdMicro, FontFamily, FontFamilySemiBold} = require("../const");
+const {FontFamilyThin, FontSizeTd, FontSizeTdMicro, FontFamily, FontFamilyExtraBold} = require("../const");
 
 module.exports = function (body, unitChangeRound, percentChangeRound, priceRound){
     let rows = [];
@@ -17,12 +17,16 @@ module.exports = function (body, unitChangeRound, percentChangeRound, priceRound
             new docx.TableRow({
                 children: [
                     cellCenter({
-                        children: [textTd(m.Country, undefined, undefined, FontFamily),
-                            textTdItalic(m.Type, undefined, FontFamilyThin, FontSizeTdMicro)]
+                        children: [
+                            textTd(m.Country, undefined, undefined, FontFamilyExtraBold),
+                            textTd(m.Type, undefined, undefined, FontFamily),
+                        ]
                     }),
                     cellCenter({
-                        children: [textTd(m.DeliveryType, undefined, undefined, FontFamily),
-                            textTdItalic(m.DeliveryLocation, undefined, FontFamilyThin, FontSizeTdMicro)]
+                        children: [
+                            textTd(m.DeliveryType, undefined, undefined, FontFamilyExtraBold),
+                            textTd(m.DeliveryLocation, undefined, undefined, FontFamily),
+                        ]
                     }),
 
                     cellCenter({
@@ -42,19 +46,19 @@ module.exports = function (body, unitChangeRound, percentChangeRound, priceRound
                     }),
 
                     cellCenter({
-                        children: [textTd(m.Week2Min.price_feed[0].value, undefined, priceRound, FontFamilySemiBold)]
+                        children: [textTd(m.Week2Min.price_feed[0].value, undefined, priceRound, FontFamilyExtraBold)]
                     }),
                     cellCenter({
-                        children: [textTd(m.Week2Max.price_feed[0].value, undefined, priceRound, FontFamilySemiBold)]
+                        children: [textTd(m.Week2Max.price_feed[0].value, undefined, priceRound, FontFamilyExtraBold)]
                     }),
                     cellCenter({
-                        children: [textTd(m.Week2Med.price_feed[0].value, undefined, priceRound, FontFamilySemiBold)]
+                        children: [textTd(m.Week2Med.price_feed[0].value, undefined, priceRound, FontFamilyExtraBold)]
                     }),
                     cellCenter({
-                        children: [textTd(changeUnits2.Text, changeUnits2.Color, undefined, FontFamilySemiBold)]
+                        children: [textTd(changeUnits2.Text, changeUnits2.Color, undefined, FontFamilyExtraBold)]
                     }),
                     cellCenter({
-                        children: [textTd(changePercents2.Text, changePercents2.Color, undefined, FontFamilySemiBold)]
+                        children: [textTd(changePercents2.Text, changePercents2.Color, undefined, FontFamilyExtraBold)]
                     }),
                 ]
             })

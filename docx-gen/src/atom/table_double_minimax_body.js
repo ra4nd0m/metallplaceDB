@@ -51,19 +51,19 @@ module.exports = function (min1, max1, med1, min2, max2, med2, unitChangeRound, 
                     }),
 
 
-                    new docx.TableCell({
+                    cellCenter({
                         children: [textTd(pfMin2[i].value, undefined, fixed, font)]
                     }),
-                    new docx.TableCell({
+                    cellCenter({
                         children: [textTd(pfMax2[i].value, undefined, fixed, font)]
                     }),
-                    new docx.TableCell({
+                    cellCenter({
                         children: [textTd(pfMed2[i].value, undefined, fixed, font)]
                     }),
-                    new docx.TableCell({
+                    cellCenter({
                         children: [textTd(changeUnits2.Text, changeUnits2.Color, undefined, font)]
                     }),
-                    new docx.TableCell({
+                    cellCenter({
                         children: [textTd(changePercents2.Text, changePercents2.Color, undefined, font)]
                     }),
                 ]

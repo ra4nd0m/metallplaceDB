@@ -9,11 +9,12 @@ const {
     FontFamilyThin,
     FontSizeThSecondary,
     FontSizeThExtraInfo,
-    MonthPredictId, FontSizeTd, ApiEndpoint
+    MonthPredictId, FontSizeTd, ApiEndpoint, FatBorder, ThinBorder, BorderNil
 } = require("../const");
 const cellCenter = require("../atom/cell_centred");
 const paragraph = require("../atom/paragraph");
 const {formatDateTable} = require("../utils/date_format");
+const margins = require("../atom/margins");
 
 module.exports = async function singleTable(materialId, propertyId, dates, unitChangeRound, percentChangeRound, scale, predict, priceRound) {
     const first = new Date(dates[0])
@@ -43,9 +44,6 @@ module.exports = async function singleTable(materialId, propertyId, dates, unitC
         })
     }
 
-    let nameRaw = resMat.data.info.Name.split(", ")
-    let name1 = nameRaw.shift()
-    let name2 = nameRaw.join(" ")
     let tableComponents = []
 
     tableComponents.push(new docx.Table({
@@ -60,23 +58,43 @@ module.exports = async function singleTable(materialId, propertyId, dates, unitC
                             rowSpan: 2,
                             verticalAlign: docx.VerticalAlign.CENTER,
                             children: [textTh("Дата", FontFamilyMedium, FontSizeThMain)],
+                            borders: {
+                                top: FatBorder,
+                                bottom: FatBorder,
+                                left: ThinBorder,
+                                right: ThinBorder
+                            }
                         }),
                         new docx.TableCell({
                             columnSpan: 3,
                             children: [
-                                textTh(`${name1} (${name2})`, FontFamilyMedium, FontSizeThMain),
+                                textTh(resMat.data.info.Name, FontFamilyMedium, FontSizeThMain),
                                 textTh(resMat.data.info.DeliveryType + " " + resMat.data.info.Market, FontFamilyThin, FontSizeThSecondary),
                             ],
+                            borders: {
+                                top: FatBorder,
+                                bottom: FatBorder,
+                                left: ThinBorder,
+                                right: ThinBorder,
+
+                            }
                         })
                     ]
                 }),
                 new docx.TableRow({
+
                     children: [
                         new docx.TableCell({
                             children: [
                                 textTh("Цена", FontFamilyMedium, FontSizeThMain),
                                 textTh(resMat.data.info.Unit, FontFamilyThin, FontSizeThExtraInfo)
-                            ]
+                            ],
+                            borders: {
+                                top: BorderNil,
+                                bottom: FatBorder,
+                                left: ThinBorder,
+                                right: ThinBorder
+                            }
                         }),
                         new docx.TableCell({
 
@@ -84,12 +102,24 @@ module.exports = async function singleTable(materialId, propertyId, dates, unitC
                                 textTh("Изм.", FontFamilyMedium, FontSizeThMain),
                                 textTh(resMat.data.info.Unit, FontFamilyThin, FontSizeThExtraInfo)],
                             verticalAlign: docx.VerticalAlign.CENTER,
+                            borders: {
+                                top: BorderNil,
+                                bottom: FatBorder,
+                                left: ThinBorder,
+                                right: ThinBorder
+                            }
                         }),
                         new docx.TableCell({
                             children: [
                                 textTh(`Изм.`, FontFamilyMedium, FontSizeThSecondary),
                                 textTh("%", FontFamilyThin, FontSizeThExtraInfo)],
                             verticalAlign: docx.VerticalAlign.CENTER,
+                            borders: {
+                                top: BorderNil,
+                                bottom: FatBorder,
+                                left: ThinBorder,
+                                right: ThinBorder
+                            }
                         }),
                     ]
                 }),
@@ -170,5 +200,5 @@ module.exports = async function singleTable(materialId, propertyId, dates, unitC
 
     }
 
-    return paragraph({children: tableComponents})
+    return margins([paragraph({children: tableComponents})])
 }

@@ -6,12 +6,13 @@ const {TableCellMarginNil, MinPriceId, MaxPriceId, MedPriceId,
     FontFamilyMedium,
     FontSizeThSecondary,
     FontFamilyThin,
-    FontSizeThExtraInfo, FontSizeThMain, ApiEndpoint
+    FontSizeThExtraInfo, FontSizeThMain, ApiEndpoint, FatBorder, ThinBorder, BorderNil
 } = require("../const");
 const tableBody = require("../atom/table_double_minimax_body")
 const {formatDateDb} = require("../utils/date_format");
 const priceBlock = require("../atom/price_block")
 const cellCenter = require("../atom/cell_centred")
+const margins = require("../atom/margins");
 
 module.exports = async function doubleTableMinimax(materialId1, materialId2, dates, unitChangeRound, percentChangeRound) {
     const from = formatDateDb(dates[0])
@@ -57,13 +58,6 @@ module.exports = async function doubleTableMinimax(materialId1, materialId2, dat
         finish: to
     })
 
-    let nameRaw1 = resMat1.data.info.Name.split(", ")
-    let nameRaw2 = resMat2.data.info.Name.split(", ")
-    let name11 = nameRaw1.shift()
-    let name12 = nameRaw1.join(" ")
-    let name21 = nameRaw2.shift()
-    let name22 = nameRaw2.join(" ")
-
     const header = new docx.Table({
         width: {
             size: 100,
@@ -74,35 +68,39 @@ module.exports = async function doubleTableMinimax(materialId1, materialId2, dat
             new docx.TableRow({
                 children: [
                     cellCenter({
+                        borders: {top: FatBorder, right: ThinBorder, bottom: FatBorder, left: ThinBorder},
                         rowSpan: 2,
                         verticalAlign: docx.VerticalAlign.CENTER,
                         children: [
                             textTh("Дата", FontFamilyMedium, FontSizeThMain)
                         ]
-                    }),
+                    }, true),
                     cellCenter({
+                        borders: {top: FatBorder, right: ThinBorder, bottom: FatBorder, left: ThinBorder},
                         columnSpan: 3,
                         margins: TableCellMarginNil,
                         verticalAlign: docx.VerticalAlign.CENTER,
                         children: [
-                            textTh(`${name11} (${name12})`, FontFamilyMedium, FontSizeThMain),
+                            textTh(resMat1.data.info.Name, FontFamilyMedium, FontSizeThMain),
                             textTh(resMat1.data.info.DeliveryType + " " + resMat1.data.info.Market, FontFamilyThin, FontSizeThSecondary),
                         ]
-                    }),
+                    }, true),
 
                     cellCenter({
+                        borders: {top: FatBorder, right: ThinBorder, bottom: FatBorder, left: ThinBorder},
                         columnSpan: 3,
                         margins: TableCellMarginNil,
                         children: [
-                            textTh(`${name21} (${name22})`, FontFamilyMedium, FontSizeThMain),
+                            textTh(resMat2.data.info.Name, FontFamilyMedium, FontSizeThMain),
                             textTh(resMat2.data.info.DeliveryType + " " + resMat2.data.info.Market, FontFamilyThin, FontSizeThSecondary),
                         ]
-                    })
+                    }, true)
                 ]
             }),
             new docx.TableRow({
                 children: [
                     cellCenter({
+                        borders: {top: BorderNil, right: ThinBorder, bottom: FatBorder, left: ThinBorder},
                         margins: TableCellMarginNil,
                         children: [
                             paragraph({
@@ -110,12 +108,13 @@ module.exports = async function doubleTableMinimax(materialId1, materialId2, dat
                                 children: [priceBlock(resMat1.data.info.Unit)]
                             })
                         ]
-                    }),
-                    cellCenter({children: [textTh(`Изм.`, FontFamilyMedium, FontSizeThSecondary), textTh(resMat1.data.info.Unit, FontFamilyThin, FontSizeThExtraInfo)]}),
-                    cellCenter({children: [textTh(`Изм.`, FontFamilyMedium, FontSizeThSecondary), textTh("%", FontFamilyThin, FontSizeThExtraInfo)]}),
+                    }, true),
+                    cellCenter({borders: {top: BorderNil, right: ThinBorder, bottom: FatBorder, left: ThinBorder}, children: [textTh(`Изм.`, FontFamilyMedium, FontSizeThSecondary), textTh(resMat1.data.info.Unit, FontFamilyThin, FontSizeThExtraInfo)]}, true),
+                    cellCenter({borders: {top: BorderNil, right: ThinBorder, bottom: FatBorder, left: ThinBorder}, children: [textTh(`Изм.`, FontFamilyMedium, FontSizeThSecondary), textTh("%", FontFamilyThin, FontSizeThExtraInfo)]}, true),
 
 
                     cellCenter({
+                        borders: {top: BorderNil, right: ThinBorder, bottom: FatBorder, left: ThinBorder},
                         margins: TableCellMarginNil,
                         children: [
                             paragraph({
@@ -123,9 +122,9 @@ module.exports = async function doubleTableMinimax(materialId1, materialId2, dat
                                 children: [priceBlock(resMat2.data.info.Unit)]
                             })
                         ]
-                    }),
-                    cellCenter({children: [textTh(`Изм.`, FontFamilyMedium, FontSizeThSecondary), textTh(resMat1.data.info.Unit, FontFamilyThin, FontSizeThExtraInfo)]}),
-                    cellCenter({children: [textTh(`Изм.`, FontFamilyMedium, FontSizeThSecondary), textTh("%", FontFamilyThin, FontSizeThExtraInfo)]}),
+                    }, true),
+                    cellCenter({borders: {top: BorderNil, right: ThinBorder, bottom: FatBorder, left: ThinBorder}, children: [textTh(`Изм.`, FontFamilyMedium, FontSizeThSecondary), textTh(resMat1.data.info.Unit, FontFamilyThin, FontSizeThExtraInfo)]}, true),
+                    cellCenter({borders: {top: BorderNil, right: ThinBorder, bottom: FatBorder, left: ThinBorder}, children: [textTh(`Изм.`, FontFamilyMedium, FontSizeThSecondary), textTh("%", FontFamilyThin, FontSizeThExtraInfo)]}, true),
                 ]
             }),
         ]
@@ -139,5 +138,5 @@ module.exports = async function doubleTableMinimax(materialId1, materialId2, dat
         columnWidths: [2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
         rows: tableBody(minBody1.data, maxBody1.data, medBody1.data, minBody2.data, maxBody2.data, medBody2.data, unitChangeRound, percentChangeRound),
     })
-    return paragraph({children: [header, body]})
+    return margins([paragraph({children: [header, body]})])
 }

@@ -5,10 +5,10 @@ module.exports = async function fetchChart(url, isBig) {
         const res = await axios.get(url,  { responseType: 'arraybuffer' })
         const image = Buffer.from(res.data, "utf-8")
         let width = 320;
-        let height = 160;
+        let height = width / 2;
         if(isBig){
-            width = 500;
-            height = 250
+            width = 670;
+            height = width / 3
         }
         return new docx.ImageRun({
             data: image,

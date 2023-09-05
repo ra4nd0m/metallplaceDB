@@ -1,18 +1,17 @@
 
 POST base.metallplace.ru:8080/getValueForPeriod
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImVnb3IiLCJleHAiOjE2ODkxMDc1MDZ9.j-IOE1F3vWkZVfXs_-UyTnBJDCTTvbFCoK3lVcCvToQ
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InByYWN0aWNlIiwiZXhwIjoxNjkyOTI1Mjk2fQ.XA_IOYk6mC0CAOquRdjKXIbdRigH4XGffFK9UVKWLXo
 Content-Type: application/json
 
 {
-  "material_source_id":1,
+  "material_source_id":18,
   "property_id":1,
-  "start":"2022-12-01T00:00:00.000Z",
-  "finish":"2023-12-01T00:00:00.000Z"}
+  "start":"2023-08-20T00:00:00.000Z",
+  "finish":"2023-08-25T00:00:00.000Z"}
 
 ###
 
-POST localhost:8080/getValueForPeriod
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJuZCIsImV4cCI6MTY4OTEwNjIwNH0.w6D302Fv4PjY5YNPBi8o9zLQ928tLFVr8XmS1IDNosY
+POST localhost:8080/flushExpired
 Content-Type: application/json
 
 {
@@ -71,13 +70,12 @@ Content-Type: application/json
 }
 
 ###
-POST http://localhost:8080/getMaterialInfo
+POST http://base.metallplace.ru:8080/getMaterialInfo
 Content-Type: application/json
-
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InByYWN0aWNlIiwiZXhwIjoxNjkyOTI1Mjk2fQ.XA_IOYk6mC0CAOquRdjKXIbdRigH4XGffFK9UVKWLXo
 
 {
-  "id": 82
-
+  "id": 18
 }
 
 
@@ -92,7 +90,7 @@ Content-Type: application/json
 ###
 GET localhost:8082/getMaterialList
 Content-Type: application/json
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImVnb3IiLCJleHAiOjE2ODg2NzQ3MDd9.YrnPCgdrHb_GU8tGwLwaofrpSIYryI7_rMoWbO90Lbc
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJuZCIsImV4cCI6MTY5MjY0OTE2OX0.0y0FkQ2ik4VyFJF37ThcwJx5Xi1WhVvTxjZsmtH6YYk
 
 {
 
@@ -109,7 +107,7 @@ Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImVnb3IiLCJl
 
 ###
 POST base.metallplace.ru:8080/initImport
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJuZCIsImV4cCI6MTY4OTkwNzI0NX0.Ph33MBtHlcdYqk2abiN6BW8_diGKP-Ujoz2Cb5Xul68
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InByYWN0aWNlIiwiZXhwIjoxNjkyMzgxMDQzfQ.HZZBMcOYBf9jkx5MvWmzAEILvWm65g66PuMrbWptHpA
 Content-Type: application/json
 
 {
@@ -121,6 +119,7 @@ Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJuZCIsImV4
 Content-Type: application/json
 
 {
+
 }
 
 
@@ -129,10 +128,11 @@ POST localhost:8082/addUniqueMaterial
 Content-Type: application/json
 
 {
-  "name": "513",
-  "source": "31rSf4",
-  "market": "Test Markwhet",
-  "unit": "Test Unsdvit"
+  "name": "51wefhghhdf3",
+  "source": "sdev31rS9wef4",
+  "market": "Test 980Mawewcrkwhet",
+  "unit": "Twecwecest Unsdvit",
+  "group": "Test"
 }
 ###
 POST base.metallplace.ru:8080/addValue
@@ -148,9 +148,9 @@ Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJuZCIsImV4
 }
 
 ###
-POST localhost:8080/addValue
+POST localhost:8080/addValue1
 Content-Type: application/json
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJuZCIsImV4cCI6MTY4OTEwNjIwNH0.w6D302Fv4PjY5YNPBi8o9zLQ928tLFVr8XmS1IDNosY
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJuZCIsImV4cCI6MTY5MjY2NzY0MX0.eg8HCyeXfGb83i7dHliax6MC2RUpWJHF7vvXuuCH-pY
 
 {
   "material_source_id": 22,
@@ -162,10 +162,11 @@ Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJuZCIsImV4
 
 ###
 GET http://localhost:8082/getChart/4_1_01-01-2023_03-01-2023_0_line_month_month_0_-1.png
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJuZCIsImV4cCI6MTY5MjgxODkyNX0.f91PMR1706YGGm2rcEp-x6m2dTZrba_Q82emNMVwSJc
 
 ###
-GET http://localhost:8082/getReport/weekly/2023-06-13
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJuZCIsImV4cCI6MTY4ODc3NTk5M30.4JNfN4fjLNi-7sYY2UHkhEnuXeuXYxGlWTGCb0DI4ME
+GET http://localhost:8082/getReport/weekly/2023-07-23
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJuZCIsImV4cCI6MTY5MjgxODkyNX0.f91PMR1706YGGm2rcEp-x6m2dTZrba_Q82emNMVwSJc
 
 
 ###
@@ -192,13 +193,13 @@ Content-Type: application/json
 }
 
 ###
-POST localhost:8080/getShortReport
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IjEiLCJleHAiOjE2ODYxODA4NDh9.dHjRZXhrq5mDkjsNwdpUeE4msCmlx-RlLwpt0rbYG90
-
+POST localhost:8082/getShortReport
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJuZCIsImV4cCI6MTY5MjgxODkyNX0.f91PMR1706YGGm2rcEp-x6m2dTZrba_Q82emNMVwSJc
 Content-Type: application/json
 
 {
   "date": "2006-01-02",
+  "report_header": "Мировой рынок металлургического сырья",
   "blocks": [
     {
       "title": "Железная руда",
@@ -220,9 +221,9 @@ Content-Type: application/json
 }
 
 ###
-POST localhost:8080/getShortReport
+POST localhost:8082/getShortReport
 Content-Type: application/json
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IjEiLCJleHAiOjE2ODYxODA4NDh9.dHjRZXhrq5mDkjsNwdpUeE4msCmlx-RlLwpt0rbYG90
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJuZCIsImV4cCI6MTY5MjgxODkyNX0.f91PMR1706YGGm2rcEp-x6m2dTZrba_Q82emNMVwSJc
 
 {
   "date": "2006-01-02",
@@ -232,8 +233,7 @@ Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IjEiLCJleHAi
       "paragraphs": [
         "На спотовом рынке железной руды октябрь начался с недельной паузой, во время которой в Китае праздновали очередную годовщину основания КНР. После возвращения китайских компаний на рынок котировки на сингапурской бирже SGX и китайской DCE ненадолго подскочили, но затем продолжили спад, начавшийся еще в мае текущего года.",
         "Ожидания на восстановление китайского рынка в очередной раз не оправдались. Правительство КНР, от которого ждали либерализации ковидной политики, подтвердило верность принципу нулевой толерантности к этому заболеванию. Об этом, в частности, было заявлено на состоявшемся в начале второй половины октября ХХ съезда КПК, на который ранее возлагались в этом плане немалые надежды."
-      ],
-      "file": ""
+      ]
     }
   ]
 }
@@ -241,7 +241,12 @@ Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IjEiLCJleHAi
 
 
 ###
-GET localhost:8080/getChart/27_4_06-01-2022_11-01-2022_1_bar_month_month_1_2_0.png
+GET localhost:8082/getChart/2_1_01-01-2022_06-02-2023_1_line_month_month_1_0_1_0.png
+
 Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IjEiLCJleHAiOjE2ODY4MDc3MTd9.IgHp_r1ubBj0GV6C6EZISQZHYaqWkYsjXx0zFxMrbQk
+
+
+
+
 
 
