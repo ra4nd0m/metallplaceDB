@@ -360,27 +360,6 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
                 datasets[dsIdx].pointRadius = newArray
             }
         }
-        // @ts-ignore
-        conf.options?.plugins?.datalabels = {
-            formatter: (value, context) => {
-                // @ts-ignore
-                const dataIndex = context.dataIndex;
-                // @ts-ignore
-                const dataLength = context.chart.data.labels.length;
-
-                if (dataIndex === dataLength - 3) {
-                    return {
-                        text: value,
-
-                        font: {
-                            weight: 'bold'
-                        }
-                    };
-                }
-
-                return value;
-            }
-        };
     }
 
     if (options.labels) {
@@ -417,6 +396,9 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
                 },
 
                 offset: function(context) {
+                    if(options.type == "bar") {
+                        return labelOffset * 4
+                    }
                     if (datasets.length != 2) {
                         return labelOffset
                     }
@@ -501,29 +483,30 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
                 barThickness: 100
             }
         )
-        // conf.data?.datasets?.push(
-        //     {
-        //         type: 'line',
-        //         label: '',
-        //         data: halfData,
-        //         borderColor: 'rgba(255,255,255,0)',
-        //         datalabels: {
-        //             display: true,
-        //             formatter: function () {
-        //                 return changes[labelCnt]
-        //             },
-        //             backgroundColor: '#FFFFFF',
-        //             color: function (context: { dataIndex: any; dataset: { data: { [x: string]: any; }; }; }) {
-        //                 const cur = changes[labelCnt]
-        //                 labelCnt++
-        //                 if (cur === "-") return 'black'
-        //                 if (cur.indexOf("+") != -1) return 'green'
-        //                 if (cur.indexOf("-") != -1) return 'red'
-        //                 return 'black'
-        //             }
-        //         }
-        //     }
-        // )
+        conf.data?.datasets?.push(
+            {
+                type: 'line',
+                label: '',
+                data: datasets[0].data,
+                borderColor: 'rgba(255,255,255,0)',
+                datalabels: {
+                    display: true,
+                    formatter: function () {
+                        return changes[labelCnt]
+                    },
+                    offset: labelOffset,
+
+                    color: function (context: { dataIndex: any; dataset: { data: { [x: string]: any; }; }; }) {
+                        const cur = changes[labelCnt]
+                        labelCnt++
+                        if (cur === "-") return 'black'
+                        if (cur.indexOf("+") != -1) return 'green'
+                        if (cur.indexOf("-") != -1) return 'red'
+                        return 'black'
+                    }
+                }
+            }
+        )
     }
     return conf
 }
