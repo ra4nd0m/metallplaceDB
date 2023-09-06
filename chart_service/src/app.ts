@@ -396,9 +396,6 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
                 },
 
                 offset: function(context) {
-                    if(options.type == "bar") {
-                        return labelOffset * 4
-                    }
                     if (datasets.length != 2) {
                         return labelOffset
                     }
@@ -494,7 +491,11 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
                     formatter: function () {
                         return changes[labelCnt]
                     },
-                    offset: labelOffset,
+                    offset: labelOffset * 3.5,
+                    font: {
+                        size: labelFontSize * 0.6,
+                        family: fontRegular
+                    },
 
                     color: function (context: { dataIndex: any; dataset: { data: { [x: string]: any; }; }; }) {
                         const cur = changes[labelCnt]
