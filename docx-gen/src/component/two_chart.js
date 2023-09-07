@@ -17,9 +17,6 @@ module.exports = async function twoChart(url1, url2, avgGroup, comparePeriod){
         },
         columnWidths: [20, 1, 20],
         borders: docx.TableBorders.NONE,
-        margins: {
-            top: docx.convertMillimetersToTwip(15)
-        },
         rows: [
             new docx.TableRow({
                 children: [

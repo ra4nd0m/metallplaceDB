@@ -17,6 +17,8 @@ module.exports = function(v) {
                         margins: {
                             left: SideMargin,
                             right: SideMargin,
+                            bottom: docx.convertMillimetersToTwip(4),
+                            top: docx.convertMillimetersToTwip(4)
                         },
                         children: v
                     })
