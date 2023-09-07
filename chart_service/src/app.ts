@@ -86,7 +86,7 @@ const getChart = async (XLabelSet: string[], YDataSets: YDataSet[], options: Cha
     }
     let i = 0
     let lineThickness = 6*2
-    if (options.labels || YDataSets.length >= 2 || options.title.length > 0) lineThickness = 4
+    if (options.labels || YDataSets.length >= 2 || options.title.length > 0) lineThickness = 6
 
     // Creating dataset lines: material - price feed
     YDataSets.forEach(set => {
@@ -94,7 +94,7 @@ const getChart = async (XLabelSet: string[], YDataSets: YDataSet[], options: Cha
         datasets.push({
             label: `${set.label}`,
             data: set.data,
-            lineTension: 0.15,
+            lineTension: 0.1,
             fill: false,
             borderColor: colors[i],
             backgroundColor: colors[i],
@@ -226,23 +226,16 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
                     ticks: {
                         font: function(context) {
                             // Check if it's the third-from-the-end label
-                            if (context.index === dateArray.length - 3 && options.predict) {
-                                return {
-                                    family: fontExtrabold,
-                                    size: axesFontSize,
-                                };
+                            if (
+                                (context.index === dateArray.length - 3 && options.predict) ||
+                                (context.index === dateArray.length - 1 && options.type === "bar") ||
                                 // @ts-ignore
-                            } else if (!options.predict && context.tick.label.includes("Янв")) {
-                                return {
-                                    family: fontExtrabold,
-                                    size: axesFontSize,
-                                };
+                                (!options.predict && !options.type === "bar" && context.tick.label.includes("Янв"))
+                            ) {
+                                return {family: fontExtrabold, size: axesFontSize}
                             }
                             else {
-                                return {
-                                    family: fontRegular,
-                                    size: axesFontSize,
-                                };
+                                return {family: fontRegular, size: axesFontSize}
                             }
                         },
                         color: textColor,
@@ -421,7 +414,10 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
                 textAlign: 'center',
                 font: function(context) {
                     // Check if it's the third-from-the-end label
-                    if (context.dataIndex === context.dataset.data.length - 3 && options.predict) {
+                    if (
+                        (context.dataIndex === context.dataset.data.length - 3 && options.predict && options.type != "bar") ||
+                        (context.dataIndex === context.dataset.data.length - 1 &&  options.type === "bar")
+                    ) {
                         return {
                             family: fontExtrabold,
                             size: labelFontSize,
