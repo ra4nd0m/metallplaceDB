@@ -22,6 +22,7 @@ const {GetNMonthRange} = require("../utils/date_ranges")
 const {ChartUrl, FormChartUrl} = require("../utils/form_chart_url")
 const coverDates = require("../atom/cover_dates_monthly");
 const cover = require("../atom/cover");
+const disclaimer = require("../atom/disclaimer")
 
 function getFooterTitle(date) {
 
@@ -105,24 +106,7 @@ module.exports = class MonthlyReport {
                     children: [
                         h3Fake("Содержание"),
 
-                        paragraph({
-                            children: [new docx.TextRun({
-                                text: "Дисклеймер: Информация, представленная на портале metallplace.ru предназначена только для справки и" +
-                                    "не предназначена для торговых целей или для удовлетворения ваших конкретных требований. Контент" +
-                                    "включает факты, взгляды и мнения отдельных лиц, а не веб-сайта или его руководства.",
-                                font: FontFamilyThin,
-                                color: '#808080'
-                            })],
-                        }),
-                        paragraph({
-                            children: [new docx.TextRun({
-                                text: "Пользователи/посетители должны принимать собственные решения на основе собственных независимых" +
-                                    "запросов, оценок, суждений и рисков. Портал metallplace.ru не несет ответственность за какие-либо убытки," +
-                                    "затраты или действия, возникающие в результате использования распространяемых цен.",
-                                font: FontFamilyThin,
-                                color: '#808080'
-                            })],
-                        }),
+                        disclaimer(),
 
                         pageBreak(),
                         h2("Краткая сводка новостей"),

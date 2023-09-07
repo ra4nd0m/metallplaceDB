@@ -232,7 +232,7 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
                                     size: axesFontSize,
                                 };
                                 // @ts-ignore
-                            } else if (options.tall && context.tick.label.includes("Янв")) {
+                            } else if (!options.predict && context.tick.label.includes("Янв")) {
                                 return {
                                     family: fontExtrabold,
                                     size: axesFontSize,
