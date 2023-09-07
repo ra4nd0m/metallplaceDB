@@ -269,8 +269,10 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
                             } else if (options.type == "bar"){
                                 return 'rgba(0, 0, 0, 0)';
                             }
-                            else {
+                            else if (options.labels) {
                                 return 'rgba(0, 0, 0, 0.2)';
+                            } else {
+                                return 'rgba(0, 0, 0, 0)';
                             }
                         },
                     },
@@ -501,8 +503,8 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
                         const cur = changes[labelCnt]
                         labelCnt++
                         if (cur === "-") return 'black'
-                        if (cur.indexOf("+") != -1) return 'green'
-                        if (cur.indexOf("-") != -1) return 'red'
+                        if (cur.indexOf("+") != -1) return '#94bc54'
+                        if (cur.indexOf("-") != -1) return "#ec5c24"
                         return 'black'
                     }
                 }
