@@ -182,6 +182,10 @@ module.exports = class MonthlyReport {
                                 )
                             ]
                         }),
+
+                        pageBreak(),
+                        separator(),
+
                         paragraph({
                             children: [
                                 await twoChart( // рулоны хк
@@ -192,8 +196,6 @@ module.exports = class MonthlyReport {
                                 )
                             ]
                         }),
-                        pageBreak(),
-
 
                         h3Fake("Ферросплавы и руды"),
                         paragraph({
@@ -215,6 +217,8 @@ module.exports = class MonthlyReport {
                                 "м/м"
                             )]
                         }),
+                        pageBreak(),
+                        separator(),
 
                         paragraph({
                             children: [

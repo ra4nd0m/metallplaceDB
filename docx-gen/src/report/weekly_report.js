@@ -29,6 +29,7 @@ const {
 } = require("../utils/date_operations");
 const {GetMonthRange, Get2WeekRange, GetYearRange} = require("../utils/date_ranges")
 const {ChartUrl, FormChartUrl} = require("../utils/form_chart_url")
+const disclaimer = require("../atom/disclaimer");
 
 function getFooterTitle(date) {
     const weekDates = GetDates(date, "week")
@@ -89,26 +90,8 @@ module.exports = class WeeklyReport {
                     },
                     children: [
                         h3Fake("Содержание"),
-                        new docx.TableOfContents("Summary"
-                        ),
-                        paragraph({
-                            children: [new docx.TextRun({
-                                text: "Дисклеймер: Информация, представленная на портале metallplace.ru предназначена только для справки и" +
-                                    "не предназначена для торговых целей или для удовлетворения ваших конкретных требований. Контент" +
-                                    "включает факты, взгляды и мнения отдельных лиц, а не веб-сайта или его руководства.",
-                                font: FontFamilyThin,
-                                color: '#808080'
-                            })]
-                        }),
-                        paragraph({
-                            children: [new docx.TextRun({
-                                text: "Пользователи/посетители должны принимать собственные решения на основе собственных независимых" +
-                                    "запросов, оценок, суждений и рисков. Портал metallplace.ru не несет ответственность за какие-либо убытки," +
-                                    "затраты или действия, возникающие в результате использования распространяемых цен.",
-                                font: FontFamilyThin,
-                                color: '#808080'
-                            })]
-                        }),
+                        new docx.TableOfContents("Summary"),
+                        disclaimer(),
 
                         pageBreak(),
                         h2("Краткая сводка новостей"),
@@ -147,7 +130,7 @@ module.exports = class WeeklyReport {
                         h3Fake("Сталь"),
                         paragraph({
                             children: [
-                                await oneChart(
+                                await oneChart( // заготовка
                                     FormChartUrl(new ChartUrl([9], MedPriceId, GetYearRange(date), 0, "line", "day", "week", 0, -1, 0, 1)),
                                 )
                             ]
@@ -156,7 +139,7 @@ module.exports = class WeeklyReport {
 
                         paragraph({
                             children: [
-                                await twoChart(
+                                await twoChart( // арматура
                                     FormChartUrl(new ChartUrl([10], MedPriceId, GetYearRange(date), 0, "line", "day", "week", 0, -1, 0, 1)),
                                     FormChartUrl(new ChartUrl([14], MedPriceId, GetYearRange(date), 0, "line", "day", "week", 0, -1, 0, 1)),
                                 )
@@ -166,7 +149,7 @@ module.exports = class WeeklyReport {
                         pageBreak(),
                         paragraph({
                             children: [
-                                await twoChart(
+                                await twoChart( // рулон гк
                                     FormChartUrl(new ChartUrl([12], MedPriceId, GetYearRange(date), 0, "line", "day", "week", 0, -1, 0, 1)),
                                     FormChartUrl(new ChartUrl([15], MedPriceId, GetYearRange(date), 0, "line", "day", "week", 0, -1, 0, 1)),
                                 )
@@ -174,7 +157,7 @@ module.exports = class WeeklyReport {
                         }),
                         paragraph({
                             children: [
-                                await twoChart(
+                                await twoChart( // рулон хк
                                     FormChartUrl(new ChartUrl([13], MedPriceId, GetYearRange(date), 0, "line", "day", "week", 0, -1, 0, 1)),
                                     FormChartUrl(new ChartUrl([16], MedPriceId, GetYearRange(date), 0, "line", "day", "week", 0, -1, 0, 1)),
                                 )
@@ -186,7 +169,7 @@ module.exports = class WeeklyReport {
                         h3Fake("Ферросплавы и руды"),
                         paragraph({
                             children: [
-                                await twoChart(
+                                await twoChart( // FeMn SiMn
                                     FormChartUrl(new ChartUrl([17], MedPriceId, GetYearRange(date), 0, "line", "day", "week", 0, -1, 0, 1)),
                                     FormChartUrl(new ChartUrl([19], MedPriceId, GetYearRange(date), 0, "line", "day", "week", 0, -1, 0, 1)),
                                     [2, 2]
@@ -196,7 +179,7 @@ module.exports = class WeeklyReport {
 
 
                         paragraph({
-                            children: [await oneChart(
+                            children: [await oneChart( // FeSi
                                 FormChartUrl(new ChartUrl([18], MedPriceId, GetYearRange(date), 0, "line", "day", "week", 0, -1, 0, 1)),
                                 2
                             )]
@@ -204,7 +187,7 @@ module.exports = class WeeklyReport {
 
                         paragraph({
                             children: [
-                                await twoChart(
+                                await twoChart( // FeCr
                                     FormChartUrl(new ChartUrl([20], MedPriceId, GetYearRange(date), 0, "line", "day", "week", 0, -1, 0, 1)),
                                     FormChartUrl(new ChartUrl([21], MedPriceId, GetYearRange(date), 0, "line", "day", "week", 0, -1, 0, 1)),
                                     [2, 2]
@@ -212,9 +195,12 @@ module.exports = class WeeklyReport {
                             ]
                         }),
 
+                        pageBreak(),
+                        separator(),
+
                         paragraph({
                             children: [
-                                await twoChart(
+                                await twoChart( // mn cr руда
                                     FormChartUrl(new ChartUrl([22], MedPriceId, GetYearRange(date), 0, "line", "day", "week", 0, -1, 0, 1)),
                                     FormChartUrl(new ChartUrl([23], MedPriceId, GetYearRange(date), 0, "line", "day", "week", 0, -1, 0, 1)),
                                     [2, 2]
