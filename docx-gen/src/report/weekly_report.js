@@ -90,7 +90,6 @@ module.exports = class WeeklyReport {
                     },
                     children: [
                         h3Fake("Содержание"),
-                        new docx.TableOfContents("Summary"),
                         disclaimer(),
 
                         pageBreak(),
@@ -125,7 +124,9 @@ module.exports = class WeeklyReport {
                                 )
                             ]
                         }),
-                        paragraph({children: [new docx.PageBreak()]}),
+
+                        pageBreak(),
+                        separator(),
 
                         h3Fake("Сталь"),
                         paragraph({
@@ -146,7 +147,6 @@ module.exports = class WeeklyReport {
                             ]
                         }),
 
-                        pageBreak(),
                         paragraph({
                             children: [
                                 await twoChart( // рулон гк
@@ -155,6 +155,10 @@ module.exports = class WeeklyReport {
                                 )
                             ]
                         }),
+
+                        pageBreak(),
+                        separator(),
+
                         paragraph({
                             children: [
                                 await twoChart( // рулон хк
@@ -163,7 +167,6 @@ module.exports = class WeeklyReport {
                                 )
                             ]
                         }),
-                        paragraph({children: [new docx.PageBreak()]}),
 
 
                         h3Fake("Ферросплавы и руды"),
@@ -185,6 +188,9 @@ module.exports = class WeeklyReport {
                             )]
                         }),
 
+                        pageBreak(),
+                        separator(),
+
                         paragraph({
                             children: [
                                 await twoChart( // FeCr
@@ -194,9 +200,6 @@ module.exports = class WeeklyReport {
                                 )
                             ]
                         }),
-
-                        pageBreak(),
-                        separator(),
 
                         paragraph({
                             children: [
@@ -241,8 +244,10 @@ module.exports = class WeeklyReport {
                         paragraph({ // лом 3А
                             children: [await oneChartText(FormChartUrl(new ChartUrl([1], MedPriceId, GetMonthRange(date), 1, "line", "day", "day", 1, -1)))]
                         }),
-                        paragraph(" "),
                         await singleTableMinimax(1, GetMonthRange(date, true), 0, 1),// лом 3А
+
+                        pageBreak(),
+                        separator(),
 
 
                         h3("Чугун"),
@@ -272,8 +277,7 @@ module.exports = class WeeklyReport {
                             children: [await oneChartText(FormChartUrl(new ChartUrl([10], MedPriceId, GetMonthRange(date), 1, "line", "day", "day", 1, -1)))]
                         }),
                         await singleTableMinimax(10, GetMonthRange(date, true), 0, 1), //арматура FOB
-                        pageBreak(),
-                        separator(),
+
                         paragraph({ //арматура A1 EXW
                             children: [await oneChartText(FormChartUrl(new ChartUrl([14], MedPriceId, GetMonthRange(date), 1, "line", "day", "day", 1, -1)))]
                         }),

@@ -27,7 +27,6 @@ module.exports = class ShortReport {
             body.push(h2(block.title))
             block.text.forEach(p => {
                 body.push(margins([paragraph(p)]))
-                body.push(paragraph(" "))
             })
             if (block.chart !== null) {
                 body.push(
