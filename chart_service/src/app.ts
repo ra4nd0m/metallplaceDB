@@ -15,6 +15,9 @@ dotenv.config({path: path.join(__dirname, '../../.env')})
 const port = process.env.CHART_PORT
 const host = process.env.CHART_HOST
 
+const orange = "#ec5c24"
+const green = '#94bc54'
+
 const bodyParser = require('body-parser');
 app.use(bodyParser.json()); // for parsing application/json
 
@@ -69,7 +72,7 @@ const getChart = async (XLabelSet: string[], YDataSets: YDataSet[], options: Cha
     if (options.tall) {
         height = width / 2;
     } else {
-        height = width / 3;
+        height = width / 2.5;
     }
 
     let canvasRenderService
@@ -86,7 +89,7 @@ const getChart = async (XLabelSet: string[], YDataSets: YDataSet[], options: Cha
         colors = ['#F77647']
     }
     if(YDataSets.length == 2 && options.title.length === 0){
-        colors = ['#F77647', '#8ab440']
+        colors = [orange, green]
     }
     let i = 0
     let lineThickness = 6*2
@@ -150,9 +153,13 @@ function getToFixed(datasets: Dataset[]): number {
 }
 
 function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOptions): ChartConfiguration {
-    const labelFontSize = 8 * 2 * 2
-    const legendFontSize = 12 * 2 * 2
-    const axesFontSize = 10 * 2 * 2
+    const labelFontSize = 9 * 2 * 2
+    let legendFontSize = 7 * 2 * 2
+    let axesFontSize = 5 * 2 * 2
+    if (options.tall) {
+         axesFontSize = 12 * 2 * 2
+    }
+
     const pointRadius = 3 * 2
     const labelOffset = 10 * 2
     const labelOffsetDelta = -70
@@ -183,7 +190,7 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
     }
     let colors: string[] = []
     if (options.labels && options.type === "line"){
-        colors = ['#FF9C75', '#BEDF85','#BE7F85']
+        colors = [orange, green,'#BE7F85']
         let i = 0
         datasets.forEach(ds => {
             ds.pointStyle = 'round'
@@ -231,7 +238,7 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
                         font: function(context) {
                             // Check if it's the third-from-the-end label
                             if (
-                                (context.index === dateArray.length - 3 && options.predict) ||
+                                (context.index === dateArray.length - 4 && options.predict) ||
                                 (context.index === dateArray.length - 1 && options.type === "bar") ||
                                 // @ts-ignore
                                 (!options.predict && options.type != "bar" && context.tick.label.includes("Янв"))
@@ -347,7 +354,7 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
                     const tickOverall = context.chart.data.labels.length;
 
                     // @ts-ignore
-                    if (tickCounter === tickOverall - 3) {
+                    if (tickCounter === tickOverall - 4) {
                         tickCounter++
                         return 'rgba(0, 0, 0, 0.6)';
                     }
@@ -361,7 +368,7 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
             for (let dsIdx = 0; dsIdx < datasets.length; dsIdx++) {
                 const length: number = dateArrayFormatted.length;
                 const newArray: number[] = Array(length).fill(datasets[dsIdx].pointRadius);
-                newArray[length - 3] = datasets[dsIdx].pointRadius * 2;
+                newArray[length - 4] = datasets[dsIdx].pointRadius * 2.5;
                 // @ts-ignore
                 datasets[dsIdx].pointRadius = newArray
             }
@@ -426,7 +433,7 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
                 font: function(context) {
                     // Check if it's the third-from-the-end label
                     if (
-                        (context.dataIndex === context.dataset.data.length - 3 && options.predict && options.type != "bar") ||
+                        (context.dataIndex === context.dataset.data.length - 4 && options.predict && options.type != "bar") ||
                         (context.dataIndex === context.dataset.data.length - 1 &&  options.type === "bar")
                     ) {
                         return {
@@ -464,7 +471,7 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
         let barColors = []
         for(let i = 0; i < datasets[0].data.length; i++){
             if (i === datasets[0].data.length - 1) {
-                barColors.push('#f05c24')
+                barColors.push(orange)
             } else {
                 barColors.push('rgba(255, 156, 117, 0.0)')
             }
@@ -476,7 +483,7 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
                 label: '',
                 data: datasets[0].data,
                 backgroundColor: barColors,
-                borderColor: '#f05c24',
+                borderColor: orange,
                 borderWidth: {
                     top: 1,
                     right: 1,
@@ -510,8 +517,8 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
                         const cur = changes[labelCnt]
                         labelCnt++
                         if (cur === "-") return 'black'
-                        if (cur.indexOf("+") != -1) return '#94bc54'
-                        if (cur.indexOf("-") != -1) return "#ec5c24"
+                        if (cur.indexOf("+") != -1) return green
+                        if (cur.indexOf("-") != -1) return orange
                         return 'black'
                     }
                 }
@@ -650,13 +657,13 @@ function formatYLabel(num: number) {
 
             // Extract the last three digits of the integer part and the rest of the digits
             const after = integerPart.slice(-3);
-            const before = integerPart.slice(0, integerPart.length - 3);
+            const before = integerPart.slice(0, integerPart.length - 4);
 
             // Concatenate the integer part and the decimal part, with a space as a thousand separator and a comma as a decimal separator
             numStr = `${before} ${after}.${decimalPart}`;
         } else {
             const after = num.toString().slice(-3)
-            const before = num.toString().slice(0, num.toString().length - 3)
+            const before = num.toString().slice(0, num.toString().length - 4)
             numStr = (before + " " + after)
         }
 

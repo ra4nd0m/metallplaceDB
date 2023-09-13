@@ -43,6 +43,8 @@ async function getInfo(isBig, url, group, comparePeriod) {
     if (isBig) return []
     if (comparePeriod === undefined) comparePeriod = "н/н"
     const nValues = 2 * group
+    const percentFontSize = 12 * 2
+    const nameFontSize = 10 * 2
 
     baseUrl = ApiEndpoint +`/getChart/`
     url = url.substring(baseUrl.length, url.length)
@@ -86,28 +88,28 @@ async function getInfo(isBig, url, group, comparePeriod) {
     if (percent > 0) {
         percentBlock =
                 text({
-                    text: `+${numFormat(percent)}% ${comparePeriod}`,
+                    text: `+${numFormat(percent)}% `,
                     font: FontFamilyExtraBold,
                     color: Green,
-                    size: 12 * 2,
+                    size: percentFontSize,
                 })
     } else {
         if (percent < 0) {
             percentBlock =
                     text({
-                        text: `${numFormat(percent)}% ${comparePeriod}`,
+                        text: `${numFormat(percent)}% `,
                         font: FontFamilyExtraBold,
                         color: Red,
-                        size: 12 * 2,
+                        size: percentFontSize,
                     })
 
         } else {
             percentBlock =
                     text({
-                        text: `- ${comparePeriod}`,
+                        text: `- `,
                         font: FontFamilyExtraBold,
                         color: ColorDefault,
-                        size: 12 * 2,
+                        size: percentFontSize,
                     })
         }
     }
@@ -141,13 +143,13 @@ async function getInfo(isBig, url, group, comparePeriod) {
                                 text: materialName,
                                 font: FontFamilyExtraBold,
                                 color: '#000000',
-                                size: 12 * 2,
+                                size: nameFontSize,
                             }),
                             text({
                                 text: ` (${materialType}, ${materialInfo.data.info.DeliveryType} ${materialCountry})`,
                                 font: FontFamilyMedium,
                                 color: '#000000',
-                                size: 12 * 2,
+                                size: nameFontSize,
                             }),
                         ],
                     }),
@@ -168,6 +170,12 @@ async function getInfo(isBig, url, group, comparePeriod) {
                                 size: 12 * 2,
                             }),
                             percentBlock,
+                            text({
+                                text: comparePeriod,
+                                font: FontFamilyMedium,
+                                color: ColorDefault,
+                                size: 12 * 2,
+                            })
                         ],
                     }),
                 ],

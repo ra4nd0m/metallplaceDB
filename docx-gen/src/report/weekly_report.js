@@ -149,7 +149,6 @@ module.exports = class WeeklyReport {
                         }),
 
                         pageBreak(),
-                        separator(),
 
                         h3Fake("Сталь"),
                         paragraph({
@@ -179,9 +178,6 @@ module.exports = class WeeklyReport {
                             ]
                         }),
 
-                        pageBreak(),
-                        separator(),
-
                         paragraph({
                             children: [
                                 await twoChart( // рулон хк
@@ -191,6 +187,7 @@ module.exports = class WeeklyReport {
                             ]
                         }),
 
+                        pageBreak(),
 
                         h3Fake("Ферросплавы и руды"),
                         paragraph({
@@ -202,7 +199,6 @@ module.exports = class WeeklyReport {
                                 )
                             ]
                         }),
-
 
                         paragraph({
                             children: [await oneChart( // FeSi

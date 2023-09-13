@@ -185,8 +185,6 @@ module.exports = class MonthlyReport {
                             ]
                         }),
 
-                        pageBreak(),
-                        separator(),
 
                         paragraph({
                             children: [
@@ -198,6 +196,8 @@ module.exports = class MonthlyReport {
                                 )
                             ]
                         }),
+
+                        pageBreak(),
 
                         h3Fake("Ферросплавы и руды"),
                         paragraph({
@@ -211,7 +211,6 @@ module.exports = class MonthlyReport {
                             ]
                         }),
 
-
                         paragraph({
                             children: [await oneChart( // ферросицилий
                                 FormChartUrl(new ChartUrl([18], MedPriceId, GetNMonthRange(date, 23), 0, "line", "month", "month", 0, undefined, 0,1)),
@@ -219,8 +218,6 @@ module.exports = class MonthlyReport {
                                 "м/м"
                             )]
                         }),
-                        pageBreak(),
-                        separator(),
 
                         paragraph({
                             children: [
