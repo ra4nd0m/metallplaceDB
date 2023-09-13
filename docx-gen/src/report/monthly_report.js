@@ -23,6 +23,7 @@ const {ChartUrl, FormChartUrl} = require("../utils/form_chart_url")
 const coverDates = require("../atom/cover_dates_monthly");
 const cover = require("../atom/cover");
 const disclaimer = require("../atom/disclaimer")
+const tableOfContents = require("../atom/table_of_contents")
 
 function getFooterTitle(date) {
 
@@ -105,6 +106,7 @@ module.exports = class MonthlyReport {
                     },
                     children: [
                         h3Fake("Содержание"),
+                        ...tableOfContents(),
 
                         disclaimer(),
 

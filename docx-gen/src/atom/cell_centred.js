@@ -1,5 +1,5 @@
 const docx = require("docx");
-const {AccentColor, TableCellMarginNil, ThinBorder} = require("../const");
+const {TableCellMarginNil, ThinBorder} = require("../const");
 module.exports = function (v, raw){
     if (raw) {
         return new docx.TableCell(v)

@@ -30,6 +30,7 @@ const {
 const {GetMonthRange, Get2WeekRange, GetYearRange} = require("../utils/date_ranges")
 const {ChartUrl, FormChartUrl} = require("../utils/form_chart_url")
 const disclaimer = require("../atom/disclaimer");
+const tableOfContents = require("../atom/table_of_contents");
 
 function getFooterTitle(date) {
     const weekDates = GetDates(date, "week")
@@ -111,6 +112,7 @@ module.exports = class WeeklyReport {
                     },
                     children: [
                         h3Fake("Содержание"),
+                        ...tableOfContents(),
                         disclaimer(),
 
                         pageBreak(),
