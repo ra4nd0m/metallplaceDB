@@ -13,8 +13,12 @@ module.exports = function (body, titlesIndexes, titles, priceRound){
     body.forEach(m =>{
         const changeUnits = getChange(m.Week2Med.price_feed, 0, m.Week1Med.price_feed[0].value, false);
         const changePercents = getChange(m.Week2Med.price_feed, 0, m.Week1Med.price_feed[0].value, true);
-        let names = [m.Name, " "]
-        if (m.Name.indexOf(";") !== -1) names = m.Name.split(";")
+        let names = [m.Name, ""]
+        if (m.Name.indexOf(";") !== -1) {
+            names = m.Name.split(";")
+            names[1] = "(" + names[1] + ")"
+        }
+
         if(tableRowCnt === titlesIndexes[idxCnt]){
             rows.push(
                 new docx.TableRow({
@@ -36,7 +40,7 @@ module.exports = function (body, titlesIndexes, titles, priceRound){
             new docx.TableRow({
                 children:[
                     cellCenter({
-                        children: [textTd(`${names[0].trim()} (${names[1].trim()})`, undefined, undefined, FontFamily),
+                        children: [textTd(`${names[0].trim()} ${names[1].trim()}`, undefined, undefined, FontFamily),
                             textTdItalic(`${m.DeliveryType.trim()} ${m.Market.trim()}`, undefined, FontFamilyThin, FontSizeTdMicro),
                         ]
                     }),

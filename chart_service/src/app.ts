@@ -59,6 +59,10 @@ function getPercentChangesArr(prices: number[]): string[] {
     return changes
 }
 
+const line = 'rgba(0, 0, 0, 0.2)'
+const thickLine = 'rgba(0, 0, 0, 0.6)'
+const transLine = 'rgba(0, 0, 0, 0)'
+
 const getChart = async (XLabelSet: string[], YDataSets: YDataSet[], options: ChartOptions): Promise<Buffer> => {
     let width = 1900; //px
     let height
@@ -230,7 +234,7 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
                                 (context.index === dateArray.length - 3 && options.predict) ||
                                 (context.index === dateArray.length - 1 && options.type === "bar") ||
                                 // @ts-ignore
-                                (!options.predict && !options.type === "bar" && context.tick.label.includes("Янв"))
+                                (!options.predict && options.type != "bar" && context.tick.label.includes("Янв"))
                             ) {
                                 return {family: fontExtrabold, size: axesFontSize}
                             }
@@ -256,16 +260,23 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
                                 const label = context.chart.data.labels[value];
                                 // @ts-ignore
                                 if (label.includes('Янв')) {
-                                    return 'rgba(0, 0, 0, 0.6)';
+                                    return thickLine;
                                 }
-                                return 'rgba(0, 0, 0, 0)';
+                                return transLine;
                             } else if (options.type == "bar"){
-                                return 'rgba(0, 0, 0, 0)';
+                                return transLine;
                             }
                             else if (options.labels) {
-                                return 'rgba(0, 0, 0, 0.2)';
+                                const value = context.tick.value;
+                                // @ts-ignore
+                                const label = context.chart.data.labels[value];
+                                // @ts-ignore
+                                if (label.includes('Янв')) {
+                                    return thickLine;
+                                }
+                                return line;
                             } else {
-                                return 'rgba(0, 0, 0, 0)';
+                                return transLine;
                             }
                         },
                     },

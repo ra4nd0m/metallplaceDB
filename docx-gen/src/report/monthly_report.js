@@ -248,7 +248,7 @@ module.exports = class MonthlyReport {
                         h2("Рынок сырьевых материалов"),
                         h3("Железорудное сырье"),
                         paragraph({ // запасы жел руды в китай портах
-                            children: [await oneChartText(FormChartUrl(new ChartUrl([28], StockId, GetNMonthRange(date, 5), 1, "bar", "month", "month", 0, 2)))]
+                            children: [await oneChartText(FormChartUrl(new ChartUrl([28], StockId, GetNMonthRange(date, 5), 1, "bar", "month", "month", 0, 2)),  ["Запасы железной руды в китайских портах"," млн тонн"])]
                         }),
                         paragraph({ //жрс 62 и 65
                             children: [await oneChartText(FormChartUrl(new ChartUrl([2,3], MedPriceId, GetNMonthRange(date, 9), 1, "line", "month", "month", 1, 0, 1)), ["Цены на ЖРС,"," USD/т CNF Китай"])]

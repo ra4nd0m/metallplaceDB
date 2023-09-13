@@ -8,7 +8,7 @@ const h3 = require("../atom/heading3");
 const h3Fake = require("../atom/heading3_fake");
 const paragraph = require("../atom/paragraph");
 const twoChart = require("../component/two_chart");
-const { WeeklyHeaderTitle, MedPriceId, StockId, RusMonth, FontFamilyThin} = require("../const");
+const { WeeklyHeaderTitle, MedPriceId, StockId, RusMonth, FontFamilyThin, Grey, FontFamily, FontFamilyExtraBold} = require("../const");
 const coverDates = require("../atom/cover_dates_weekly")
 const oneChartText = require("../component/one_chart_text");
 const cover = require("../atom/cover")
@@ -33,6 +33,26 @@ const disclaimer = require("../atom/disclaimer");
 
 function getFooterTitle(date) {
     const weekDates = GetDates(date, "week")
+    return [
+        new docx.TextRun({
+            color: Grey,
+            font: FontFamily,
+            text: "Отчетный период: ",
+            size: 12 * 2,
+        }),
+        new docx.TextRun({
+            color: Grey,
+            font: FontFamilyExtraBold,
+            text: `${weekDates.first.day} ${RusMonth[weekDates.first.month]} - ${weekDates.last.day} ${RusMonth[weekDates.last.month]} `,
+            size: 12 * 2,
+        }),
+        new docx.TextRun({
+            color: Grey,
+            font: FontFamily,
+            text: `${weekDates.last.year} года`,
+            size: 12 * 2,
+        }),
+    ]
     return `Отчетный период: ${weekDates.first.day} ${RusMonth[weekDates.first.month]} - ` +
         `${weekDates.last.day} ${RusMonth[weekDates.last.month]} ${weekDates.last.year} года (${GetWeekNumber(date)} неделя)`
 }
@@ -69,6 +89,7 @@ module.exports = class WeeklyReport {
                     children: [
                         coverDates(coverTitles[0], coverTitles[1]),
                         cover(),
+                        pageBreak()
                     ]
                 },
                 {
@@ -217,7 +238,7 @@ module.exports = class WeeklyReport {
 
 
                         paragraph({ // запасы жел руды в китай портах
-                            children: [await oneChartText(FormChartUrl(new ChartUrl([28], StockId, GetMonthRange(date), 1, "bar", "day", "day", 1, -1)))]
+                            children: [await oneChartText(FormChartUrl(new ChartUrl([28], StockId, GetMonthRange(date), 1, "bar", "day", "day", 0, -1)),  ["Запасы железной руды в китайских портах"," млн тонн"])]
                         }),
                         paragraph({ //жрс 62 и 65
                             children: [await oneChartText(FormChartUrl(new ChartUrl([2, 3], MedPriceId, Get2WeekRange(date), 1, "line", "day", "day", 1, -1)))]
