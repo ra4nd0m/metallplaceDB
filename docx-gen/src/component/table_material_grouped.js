@@ -1,6 +1,6 @@
 const docx = require("docx");
 const {TableCellMarginNil, MedPriceId, FontFamilyMedium, FontSizeThMain, FontFamilyThin, FontSizeThExtraInfo,
-    FontFamilySemiBold, FontSizeThSecondary, ApiEndpoint, FatBorder, ThinBorder
+    FontFamilyExtraBold, FontSizeThSecondary, ApiEndpoint, FatBorder, ThinBorder
 } = require("../const");
 const textTh = require("../atom/text_th")
 const tableBody = require("../atom/table_material_grouped_body");
@@ -70,10 +70,10 @@ module.exports = async function(materialIds, dates, titlesIndexes, titles, type,
         rows:[
             new docx.TableRow({
                 children: [
-                    new docx.TableCell({borders: {top: FatBorder, left: ThinBorder, right: ThinBorder}, margins: TableCellMarginNil, children: [textTh("Продукция", FontFamilyMedium, FontSizeThMain)]}),
-                    new docx.TableCell({borders: {top: FatBorder, left: ThinBorder, right: ThinBorder}, margins: TableCellMarginNil, children: [textTh("Единицы измерения", FontFamilyMedium, FontSizeThMain)]}),
-                    new docx.TableCell({borders: {top: FatBorder, left: ThinBorder, right: ThinBorder}, margins: TableCellMarginNil, children: [textTh(formatDateTable(new Date(title1), FontFamilyMedium, FontSizeThMain))]}),
-                    new docx.TableCell({borders: {top: FatBorder, left: ThinBorder, right: ThinBorder}, margins: TableCellMarginNil, children: [textTh(formatDateTable(new Date(title2), FontFamilySemiBold, FontSizeThMain))]}),
+                    new docx.TableCell({borders: {top: FatBorder, left: ThinBorder, right: ThinBorder}, margins: TableCellMarginNil, children: [textTh("Продукция", FontFamilyMedium, FontSizeThMain)], verticalAlign: docx.VerticalAlign.CENTER}),
+                    new docx.TableCell({borders: {top: FatBorder, left: ThinBorder, right: ThinBorder}, margins: TableCellMarginNil, children: [textTh("Единицы измерения", FontFamilyMedium, FontSizeThMain)], verticalAlign: docx.VerticalAlign.CENTER}),
+                    new docx.TableCell({borders: {top: FatBorder, left: ThinBorder, right: ThinBorder}, margins: TableCellMarginNil, children: [textTh(formatDateTable(new Date(title1)), FontFamilyMedium, FontSizeThMain)], verticalAlign: docx.VerticalAlign.CENTER}),
+                    new docx.TableCell({borders: {top: FatBorder, left: ThinBorder, right: ThinBorder}, margins: TableCellMarginNil, children: [textTh(formatDateTable(new Date(title2)), FontFamilyExtraBold, FontSizeThMain)], verticalAlign: docx.VerticalAlign.CENTER}),
                     new docx.TableCell({borders: {top: FatBorder, left: ThinBorder, right: ThinBorder}, margins: TableCellMarginNil, children: [
                         textTh(`Изм`, FontFamilyMedium, FontSizeThMain),
                             textTh(`абс.`, FontFamilyThin, FontSizeThSecondary),

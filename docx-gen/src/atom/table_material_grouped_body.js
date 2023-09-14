@@ -4,7 +4,7 @@ const cellCenter = require("../atom/cell_centred")
 const textTd = require("../atom/text_td")
 const textTdItalic = require("../atom/text_td_small_cursive")
 const textTh = require("../atom/text_th")
-const {FontFamily, FontFamilyThin, FontFamilySemiBold, FontSizeThSecondary, FontSizeTdMicro, FatBorder} = require("../const");
+const {FontFamily, FontFamilyThin, FontFamilyExtraBold, FontSizeThSecondary, FontSizeTdMicro, FatBorder} = require("../const");
 
 module.exports = function (body, titlesIndexes, titles, priceRound){
     let rows = [];
@@ -24,7 +24,7 @@ module.exports = function (body, titlesIndexes, titles, priceRound){
                 new docx.TableRow({
                     children:[
                         new docx.TableCell({
-                            children: [textTh(titles[idxCnt], FontFamilySemiBold, FontSizeThSecondary)],
+                            children: [textTh(titles[idxCnt], FontFamilyExtraBold, FontSizeThSecondary)],
                             columnSpan: 6,
                             borders: {
                                 top: FatBorder,
@@ -51,7 +51,7 @@ module.exports = function (body, titlesIndexes, titles, priceRound){
                         children: [textTd(m.Week1Med.price_feed[0].value, undefined, priceRound, FontFamily)]
                     }),
                     cellCenter({
-                        children: [textTd(m.Week2Med.price_feed[0].value, undefined, priceRound, FontFamilySemiBold)]
+                        children: [textTd(m.Week2Med.price_feed[0].value, undefined, priceRound, FontFamilyExtraBold)]
                     }),
                     cellCenter({
                         children: [textTd(changeUnits.Text, changeUnits.Color, undefined, FontFamily)]
