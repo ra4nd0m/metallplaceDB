@@ -162,6 +162,8 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
 
     const pointRadius = 3 * 2
     const labelOffset = 10 * 2
+    let xAxisLabelsOffset = -10
+    if (options.tall) xAxisLabelsOffset *= 2.5
     const labelOffsetDelta = -70
     const fontRegular = 'Montserrat Medium'
     const fontExtrabold = 'Montserrat Extrabold'
@@ -254,7 +256,7 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
                         minRotation: 90,
                         maxTicksLimit: tickLimit,
                         autoSkip: true,
-                        labelOffset: -labelOffset
+                        labelOffset: xAxisLabelsOffset
 
                     },
                     grid: {
