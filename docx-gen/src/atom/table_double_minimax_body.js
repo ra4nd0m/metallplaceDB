@@ -4,7 +4,7 @@ const cellCenter = require("../atom/cell_centred")
 const textTd = require("../atom/text_td")
 const {formatDateTable} = require("../utils/date_format");
 const getToFixed = require("../utils/get_to_fixed")
-const {FontFamily, FontFamilySemiBold} = require("../const");
+const {FontFamily, FontFamilyExtraBold} = require("../const");
 
 module.exports = function (min1, max1, med1, min2, max2, med2, unitChangeRound, percentChangeRound, priceRound) {
     let rows = [];
@@ -29,8 +29,8 @@ module.exports = function (min1, max1, med1, min2, max2, med2, unitChangeRound, 
         const changePercents2 = getChange(pfMed2, i, med2.prev_price, true, percentChangeRound);
 
         let font = FontFamily
-        if (i > 4 && pfMed1.length >= 8) font = FontFamilySemiBold
-        if (i === 4 && pfMed1.length === 5) font = FontFamilySemiBold
+        if (i > 4 && pfMed1.length >= 8) font = FontFamilyExtraBold
+        if (i === 4 && pfMed1.length === 5) font = FontFamilyExtraBold
         rows.push(
             new docx.TableRow({
                 children: [

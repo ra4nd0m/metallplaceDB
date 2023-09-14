@@ -1,7 +1,8 @@
 const docx = require("docx");
 const paragraph = require("../atom/paragraph");
 const {TableCellMarginNil, TableNoOuterBorders, FontFamilyMedium, FontSizeThMain, FontFamily, FontFamilySemiBold,
-    FontSizeThSecondary, FontSizeThExtraInfo, FontFamilyThin, ApiEndpoint, BordersNil, ThinBorder, BorderNil, FatBorder
+    FontSizeThSecondary, FontSizeThExtraInfo, FontFamilyThin, ApiEndpoint, BordersNil, ThinBorder, BorderNil, FatBorder,
+    FontFamilyExtraBold
 } = require("../const");
 const axios = require("axios");
 const cellCenter = require("../atom/cell_centred")
@@ -27,7 +28,7 @@ function headerMaterial(name, market, delivery, unit) {
                     cellCenter({
                             borders: {top: BorderNil, right: BorderNil, bottom: FatBorder, left: BorderNil},
                             columnSpan: 3, children: [
-                    textTh(name, FontFamilyMedium, FontSizeThMain),
+                    textTh(name, FontFamilyExtraBold, FontSizeThMain),
                         textTh( delivery + " " + market, FontFamilyThin, FontSizeThSecondary)]
                     },
                     true

@@ -4,7 +4,7 @@ const getChange = require("../utils/get_change")
 const cellCenter = require("../atom/cell_centred")
 const textTd = require("../atom/text_td")
 const getToFixed = require("../utils/get_to_fixed")
-const {FontFamilySemiBold, FontFamily} = require("../const");
+const {FontFamilyExtraBold, FontFamily} = require("../const");
 
 module.exports = function (min, max, med, unitChangeRound, percentChangeRound, type) {
     let rows = [];
@@ -18,8 +18,8 @@ module.exports = function (min, max, med, unitChangeRound, percentChangeRound, t
         const changeUnits = getChange(pfMed, i, med.prev_price, false, unitChangeRound);
         const changePercents = getChange(pfMed, i, med.prev_price, true, percentChangeRound);
         let font = FontFamily
-        if (i > 4 && pfMed.length >= 8) font = FontFamilySemiBold
-        if (i === 4 && pfMed.length === 5) font = FontFamilySemiBold
+        if (i > 4 && pfMed.length >= 8) font = FontFamilyExtraBold
+        if (i === 4 && pfMed.length === 5) font = FontFamilyExtraBold
         rows.push(
             new docx.TableRow({
                 children: [

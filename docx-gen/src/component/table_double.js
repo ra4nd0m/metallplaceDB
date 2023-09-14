@@ -2,7 +2,7 @@ const docx = require("docx");
 const paragraph = require("../atom/paragraph");
 const {TableCellMarginNil, TableNoOuterBorders, FontFamilyMedium, FontSizeThMain, FontFamilyThin, FontSizeThExtraInfo,
     FontSizeThSecondary, MonthPredictId, FontSizeTd, ApiEndpoint, BorderNil, AccentColor, BordersNil, ThinBorder,
-    FatBorder
+    FatBorder, FontFamilyExtraBold
 } = require("../const");
 const axios = require("axios");
 const tableBody = require("../atom/table_double_body");
@@ -26,7 +26,7 @@ function headerMaterial(name, market, delivery, unit) {
                     new docx.TableCell({
                         columnSpan: 3,
                         children: [
-                            textTh(name, FontFamilyMedium, FontSizeThMain),
+                            textTh(name, FontFamilyExtraBold, FontSizeThMain),
                             textTh(delivery + " " + market, FontFamilyThin, FontSizeThSecondary),
                          ],
                         borders: {

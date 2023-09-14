@@ -4,7 +4,7 @@ const cellCenter = require("../atom/cell_centred")
 const textTd = require("../atom/text_td")
 const {formatDateTable} = require("../utils/date_format");
 const getToFixed = require("../utils/get_to_fixed")
-const {FontFamily, FontFamilySemiBold, TableCellMarginNil, ThinBorder} = require("../const");
+const {FontFamily, FontFamilyExtraBold, TableCellMarginNil, ThinBorder} = require("../const");
 
 function insertMed(i, feed1, feed2, avgRound){
     let cells = []
@@ -16,7 +16,7 @@ function insertMed(i, feed1, feed2, avgRound){
             sum2 += feed2[p].value
         }
         let font = FontFamily
-        if (i > 4) font = FontFamilySemiBold
+        if (i > 4) font = FontFamilyExtraBold
         cells.push(
             new docx.TableCell({
                 margins: TableCellMarginNil,
@@ -60,8 +60,8 @@ module.exports = function (feed1, feed2, unitChangeRound, percentChangeRound, av
         const changeUnits2 = getChange(pf2, i, feed2.prev_price, false, unitChangeRound);
         const changePercents2 = getChange(pf2, i, feed2.prev_price, true, percentChangeRound);
         let font = FontFamily
-        if (i > 4 && pf1.length >= 8) font = FontFamilySemiBold
-        if (i === 4 && pf1.length === 5) font = FontFamilySemiBold
+        if (i > 4 && pf1.length >= 8) font = FontFamilyExtraBold
+        if (i === 4 && pf1.length === 5) font = FontFamilyExtraBold
         rows.push(
             new docx.TableRow({
                 children: [

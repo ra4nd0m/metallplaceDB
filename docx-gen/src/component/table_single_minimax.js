@@ -4,7 +4,8 @@ const paragraph = require("../atom/paragraph")
 const axios = require("axios");
 const {TableCellMarginNil, MinPriceId, MaxPriceId, MedPriceId, FontFamilyMedium, FontSizeThMain,
     FontFamilyThin,
-    FontSizeThSecondary, FontSizeThExtraInfo, ApiEndpoint, FatBorder, ThinBorder, BorderNil, BordersNil
+    FontSizeThSecondary, FontSizeThExtraInfo, ApiEndpoint, FatBorder, ThinBorder, BorderNil, BordersNil,
+    FontFamilyExtraBold
 } = require("../const");
 const {FormatDayMonth} = require("../utils/date_operations");
 const tableBody = require("../atom/table_single_minimax_body")
@@ -61,7 +62,7 @@ module.exports = async function singleTableMinimax(materialId, dates, unitChange
                         columnSpan: 3,
                         margins: TableCellMarginNil,
                         children: [
-                            textTh(resMat.data.info.Name, FontFamilyMedium, FontSizeThMain),
+                            textTh(resMat.data.info.Name, FontFamilyExtraBold, FontSizeThMain),
                             textTh(resMat.data.info.DeliveryType + " " + resMat.data.info.Market, FontFamilyThin, FontSizeThSecondary),
                         ]
                     })

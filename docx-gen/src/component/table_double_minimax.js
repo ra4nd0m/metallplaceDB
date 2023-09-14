@@ -6,7 +6,7 @@ const {TableCellMarginNil, MinPriceId, MaxPriceId, MedPriceId,
     FontFamilyMedium,
     FontSizeThSecondary,
     FontFamilyThin,
-    FontSizeThExtraInfo, FontSizeThMain, ApiEndpoint, FatBorder, ThinBorder, BorderNil
+    FontSizeThExtraInfo, FontSizeThMain, ApiEndpoint, FatBorder, ThinBorder, BorderNil, FontFamilyExtraBold
 } = require("../const");
 const tableBody = require("../atom/table_double_minimax_body")
 const {formatDateDb} = require("../utils/date_format");
@@ -81,7 +81,7 @@ module.exports = async function doubleTableMinimax(materialId1, materialId2, dat
                         margins: TableCellMarginNil,
                         verticalAlign: docx.VerticalAlign.CENTER,
                         children: [
-                            textTh(resMat1.data.info.Name, FontFamilyMedium, FontSizeThMain),
+                            textTh(resMat1.data.info.Name, FontFamilyExtraBold, FontSizeThMain),
                             textTh(resMat1.data.info.DeliveryType + " " + resMat1.data.info.Market, FontFamilyThin, FontSizeThSecondary),
                         ]
                     }, true),
@@ -91,7 +91,7 @@ module.exports = async function doubleTableMinimax(materialId1, materialId2, dat
                         columnSpan: 3,
                         margins: TableCellMarginNil,
                         children: [
-                            textTh(resMat2.data.info.Name, FontFamilyMedium, FontSizeThMain),
+                            textTh(resMat2.data.info.Name, FontFamilyExtraBold, FontSizeThMain),
                             textTh(resMat2.data.info.DeliveryType + " " + resMat2.data.info.Market, FontFamilyThin, FontSizeThSecondary),
                         ]
                     }, true)
