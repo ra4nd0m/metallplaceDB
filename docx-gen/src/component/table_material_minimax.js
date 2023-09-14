@@ -22,7 +22,7 @@ function headerMaterial(title, unit, font){
             type: docx.WidthType.PERCENTAGE,
         },
         borders: TableNoOuterBorders,
-        columnWidths: [3, 1, 1],
+        columnWidths: [6, 2, 2],
         rows: [
             new docx.TableRow({
                 children: [new docx.TableCell({columnSpan: 3, borders: {bottom: FatBorder, left: ThinBorder, right: ThinBorder}, margins: TableCellMarginNil, children: [textTh(title, font, FontSizeThSecondary)]})]
@@ -30,8 +30,8 @@ function headerMaterial(title, unit, font){
             new docx.TableRow({
                 children: [
                     new docx.TableCell({borders:{top:BorderNil, bottom: BorderNil, left: ThinBorder, right: ThinBorder}, margins: TableCellMarginNil, children: [priceBlock(unit)], verticalAlign: docx.VerticalAlign.CENTER}),
-                    new docx.TableCell({borders:{top:BorderNil, bottom: BorderNil, left: ThinBorder, right: ThinBorder}, children: [textTh(`Изм`, FontFamilyExtraBold, FontSizeThSecondary), textTh(unit, FontFamilyThin, FontSizeThExtraInfo)]}),
-                    new docx.TableCell({borders:{top:BorderNil, bottom: BorderNil, left: ThinBorder, right: ThinBorder}, children: [textTh(`Изм`, FontFamilyExtraBold, FontSizeThSecondary), textTh("%", FontFamilyThin, FontSizeThExtraInfo)]}),
+                    new docx.TableCell({borders:{top:BorderNil, bottom: BorderNil, left: ThinBorder, right: ThinBorder}, children: [textTh(`Изм`, font, FontSizeThSecondary), textTh(unit, FontFamilyThin, FontSizeThExtraInfo)], verticalAlign: docx.VerticalAlign.CENTER}),
+                    new docx.TableCell({borders:{top:BorderNil, bottom: BorderNil, left: ThinBorder, right: ThinBorder}, children: [textTh(`Изм`, font, FontSizeThSecondary), textTh("%", FontFamilyThin, FontSizeThExtraInfo)], verticalAlign: docx.VerticalAlign.CENTER}),
                 ],
             }),
         ]
@@ -94,7 +94,7 @@ module.exports = async function tableMaterialMinimax(materialIds, dates, unitCha
             size: 100,
             type: docx.WidthType.PERCENTAGE,
         },
-        columnWidths: [2,2,5,5],
+        columnWidths: [5,5,10,10],
         borders: {
             top: FatBorder,
             bottom: FatBorder,
@@ -118,7 +118,7 @@ module.exports = async function tableMaterialMinimax(materialIds, dates, unitCha
             size: 100,
             type: docx.WidthType.PERCENTAGE,
         },
-        columnWidths: [2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        columnWidths: [5, 5, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2],
         rows: tableBody(bodyInfo, unitChangeRound, percentChangeRound, priceRound),
     })
 

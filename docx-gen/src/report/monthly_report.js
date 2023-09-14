@@ -277,7 +277,7 @@ module.exports = class MonthlyReport {
                         await singleTable(3, MedPriceId, GetNMonthRange(date, 9, true), 0, 1, "month", 0, 0),// лом 3А
                         pageBreak(),
                         separator(),
-                        await tableMaterialMinimax([4,29,30,31,32,33,34,35,36,37,38,39,40,41,42], GetFirstDaysOfCurrentAndPrevMonth(date), 0, 1, "month"),
+                        await tableMaterialMinimax([4,29,30,31,32,33,34,35,36,37,38,39,40,41,42], GetFirstDaysOfCurrentAndPrevMonth(date), 0, 1, "month", 0),
 
 
                         pageBreak(),

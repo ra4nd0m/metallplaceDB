@@ -7,7 +7,6 @@ const disclaimer = require("../atom/disclaimer")
 
 module.exports = function() {
     return [
-        margins([tocBlock(["Мировой объем производства стали"])]),
         margins([tocBlock(["Краткая сводка цен по мировому рынку"])]),
         margins([tocBlock(["Рынок сырьевых материалов", "Железорудное сырье", "Уголь и кокс", "Лом черных металлов", "Чугун"])]),
         margins([tocBlock(["Рынок стали", "Полуфабрикаты", "Сортовой прокат", "Плоский прокат"])]),

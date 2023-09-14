@@ -6,7 +6,7 @@ const {formatDateTable} = require("../utils/date_format");
 const getToFixed = require("../utils/get_to_fixed")
 const {FontFamily, FontFamilySemiBold} = require("../const");
 
-module.exports = function (min1, max1, med1, min2, max2, med2, unitChangeRound, percentChangeRound) {
+module.exports = function (min1, max1, med1, min2, max2, med2, unitChangeRound, percentChangeRound, priceRound) {
     let rows = [];
     const pfMin1 = min1.price_feed
     const pfMax1 = max1.price_feed
@@ -16,7 +16,10 @@ module.exports = function (min1, max1, med1, min2, max2, med2, unitChangeRound, 
     const pfMax2 = max2.price_feed
     const pfMed2 = med2.price_feed
 
-    const fixed = getToFixed([pfMin1, pfMax1, pfMed1, pfMin2, pfMax2, pfMed2])
+    let fixed = getToFixed([pfMin1, pfMax1, pfMed1, pfMin2, pfMax2, pfMed2])
+    if (priceRound !== undefined) {
+        fixed = priceRound
+    }
 
     for (let i = 0; i < pfMed1.length; i++) {
         const changeUnits1 = getChange(pfMed1, i, med1.prev_price, false, unitChangeRound);
