@@ -41,7 +41,7 @@ module.exports = function (body, titlesIndexes, titles, priceRound){
                 children:[
                     cellCenter({
                         children: [textTd(`${names[0].trim()} ${names[1].trim()}`, undefined, undefined, FontFamily),
-                            textTdItalic(`${m.DeliveryType.trim()} ${m.Market.trim()}`, undefined, FontFamilyThin, FontSizeTdMicro),
+                            textTd(`${m.DeliveryType.trim()} ${m.Market.trim()}`, undefined, undefined, FontFamilyThin, FontSizeTdMicro),
                         ]
                     }),
                     cellCenter({
@@ -54,10 +54,10 @@ module.exports = function (body, titlesIndexes, titles, priceRound){
                         children: [textTd(m.Week2Med.price_feed[0].value, undefined, priceRound, FontFamilySemiBold)]
                     }),
                     cellCenter({
-                        children: [textTd(changeUnits.Text, changeUnits.Color, undefined, undefined, FontFamily)]
+                        children: [textTd(changeUnits.Text, changeUnits.Color, undefined, FontFamily)]
                     }),
                     cellCenter({
-                        children: [textTd(changePercents.Text, changePercents.Color, undefined, undefined, FontFamily)]
+                        children: [textTd(changePercents.Text, changePercents.Color, undefined, FontFamily)]
                     }),
                 ]
             })

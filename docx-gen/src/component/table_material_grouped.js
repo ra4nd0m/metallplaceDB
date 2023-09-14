@@ -66,7 +66,7 @@ module.exports = async function(materialIds, dates, titlesIndexes, titles, type,
             top: FatBorder,
             bottom: FatBorder
         },
-        columnWidths: [2,1,1,1,1,1],
+        columnWidths: [9,3,3,3,2,2],
         rows:[
             new docx.TableRow({
                 children: [
@@ -92,7 +92,7 @@ module.exports = async function(materialIds, dates, titlesIndexes, titles, type,
             size: 100,
             type: docx.WidthType.PERCENTAGE,
         },
-        columnWidths: [2,1,1,1,1,1],
+        columnWidths: [9,3,3,3,2,2],
         rows: tableBody(bodyInfo, titlesIndexes, titles, priceRound),
     })
 
