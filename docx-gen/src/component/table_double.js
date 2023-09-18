@@ -55,7 +55,8 @@ function headerMaterial(name, market, delivery, unit) {
                     }),
                     new docx.TableCell({
                         children: [
-                            textTh(`Изм.`, FontFamilyMedium, FontSizeThSecondary), textTh(unit, FontFamilyThin, FontSizeThExtraInfo)
+                            textTh(`Изм.`, FontFamilyMedium, FontSizeThMain),
+                            textTh(unit, FontFamilyThin, FontSizeThExtraInfo)
                         ],
                         borders: {
                             top: BorderNil,
@@ -65,7 +66,10 @@ function headerMaterial(name, market, delivery, unit) {
                         }
                     }),
                     new docx.TableCell({
-                        children: [textTh(`Изм.`, FontFamilyMedium, FontSizeThSecondary), textTh("%", FontFamilyThin, FontSizeThExtraInfo)],
+                        children: [
+                            textTh(`Изм.`, FontFamilyMedium, FontSizeThMain),
+                            textTh("%", FontFamilyThin, FontSizeThExtraInfo)
+                        ],
                         borders: {
                             top: BorderNil,
                             bottom: BorderNil,
