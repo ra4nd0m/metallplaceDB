@@ -6,10 +6,10 @@ const textTdItalic = require("../atom/text_td_small_cursive")
 const textTh = require("../atom/text_th")
 const {FontFamily, FontFamilyThin, FontFamilyExtraBold, FontSizeThSecondary, FontSizeTdMicro, FatBorder} = require("../const");
 
-module.exports = function (body, titlesIndexes, titles, priceRound){
+module.exports = function (body, titlesIndexes, titles, priceRounds){
     let rows = [];
     let tableRowCnt = 0
-    let idxCnt = 0
+    let titleRowCnt = 0
     body.forEach(m =>{
         const changeUnits = getChange(m.Week2Med.price_feed, 0, m.Week1Med.price_feed[0].value, false);
         const changePercents = getChange(m.Week2Med.price_feed, 0, m.Week1Med.price_feed[0].value, true);
@@ -19,12 +19,12 @@ module.exports = function (body, titlesIndexes, titles, priceRound){
             names[1] = "(" + names[1] + ")"
         }
 
-        if(tableRowCnt === titlesIndexes[idxCnt]){
+        if(tableRowCnt === titlesIndexes[titleRowCnt]){
             rows.push(
                 new docx.TableRow({
                     children:[
                         new docx.TableCell({
-                            children: [textTh(titles[idxCnt], FontFamilyExtraBold, FontSizeThSecondary)],
+                            children: [textTh(titles[titleRowCnt], FontFamilyExtraBold, FontSizeThSecondary)],
                             columnSpan: 6,
                             borders: {
                                 top: FatBorder,
@@ -34,8 +34,10 @@ module.exports = function (body, titlesIndexes, titles, priceRound){
                     ]
                 })
             )
-            idxCnt++
+            titleRowCnt++
         }
+        let priceRound = 0
+        if (priceRounds[tableRowCnt]) priceRound = priceRounds[tableRowCnt]
         rows.push(
             new docx.TableRow({
                 children:[

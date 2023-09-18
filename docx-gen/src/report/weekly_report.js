@@ -321,10 +321,13 @@ module.exports = class WeeklyReport {
 
 
                         h2("Рынок ферросплавов и руд"),
-                        await tableMaterialGrouped(getRangeArr(17, 23), Get2LastThursdays(date),
+                        await tableMaterialGrouped(
+                            getRangeArr(17, 23),
+                            Get2LastThursdays(date),
                             [0, 5],
                             ["Ферросплавы", "Руда"],
-                            "week"
+                            "week",
+                            [0,0,0,1,1,2,1]
                         ),
                         h3("Ферромарганец и силиконмарганец"),
                         paragraph({ // FeMn76, SiMn65

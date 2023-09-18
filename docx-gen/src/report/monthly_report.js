@@ -330,7 +330,13 @@ module.exports = class MonthlyReport {
 
                         pageBreak(),
                         h3("Рынок ферросплавов и руд"),
-                        await tableMaterialGrouped([17,18,19,20,21,22,23], [date, lastDayOfMonth], [0, 5], ["Ферросплавы", "Руды"], "month", 0),
+                        await tableMaterialGrouped(
+                            [17,18,19,20,21,22,23],
+                            [date, lastDayOfMonth],
+                            [0, 5],
+                            ["Ферросплавы", "Руды"],
+                            "month",
+                            [0,0,0,1,1,2,1]),
 
                         h3("Ферромарганец и силиконмарганец"),
                         paragraph({ // FeMn SiMn
