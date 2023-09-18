@@ -5,7 +5,10 @@ const {TableNoOuterBorders, TableCellMarginNil, FontFamilyMedium, FontSizeThMain
     ThinBorder, BordersNil
 } = require("../const");
 const textTh = require("./text_th");
-module.exports = function (unit) {
+module.exports = function (unit, priceFont) {
+    if (!priceFont) {
+        priceFont = FontFamilyMedium
+    }
     return new docx.Table({
         width: {
             size: 100,
@@ -17,7 +20,7 @@ module.exports = function (unit) {
             new docx.TableRow({
                 children: [
                     new docx.TableCell({columnSpan: 3, children: [
-                        textTh("Цена", FontFamilyMedium, FontSizeThMain),
+                        textTh("Цена", priceFont, FontSizeThMain),
                             textTh(unit, FontFamilyThin, FontSizeThExtraInfo)]})
                 ],
                 margins: TableCellMarginNil
