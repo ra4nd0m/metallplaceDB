@@ -509,7 +509,7 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
                     formatter: function () {
                         return changes[labelCnt]
                     },
-                    offset: labelOffset * 3.5,
+                    offset: labelOffset * 3.57,
                     font: {
                         size: labelFontSize * 0.6,
                         family: fontRegular
