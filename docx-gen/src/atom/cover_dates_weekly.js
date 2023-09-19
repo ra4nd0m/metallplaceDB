@@ -1,6 +1,6 @@
 const docx = require("docx");
 const {TableCellMarginNil, FontFamilySemiBold, FontSizeCoverPrimary, FontFamilyMedium, AccentColor,
-    FontSizeCoverSecondary, FontFamilyLight
+    FontSizeCoverSecondary, FontFamilyLight, FontFamilyThin
 } = require("../const");
 const paragraph = require("../atom/paragraph");
 const text = require("../atom/text");
@@ -14,8 +14,8 @@ module.exports = function (weekNum, dates, year) {
             right: {style: docx.BorderStyle.NONE, size: 0, color: "FFFFFF"},
         },
         float: {
-            absoluteVerticalPosition: 13200,
-            absoluteHorizontalPosition: 2100,
+            absoluteVerticalPosition: 13000,
+            absoluteHorizontalPosition: 2000,
         },
         width: {
             size: 70,
@@ -24,7 +24,7 @@ module.exports = function (weekNum, dates, year) {
         rows: [
             row(weekNum, FontFamilySemiBold, FontSizeCoverPrimary),
             row(dates, FontFamilyMedium, FontSizeCoverSecondary),
-            row(year, FontFamilyLight, FontSizeCoverPrimary),
+            row(year, FontFamilyThin, FontSizeCoverPrimary),
         ]
     })
 }
