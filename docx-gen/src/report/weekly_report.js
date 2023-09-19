@@ -54,15 +54,14 @@ function getFooterTitle(date) {
             size: 12 * 2,
         }),
     ]
-    return `Отчетный период: ${weekDates.first.day} ${RusMonth[weekDates.first.month]} - ` +
-        `${weekDates.last.day} ${RusMonth[weekDates.last.month]} ${weekDates.last.year} года (${GetWeekNumber(date)} неделя)`
 }
 
 function getCoverTitles(date) {
     const weekDates = GetDates(date, "week")
     return [
-        `${GetWeekNumber(date)} неделя ${weekDates.last.year} года`,
-        `(${weekDates.first.day} ${RusMonth[weekDates.first.month]} - ${weekDates.last.day} ${RusMonth[weekDates.last.month]})`
+        `${GetWeekNumber(date)} неделя`,
+        `${weekDates.first.day} ${RusMonth[weekDates.first.month]} — ${weekDates.last.day} ${RusMonth[weekDates.last.month]}`,
+        `${weekDates.last.year}`
     ]
 }
 
@@ -88,7 +87,7 @@ module.exports = class WeeklyReport {
                         },
                     },
                     children: [
-                        coverDates(coverTitles[0], coverTitles[1]),
+                        coverDates(coverTitles[0], coverTitles[1], coverTitles[2]),
                         cover(),
                         pageBreak()
                     ]
