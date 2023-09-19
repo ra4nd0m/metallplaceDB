@@ -15,5 +15,5 @@ module.exports = function getTextWidthInMm(text, fontSize, fontFamily) {
     const widthInMm = textWidth * 25.4 / 96;
 
     // Return the result
-    return widthInMm * 0.75;
+    return widthInMm * 0.76;
 }
