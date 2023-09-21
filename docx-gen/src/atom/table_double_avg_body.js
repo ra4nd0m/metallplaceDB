@@ -60,7 +60,7 @@ module.exports = function (feed1, feed2, unitChangeRound, percentChangeRound, av
         const changeUnits2 = getChange(pf2, i, feed2.prev_price, false, unitChangeRound);
         const changePercents2 = getChange(pf2, i, feed2.prev_price, true, percentChangeRound);
         let font = FontFamily
-        if (i > 4 && pf1.length >= 8) font = FontFamilyExtraBold
+        if ((i === pf1.length - 1 || i === pf1.length - 2) && pf1.length >= 8) font = FontFamilyExtraBold
         if (i === 4 && pf1.length === 5) font = FontFamilyExtraBold
         rows.push(
             new docx.TableRow({

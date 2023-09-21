@@ -18,6 +18,9 @@ const host = process.env.CHART_HOST
 const orange = "#ec5c24"
 const green = '#94bc54'
 
+const fontRegular = 'Montserrat Medium'
+const fontExtrabold = 'Montserrat Extrabold'
+
 const bodyParser = require('body-parser');
 app.use(bodyParser.json()); // for parsing application/json
 
@@ -165,8 +168,6 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
     let xAxisLabelsOffset = -10
     if (options.tall) xAxisLabelsOffset *= 2.5
     const labelOffsetDelta = -70
-    const fontRegular = 'Montserrat Medium'
-    const fontExtrabold = 'Montserrat Extrabold'
     const textColor = '#000000'
     const predictPointColor = '#844a88'
     const monthPredictAmount = 3
@@ -552,7 +553,7 @@ function getChartConfTitled(datasets: Dataset[], dateArray: string[], options: C
         text: options.title,
         color: '#000000',
         font: {
-            family: 'Montserrat Medium',
+            family: fontRegular,
             size: 10 * 2,
         }
     }
