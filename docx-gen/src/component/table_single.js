@@ -86,7 +86,7 @@ module.exports = async function singleTable(materialId, propertyId, dates, unitC
                     children: [
                         new docx.TableCell({
                             children: [
-                                textTh("Цена", FontFamilyMedium, FontSizeThMain),
+                                textTh("Цена", FontFamilyExtraBold, FontSizeThMain),
                                 textTh(resMat.data.info.Unit, FontFamilyThin, FontSizeThExtraInfo)
                             ],
                             borders: {
@@ -99,7 +99,7 @@ module.exports = async function singleTable(materialId, propertyId, dates, unitC
                         new docx.TableCell({
 
                             children: [
-                                textTh("Изм.", FontFamilyMedium, FontSizeThMain),
+                                textTh("Изм.", FontFamilyExtraBold, FontSizeThMain),
                                 textTh(resMat.data.info.Unit, FontFamilyThin, FontSizeThExtraInfo)],
                             verticalAlign: docx.VerticalAlign.CENTER,
                             borders: {
