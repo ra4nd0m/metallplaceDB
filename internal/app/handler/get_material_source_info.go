@@ -32,7 +32,6 @@ type GetMaterialInfoResponse struct {
 //	@Router			/getMaterialInfo [post]
 func (h Handler) GetMaterialSourceInfoHandler(w http.ResponseWriter, r *http.Request) {
 	handle(w, r, func(req GetMaterialInfoRequest) (GetMaterialInfoResponse, error) {
-
 		info, err := h.service.GetMaterialSourceInfo(r.Context(), req.Id)
 		if err != nil {
 			SentrySend(r, err)

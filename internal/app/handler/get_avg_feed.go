@@ -22,7 +22,7 @@ type AvgPriceResponse struct {
 // GetMonthlyAvgHandler godoc
 //
 //	@Summary		Get monthly averaged feed
-//	@Description	returns price feed averaged by month. We get month + avg price during it
+//	@Description	returns price feed averaged by month. We get first day of month + avg price during it
 //	@Tags			value
 //	@Accept			json
 //	@Produce		json
@@ -42,7 +42,7 @@ func (h Handler) GetMonthlyAvgHandler(w http.ResponseWriter, r *http.Request) {
 // GetWeeklyAvgHandler godoc
 //
 //	@Summary		Get weekly feed
-//	@Description	returns weekly feed of average values during the week
+//	@Description	returns price feed averaged by week. We get first day of week + avg price during it
 //	@Tags			value
 //	@Accept			json
 //	@Produce		json

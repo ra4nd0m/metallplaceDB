@@ -28,10 +28,10 @@ type PriceResponse struct {
 //	@Tags			value
 //	@Accept			json
 //	@Produce		json
-//	@Param request body LastValuesRequest true "query params"
+//	@Param request body PriceRequest true "query params"
 //	@Param Authorization header string true "Authorization"
 //	@SecurityDefinitions.apikey ApiKeyAuth
-//	@Success		200	{object}	LastValuesResponse
+//	@Success		200	{object}	PriceResponse
 //	@Failure		400	{object}	ErrorResponse
 //	@Failure		404	{object}	ErrorResponse
 //	@Failure		500	{object}	ErrorResponse

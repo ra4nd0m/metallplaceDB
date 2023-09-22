@@ -267,6 +267,31 @@ definitions:
         format: string
         type: string
     type: object
+  handler.PriceRequest:
+    properties:
+      finish:
+        example: "2020-01-01"
+        type: string
+      material_source_id:
+        example: 2
+        type: integer
+      property_id:
+        example: 1
+        type: integer
+      start:
+        example: "2019-01-01"
+        type: string
+    type: object
+  handler.PriceResponse:
+    properties:
+      prev_price:
+        example: 11.5
+        type: number
+      price_feed:
+        items:
+          $ref: '#/definitions/model.Price'
+        type: array
+    type: object
   model.MaterialShortInfo:
     properties:
       deliveryType:
@@ -541,8 +566,8 @@ paths:
     post:
       consumes:
       - application/json
-      description: returns price feed averaged by month. We get month + avg price
-        during it
+      description: returns price feed averaged by month. We get first day of month
+        + avg price during it
       parameters:
       - description: query params
         in: body
@@ -772,7 +797,7 @@ paths:
         name: request
         required: true
         schema:
-          $ref: '#/definitions/handler.LastValuesRequest'
+          $ref: '#/definitions/handler.PriceRequest'
       - description: Authorization
         in: header
         name: Authorization
@@ -784,7 +809,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/handler.LastValuesResponse'
+            $ref: '#/definitions/handler.PriceResponse'
         "400":
           description: Bad Request
           schema:
@@ -804,7 +829,8 @@ paths:
     post:
       consumes:
       - application/json
-      description: returns weekly feed of average values during the week
+      description: returns price feed averaged by week. We get first day of week +
+        avg price during it
       parameters:
       - description: query params
         in: body

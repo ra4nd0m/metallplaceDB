@@ -322,7 +322,7 @@ const docTemplate = `{
         },
         "/getMonthlyAvgFeed": {
             "post": {
-                "description": "returns price feed averaged by month. We get month + avg price during it",
+                "description": "returns price feed averaged by month. We get first day of month + avg price during it",
                 "consumes": [
                     "application/json"
                 ],
@@ -675,7 +675,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/handler.LastValuesRequest"
+                            "$ref": "#/definitions/handler.PriceRequest"
                         }
                     },
                     {
@@ -690,7 +690,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/handler.LastValuesResponse"
+                            "$ref": "#/definitions/handler.PriceResponse"
                         }
                     },
                     "400": {
@@ -716,7 +716,7 @@ const docTemplate = `{
         },
         "/getWeeklyAvgFeed": {
             "post": {
-                "description": "returns weekly feed of average values during the week",
+                "description": "returns price feed averaged by week. We get first day of week + avg price during it",
                 "consumes": [
                     "application/json"
                 ],
@@ -1258,6 +1258,42 @@ const docTemplate = `{
                     "type": "string",
                     "format": "string",
                     "example": "token"
+                }
+            }
+        },
+        "handler.PriceRequest": {
+            "type": "object",
+            "properties": {
+                "finish": {
+                    "type": "string",
+                    "example": "2020-01-01"
+                },
+                "material_source_id": {
+                    "type": "integer",
+                    "example": 2
+                },
+                "property_id": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "start": {
+                    "type": "string",
+                    "example": "2019-01-01"
+                }
+            }
+        },
+        "handler.PriceResponse": {
+            "type": "object",
+            "properties": {
+                "prev_price": {
+                    "type": "number",
+                    "example": 11.5
+                },
+                "price_feed": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.Price"
+                    }
                 }
             }
         },
