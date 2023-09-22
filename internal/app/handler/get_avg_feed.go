@@ -21,12 +21,12 @@ type AvgPriceResponse struct {
 
 // GetMonthlyAvgHandler godoc
 //
-//	@Summary		Get last values
-//	@Description	get n last values of specific property of specific material
+//	@Summary		Get monthly averaged feed
+//	@Description	returns price feed averaged by month. We get month + avg price during it
 //	@Tags			value
 //	@Accept			json
 //	@Produce		json
-//	@Param request body AvgPriceRequest true "query params"
+//	@Param request  body AvgPriceRequest true "query params"
 //	@Success		200	{object}	AvgPriceResponse
 //	@Failure		400	{object}	ErrorResponse
 //	@Failure		404	{object}	ErrorResponse

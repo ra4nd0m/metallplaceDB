@@ -12,8 +12,8 @@ import (
 //		@Tags			report
 //	    @Produce        json
 //		@Success		200	{string}	Success: Returns the requested report in DOCX format.
-//	@Param Authorization header string true "Authorization"
-//	@SecurityDefinitions.apikey ApiKeyAuth
+//	    @Param Authorization header string true "Authorization"
+//    	@SecurityDefinitions.apikey ApiKeyAuth
 //		@Failure		400	{object}	ErrorResponse
 //		@Failure		404	{object}	ErrorResponse
 //		@Failure		500	{object}	ErrorResponse

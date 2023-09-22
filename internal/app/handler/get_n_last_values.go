@@ -20,7 +20,7 @@ type LastValuesResponse struct {
 
 // GetNLastValues godoc
 //
-//	@Summary		Get last values
+//	@Summary		Get n last values
 //	@Description	get n last values of specific property of specific material
 //	@Tags			value
 //	@Accept			json

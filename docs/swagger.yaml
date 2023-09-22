@@ -384,7 +384,7 @@ paths:
     post:
       consumes:
       - application/json
-      description: get short info about all unique materials
+      description: add entry for material with different properties
       parameters:
       - description: query params
         in: body
@@ -416,14 +416,15 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/handler.ErrorResponse'
-      summary: Get material
+      summary: Add unique material
       tags:
       - material
   /addValue:
     post:
       consumes:
       - application/json
-      description: get n last values of specific property of specific material
+      description: add either decimal or string value to property of unique material
+        by id of it
       parameters:
       - description: query params
         in: body
@@ -455,7 +456,7 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/handler.ErrorResponse'
-      summary: Get last values
+      summary: Add value
       tags:
       - value
   /getMaterialInfo:
@@ -533,14 +534,15 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/handler.ErrorResponse'
-      summary: Get material
+      summary: Get materials list
       tags:
       - material
   /getMonthlyAvgFeed:
     post:
       consumes:
       - application/json
-      description: get n last values of specific property of specific material
+      description: returns price feed averaged by month. We get month + avg price
+        during it
       parameters:
       - description: query params
         in: body
@@ -567,7 +569,7 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/handler.ErrorResponse'
-      summary: Get last values
+      summary: Get monthly averaged feed
       tags:
       - value
   /getNLastValues:
@@ -606,7 +608,7 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/handler.ErrorResponse'
-      summary: Get last values
+      summary: Get n last values
       tags:
       - value
   /getPropertyList:
@@ -652,7 +654,7 @@ paths:
     post:
       consumes:
       - application/json
-      description: get property name by id
+      description: get name of property by it's id
       parameters:
       - description: query params
         in: body
@@ -723,7 +725,7 @@ paths:
     post:
       consumes:
       - application/json
-      description: get report passing blocks of text and xlsx files in defined format.
+      description: get report passing blocks of text and xlsx files in special format.
         File field can be empty (or we pass bytes of xlsx file there)
       parameters:
       - description: query params
@@ -763,7 +765,7 @@ paths:
     post:
       consumes:
       - application/json
-      description: get values of specified period for specified material and property
+      description: get values of specified period for property of some material
       parameters:
       - description: query params
         in: body

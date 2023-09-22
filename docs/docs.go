@@ -86,7 +86,7 @@ const docTemplate = `{
         },
         "/addUniqueMaterial": {
             "post": {
-                "description": "get short info about all unique materials",
+                "description": "add entry for material with different properties",
                 "consumes": [
                     "application/json"
                 ],
@@ -96,7 +96,7 @@ const docTemplate = `{
                 "tags": [
                     "material"
                 ],
-                "summary": "Get material",
+                "summary": "Add unique material",
                 "parameters": [
                     {
                         "description": "query params",
@@ -145,7 +145,7 @@ const docTemplate = `{
         },
         "/addValue": {
             "post": {
-                "description": "get n last values of specific property of specific material",
+                "description": "add either decimal or string value to property of unique material by id of it",
                 "consumes": [
                     "application/json"
                 ],
@@ -155,7 +155,7 @@ const docTemplate = `{
                 "tags": [
                     "value"
                 ],
-                "summary": "Get last values",
+                "summary": "Add value",
                 "parameters": [
                     {
                         "description": "query params",
@@ -273,7 +273,7 @@ const docTemplate = `{
                 "tags": [
                     "material"
                 ],
-                "summary": "Get material",
+                "summary": "Get materials list",
                 "parameters": [
                     {
                         "description": "query params",
@@ -322,7 +322,7 @@ const docTemplate = `{
         },
         "/getMonthlyAvgFeed": {
             "post": {
-                "description": "get n last values of specific property of specific material",
+                "description": "returns price feed averaged by month. We get month + avg price during it",
                 "consumes": [
                     "application/json"
                 ],
@@ -332,7 +332,7 @@ const docTemplate = `{
                 "tags": [
                     "value"
                 ],
-                "summary": "Get last values",
+                "summary": "Get monthly averaged feed",
                 "parameters": [
                     {
                         "description": "query params",
@@ -384,7 +384,7 @@ const docTemplate = `{
                 "tags": [
                     "value"
                 ],
-                "summary": "Get last values",
+                "summary": "Get n last values",
                 "parameters": [
                     {
                         "description": "query params",
@@ -492,7 +492,7 @@ const docTemplate = `{
         },
         "/getPropertyName": {
             "post": {
-                "description": "get property name by id",
+                "description": "get name of property by it's id",
                 "consumes": [
                     "application/json"
                 ],
@@ -598,7 +598,7 @@ const docTemplate = `{
         },
         "/getShortReport": {
             "post": {
-                "description": "get report passing blocks of text and xlsx files in defined format. File field can be empty (or we pass bytes of xlsx file there)",
+                "description": "get report passing blocks of text and xlsx files in special format. File field can be empty (or we pass bytes of xlsx file there)",
                 "consumes": [
                     "application/json"
                 ],
@@ -657,7 +657,7 @@ const docTemplate = `{
         },
         "/getValueForPeriod": {
             "post": {
-                "description": "get values of specified period for specified material and property",
+                "description": "get values of specified period for property of some material",
                 "consumes": [
                     "application/json"
                 ],

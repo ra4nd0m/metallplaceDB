@@ -25,7 +25,7 @@ type GetShortRequestResponse struct{}
 // GetShortReportHandler godoc
 //
 //	@Summary		Get non-regular report
-//	@Description	get report passing blocks of text and xlsx files in defined format. File field can be empty (or we pass bytes of xlsx file there)
+//	@Description	get report passing blocks of text and xlsx files in special format. File field can be empty (or we pass bytes of xlsx file there)
 //	@Tags			report
 //	@Accept			json
 //	@Produce		json

@@ -23,13 +23,13 @@ type AddValueResponse struct {
 
 // AddValueHandler godoc
 //
-//	@Summary		Get last values
-//	@Description	get n last values of specific property of specific material
+//	@Summary		Add value
+//	@Description	add either decimal or string value to property of unique material by id of it
 //	@Tags			value
 //	@Accept			json
 //	@Produce		json
-//	@Param request body AddValueRequest true "query params"
-//	@Param Authorization header string true "Authorization"
+//	@Param request  body AddValueRequest true "query params"
+//	@Param          Authorization header string true "Authorization"
 //	@SecurityDefinitions.apikey ApiKeyAuth
 //	@Success		200	{object}	AddValueResponse
 //	@Failure		400	{object}	ErrorResponse

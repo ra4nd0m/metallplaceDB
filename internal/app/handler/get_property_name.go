@@ -17,7 +17,7 @@ type GetPropertyNameResponse struct {
 // GetPropertyNameHandler godoc
 //
 //	@Summary		Get property name
-//	@Description	get property name by id
+//	@Description	get name of property by it's id
 //	@Tags			property
 //	@Accept			json
 //	@Produce		json

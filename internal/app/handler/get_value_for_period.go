@@ -24,7 +24,7 @@ type PriceResponse struct {
 // GetValueForPeriodHandler godoc
 //
 //	@Summary		Get values
-//	@Description	get values of specified period for specified material and property
+//	@Description	get values of specified period for property of some material
 //	@Tags			value
 //	@Accept			json
 //	@Produce		json

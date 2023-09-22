@@ -22,13 +22,13 @@ type AddUniqueMaterialResponse struct {
 
 // AddUniqueMaterialHandler godoc
 //
-//	@Summary		Get material
-//	@Description get short info about all unique materials
+//	@Summary		Add unique material
+//	@Description    add entry for material with different properties
 //	@Tags			material
 //	@Accept			json
 //	@Produce		json
 //	@Param request  body AddUniqueMaterialRequest true "query params"
-//	@Param Authorization header string true "Authorization"
+//	@Param          Authorization header string true "Authorization"
 //	@SecurityDefinitions.apikey ApiKeyAuth
 //	@Success		200	{object}	AddUniqueMaterialResponse
 //	@Failure		400	{object}	ErrorResponse

@@ -15,7 +15,7 @@ type GetMaterialsResponse struct {
 
 // GetMaterialListHandler godoc
 //
-//	@Summary		Get material
+//	@Summary		Get materials list
 //	@Description	get short info about all unique materials
 //	@Tags			material
 //	@Accept			json
