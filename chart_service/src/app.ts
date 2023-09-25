@@ -18,8 +18,8 @@ const host = process.env.CHART_HOST
 const orange = "#ec5c24"
 const green = '#94bc54'
 
-const fontRegular = 'Montserrat'
-const fontExtrabold = 'Montserrat Extrabold'
+const fontRegular = 'MontserratMedium'
+const fontExtrabold = 'MontserratExtrabold'
 
 const bodyParser = require('body-parser');
 app.use(bodyParser.json()); // for parsing application/json
@@ -81,6 +81,8 @@ const getChart = async (XLabelSet: string[], YDataSets: YDataSet[], options: Cha
     let canvasRenderService
     try{
         canvasRenderService = new ChartJSNodeCanvas({width, height, chartJsFactory});
+        canvasRenderService.registerFont('../assets/Montserrat-Medium.ttf', { family: 'MontserratMedium' });
+        canvasRenderService.registerFont('../assets/Montserrat-ExtraBold.ttf', { family: 'MontserratExtrabold' });
     } catch (e: unknown){
         console.log(e)
     }
