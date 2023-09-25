@@ -81,11 +81,12 @@ const getChart = async (XLabelSet: string[], YDataSets: YDataSet[], options: Cha
     let canvasRenderService
     try{
         canvasRenderService = new ChartJSNodeCanvas({width, height, chartJsFactory});
-        canvasRenderService.registerFont('../assets/Montserrat-Medium.ttf', { family: 'Montserrat Medium' });
-        canvasRenderService.registerFont('../assets/Montserrat-ExtraBold.ttf', { family: 'Montserrat Extrabold' });
+        canvasRenderService.registerFont(process.cwd() + '/assets/Montserrat-Medium.ttf', { family: 'Montserrat Medium' });
+        canvasRenderService.registerFont(process.cwd() + '/assets/Montserrat-ExtraBold.ttf', { family: 'Montserrat Extrabold' });
     } catch (e: unknown){
         console.log(e)
     }
+    console.log(process.cwd())
 
     let datasets: Dataset[] = [];
     let colors: string[]
