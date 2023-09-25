@@ -18,7 +18,7 @@ const host = process.env.CHART_HOST
 const orange = "#ec5c24"
 const green = '#94bc54'
 
-const fontRegular = 'Montserrat Medium'
+const fontRegular = 'Times New Roman'
 const fontExtrabold = 'Montserrat Extrabold'
 
 const bodyParser = require('body-parser');
