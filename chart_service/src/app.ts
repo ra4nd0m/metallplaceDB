@@ -18,8 +18,8 @@ const host = process.env.CHART_HOST
 const orange = "#ec5c24"
 const green = '#94bc54'
 
-const fontRegular = 'MontserratMedium'
-const fontExtrabold = 'MontserratExtrabold'
+const fontRegular = 'Montserrat Medium'
+const fontExtrabold = 'Montserrat Extrabold'
 
 const bodyParser = require('body-parser');
 app.use(bodyParser.json()); // for parsing application/json
@@ -81,8 +81,8 @@ const getChart = async (XLabelSet: string[], YDataSets: YDataSet[], options: Cha
     let canvasRenderService
     try{
         canvasRenderService = new ChartJSNodeCanvas({width, height, chartJsFactory});
-        canvasRenderService.registerFont('../assets/Montserrat-Medium.ttf', { family: 'MontserratMedium' });
-        canvasRenderService.registerFont('../assets/Montserrat-ExtraBold.ttf', { family: 'MontserratExtrabold' });
+        canvasRenderService.registerFont('../assets/Montserrat-Medium.ttf', { family: 'Montserrat Medium' });
+        canvasRenderService.registerFont('../assets/Montserrat-ExtraBold.ttf', { family: 'Montserrat Extrabold' });
     } catch (e: unknown){
         console.log(e)
     }
@@ -618,39 +618,6 @@ function getRuMonth(dateStr: string): string {
             return 'Ноя\'' + year;
         case 11:
             return 'Дек\'' + year;
-    }
-}
-
-// @ts-ignore
-function getRuMonthFull(dateStr: string): string {
-    const date = new Date(Date.parse(dateStr));
-    const month = date.getMonth();
-    const year = date.getFullYear().toString().slice(-2);
-    switch (month) {
-        case 0:
-            return 'январь';
-        case 1:
-            return 'февраль';
-        case 2:
-            return 'март';
-        case 3:
-            return 'апрель';
-        case 4:
-            return 'май';
-        case 5:
-            return 'июнь';
-        case 6:
-            return 'июль';
-        case 7:
-            return 'август';
-        case 8:
-            return 'сентябрь';
-        case 9:
-            return 'октябрь';
-        case 10:
-            return 'ноябрь';
-        case 11:
-            return 'декабрь';
     }
 }
 
