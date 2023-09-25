@@ -9,6 +9,7 @@ const path = require('path');
 
 const express = require('express')
 const {ChartJSNodeCanvas} = require('chartjs-node-canvas');
+const { registerFont, createCanvas } = require('canvas');
 let app = express()
 dotenv.config({path: path.join(__dirname, '../../.env')})
 
@@ -83,6 +84,8 @@ const getChart = async (XLabelSet: string[], YDataSets: YDataSet[], options: Cha
         canvasRenderService = new ChartJSNodeCanvas({width, height, chartJsFactory});
         canvasRenderService.registerFont(process.cwd() + '/assets/Montserrat-Medium.ttf', { family: 'Montserrat Medium' });
         canvasRenderService.registerFont(process.cwd() + '/assets/Montserrat-ExtraBold.ttf', { family: 'Montserrat Extrabold' });
+        registerFont(process.cwd() + '/assets/Montserrat-Medium.ttf',{ family: 'Montserrat Medium' });
+        registerFont(process.cwd() + '/assets/Montserrat-Extrabold.ttf', { family: 'Montserrat Extrabold' });
     } catch (e: unknown){
         console.log(e)
     }
