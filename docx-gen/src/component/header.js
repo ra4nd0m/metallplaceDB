@@ -16,7 +16,7 @@ module.exports = function (title) {
         fontSize *= 0.95
     }
     let first = FirstLineLength
-    let second = getTextWidthInMm(title, fontSize, FontFamilyExtraBold)
+    let second = getTextWidthInMm(title, fontSize, FontFamilyExtraBold) * 1.1
     let third = PageWidth - first - second
 
     return new docx.Header({
