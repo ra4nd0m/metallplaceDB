@@ -4,6 +4,7 @@ const cellCenter = require("../atom/cell_centred")
 const textTd = require("../atom/text_td")
 const {formatDateTable} = require("../utils/date_format");
 const getToFixed = require("../utils/get_to_fixed")
+const defineFont = require("../utils/define_font")
 const {FontFamily, FontFamilyExtraBold, TableCellMarginNil, ThinBorder} = require("../const");
 
 function insertMed(i, feed1, feed2, avgRound){
@@ -49,7 +50,7 @@ function insertMed(i, feed1, feed2, avgRound){
     return []
 }
 
-module.exports = function (feed1, feed2, unitChangeRound, percentChangeRound, avgRound) {
+module.exports = function (feed1, feed2, unitChangeRound, percentChangeRound, avgRound, type) {
     let rows = [];
     const pf1 = feed1.price_feed
     const pf2 = feed2.price_feed
@@ -59,9 +60,7 @@ module.exports = function (feed1, feed2, unitChangeRound, percentChangeRound, av
         const changePercents1 = getChange(pf1, i, feed1.prev_price, true, percentChangeRound);
         const changeUnits2 = getChange(pf2, i, feed2.prev_price, false, unitChangeRound);
         const changePercents2 = getChange(pf2, i, feed2.prev_price, true, percentChangeRound);
-        let font = FontFamily
-        if ((i === pf1.length - 1 || i === pf1.length - 2) && pf1.length >= 8) font = FontFamilyExtraBold
-        if (i === 4 && pf1.length === 5) font = FontFamilyExtraBold
+        let font = defineFont(i, pf1, type)
         rows.push(
             new docx.TableRow({
                 children: [

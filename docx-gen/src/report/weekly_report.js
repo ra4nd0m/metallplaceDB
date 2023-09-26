@@ -240,7 +240,7 @@ module.exports = class WeeklyReport {
                         paragraph({ //жрс 62 и 65
                             children: [await oneChartText(FormChartUrl(new ChartUrl([2, 3], MedPriceId, Get2WeekRange(date), 1, "line", "day", "day", 1, -1)))]
                         }),
-                        await tableDoubleAvg(2, 3, MedPriceId, Get2WeekRange(date, true), 2, 1, 1), //жрс 62 и 65
+                        await tableDoubleAvg(2, 3, MedPriceId, Get2WeekRange(date, true), 2, 1, 1, "week"), //жрс 62 и 65
 
                         pageBreak(),
                         h3("Уголь и кокс"),
@@ -248,7 +248,7 @@ module.exports = class WeeklyReport {
                         paragraph({ // коксующийся уголь россия австралия
                             children: [await oneChartText(FormChartUrl(new ChartUrl([6, 7], MedPriceId, Get2WeekRange(date), 1, "line", "day", "day", 1, -1)))]
                         }),
-                        await tableDoubleAvg(6, 7, MedPriceId, Get2WeekRange(date, true), 0, 1, 0, -1), // коксующийся уголь россия австралия
+                        await tableDoubleAvg(6, 7, MedPriceId, Get2WeekRange(date, true), 0, 1, 0, "week"), // коксующийся уголь россия австралия
                         paragraph({ // мет кокс
                             children: [await oneChartText(FormChartUrl(new ChartUrl([8], MedPriceId, GetMonthRange(date), 1, "line", "day", "day", 1, -1)))]
                         }),
@@ -285,7 +285,7 @@ module.exports = class WeeklyReport {
                         }),
                         pageBreak(),
                         separator(),
-                        await doubleTableMinimax(9, 11, GetMonthRange(date, true), 0, 1), //заготовка, сляб
+                        await doubleTableMinimax(9, 11, GetMonthRange(date, true), 0, 1, "week"), //заготовка, сляб
 
 
 
@@ -311,7 +311,7 @@ module.exports = class WeeklyReport {
                         pageBreak(),
 
                         separator(),
-                        await doubleTableMinimax(12, 13, GetMonthRange(date, true), 0, 1), // рулон гк рулон хк FOB
+                        await doubleTableMinimax(12, 13, GetMonthRange(date, true), 0, 1, "week"), // рулон гк рулон хк FOB
                         paragraph({ // рулон гк рулон хк EXW
                             children: [await oneChartText(FormChartUrl(new ChartUrl([15, 16], MedPriceId, GetMonthRange(date), 1, "line", "day", "day", 1, -1)))]
                         }),
@@ -332,7 +332,7 @@ module.exports = class WeeklyReport {
                         paragraph({ // FeMn76, SiMn65
                             children: [await oneChartText(FormChartUrl(new ChartUrl([17, 19], MedPriceId, GetMonthRange(date), 1, "line", "day", "day", 1, -1)))]
                         }),
-                        await doubleTableMinimax(17, 19, GetMonthRange(date, true), 0, 1), // FeMn76, SiMn65
+                        await doubleTableMinimax(17, 19, GetMonthRange(date, true), 0, 1, "week"), // FeMn76, SiMn65
                         pageBreak(),
 
                         h3("Ферросилиций"),
@@ -347,7 +347,7 @@ module.exports = class WeeklyReport {
                         }),
                         pageBreak(),
                         separator(),
-                        await doubleTableMinimax(20, 21, GetMonthRange(date, true), 0, 1), // HC LC FeCr
+                        await doubleTableMinimax(20, 21, GetMonthRange(date, true), 0, 1, "week"), // HC LC FeCr
 
 
                         h3("Марганцевая руда"),

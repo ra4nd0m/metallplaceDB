@@ -5,8 +5,9 @@ const textTd = require("../atom/text_td")
 const {formatDateTable} = require("../utils/date_format");
 const getToFixed = require("../utils/get_to_fixed")
 const {FontFamily, FontFamilyExtraBold} = require("../const");
+const defineFont = require("../utils/define_font");
 
-module.exports = function (min1, max1, med1, min2, max2, med2, unitChangeRound, percentChangeRound, priceRound) {
+module.exports = function (min1, max1, med1, min2, max2, med2, unitChangeRound, percentChangeRound, priceRound, type) {
     let rows = [];
     const pfMin1 = min1.price_feed
     const pfMax1 = max1.price_feed
@@ -28,9 +29,7 @@ module.exports = function (min1, max1, med1, min2, max2, med2, unitChangeRound, 
         const changeUnits2 = getChange(pfMed2, i, med2.prev_price, false, unitChangeRound);
         const changePercents2 = getChange(pfMed2, i, med2.prev_price, true, percentChangeRound);
 
-        let font = FontFamily
-        if ((i === pfMed1.length - 1 || i === pfMed1.length - 2) && pfMed1.length >= 8) font = FontFamilyExtraBold
-        if (i === 4 && pfMed1.length === 5) font = FontFamilyExtraBold
+        let font = defineFont(i, pfMed1, type)
         rows.push(
             new docx.TableRow({
                 children: [
