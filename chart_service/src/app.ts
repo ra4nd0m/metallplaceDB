@@ -81,11 +81,11 @@ const getChart = async (XLabelSet: string[], YDataSets: YDataSet[], options: Cha
 
     let canvasRenderService
     try{
-        canvasRenderService = new ChartJSNodeCanvas({width, height, chartJsFactory});
-        // canvasRenderService.registerFont(process.cwd() + '/assets/Montserrat-Medium.ttf', { family: 'Montserrat Medium' });
-        // canvasRenderService.registerFont(process.cwd() + '/assets/Montserrat-ExtraBold.ttf', { family: 'Montserrat Extrabold' });
-        registerFont(process.cwd() + "https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap",{ family: 'Montserrat' });
-        registerFont(process.cwd() + '/assets/Montserrat-Extrabold.ttf', { family: 'Montserrat Extrabold' });
+        canvasRenderService = new ChartJSNodeCanvas({width, height, chartJsFactory, chartCallback: (ChartJSNodeCanvas: { global: { defaultFontFamily: string; }; }) => {
+                ChartJSNodeCanvas.global.defaultFontFamily = 'Montserrat';
+            }});
+        canvasRenderService.registerFont(process.cwd() + '/assets/Montserrat-Medium.ttf', { family: 'Montserrat Medium' });
+        canvasRenderService.registerFont(process.cwd() + '/assets/Montserrat-ExtraBold.ttf', { family: 'Montserrat Extrabold' });
     } catch (e: unknown){
         console.log(e)
     }
