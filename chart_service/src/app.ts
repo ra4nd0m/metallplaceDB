@@ -81,9 +81,7 @@ const getChart = async (XLabelSet: string[], YDataSets: YDataSet[], options: Cha
 
     let canvasRenderService
     try{
-        canvasRenderService = new ChartJSNodeCanvas({width, height, chartJsFactory, chartCallback: (ChartJSNodeCanvas: { global: { defaultFontFamily: string; }; }) => {
-                ChartJSNodeCanvas.global.defaultFontFamily = 'Montserrat';
-            }});
+        canvasRenderService = new ChartJSNodeCanvas({width, height, chartJsFactory});
         canvasRenderService.registerFont(process.cwd() + '/assets/Montserrat-Medium.ttf', { family: 'Montserrat Medium' });
         canvasRenderService.registerFont(process.cwd() + '/assets/Montserrat-ExtraBold.ttf', { family: 'Montserrat Extrabold' });
     } catch (e: unknown){
@@ -166,7 +164,7 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
     let legendFontSize = 7 * 2 * 2
     let axesFontSize = 5 * 2 * 2
     if (options.tall) {
-         axesFontSize = 12 * 2 * 2
+         axesFontSize = 8 * 2 * 2
     }
 
     const pointRadius = 3 * 2
@@ -182,7 +180,7 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
     dateArrayFormatted = []
     let legendBoxSize
     options.type === 'bar' ?  legendBoxSize = 0 :  legendBoxSize = 10
-    let tickLimit = 27
+    let tickLimit = 100
     if (options.tick_limit != 0) tickLimit = options.tick_limit
     for (let i = 0; i < dateArray.length; i++) {
         dateArrayFormatted.push(formatXLabel(dateArray[i], options.x_step))
@@ -224,7 +222,7 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
     } else {
          bottomBorder = Math.floor(minVal * 0.95 / 10) * 10;
     }
-
+    dateArrayFormatted = removeDups(dateArrayFormatted)
     const conf: ChartConfiguration = {
         type: 'line',
         plugins: [],
@@ -264,7 +262,6 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
                         maxTicksLimit: tickLimit,
                         autoSkip: true,
                         labelOffset: xAxisLabelsOffset
-
                     },
                     grid: {
                         display: true,
@@ -647,6 +644,11 @@ function formatYLabel(num: number) {
     return numStr.replace(".", ",")
 }
 
+function removeDups<T>(arr: T[]): T[] {
+    return arr.filter((item, index) => {
+        return arr.indexOf(item) === index;
+    });
+}
 
 
 app.post('/gen', (req: Request, res: Response) => {

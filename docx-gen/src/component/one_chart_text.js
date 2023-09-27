@@ -28,7 +28,7 @@ module.exports = async function oneChartText(url, titles){
                             paragraph({
                                 children: [
                                     new docx.TextRun({
-                                        text: titleBold,
+                                        text: titleBold + ", ",
                                         font: FontFamilyExtraBold,
                                         size: 12 * 2
                                     }),
