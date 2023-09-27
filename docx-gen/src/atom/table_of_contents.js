@@ -50,7 +50,7 @@ function tocBlock(lines)
                                     alignment: docx.AlignmentType.RIGHT,
                                     children: [
                                         new docx.TextRun({
-                                            text: "x",
+                                            text: " ",
                                             font: FontFamilyExtraBold,
                                             size: 24
                                         })
@@ -96,7 +96,7 @@ function tocBlock(lines)
                                     alignment: docx.AlignmentType.RIGHT,
                                     children: [
                                         new docx.TextRun({
-                                            text: "x",
+                                            text: " ",
                                             font: FontFamilyMedium,
                                             size: 24
                                         })

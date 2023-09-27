@@ -24,6 +24,7 @@ const coverDates = require("../atom/cover_dates_monthly");
 const cover = require("../atom/cover");
 const disclaimer = require("../atom/disclaimer")
 const tableOfContents = require("../atom/table_of_contents")
+const marginGen = require("../utils/margin_gen")
 
 function getFooterTitle(date) {
 
@@ -107,10 +108,9 @@ module.exports = class MonthlyReport {
                     children: [
                         h3Fake("Содержание"),
                         ...tableOfContents(),
-
+                        ...marginGen(23),
                         disclaimer(),
 
-                        pageBreak(),
                         h2("Краткая сводка новостей"),
                         pageBreak(),
 
