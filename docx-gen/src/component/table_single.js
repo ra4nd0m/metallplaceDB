@@ -9,7 +9,7 @@ const {
     FontFamilyThin,
     FontSizeThSecondary,
     FontSizeThExtraInfo,
-    MonthPredictId, FontSizeTd, ApiEndpoint, FatBorder, ThinBorder, BorderNil, FontFamilyExtraBold
+    MonthPredictId, FontSizeTd, ApiEndpoint, FatBorder, ThinBorder, BorderNil, FontFamily, FontFamilyExtraBold
 } = require("../const");
 const cellCenter = require("../atom/cell_centred");
 const paragraph = require("../atom/paragraph");
@@ -86,7 +86,7 @@ module.exports = async function singleTable(materialId, propertyId, dates, unitC
                     children: [
                         new docx.TableCell({
                             children: [
-                                textTh("Цена", FontFamilyExtraBold, FontSizeThMain),
+                                textTh("Цена", FontFamily, FontSizeThMain),
                                 textTh(resMat.data.info.Unit, FontFamilyThin, FontSizeThExtraInfo)
                             ],
                             borders: {
@@ -99,7 +99,7 @@ module.exports = async function singleTable(materialId, propertyId, dates, unitC
                         new docx.TableCell({
 
                             children: [
-                                textTh("Изм.", FontFamilyExtraBold, FontSizeThMain),
+                                textTh("Изм.", FontFamily, FontSizeThMain),
                                 textTh(resMat.data.info.Unit, FontFamilyThin, FontSizeThExtraInfo)],
                             verticalAlign: docx.VerticalAlign.CENTER,
                             borders: {
