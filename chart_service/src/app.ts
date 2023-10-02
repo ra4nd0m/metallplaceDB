@@ -1,15 +1,16 @@
 import {Chart, ChartConfiguration} from "chart.js";
 import ChartDataLabels from 'chartjs-plugin-datalabels';
+import ChartAnnotations from 'chartjs-plugin-annotation';
 import {Request} from "express";
 import {Response} from "express/ts4.0";
 import {LabelOptions} from "chartjs-plugin-datalabels/types/options";
-import Annotation from 'chartjs-plugin-annotation'
 import * as dotenv from 'dotenv'
 const path = require('path');
 
 const express = require('express')
 const {ChartJSNodeCanvas} = require('chartjs-node-canvas');
 const { registerFont, createCanvas } = require('canvas');
+import annotationPlugin from "chartjs-plugin-annotation";
 let app = express()
 dotenv.config({path: path.join(__dirname, '../../.env')})
 
@@ -68,7 +69,7 @@ function getPercentChangesArr(prices: number[]): string[] {
 
 const line = 'rgba(0, 0, 0, 0.2)'
 const thickLine = 'rgba(0, 0, 0, 0.6)'
-const transLine = 'rgba(0, 0, 0, 0)'
+const transpLine = 'rgba(0, 0, 0, 0)'
 
 const getChart = async (XLabelSet: string[], YDataSets: YDataSet[], options: ChartOptions): Promise<Buffer> => {
     let width = 1900; //px
@@ -102,6 +103,7 @@ const getChart = async (XLabelSet: string[], YDataSets: YDataSet[], options: Cha
     let lineThickness = 6*2
     if (options.labels || YDataSets.length >= 2 || options.title.length > 0) lineThickness = 6
 
+    let predictInfoStr = ""
     // Creating dataset lines: material - price feed
     YDataSets.forEach(set => {
         console.log("Pushing ", set.label)
@@ -115,8 +117,10 @@ const getChart = async (XLabelSet: string[], YDataSets: YDataSet[], options: Cha
             borderWidth: lineThickness,
             predictAccuracy: set.predict_accuracy
         });
+        predictInfoStr += " " + set.predict_accuracy + "%"
         i++
     })
+    options.predictInfoStr = predictInfoStr
     Chart.defaults.font.size = 25;
     let configuration: ChartConfiguration
     try {
@@ -144,6 +148,7 @@ type ChartOptions = {
     title: string,
     predict: boolean,
     tall: boolean,
+    predictInfoStr: string
 }
 
 
@@ -163,6 +168,7 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
     const labelFontSize = 9 * 2 * 2
     let legendFontSize = 7 * 2 * 2
     let axesFontSize = 5 * 2 * 2
+    let minRotation = 90
     if (options.tall) {
          axesFontSize = 8 * 2 * 2
     }
@@ -179,7 +185,6 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
     let dateArrayFormatted: string[]
     dateArrayFormatted = []
     let legendBoxSize
-    options.type === 'bar' ?  legendBoxSize = 0 :  legendBoxSize = 10
     let tickLimit = 100
     if (options.tick_limit != 0) tickLimit = options.tick_limit
     for (let i = 0; i < dateArray.length; i++) {
@@ -191,6 +196,7 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
     }
     // If bar chart - making main line with labels invisible
     if (options.type == "bar"){
+        minRotation = 0
         datasets.forEach(ds => {
             ds.borderColor = 'rgba(255,255,255,0)'
         })
@@ -223,6 +229,7 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
          bottomBorder = Math.floor(minVal * 0.95 / 10) * 10;
     }
     dateArrayFormatted = removeDups(dateArrayFormatted)
+
     const conf: ChartConfiguration = {
         type: 'line',
         plugins: [],
@@ -241,6 +248,7 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
                 x: {
                     offset: true,
                     type: "category",
+
                     ticks: {
                         font: function(context) {
                             // Check if it's the third-from-the-end label
@@ -258,9 +266,10 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
                         },
                         color: textColor,
                         includeBounds: true,
-                        minRotation: 90,
+                        minRotation: minRotation,
                         maxTicksLimit: tickLimit,
                         autoSkip: true,
+                        padding: 10,
                         labelOffset: xAxisLabelsOffset
                     },
                     grid: {
@@ -275,9 +284,9 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
                                 if (label.includes('Янв')) {
                                     return thickLine;
                                 }
-                                return transLine;
+                                return transpLine;
                             } else if (options.type == "bar"){
-                                return transLine;
+                                return line;
                             }
                             else if (options.labels) {
                                 const value = context.tick.value;
@@ -289,7 +298,7 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
                                 }
                                 return line;
                             } else {
-                                return transLine;
+                                return transpLine;
                             }
                         },
                     },
@@ -326,11 +335,24 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
             },
 
             plugins: {
+                // annotation: {
+                //     annotations: {
+                //         label: {
+                //             type: 'label',
+                //             xValue: 3,
+                //             yValue: maxVal,
+                //             backgroundColor: 'rgba(245,245,245)',
+                //             content: ['This is my text', 'This is my text, second line'],
+                //             font: {
+                //                 size: 18
+                //             }
+                //         }
+                //     }
+                // },
                 legend: {
                     display: options.legend,
                     position: "top",
                     align: "start",
-
                     labels: {
                         font: {
                             size: legendFontSize,
@@ -348,9 +370,7 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
         },
     }
 
-
     let tickCounter = 0
-    let newArray;
     if (options.predict) {
         // @ts-ignore
         conf.options?.scales?.x.grid =
@@ -380,7 +400,8 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
             }
         }
     }
-
+    // @ts-ignore
+    conf.plugins.push(ChartAnnotations)
     if (options.labels) {
         let toFixed: number
         if (options.to_fixed != -1){
@@ -463,16 +484,7 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
         // @ts-ignore
         conf.options?.scales.y.min = bottomBorder
         let changes = getPercentChangesArr(datasets[0].data)
-        let halfData: number[] = []
-        datasets[0].data.forEach(d => {
-            if (minVal > 50) {
-                halfData.push(minVal*0.98);
-            } else if (minVal < 5){
-                halfData.push(minVal * 0.80)
-            } else {
-                halfData.push(minVal * 0.93);
-            }
-        })
+
         let labelCnt = 0
         let barColors = []
         for(let i = 0; i < datasets[0].data.length; i++){
@@ -490,6 +502,7 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
                 data: datasets[0].data,
                 backgroundColor: barColors,
                 borderColor: orange,
+
                 borderWidth: {
                     top: 1,
                     right: 1,
@@ -550,6 +563,7 @@ function getChartConfTitled(datasets: Dataset[], dateArray: string[], options: C
     let basicConf = getChartConf(datasets, dateArray, options)
     // @ts-ignore
     basicConf.options.plugins.legend.position = "bottom"
+
     // @ts-ignore
     basicConf.options.plugins.title = {
         display: true,
