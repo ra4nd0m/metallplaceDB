@@ -20,7 +20,7 @@ module.exports = function (num, fixed){
         }
     }
     numStr = numStr.replace(".", ",")
-    if (fixed !== 0 && fixed !== undefined){
+    if (fixed !== 0 && fixed !== undefined && fixed !== 0 && typeof fixed === 'number'){
         if (numStr.indexOf(",") === -1){
             numStr += "," + "0".repeat(fixed)
         } else {

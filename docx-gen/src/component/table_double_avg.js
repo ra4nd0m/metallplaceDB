@@ -52,12 +52,17 @@ function avgBlock(name1, name2, unit) {
             size: 100,
             type: docx.WidthType.PERCENTAGE,
         },
+
         borders: BordersNil,
         rows: [
             new TableRow({
+                height: {
+                    value: 9.27 * 20 * 4,
+                    rule: docx.HeightRule.EXACT
+                },
                 children: [
-                    cellCenter({borders: {top: BorderNil, right: ThinBorder, bottom: BorderNil, left: BorderNil}, children: [textTh(name1, FontFamilyMedium, FontSizeThSecondary)]}, true),
-                    cellCenter({borders: {top: BorderNil, right: BorderNil, bottom: BorderNil, left: BorderNil}, children: [textTh(name2, FontFamilyMedium, FontSizeThSecondary)]}, true),
+                    cellCenter({borders: {top: BorderNil, right: ThinBorder, bottom: BorderNil, left: BorderNil}, children: [textTh(name1, FontFamilyMedium, FontSizeThSecondary * 0.725)]}, true),
+                    cellCenter({borders: {top: BorderNil, right: BorderNil, bottom: BorderNil, left: BorderNil}, children: [textTh(name2, FontFamilyMedium, FontSizeThSecondary * 0.725)]}, true),
                 ]
             }),
             new TableRow({
@@ -102,7 +107,7 @@ module.exports = async function tableDoubleWithWeekAvg(materialId1, materialId2,
         rows: [
             new TableRow({
                 children: [
-                    cellCenter({borders: {top: FatBorder, right: ThinBorder, bottom: FatBorder, left: ThinBorder}, margins: TableCellMarginNil, children: [textTh("Дата", FontFamilyMedium, FontSizeThMain)]}, true),
+                    cellCenter({borders: {top: FatBorder, right: ThinBorder, bottom: FatBorder, left: ThinBorder}, margins: TableCellMarginNil, verticalAlign: docx.VerticalAlign.CENTER, children: [textTh("Дата", FontFamilyMedium, FontSizeThMain)]}, true),
                     cellCenter({
                         borders: {top: FatBorder, right: ThinBorder, bottom: FatBorder, left: ThinBorder},
                         margins: TableCellMarginNil,
