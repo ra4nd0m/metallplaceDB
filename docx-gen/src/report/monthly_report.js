@@ -272,9 +272,9 @@ module.exports = class MonthlyReport {
 
                         h3("Лом черных металлов"),
                         paragraph({ // лом 3А
-                            children: [await oneChartText(FormChartUrl(new ChartUrl([1], MedPriceId, GetNMonthRange(date, 9), 1, "line", "month", "month", 1, 0, 1)), ["Цена на лом", "₽/т CPT Россия"])]
+                            children: [await oneChartText(FormChartUrl(new ChartUrl([1], MedPriceId, GetNMonthRange(date, 9), 1, "line", "month", "month", 1, 0, 1)), ["Цена на лом 3А", "₽/т CPT Россия"])]
                         }),
-                        await singleTable(3, MedPriceId, GetNMonthRange(date, 9, true), 0, 1, "month", 0, 0),// лом 3А
+                        await singleTable(1, MedPriceId, GetNMonthRange(date, 9, true), 0, 1, "month", 0, 0),// лом 3А
                         pageBreak(),
                         separator(),
                         await tableMaterialMinimax([4,29,30,31,32,33,34,35,36,37,38,39,40,41,42], GetFirstDaysOfCurrentAndPrevMonth(date), 0, 1, "month", 0),
@@ -364,7 +364,7 @@ module.exports = class MonthlyReport {
 
                         h3("Марганцевая руда"),
                         paragraph({ // mn руда запасы в китае
-                            children: [await oneChartText(FormChartUrl(new ChartUrl([26], StockId, GetNMonthRange(date, 5), 1, "bar", "month", "month", 0, 3)))]
+                            children: [await oneChartText(FormChartUrl(new ChartUrl([26], StockId, GetNMonthRange(date, 5), 1, "bar", "month", "month", 0, 3)), ["Запасы марганцевой руды в китайских портах", "млн тонн"])]
                         }),
                         paragraph({ // mn руда
                             children: [await oneChartText(FormChartUrl(new ChartUrl([22], MedPriceId, GetNMonthRange(date, 9), 1, "line", "month", "month", 1, 2, 1)), ["Цена на марганцевую руду", "$/1% Mn смт CIF Китай"])]
@@ -376,7 +376,7 @@ module.exports = class MonthlyReport {
 
                         h3("Хромовая руда"),
                         paragraph({ // cr руда запасы в китае
-                            children: [await oneChartText(FormChartUrl(new ChartUrl([27], StockId, GetNMonthRange(date, 5), 1, "bar", "month", "month", 0, 2)))]
+                            children: [await oneChartText(FormChartUrl(new ChartUrl([27], StockId, GetNMonthRange(date, 5), 1, "bar", "month", "month", 0, 2)), ["Запасы хромой руды в китайских портах", "млн тонн"])]
                         }),
                         paragraph({ // cr руда
                             children: [await oneChartText(FormChartUrl(new ChartUrl([23], MedPriceId, GetNMonthRange(date, 9), 1, "line", "month", "month", 1, 0, 1)), ["Цена на хромовую руду", "USD/т CIF Китай"])]
