@@ -317,13 +317,14 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
                         maxTicksLimit: 5,
                         maxRotation: 0,
                         callback: (value, index, values) => {
-                            return formatYLabel(
+                            let label = formatYLabel(
                                 parseFloat(
                                     parseFloat(
                                         parseFloat(value.toString()).toFixed(3).toString()
                                     ).toPrecision(3)
                                 )
                             )
+                            return label
                         },
                     },
                     grid: {
@@ -650,7 +651,7 @@ function formatYLabel(num: number) {
             numStr = `${before} ${after}.${decimalPart}`;
         } else {
             const after = num.toString().slice(-3)
-            const before = num.toString().slice(0, num.toString().length - 4)
+            const before = num.toString().slice(0, num.toString().length - 3)
             numStr = (before + " " + after)
         }
 
