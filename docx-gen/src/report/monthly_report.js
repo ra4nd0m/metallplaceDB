@@ -8,7 +8,7 @@ const h3 = require("../atom/heading3");
 const h3Fake = require("../atom/heading3_fake");
 const paragraph = require("../atom/paragraph");
 const twoChart = require("../component/two_chart");
-const {MonthlyHeaderTitle, MedPriceId, StockId, RusMonth, FontFamilyThin, RusMonthStraight,
+const {HeaderTitle, MedPriceId, StockId, RusMonth, FontFamilyThin, RusMonthStraight,
     FontFamily, FontFamilyExtraBold, Grey
 } = require("../const");
 const oneChartText = require("../component/one_chart_text");
@@ -93,7 +93,7 @@ module.exports = class MonthlyReport {
                         default: footer(getFooterTitle(date)),
                     },
                     headers: {
-                        default: header(MonthlyHeaderTitle)
+                        default: header(HeaderTitle)
                     },
                     properties: {
                         page: {

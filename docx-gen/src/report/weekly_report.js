@@ -8,7 +8,7 @@ const h3 = require("../atom/heading3");
 const h3Fake = require("../atom/heading3_fake");
 const paragraph = require("../atom/paragraph");
 const twoChart = require("../component/two_chart");
-const { WeeklyHeaderTitle, MedPriceId, StockId, RusMonth, FontFamilyThin, Grey, FontFamily, FontFamilyExtraBold} = require("../const");
+const { HeaderTitle, MedPriceId, StockId, RusMonth, FontFamilyThin, Grey, FontFamily, FontFamilyExtraBold} = require("../const");
 const coverDates = require("../atom/cover_dates_weekly")
 const oneChartText = require("../component/one_chart_text");
 const cover = require("../atom/cover")
@@ -98,7 +98,7 @@ module.exports = class WeeklyReport {
                         default: footer(getFooterTitle(date)),
                     },
                     headers: {
-                        default: header(WeeklyHeaderTitle)
+                        default: header(HeaderTitle)
                     },
                     properties: {
                         page: {
