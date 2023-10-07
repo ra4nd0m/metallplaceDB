@@ -44,6 +44,10 @@ type IRepository interface {
 	GetGroupName(ctx context.Context, groupId int) (string, error)
 
 	GetLastModified(ctx context.Context, table string) (time.Time, error)
+
+	AddUnitIfNotExists(ctx context.Context, unit string) error
+	GetUnitId(ctx context.Context, unitName string) (int, error)
+	GetUnitName(ctx context.Context, unitId string) (string, error)
 }
 
 type IChartClient interface {

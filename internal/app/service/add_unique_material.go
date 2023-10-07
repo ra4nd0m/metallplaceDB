@@ -21,7 +21,12 @@ func (s *Service) AddUniqueMaterial(ctx context.Context, uid int, materialName s
 
 	_, err = s.repo.AddGroupIfNotExists(ctx, groupName)
 	if err != nil {
-		return 0, fmt.Errorf("Can't add material %w", err)
+		return 0, fmt.Errorf("can't add material %w", err)
+	}
+
+	err = s.repo.AddUnitIfNotExists(ctx, materialUnit)
+	if err != nil {
+		return 0, fmt.Errorf("can't add unit %w", err)
 	}
 
 	// tying material, source, unit and market - creating unique material

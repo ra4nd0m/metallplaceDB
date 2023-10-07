@@ -1,13 +1,14 @@
-create table "user"
+create table if not exists "user"
 (
-    id   serial
+    id       serial
         constraint user_pk
             primary key,
-    username varchar not null unique,
+    username varchar not null
+        unique,
     password varchar not null
 );
 
-create table material
+create table if not exists material
 (
     id   serial
         constraint material_pk
@@ -15,10 +16,10 @@ create table material
     name varchar not null
 );
 
-create unique index material_name_uindex
+create unique index if not exists material_name_uindex
     on material (name);
 
-create table property
+create table if not exists property
 (
     id   serial
         constraint property_pk
@@ -27,10 +28,10 @@ create table property
     kind varchar not null
 );
 
-create unique index property_name_uindex
+create unique index if not exists property_name_uindex
     on property (name);
 
-create table source
+create table if not exists source
 (
     id   serial
         constraint source_pk
@@ -40,10 +41,10 @@ create table source
     kind varchar
 );
 
-create unique index source_name_uindex
+create unique index if not exists source_name_uindex
     on source (name);
 
-create table material_group
+create table if not exists material_group
 (
     id   serial
         constraint material_group_pk
@@ -51,12 +52,23 @@ create table material_group
     name varchar not null
 );
 
-create table material_source
+create table if not exists unit
+(
+    id   serial
+        constraint unit_pk
+            primary key,
+    name varchar not null
+        constraint unit_name_unique
+            unique
+);
+
+create table if not exists material_source
 (
     id                serial
         constraint material_source_pk
             primary key,
-    uid integer not null unique ,
+    uid               integer not null
+        unique,
     material_id       integer not null
         constraint material_source_material_fk
             references material
@@ -66,63 +78,56 @@ create table material_source
             references source
             on delete cascade,
     target_market     varchar not null,
-    unit              varchar not null,
+    unit_id           integer not null
+        constraint material_source_unit_id_fk
+            references unit,
     delivery_type     varchar not null,
     material_group_id integer not null
         constraint material_source_material_group_id_fk
             references material_group,
     constraint material_source_material_id_source_id_target_market_unit_de_key
-        unique (material_id, source_id, target_market, unit, delivery_type, material_group_id)
-
+        unique (material_id, source_id, target_market, unit_id, delivery_type, material_group_id)
 );
 
-
-create table material_property
+create table if not exists material_property
 (
-    id                 serial
+    id          serial
         constraint material_property_pk
             primary key,
-    uid integer not null
+    uid         integer not null
         constraint material_property_uid_fk
             references material_source,
-    property_id        integer not null
+    property_id integer not null
         constraint material_property_property_fk
             references property,
     unique (uid, property_id)
 );
 
-
-create table material_value
+create table if not exists material_value
 (
-    id                 serial
+    id            serial
         constraint material_value_pk
             primary key,
-    uid integer not null
+    uid           integer not null
         constraint material_value_material_source_fk
             references material_source,
-    property_id        integer not null
+    property_id   integer not null
         constraint material_value_property_fk
             references property,
-    value_decimal      numeric,
-    value_str          varchar,
-    created_on         date    not null
+    value_decimal numeric,
+    value_str     varchar,
+    created_on    date    not null,
+    last_updated  timestamp
 );
 
-create unique index material_value_id_uindex
+create unique index if not exists material_value_id_uindex
     on material_value (id);
 
-create unique index material_value_all_together_uindex
+create unique index if not exists material_value_all_together_uindex
     on material_value (uid, property_id, created_on);
 
-CREATE OR REPLACE FUNCTION stamp_updated() RETURNS TRIGGER LANGUAGE 'plpgsql' AS $$
-BEGIN
-    NEW.last_updated := clock_timestamp() AT TIME ZONE 'Europe/Moscow';
-    RETURN NEW;
-END
-$$;
-
-ALTER TABLE material_value ADD COLUMN IF NOT EXISTS last_updated TIMESTAMP;
-DROP TRIGGER IF EXISTS material_value_stamp_updated on material_value;
-CREATE TRIGGER material_value_stamp_updated
-    BEFORE INSERT OR UPDATE ON material_value
-    FOR EACH ROW EXECUTE PROCEDURE stamp_updated();
+create trigger material_value_stamp_updated
+    before insert or update
+    on material_value
+    for each row
+execute procedure stamp_updated();
