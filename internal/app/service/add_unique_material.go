@@ -5,7 +5,7 @@ import (
 	"fmt"
 )
 
-// AddUniqueMaterial adding material with unique set of data (name - source - market - unit of sale)
+// AddUniqueMaterial adding material with unique set of data (name - source - market - unit of sale - delivery type)
 func (s *Service) AddUniqueMaterial(ctx context.Context, uid int, materialName string, groupName string, sourceName string, materialMarket string, materialUnit string, deliveryType string) (int, error) {
 	// Adding source
 	err := s.repo.AddSource(ctx, sourceName)
@@ -21,12 +21,17 @@ func (s *Service) AddUniqueMaterial(ctx context.Context, uid int, materialName s
 
 	_, err = s.repo.AddGroupIfNotExists(ctx, groupName)
 	if err != nil {
-		return 0, fmt.Errorf("can't add material %w", err)
+		return 0, fmt.Errorf("can't add group %w", err)
 	}
 
 	err = s.repo.AddUnitIfNotExists(ctx, materialUnit)
 	if err != nil {
 		return 0, fmt.Errorf("can't add unit %w", err)
+	}
+
+	err = s.repo.AddDeliveryTypeIfNotExists(ctx, deliveryType)
+	if err != nil {
+		return 0, fmt.Errorf("can't add delivery type %w", err)
 	}
 
 	// tying material, source, unit and market - creating unique material

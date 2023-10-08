@@ -10,7 +10,7 @@ import (
 )
 
 // AddMaterialSource Adding material - source - market - unit combo
-func (r *Repository) AddMaterialSource(ctx context.Context, uid int, materialName, groupName, sourceName, market, unit, deliveryType string) (int, error) {
+func (r *Repository) AddMaterialSource(ctx context.Context, uid int, materialName, groupName, sourceName, market, unitName, deliveryTypeName string) (int, error) {
 	materialId, err := r.GetMaterialId(ctx, materialName)
 	var id int
 	if err != nil {
@@ -27,12 +27,17 @@ func (r *Repository) AddMaterialSource(ctx context.Context, uid int, materialNam
 		return 0, fmt.Errorf("can't get group id %w", err)
 	}
 
-	unitId, err := r.GetUnitId(ctx, unit)
+	unitId, err := r.GetUnitId(ctx, unitName)
 	if err != nil {
-		return 0, fmt.Errorf("can't get unit id %w", err)
+		return 0, fmt.Errorf("can't get unitName id %w", err)
 	}
 
-	id, err = r.GetMaterialSourceId(ctx, materialName, groupName, sourceName, market, unit, deliveryType)
+	deliveryTypeId, err := r.GetDeliveryTypeId(ctx, deliveryTypeName)
+	if err != nil {
+		return 0, fmt.Errorf("can't get delivery type  id %w", err)
+	}
+
+	id, err = r.GetMaterialSourceId(ctx, materialName, groupName, sourceName, market, unitName, deliveryTypeName)
 	if err != nil {
 		return 0, fmt.Errorf("cant get material-source id %w", err)
 	}
@@ -61,10 +66,10 @@ func (r *Repository) AddMaterialSource(ctx context.Context, uid int, materialNam
 	}
 
 	row := db.FromContext(ctx).QueryRow(
-		ctx, `INSERT INTO material_source (uid, material_id, source_id, target_market, unit_id, delivery_type, material_group_id) 
+		ctx, `INSERT INTO material_source (uid, material_id, source_id, target_market, unit_id, delivery_type_id, material_group_id) 
 		VALUES ($1, $2, $3, $4, $5, $6, $7) 
 		ON CONFLICT DO NOTHING RETURNING uid`,
-		finalUId, materialId, sourceId, market, unitId, deliveryType, groupId)
+		finalUId, materialId, sourceId, market, unitId, deliveryTypeId, groupId)
 
 	err = row.Scan(&id)
 	if err != nil {
@@ -126,9 +131,14 @@ func (r *Repository) GetMaterialSourceId(ctx context.Context, materialName, grou
 		return 0, fmt.Errorf("Can't get unit id %w", err)
 	}
 
+	deliveryTypeId, err := r.GetDeliveryTypeId(ctx, deliveryType)
+	if err != nil {
+		return 0, fmt.Errorf("Can't get unit id %w", err)
+	}
+
 	row := db.FromContext(ctx).QueryRow(ctx, `SELECT uid FROM material_source WHERE material_id=$1 AND
-		source_id=$2 AND target_market=$3 AND unit_id=$4 AND delivery_type=$5 AND material_group_id=$6`,
-		materialId, sourceId, market, unitId, deliveryType, groupId)
+		source_id=$2 AND target_market=$3 AND unit_id=$4 AND delivery_type_id=$5 AND material_group_id=$6`,
+		materialId, sourceId, market, unitId, deliveryTypeId, groupId)
 
 	err = row.Scan(&uid)
 	if err == pgx.ErrNoRows {
@@ -145,13 +155,13 @@ func (r *Repository) GetMaterialSource(ctx context.Context, uid int) (model.Mate
 	var materialId int
 	var sourceId int
 	var market string
-	var deliveryType string
 	var unitId string
+	var deliveryTypeId string
 
-	row := db.FromContext(ctx).QueryRow(ctx, `SELECT material_id, source_id, target_market, delivery_type, unit_id 
+	row := db.FromContext(ctx).QueryRow(ctx, `SELECT material_id, source_id, target_market, delivery_type_id, unit_id 
 		FROM material_source WHERE uid=$1`, uid)
 
-	err := row.Scan(&materialId, &sourceId, &market, &deliveryType, &unitId)
+	err := row.Scan(&materialId, &sourceId, &market, &deliveryTypeId, &unitId)
 	if err != nil {
 		return model.MaterialShortInfo{}, fmt.Errorf("can't get scan row %w", err)
 	}
@@ -171,17 +181,10 @@ func (r *Repository) GetMaterialSource(ctx context.Context, uid int) (model.Mate
 		return model.MaterialShortInfo{}, fmt.Errorf("can't get unit name %w: ", err)
 	}
 
-	return model.MaterialShortInfo{Id: uid, Name: materialName, Source: sourceName, Market: market, DeliveryType: deliveryType, Unit: unitName}, nil
-}
-
-func (r *Repository) GetDeliveryType(ctx context.Context, uid int) (string, error) {
-	var name string
-	row := db.FromContext(ctx).QueryRow(ctx, `SELECT delivery_type FROM material_source WHERE uid=$1`, uid)
-
-	err := row.Scan(&name)
+	deliveryTypeName, err := r.GetDeliveryTypeName(ctx, deliveryTypeId)
 	if err != nil {
-		return "", fmt.Errorf("Can't get material name with row.Scan() %w", err)
+		return model.MaterialShortInfo{}, fmt.Errorf("can't get unit name %w: ", err)
 	}
 
-	return name, nil
+	return model.MaterialShortInfo{Id: uid, Name: materialName, Source: sourceName, Market: market, DeliveryType: deliveryTypeName, Unit: unitName}, nil
 }

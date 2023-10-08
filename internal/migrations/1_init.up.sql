@@ -62,6 +62,16 @@ create table if not exists unit
             unique
 );
 
+create table if not exists delivery_type
+(
+    id   serial
+        constraint delivery_type_pk
+            primary key,
+    name varchar not null
+        constraint delivery_type_unique
+            unique
+);
+
 create table if not exists material_source
 (
     id                serial
@@ -81,12 +91,14 @@ create table if not exists material_source
     unit_id           integer not null
         constraint material_source_unit_id_fk
             references unit,
-    delivery_type     varchar not null,
+    delivery_type_id  integer not null
+        constraint material_source_delivery_type_id_fk
+            references delivery_type,
     material_group_id integer not null
         constraint material_source_material_group_id_fk
             references material_group,
     constraint material_source_material_id_source_id_target_market_unit_de_key
-        unique (material_id, source_id, target_market, unit_id, delivery_type, material_group_id)
+        unique (material_id, source_id, target_market, unit_id, delivery_type_id, material_group_id)
 );
 
 create table if not exists material_property

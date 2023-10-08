@@ -20,7 +20,7 @@ func (r *Repository) AddUnitIfNotExists(ctx context.Context, unit string) error 
 	_, err = db.FromContext(ctx).Exec(
 		ctx, `INSERT INTO unit (name) VALUES ($1)`, unit)
 	if err != nil {
-		return fmt.Errorf("Can't add unit %w", err)
+		return fmt.Errorf("can't add unit %w", err)
 	}
 	return nil
 }
@@ -35,7 +35,7 @@ func (r *Repository) GetUnitId(ctx context.Context, unitName string) (int, error
 		return 0, nil
 	}
 	if err != nil {
-		return 0, fmt.Errorf("Can't get unit id with row.Scan() %w", err)
+		return 0, fmt.Errorf("can't get unit id with row.Scan() %w", err)
 	}
 
 	return id, nil
@@ -48,7 +48,7 @@ func (r *Repository) GetUnitName(ctx context.Context, unitId string) (string, er
 
 	err := row.Scan(&name)
 	if err != nil {
-		return "", fmt.Errorf("Can't get unit name with row.Scan() %w", err)
+		return "", fmt.Errorf("can't get unit name with row.Scan() %w", err)
 	}
 
 	return name, nil

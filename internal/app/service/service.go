@@ -21,7 +21,6 @@ type IRepository interface {
 	AddMaterialSource(ctx context.Context, uid int, materialName, groupName, sourceName, market, unit, deliveryType string) (int, error)
 	GetMaterialSourceId(ctx context.Context, materialName, groupName, sourceName, market, unit, deliveryType string) (int, error)
 	GetMaterialSource(ctx context.Context, id int) (model.MaterialShortInfo, error)
-	GetDeliveryType(ctx context.Context, id int) (string, error)
 
 	AddMaterialValue(ctx context.Context, uid int, propertyName string, valueFloat float64, valueStr string, createdOn time.Time) error
 	GetMaterialValueForPeriod(ctx context.Context, uid, propertyId int, start string, finish string) ([]model.Price, float64, error)
@@ -48,6 +47,10 @@ type IRepository interface {
 	AddUnitIfNotExists(ctx context.Context, unit string) error
 	GetUnitId(ctx context.Context, unitName string) (int, error)
 	GetUnitName(ctx context.Context, unitId string) (string, error)
+
+	AddDeliveryTypeIfNotExists(ctx context.Context, deliveryType string) error
+	GetDeliveryTypeId(ctx context.Context, deliveryTypeName string) (int, error)
+	GetDeliveryTypeName(ctx context.Context, deliveryTypeId string) (string, error)
 }
 
 type IChartClient interface {
