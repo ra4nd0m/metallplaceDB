@@ -194,6 +194,65 @@
                 }
             }
         },
+        "/getDeliveryTypeList": {
+            "post": {
+                "description": "get all existing delivery types",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "unit"
+                ],
+                "summary": "Get delivery type list",
+                "parameters": [
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/handler.GetDeliveryTypeListRequest"
+                        }
+                    },
+                    {
+                        "type": "string",
+                        "description": "Authorization",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/handler.GetDeliveryTypeListResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/handler.ErrorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/handler.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/handler.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/getMaterialInfo": {
             "post": {
                 "description": "get short info about unique material by id",
@@ -273,7 +332,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/handler.GetMaterialsRequest"
+                            "$ref": "#/definitions/handler.GetMaterialListRequest"
                         }
                     },
                     {
@@ -288,7 +347,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/handler.GetMaterialsResponse"
+                            "$ref": "#/definitions/handler.GetMaterialListResponse"
                         }
                     },
                     "400": {
@@ -624,6 +683,65 @@
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/handler.GetShortRequestResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/handler.ErrorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/handler.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/handler.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/getUnitList": {
+            "post": {
+                "description": "get all existing unit types",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "unit"
+                ],
+                "summary": "Get unit list",
+                "parameters": [
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/handler.GetUnitListRequest"
+                        }
+                    },
+                    {
+                        "type": "string",
+                        "description": "Authorization",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/handler.GetUnitListResponse"
                         }
                     },
                     "400": {
@@ -1076,6 +1194,20 @@
                 }
             }
         },
+        "handler.GetDeliveryTypeListRequest": {
+            "type": "object"
+        },
+        "handler.GetDeliveryTypeListResponse": {
+            "type": "object",
+            "properties": {
+                "list": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.DeliveryTypeInfo"
+                    }
+                }
+            }
+        },
         "handler.GetMaterialInfoRequest": {
             "type": "object",
             "properties": {
@@ -1094,10 +1226,10 @@
                 }
             }
         },
-        "handler.GetMaterialsRequest": {
+        "handler.GetMaterialListRequest": {
             "type": "object"
         },
-        "handler.GetMaterialsResponse": {
+        "handler.GetMaterialListResponse": {
             "type": "object",
             "properties": {
                 "list": {
@@ -1171,6 +1303,20 @@
         },
         "handler.GetShortRequestResponse": {
             "type": "object"
+        },
+        "handler.GetUnitListRequest": {
+            "type": "object"
+        },
+        "handler.GetUnitListResponse": {
+            "type": "object",
+            "properties": {
+                "list": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.UnitInfo"
+                    }
+                }
+            }
         },
         "handler.InitImportRequest": {
             "type": "object",
@@ -1289,6 +1435,21 @@
                 }
             }
         },
+        "model.DeliveryTypeInfo": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "format": "int64",
+                    "example": 4
+                },
+                "name": {
+                    "type": "string",
+                    "format": "string",
+                    "example": "FOB"
+                }
+            }
+        },
         "model.MaterialShortInfo": {
             "type": "object",
             "properties": {
@@ -1361,6 +1522,21 @@
                     "type": "string",
                     "format": "string",
                     "example": "Средняя цена"
+                }
+            }
+        },
+        "model.UnitInfo": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "format": "int64",
+                    "example": 2
+                },
+                "name": {
+                    "type": "string",
+                    "format": "string",
+                    "example": "$/t"
                 }
             }
         }

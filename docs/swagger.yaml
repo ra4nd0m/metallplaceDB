@@ -144,6 +144,15 @@ definitions:
       message:
         type: string
     type: object
+  handler.GetDeliveryTypeListRequest:
+    type: object
+  handler.GetDeliveryTypeListResponse:
+    properties:
+      list:
+        items:
+          $ref: '#/definitions/model.DeliveryTypeInfo'
+        type: array
+    type: object
   handler.GetMaterialInfoRequest:
     properties:
       id:
@@ -156,9 +165,9 @@ definitions:
       info:
         $ref: '#/definitions/model.MaterialShortInfo'
     type: object
-  handler.GetMaterialsRequest:
+  handler.GetMaterialListRequest:
     type: object
-  handler.GetMaterialsResponse:
+  handler.GetMaterialListResponse:
     properties:
       list:
         items:
@@ -208,6 +217,15 @@ definitions:
         type: string
     type: object
   handler.GetShortRequestResponse:
+    type: object
+  handler.GetUnitListRequest:
+    type: object
+  handler.GetUnitListResponse:
+    properties:
+      list:
+        items:
+          $ref: '#/definitions/model.UnitInfo'
+        type: array
     type: object
   handler.InitImportRequest:
     properties:
@@ -292,6 +310,17 @@ definitions:
           $ref: '#/definitions/model.Price'
         type: array
     type: object
+  model.DeliveryTypeInfo:
+    properties:
+      id:
+        example: 4
+        format: int64
+        type: integer
+      name:
+        example: FOB
+        format: string
+        type: string
+    type: object
   model.MaterialShortInfo:
     properties:
       deliveryType:
@@ -346,6 +375,17 @@ definitions:
         type: string
       name:
         example: Средняя цена
+        format: string
+        type: string
+    type: object
+  model.UnitInfo:
+    properties:
+      id:
+        example: 2
+        format: int64
+        type: integer
+      name:
+        example: $/t
         format: string
         type: string
     type: object
@@ -484,6 +524,45 @@ paths:
       summary: Add value
       tags:
       - value
+  /getDeliveryTypeList:
+    post:
+      consumes:
+      - application/json
+      description: get all existing delivery types
+      parameters:
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/handler.GetDeliveryTypeListRequest'
+      - description: Authorization
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.GetDeliveryTypeListResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+      summary: Get delivery type list
+      tags:
+      - unit
   /getMaterialInfo:
     post:
       consumes:
@@ -534,7 +613,7 @@ paths:
         name: request
         required: true
         schema:
-          $ref: '#/definitions/handler.GetMaterialsRequest'
+          $ref: '#/definitions/handler.GetMaterialListRequest'
       - description: Authorization
         in: header
         name: Authorization
@@ -546,7 +625,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/handler.GetMaterialsResponse'
+            $ref: '#/definitions/handler.GetMaterialListResponse'
         "400":
           description: Bad Request
           schema:
@@ -786,6 +865,45 @@ paths:
       summary: Get non-regular report
       tags:
       - report
+  /getUnitList:
+    post:
+      consumes:
+      - application/json
+      description: get all existing unit types
+      parameters:
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/handler.GetUnitListRequest'
+      - description: Authorization
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.GetUnitListResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+      summary: Get unit list
+      tags:
+      - unit
   /getValueForPeriod:
     post:
       consumes:

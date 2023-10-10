@@ -12,7 +12,7 @@ Deploy required service/app
     ssh mp bash ./deploy/frontend.sh
 
 # DB Structure
-![img.png](img.png)
+![docs/dbScheme.png](docs/dbScheme.png)
 
 # API
 http://base.metallplace.ru:8080/swagger/index.html

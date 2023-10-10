@@ -84,11 +84,11 @@ type PriceFeed struct {
 }
 
 type UnitInfo struct {
-	Id   int    `json:"id"`
-	Name string `json:"name"`
+	Id   int    `json:"id" example:"2" format:"int64"`
+	Name string `json:"name" example:"$/t" format:"string"`
 }
 
 type DeliveryTypeInfo struct {
-	Id   int    `json:"id"`
-	Name string `json:"name"`
+	Id   int    `json:"id" example:"4" format:"int64"`
+	Name string `json:"name" example:"FOB" format:"string"`
 }
