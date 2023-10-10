@@ -82,3 +82,13 @@ type Price struct {
 type PriceFeed struct {
 	Feed []Price
 }
+
+type UnitInfo struct {
+	Id   int    `json:"id"`
+	Name string `json:"name"`
+}
+
+type DeliveryTypeInfo struct {
+	Id   int    `json:"id"`
+	Name string `json:"name"`
+}

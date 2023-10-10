@@ -59,6 +59,14 @@ type IService interface {
 	CheckChanges(ctx context.Context, table string, lastReqTime time.Time) (bool, error)
 	LastRequestTime() time.Time
 	SetLastRequestTime(lastRequestTime time.Time)
+
+	GetDeliveryTypeId(ctx context.Context, name string) (int, error)
+	GetDeliveryTypeName(ctx context.Context, id int) (string, error)
+	GetDeliveryTypeList(ctx context.Context) ([]model.DeliveryTypeInfo, error)
+
+	GetUnitId(ctx context.Context, name string) (int, error)
+	GetUnitName(ctx context.Context, id int) (string, error)
+	GetUnitList(ctx context.Context) ([]model.UnitInfo, error)
 }
 
 type Handler struct {

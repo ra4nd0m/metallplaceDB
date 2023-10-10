@@ -156,7 +156,10 @@ func externalServerFn(ctx context.Context, cfg config.Config, hdl *handler.Handl
 		{route: "/getMaterialInfo", handler: hdl.GetMaterialSourceInfoHandler},
 		{route: "/getPropertyName", handler: hdl.GetPropertyNameHandler},
 		{route: "/addPropertyToMaterial", handler: hdl.AddPropertyToMaterialHandler},
+		{route: "/getUnitList", handler: hdl.GetUnitListHandler},
+		{route: "/getDeliveryTypeList", handler: hdl.GetDeliveryTypeListHandler},
 		{route: "/updateMainFile", handler: hdl.UpdateMainFileHandler},
+
 		{route: "/login", handler: hdl.LoginHandler, withoutAuth: true},
 	} {
 		var h = rec.handler
@@ -218,6 +221,8 @@ func internalServerFn(ctx context.Context, cfg config.Config, hdl *handler.Handl
 		{route: "/getPropertyName", handler: hdl.GetPropertyNameHandler},
 		{route: "/addPropertyToMaterial", handler: hdl.AddPropertyToMaterialHandler},
 		{route: "/updateMainFile", handler: hdl.UpdateMainFileHandler},
+		{route: "/getUnitList", handler: hdl.GetUnitListHandler},
+		{route: "/getDeliveryTypeList", handler: hdl.GetDeliveryTypeListHandler},
 	} {
 		internalRouter.HandleFunc(rec.route, mw.LoggerMiddleware(DbMiddleware(rec.handler)))
 	}

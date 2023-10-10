@@ -46,11 +46,13 @@ type IRepository interface {
 
 	AddUnitIfNotExists(ctx context.Context, unit string) error
 	GetUnitId(ctx context.Context, unitName string) (int, error)
-	GetUnitName(ctx context.Context, unitId string) (string, error)
+	GetUnitName(ctx context.Context, unitId int) (string, error)
+	GetUnitList(ctx context.Context) ([]model.UnitInfo, error)
 
 	AddDeliveryTypeIfNotExists(ctx context.Context, deliveryType string) error
 	GetDeliveryTypeId(ctx context.Context, deliveryTypeName string) (int, error)
-	GetDeliveryTypeName(ctx context.Context, deliveryTypeId string) (string, error)
+	GetDeliveryTypeName(ctx context.Context, deliveryTypeId int) (string, error)
+	GetDeliveryTypeList(ctx context.Context) ([]model.DeliveryTypeInfo, error)
 }
 
 type IChartClient interface {

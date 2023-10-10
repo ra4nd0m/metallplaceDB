@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/jackc/pgx/v5"
+	"metallplace/internal/app/model"
 	db "metallplace/pkg/gopkg-db"
 )
 
@@ -42,7 +43,7 @@ func (r *Repository) GetUnitId(ctx context.Context, unitName string) (int, error
 }
 
 // GetUnitName Get the unit name by id
-func (r *Repository) GetUnitName(ctx context.Context, unitId string) (string, error) {
+func (r *Repository) GetUnitName(ctx context.Context, unitId int) (string, error) {
 	var name string
 	row := db.FromContext(ctx).QueryRow(ctx, `SELECT name FROM unit WHERE id=$1`, unitId)
 
@@ -52,4 +53,25 @@ func (r *Repository) GetUnitName(ctx context.Context, unitId string) (string, er
 	}
 
 	return name, nil
+}
+
+func (r *Repository) GetUnitList(ctx context.Context) ([]model.UnitInfo, error) {
+	var list []model.UnitInfo
+
+	rows, err := db.FromContext(ctx).Query(ctx, `SELECT id, name FROM unit`)
+	if err != nil {
+		return nil, fmt.Errorf("can't get unit list rows %w", err)
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		var id int
+		var name string
+		err = rows.Scan(&id, &name)
+		if err != nil {
+			return nil, fmt.Errorf("cant scan rows while getting unit list: %w", err)
+		}
+		list = append(list, model.UnitInfo{Id: id, Name: name})
+	}
+	return list, nil
 }

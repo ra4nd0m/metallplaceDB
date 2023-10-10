@@ -155,8 +155,8 @@ func (r *Repository) GetMaterialSource(ctx context.Context, uid int) (model.Mate
 	var materialId int
 	var sourceId int
 	var market string
-	var unitId string
-	var deliveryTypeId string
+	var unitId int
+	var deliveryTypeId int
 
 	row := db.FromContext(ctx).QueryRow(ctx, `SELECT material_id, source_id, target_market, delivery_type_id, unit_id 
 		FROM material_source WHERE uid=$1`, uid)

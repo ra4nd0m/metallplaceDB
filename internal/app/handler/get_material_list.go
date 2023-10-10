@@ -5,11 +5,11 @@ import (
 	"net/http"
 )
 
-// GetMaterialsRequest example
-type GetMaterialsRequest struct{}
+// GetMaterialListRequest example
+type GetMaterialListRequest struct{}
 
-// GetMaterialsResponse example
-type GetMaterialsResponse struct {
+// GetMaterialListResponse example
+type GetMaterialListResponse struct {
 	List []model.MaterialShortInfo `json:"list"`
 }
 
@@ -20,21 +20,21 @@ type GetMaterialsResponse struct {
 //	@Tags			material
 //	@Accept			json
 //	@Produce		json
-//	@Param request  body GetMaterialsRequest true "query params"
+//	@Param request  body GetMaterialListRequest true "query params"
 //	@Param Authorization header string true "Authorization"
 //	@SecurityDefinitions.apikey ApiKeyAuth
-//	@Success		200	{object}	GetMaterialsResponse
+//	@Success		200	{object}	GetMaterialListResponse
 //	@Failure		400	{object}	ErrorResponse
 //	@Failure		404	{object}	ErrorResponse
 //	@Failure		500	{object}	ErrorResponse
 //	@Router			/getMaterialList [post]
 func (h Handler) GetMaterialListHandler(w http.ResponseWriter, r *http.Request) {
-	handle(w, r, func(GetMaterialsRequest) (GetMaterialsResponse, error) {
+	handle(w, r, func(GetMaterialListRequest) (GetMaterialListResponse, error) {
 		list, err := h.service.GetMaterialList(r.Context())
 		if err != nil {
 			SentrySend(r, err)
-			return GetMaterialsResponse{}, err
+			return GetMaterialListResponse{}, err
 		}
-		return GetMaterialsResponse{List: list}, nil
+		return GetMaterialListResponse{List: list}, nil
 	})
 }
