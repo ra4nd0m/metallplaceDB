@@ -144,6 +144,24 @@ func firstDayOfISOWeek(year int, week int) time.Time {
 	return date
 }
 
+func GetDateFiveWeeksAgo(currentDate time.Time) time.Time {
+	// Вычитаем 5 недель из текущей даты
+	fiveWeeksAgo := currentDate.AddDate(0, 0, -35)
+
+	// Получаем день недели исходной даты
+	weekday := currentDate.Weekday()
+
+	// Ищем ближайший день недели, соответствующий исходной дате
+	for i := 0; i < 7; i++ {
+		if fiveWeeksAgo.Weekday() == weekday {
+			break
+		}
+		fiveWeeksAgo = fiveWeeksAgo.AddDate(0, 0, -1)
+	}
+
+	return fiveWeeksAgo
+}
+
 func formatMonth(input string) string {
 	year := ""
 

@@ -74,6 +74,22 @@ type MaterialShortInfo struct {
 	Unit         string `example:"$/т" format:"string"`
 }
 
+// ChangeSummary example
+type ChangeSummary struct {
+	MaterialName          string  `json:"material_name" example:"Лом 3А"`
+	DeliveryType          string  `json:"delivery_type" example:"FOB"`
+	Market                string  `json:"market" example:"Урал (Россия)"`
+	CurrentPrice          float64 `json:"current_price" example:"17500"`
+	Unit                  string  `json:"unit" example:"₽/т"`
+	DailyChanges          float64 `json:"daily_changes" example:"-300"`
+	DailyChangesPercent   float64 `json:"daily_changes_percent" example:"-5"`
+	WeeklyChanges         float64 `json:"weekly_changes" example:"100"`
+	WeeklyChangesPercent  float64 `json:"weekly_changes_percent" example:"2"`
+	MonthlyChanges        float64 `json:"monthly_changes" example:"-100"`
+	MonthlyChangesPercent float64 `json:"monthly_changes_percent" example:"-3.85"`
+}
+
+// Price example
 type Price struct {
 	Date  time.Time `json:"date" example:"2022-03-23" format:"string"`
 	Value float64   `json:"value" example:"12.97" format:"float64"`
@@ -83,11 +99,13 @@ type PriceFeed struct {
 	Feed []Price
 }
 
+// UnitInfo example
 type UnitInfo struct {
 	Id   int    `json:"id" example:"2" format:"int64"`
 	Name string `json:"name" example:"$/t" format:"string"`
 }
 
+// DeliveryTypeInfo example
 type DeliveryTypeInfo struct {
 	Id   int    `json:"id" example:"4" format:"int64"`
 	Name string `json:"name" example:"FOB" format:"string"`

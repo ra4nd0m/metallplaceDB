@@ -67,6 +67,8 @@ type IService interface {
 	GetUnitId(ctx context.Context, name string) (int, error)
 	GetUnitName(ctx context.Context, id int) (string, error)
 	GetUnitList(ctx context.Context) ([]model.UnitInfo, error)
+
+	GetSummary(ctx context.Context, materialId int, propertyId int, date string) (model.ChangeSummary, error)
 }
 
 type Handler struct {

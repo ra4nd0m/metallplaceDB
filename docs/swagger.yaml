@@ -218,6 +218,23 @@ definitions:
     type: object
   handler.GetShortRequestResponse:
     type: object
+  handler.GetSummaryRequest:
+    properties:
+      date:
+        example: "2023-03-15"
+        type: string
+      material_id:
+        example: 2
+        type: integer
+      property_id:
+        example: 1
+        type: integer
+    type: object
+  handler.GetSummaryResponse:
+    properties:
+      value:
+        $ref: '#/definitions/model.ChangeSummary'
+    type: object
   handler.GetUnitListRequest:
     type: object
   handler.GetUnitListResponse:
@@ -309,6 +326,42 @@ definitions:
         items:
           $ref: '#/definitions/model.Price'
         type: array
+    type: object
+  model.ChangeSummary:
+    properties:
+      current_price:
+        example: 17500
+        type: number
+      daily_changes:
+        example: -300
+        type: number
+      daily_changes_percent:
+        example: -5
+        type: number
+      delivery_type:
+        example: FOB
+        type: string
+      market:
+        example: Урал (Россия)
+        type: string
+      material_name:
+        example: Лом 3А
+        type: string
+      monthly_changes:
+        example: -100
+        type: number
+      monthly_changes_percent:
+        example: -3.85
+        type: number
+      unit:
+        example: ₽/т
+        type: string
+      weekly_changes:
+        example: 100
+        type: number
+      weekly_changes_percent:
+        example: 2
+        type: number
     type: object
   model.DeliveryTypeInfo:
     properties:
@@ -524,6 +577,45 @@ paths:
       summary: Add value
       tags:
       - value
+  /getChangeSummary:
+    post:
+      consumes:
+      - application/json
+      description: get daily, weekly and monthly changes of material
+      parameters:
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/handler.GetSummaryRequest'
+      - description: Authorization
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.GetSummaryResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+      summary: Get property changes summary
+      tags:
+      - value
   /getDeliveryTypeList:
     post:
       consumes:
@@ -562,7 +654,7 @@ paths:
             $ref: '#/definitions/handler.ErrorResponse'
       summary: Get delivery type list
       tags:
-      - unit
+      - delivery type
   /getMaterialInfo:
     post:
       consumes:

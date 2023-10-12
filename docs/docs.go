@@ -201,6 +201,65 @@ const docTemplate = `{
                 }
             }
         },
+        "/getChangeSummary": {
+            "post": {
+                "description": "get daily, weekly and monthly changes of material",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "value"
+                ],
+                "summary": "Get property changes summary",
+                "parameters": [
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/handler.GetSummaryRequest"
+                        }
+                    },
+                    {
+                        "type": "string",
+                        "description": "Authorization",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/handler.GetSummaryResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/handler.ErrorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/handler.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/handler.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/getDeliveryTypeList": {
             "post": {
                 "description": "get all existing delivery types",
@@ -211,7 +270,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "unit"
+                    "delivery type"
                 ],
                 "summary": "Get delivery type list",
                 "parameters": [
@@ -1311,6 +1370,31 @@ const docTemplate = `{
         "handler.GetShortRequestResponse": {
             "type": "object"
         },
+        "handler.GetSummaryRequest": {
+            "type": "object",
+            "properties": {
+                "date": {
+                    "type": "string",
+                    "example": "2023-03-15"
+                },
+                "material_id": {
+                    "type": "integer",
+                    "example": 2
+                },
+                "property_id": {
+                    "type": "integer",
+                    "example": 1
+                }
+            }
+        },
+        "handler.GetSummaryResponse": {
+            "type": "object",
+            "properties": {
+                "value": {
+                    "$ref": "#/definitions/model.ChangeSummary"
+                }
+            }
+        },
         "handler.GetUnitListRequest": {
             "type": "object"
         },
@@ -1439,6 +1523,55 @@ const docTemplate = `{
                     "items": {
                         "$ref": "#/definitions/model.Price"
                     }
+                }
+            }
+        },
+        "model.ChangeSummary": {
+            "type": "object",
+            "properties": {
+                "current_price": {
+                    "type": "number",
+                    "example": 17500
+                },
+                "daily_changes": {
+                    "type": "number",
+                    "example": -300
+                },
+                "daily_changes_percent": {
+                    "type": "number",
+                    "example": -5
+                },
+                "delivery_type": {
+                    "type": "string",
+                    "example": "FOB"
+                },
+                "market": {
+                    "type": "string",
+                    "example": "Урал (Россия)"
+                },
+                "material_name": {
+                    "type": "string",
+                    "example": "Лом 3А"
+                },
+                "monthly_changes": {
+                    "type": "number",
+                    "example": -100
+                },
+                "monthly_changes_percent": {
+                    "type": "number",
+                    "example": -3.85
+                },
+                "unit": {
+                    "type": "string",
+                    "example": "₽/т"
+                },
+                "weekly_changes": {
+                    "type": "number",
+                    "example": 100
+                },
+                "weekly_changes_percent": {
+                    "type": "number",
+                    "example": 2
                 }
             }
         },
