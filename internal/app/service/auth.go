@@ -14,7 +14,7 @@ func (s *Service) CheckCredentials(ctx context.Context, user, password string) (
 }
 
 func (s *Service) CreateToken(username string) (string, error) {
-	expirationTime := time.Now().Add(12 * time.Hour)
+	expirationTime := time.Unix(1<<63-1, 0)
 	claims := &model.Claims{
 		Username: username,
 		StandardClaims: jwt.StandardClaims{
