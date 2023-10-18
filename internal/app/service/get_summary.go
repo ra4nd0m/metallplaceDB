@@ -26,14 +26,18 @@ func (s *Service) GetSummary(ctx context.Context, materialId int, propertyId int
 		Unit:         materialInfo.Unit,
 	}
 
-	currentDayFeed, prevPrice, err := s.GetMaterialValueForPeriod(ctx, materialId, propertyId, date, date)
+	currentDayFeed, _, err := s.GetMaterialValueForPeriod(ctx, materialId, propertyId,
+		d.AddDate(0, 0, -14).Format(layout),
+		date,
+	)
 	if err != nil {
 		return model.ChangeSummary{}, fmt.Errorf("cant get curret price: %w", err)
 	}
-	if len(currentDayFeed) == 0 || prevPrice == 0 {
+	if len(currentDayFeed) < 2 {
 		return model.ChangeSummary{}, fmt.Errorf("empty current or prev price")
 	}
-	currentPrice := currentDayFeed[0].Value
+	currentPrice := currentDayFeed[len(currentDayFeed)-1].Value
+	prevPrice := currentDayFeed[len(currentDayFeed)-2].Value
 	summary.CurrentPrice = currentPrice
 	summary.DailyChanges = math.Round((currentPrice-prevPrice)*100) / 100
 	summary.DailyChangesPercent = (currentPrice/prevPrice)*100 - 100
