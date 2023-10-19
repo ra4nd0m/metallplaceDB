@@ -3,7 +3,6 @@ package service
 import (
 	"context"
 	"fmt"
-	"math"
 	"metallplace/internal/app/model"
 	"time"
 )
@@ -38,10 +37,10 @@ func (s *Service) GetSummary(ctx context.Context, materialId int, propertyId int
 	}
 	currentPrice := currentDayFeed[len(currentDayFeed)-1].Value
 	prevPrice := currentDayFeed[len(currentDayFeed)-2].Value
-	summary.CurrentPrice = currentPrice
-	summary.DailyChanges = math.Round((currentPrice-prevPrice)*100) / 100
+	summary.CurrentPrice = addSpacesToNumber(currentPrice)
+	summary.DailyChanges = round(currentPrice-prevPrice, 3)
 	summary.DailyChangesPercent = (currentPrice/prevPrice)*100 - 100
-	summary.DailyChangesPercent = math.Round(summary.DailyChangesPercent*100) / 100
+	summary.DailyChangesPercent = round(summary.DailyChangesPercent, 3)
 
 	weekAgoFeed, _, err := s.GetMaterialValueForPeriod(ctx, materialId, propertyId,
 		d.AddDate(0, 0, -7*2).Format(layout),
@@ -54,9 +53,9 @@ func (s *Service) GetSummary(ctx context.Context, materialId int, propertyId int
 		return model.ChangeSummary{}, fmt.Errorf("empty week ago price")
 	}
 	weekAgoPrice := weekAgoFeed[len(weekAgoFeed)-1].Value
-	summary.WeeklyChanges = math.Round((currentPrice-weekAgoPrice)*100) / 100
+	summary.WeeklyChanges = round(currentPrice-weekAgoPrice, 3)
 	summary.WeeklyChangesPercent = (currentPrice/weekAgoPrice)*100 - 100
-	summary.WeeklyChangesPercent = math.Round(summary.WeeklyChangesPercent*100) / 100
+	summary.WeeklyChangesPercent = round(summary.WeeklyChangesPercent, 3)
 
 	monthAgoFeed, _, err := s.GetMaterialValueForPeriod(ctx, materialId, propertyId,
 		GetDateFiveWeeksAgo(d).AddDate(0, 0, -10).Format(layout),
@@ -69,9 +68,9 @@ func (s *Service) GetSummary(ctx context.Context, materialId int, propertyId int
 		return model.ChangeSummary{}, fmt.Errorf("empty month ago price")
 	}
 	monthAgoPrice := monthAgoFeed[len(monthAgoFeed)-1].Value
-	summary.MonthlyChanges = math.Round((currentPrice-monthAgoPrice)*100) / 100
+	summary.MonthlyChanges = round(currentPrice-monthAgoPrice, 3)
 	summary.MonthlyChangesPercent = (currentPrice/monthAgoPrice)*100 - 100
-	summary.MonthlyChangesPercent = math.Round(summary.MonthlyChangesPercent*100) / 100
+	summary.MonthlyChangesPercent = round(summary.MonthlyChangesPercent, 3)
 
 	return summary, nil
 }

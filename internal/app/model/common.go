@@ -79,7 +79,7 @@ type ChangeSummary struct {
 	MaterialName          string  `json:"material_name" example:"Лом 3А"`
 	DeliveryType          string  `json:"delivery_type" example:"FOB"`
 	Market                string  `json:"market" example:"Урал (Россия)"`
-	CurrentPrice          float64 `json:"current_price" example:"17500"`
+	CurrentPrice          string  `json:"current_price" example:"17500"`
 	Unit                  string  `json:"unit" example:"₽/т"`
 	DailyChanges          float64 `json:"daily_changes" example:"-300"`
 	DailyChangesPercent   float64 `json:"daily_changes_percent" example:"-5"`

@@ -3,6 +3,7 @@ package service
 import (
 	"fmt"
 	"github.com/xuri/excelize/v2"
+	"math"
 	"metallplace/internal/pkg/utils"
 	"regexp"
 	"strconv"
@@ -239,4 +240,40 @@ func contains(s []string, str string) bool {
 		}
 	}
 	return false
+}
+
+func round(num float64, n int) float64 {
+	digits := math.Pow(10, float64(n))
+	return math.Round((num)*digits) / digits
+}
+
+func addSpacesToNumber(number float64) string {
+	numberStr := strconv.FormatFloat(number, 'f', -1, 64)
+	parts := strings.Split(numberStr, ".")
+	integerPart := parts[0]
+	decimalPart := ""
+	if len(parts) > 1 {
+		decimalPart = "." + parts[1]
+	}
+
+	sign := ""
+	if integerPart[0] == '-' {
+		sign = "-"
+		integerPart = integerPart[1:]
+	}
+
+	length := len(integerPart)
+	if length <= 3 {
+		return sign + numberStr
+	}
+
+	var result strings.Builder
+	for i := 0; i < length; i++ {
+		if i > 0 && (length-i)%3 == 0 {
+			result.WriteString(" ")
+		}
+		result.WriteByte(integerPart[i])
+	}
+
+	return sign + result.String() + decimalPart
 }
