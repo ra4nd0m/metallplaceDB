@@ -37,7 +37,7 @@ func (s *Service) GetSummary(ctx context.Context, materialId int, propertyId int
 	}
 	currentPrice := currentDayFeed[len(currentDayFeed)-1].Value
 	prevPrice := currentDayFeed[len(currentDayFeed)-2].Value
-	summary.CurrentPrice = addSpacesToNumber(currentPrice)
+	summary.CurrentPrice = addSpacesToNumber(round(currentPrice, 3))
 	summary.DailyChanges = round(currentPrice-prevPrice, 3)
 	summary.DailyChangesPercent = (currentPrice/prevPrice)*100 - 100
 	summary.DailyChangesPercent = round(summary.DailyChangesPercent, 3)
