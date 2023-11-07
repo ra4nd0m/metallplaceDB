@@ -65,12 +65,17 @@ type IDocxgenClient interface {
 	GetShortReport(req docxgenclient.RequestShortReport) ([]byte, error)
 }
 
+type IModifier interface {
+	FormatPageNumberFont(file []byte) ([]byte, error)
+}
+
 type Service struct {
 	cfg             config.Config
 	repo            IRepository
 	chart           IChartClient
 	docxgen         IDocxgenClient
 	lastRequestTime time.Time
+	modifier        IModifier
 }
 
 func (s *Service) SetLastRequestTime(lastRequestTime time.Time) {
@@ -81,6 +86,6 @@ func (s *Service) LastRequestTime() time.Time {
 	return s.lastRequestTime
 }
 
-func New(cfg config.Config, r IRepository, chart IChartClient, docxgen IDocxgenClient, lastRequestTime time.Time) *Service {
-	return &Service{cfg, r, chart, docxgen, lastRequestTime}
+func New(cfg config.Config, r IRepository, chart IChartClient, docxgen IDocxgenClient, lastRequestTime time.Time, modifier IModifier) *Service {
+	return &Service{cfg, r, chart, docxgen, lastRequestTime, modifier}
 }

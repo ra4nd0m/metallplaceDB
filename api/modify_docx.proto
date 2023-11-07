@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package modify_docx;
+option go_package = "./modify_docx";
+
+message ModifyDocxRequest {
+  bytes bytes = 1;
+}
+
+message ModifiedDocxResponse {
+  bytes modified_bytes = 1;
+}
+
+message TestFuncRequest {
+  string ping = 1;
+}
+
+message TestFuncResponse {
+  string pong = 1;
+}
+
+service ModifyDocx {
+  rpc ModifyDocx(ModifyDocxRequest) returns (ModifiedDocxResponse);
+  rpc TestFunc(TestFuncRequest) returns (TestFuncResponse);
+};

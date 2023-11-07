@@ -17,6 +17,12 @@ func (s *Service) GetReport(repType string, date string) ([]byte, error) {
 	if err != nil {
 		return nil, fmt.Errorf("cant get reprot from docxgen service: %w", err)
 	}
+
+	bytes, err = s.modifier.FormatPageNumberFont(bytes)
+	if err != nil {
+		return nil, fmt.Errorf("cannot format page number font: %w", err)
+	}
+
 	return bytes, nil
 }
 
