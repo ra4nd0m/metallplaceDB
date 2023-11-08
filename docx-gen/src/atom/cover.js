@@ -8,6 +8,12 @@ module.exports = function (type) {
     if (type === "monthly") {
         coverPath = staticDir + "/cover_monthly.png"
     }
+    if (type === "Мировой и российский рынок стали") {
+        coverPath = staticDir + "/cover_short_steel.jpg"
+    }
+    if (type === "Мировой рынок металлургического сырья") {
+        coverPath = staticDir + "/cover_short_raw_materials.jpg"
+    }
     return paragraph({
         children: [
             new docx.ImageRun({

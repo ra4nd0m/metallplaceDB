@@ -1,12 +1,14 @@
 const docx = require("docx");
 const footer = require("../component/footer");
 const header = require("../component/header");
-const {ShortHeaderTitle, RusMonth} = require("../const");
+const {ShortHeaderTitle, RusMonth, AccentColor, FontFamilyExtraBold, h2Size, RusMonthStraight} = require("../const");
 const {GetDates} = require("../utils/date_operations");
 const h2 = require("../atom/heading2");
 const margins = require("../atom/margins")
 const paragraph = require("../atom/paragraph");
 const chart = require("../atom/short_report_chart");
+const cover = require("../atom/cover");
+const pageBreak = require("../atom/page_break");
 function getFooterTitle(date) {
     const monthDates = GetDates(new Date(date.substring(0, 10)), "month")
     return `Отчетный период: ${monthDates.first.day} - ` +
@@ -56,8 +58,21 @@ module.exports = class ShortReport {
                             },
                         },
                         children: [
+                            cover(req.report_header),
                             new docx.Paragraph({
                                 children: []
+                            }),
+                            pageBreak(),
+                            paragraph({
+                                    heading: docx.HeadingLevel.HEADING_3,
+                                    alignment: docx.AlignmentType.LEFT,
+                                    children: [
+                                        new docx.TextRun({
+                                            text: "",
+                                            color: AccentColor,
+                                            font: FontFamilyExtraBold,
+                                            size: h2Size
+                                        })]
                             }),
                         ]
                     },
