@@ -59,21 +59,6 @@ module.exports = class ShortReport {
                         },
                         children: [
                             cover(req.report_header),
-                            new docx.Paragraph({
-                                children: []
-                            }),
-                            pageBreak(),
-                            paragraph({
-                                    heading: docx.HeadingLevel.HEADING_3,
-                                    alignment: docx.AlignmentType.LEFT,
-                                    children: [
-                                        new docx.TextRun({
-                                            text: "",
-                                            color: AccentColor,
-                                            font: FontFamilyExtraBold,
-                                            size: h2Size
-                                        })]
-                            }),
                         ]
                     },
                     {
