@@ -9,6 +9,7 @@ const paragraph = require("../atom/paragraph");
 const chart = require("../atom/short_report_chart");
 const cover = require("../atom/cover");
 const pageBreak = require("../atom/page_break");
+const coverDates = require("../atom/cover_dates_short")
 function getFooterTitle(date) {
     const monthDates = GetDates(new Date(date.substring(0, 10)), "month")
     return `Отчетный период: ${monthDates.first.day} - ` +
@@ -20,6 +21,11 @@ function getHeaderTitle(date, headerTitle) {
     }
     const monthDates = GetDates(new Date(date.substring(0, 10)), "month")
     return headerTitle + `: итоги ${RusMonth[monthDates.last.month]} ${monthDates.last.year} года`
+}
+
+function getCoverTitle(date) {
+    const monthDates = GetDates(new Date(date.substring(0, 10)), "month")
+    return `Итоги ${RusMonth[monthDates.last.month]} ${monthDates.last.year} года`
 }
 
 module.exports = class ShortReport {
@@ -58,6 +64,7 @@ module.exports = class ShortReport {
                             },
                         },
                         children: [
+                            coverDates(getCoverTitle(req.date)),
                             cover(req.report_header),
                         ]
                     },
