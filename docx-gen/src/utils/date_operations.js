@@ -81,3 +81,14 @@ module.exports.FormatDayMonth = function (num){
     return num
 }
 
+module.exports.AddDaysToDate = function (inputDate, n) {
+    var date = new Date(inputDate);
+    date.setDate(date.getDate() + n);
+
+    var year = date.getFullYear();
+    var month = (date.getMonth() + 1).toString().padStart(2, '0');
+    var day = date.getDate().toString().padStart(2, '0');
+
+    return year + '-' + month + '-' + day;
+}
+

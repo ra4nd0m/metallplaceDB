@@ -10,6 +10,7 @@ const paragraph = require("../atom/paragraph");
 const cellCenter = require("../atom/cell_centred")
 const {formatDateTable} = require("../utils/date_format")
 const margins = require("../atom/margins");
+const {AddDaysToDate} = require("../utils/date_operations")
 
 module.exports = async function(materialIds, dates, titlesIndexes, titles, type, priceRounds) {
     const f = new Date(dates[0])
@@ -43,8 +44,10 @@ module.exports = async function(materialIds, dates, titlesIndexes, titles, type,
             title2 = new Date(feed.data.price_feed[1].date)
         }
         if (type === "week") {
-             med1 = await axios.post(ApiEndpoint + "/getValueForPeriod", { material_source_id: materialId, property_id: MedPriceId, start: first, finish: first})
-             med2 = await axios.post(ApiEndpoint + "/getValueForPeriod", { material_source_id: materialId, property_id: MedPriceId, start: second, finish: second})
+             med1 = await axios.post(ApiEndpoint + "/getValueForPeriod", { material_source_id: materialId, property_id: MedPriceId, start: first, finish: AddDaysToDate(first, 3)})
+             med2 = await axios.post(ApiEndpoint + "/getValueForPeriod", { material_source_id: materialId, property_id: MedPriceId, start: second, finish: AddDaysToDate(second, 3)})
+            title1 = new Date(med1.data.price_feed[0].date)
+            title2 = new Date(med2.data.price_feed[0].date)
         }
 
         bodyInfo.push({
