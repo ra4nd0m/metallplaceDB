@@ -37,6 +37,7 @@ func (h Handler) GetSummaryHandler(w http.ResponseWriter, r *http.Request) {
 	handle(w, r, func(req GetSummaryRequest) (GetSummaryResponse, error) {
 		summary, err := h.service.GetSummary(r.Context(), req.MaterialId, req.PropertyId, req.Date)
 		if err != nil {
+			SentrySend(r, err)
 			return GetSummaryResponse{}, fmt.Errorf("cant get summary of material %d on property %d for %s: %w", req.MaterialId, req.PropertyId, req.Date, err)
 		}
 		return GetSummaryResponse{Value: summary}, err
