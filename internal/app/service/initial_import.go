@@ -152,7 +152,9 @@ func (s *Service) ParseXlsxForChart(byte []byte) (chartclient.Request, error) {
 				if len(req.XLabelSet) > 0 && curLabel == getLastNotEmptyElement(req.XLabelSet) {
 					curLabel = ""
 				}
-				req.XLabelSet = append(req.XLabelSet, curLabel)
+				if curLabel != "" {
+					req.XLabelSet = append(req.XLabelSet, curLabel)
+				}
 			}
 		}
 		req.YDataSet = append(req.YDataSet, materialAndPrices)
