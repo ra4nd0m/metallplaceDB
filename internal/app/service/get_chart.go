@@ -111,7 +111,6 @@ func (s *Service) GetChartRaw(book []byte, tickLimit int) ([]byte, error) {
 	if err != nil {
 		return nil, fmt.Errorf("cant parse book: %w", err)
 	}
-	req.Options.TickLimit = tickLimit
 	req.Options.NeedLegend = true
 	req.Options.Tall = true
 

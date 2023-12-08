@@ -148,23 +148,33 @@ func (s *Service) ParseXlsxForChart(byte []byte) (chartclient.Request, error) {
 					curDate = value
 				}
 				curLabel := formatMonth(curDate)
-				// making repeating labels an empty string
-				if len(req.XLabelSet) > 0 && curLabel == getLastNotEmptyElement(req.XLabelSet) {
-					curLabel = ""
-				}
-				if curLabel != "" {
-					req.XLabelSet = append(req.XLabelSet, curLabel)
-				}
+				req.XLabelSet = append(req.XLabelSet, curLabel)
 			}
 		}
 		req.YDataSet = append(req.YDataSet, materialAndPrices)
 	}
+	req.XLabelSet = removeExtraMonths(req.XLabelSet)
 	title, err := book.GetCellValue(startSheet, "A1")
 	if err != nil {
 		return chartclient.Request{}, fmt.Errorf("cant get chart title: %w", err)
 	}
 	req.Options.Title = title
 	return req, nil
+}
+
+func removeExtraMonths(input []string) []string {
+	output := make([]string, len(input))
+
+	prev := ""
+	for i, v := range input {
+		if i > 0 && v == prev {
+			output[i] = ""
+		} else {
+			output[i] = v
+		}
+		prev = v
+	}
+	return output
 }
 
 //func (s *Service) ImportRosStat(ctx context.Context) error {

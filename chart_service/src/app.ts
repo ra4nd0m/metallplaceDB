@@ -219,7 +219,7 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
     datasets.forEach(ds => {
         let curMin = Math.min(...ds.data)
         if (curMin < minVal) minVal = curMin
-        let curMax = Math.min(...ds.data)
+        let curMax = Math.max(...ds.data)
         if (curMax > maxVal) maxVal = curMax
     })
     // for bar charts
@@ -228,7 +228,7 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
     } else {
          bottomBorder = Math.floor(minVal * 0.95 / 10) * 10;
     }
-    dateArrayFormatted = removeDups(dateArrayFormatted)
+    //dateArrayFormatted = removeDups(dateArrayFormatted)
 
     const conf: ChartConfiguration = {
         type: 'line',
@@ -481,6 +481,10 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
             }
         }
     }
+    // @ts-ignore
+    conf.options?.scales.y.min = Math.ceil(minVal - 1)
+    // @ts-ignore
+    conf.options?.scales.y.max = Math.floor(maxVal + 1)
     if (options.type == 'bar') {
         // @ts-ignore
         conf.options?.scales.y.min = bottomBorder
