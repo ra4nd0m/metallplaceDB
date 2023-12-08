@@ -122,6 +122,7 @@ const getChart = async (XLabelSet: string[], YDataSets: YDataSet[], options: Cha
     })
     options.predictInfoStr = predictInfoStr
     Chart.defaults.font.size = 25;
+    Chart.defaults.font.family = fontRegular;
     let configuration: ChartConfiguration
     try {
         if(options.title.length > 0){
