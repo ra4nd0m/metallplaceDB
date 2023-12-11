@@ -216,20 +216,22 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
     }
     let minVal = Number.MAX_VALUE
     let maxVal = Number.MIN_VALUE
-    let bottomBorder
+    let barChartBottomBorder
     datasets.forEach(ds => {
         let curMin = Math.min(...ds.data)
         if (curMin < minVal) minVal = curMin
         let curMax = Math.max(...ds.data)
         if (curMax > maxVal) maxVal = curMax
     })
-    // for bar charts
-    if (maxVal - minVal > 15) {
-         bottomBorder = Math.ceil(minVal * 0.95 / 10) * 10;
-    } else {
-         bottomBorder = Math.floor(minVal * 0.95 / 10) * 10;
+
+    if (options.type === 'bar') {
+        if (maxVal <= 20 ) {
+            barChartBottomBorder = 0
+        } else {
+            barChartBottomBorder = Math.floor(minVal * 0.95 / 10) * 10;
+        }
     }
-    //dateArrayFormatted = removeDups(dateArrayFormatted)
+
 
     const conf: ChartConfiguration = {
         type: 'line',
@@ -488,7 +490,7 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
     conf.options?.scales.y.max = Math.floor(maxVal + 1)
     if (options.type == 'bar') {
         // @ts-ignore
-        conf.options?.scales.y.min = bottomBorder
+        conf.options?.scales.y.min = barChartBottomBorder
         let changes = getPercentChangesArr(datasets[0].data)
 
         let labelCnt = 0
