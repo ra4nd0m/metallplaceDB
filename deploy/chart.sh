@@ -20,8 +20,8 @@ npm install --save-dev
 npm run build
 cp -r build/* $RELEASES/$RELEASE/
 mv $RELEASES/$RELEASE/app.js $RELEASES/$RELEASE/metallplace-charts.js
-mv assets $RELEASES/$RELEASE
 mv node_modules $RELEASES/$RELEASE
+mv assets $RELEASES/$RELEASE
 rm -rf $RELEASES/$RELEASE/build
 
 # switch links and run
