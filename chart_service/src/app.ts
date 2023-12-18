@@ -1,16 +1,18 @@
-import {Chart, ChartConfiguration} from "chart.js";
+import {Chart, ChartConfiguration, LegendItem} from "chart.js";
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import ChartAnnotations from 'chartjs-plugin-annotation';
 import {Request} from "express";
-import {Response} from "express/ts4.0";
+import {Response} from 'express';
 import {LabelOptions} from "chartjs-plugin-datalabels/types/options";
 import * as dotenv from 'dotenv'
+
 const path = require('path');
 
 const express = require('express')
 const {ChartJSNodeCanvas} = require('chartjs-node-canvas');
-const { registerFont, createCanvas } = require('canvas');
+const {registerFont, createCanvas} = require('canvas');
 import annotationPlugin from "chartjs-plugin-annotation";
+
 let app = express()
 dotenv.config({path: path.join(__dirname, '../../.env')})
 
@@ -46,6 +48,7 @@ type Dataset = {
     pointBackgroundColor?: string
     borderWidth?: number
     predictAccuracy?: number
+
 }
 
 type YDataSet = {
@@ -81,26 +84,25 @@ const getChart = async (XLabelSet: string[], YDataSets: YDataSet[], options: Cha
     }
 
     let canvasRenderService
-    try{
+    try {
         canvasRenderService = new ChartJSNodeCanvas({width, height, chartJsFactory});
-        canvasRenderService.registerFont(process.cwd() + '/assets/Montserrat-Medium.ttf', { family: 'Montserrat Medium' });
-        canvasRenderService.registerFont(process.cwd() + '/assets/Montserrat-ExtraBold.ttf', { family: 'Montserrat Extrabold' });
-    } catch (e: unknown){
+        canvasRenderService.registerFont(process.cwd() + '/assets/Montserrat-Medium.ttf', {family: 'Montserrat Medium'});
+        canvasRenderService.registerFont(process.cwd() + '/assets/Montserrat-ExtraBold.ttf', {family: 'Montserrat Extrabold'});
+    } catch (e: unknown) {
         console.log(e)
     }
-    console.log(process.cwd())
 
     let datasets: Dataset[] = [];
     let colors: string[]
-    if (options.title.length > 0) colors = ['#844a88', '#5d4841', '#F77647','#8ab440', '#e35b33']
-    if(YDataSets.length == 1 && options.title.length === 0){
+    if (options.title.length > 0) colors = ['#844a88', '#5d4841', '#F77647', '#8ab440', '#e35b33']
+    if (YDataSets.length == 1 && options.title.length === 0) {
         colors = ['#F77647']
     }
-    if(YDataSets.length == 2 && options.title.length === 0){
+    if (YDataSets.length == 2 && options.title.length === 0) {
         colors = [orange, green]
     }
     let i = 0
-    let lineThickness = 6*2
+    let lineThickness = 6 * 2
     if (options.labels || YDataSets.length >= 2 || options.title.length > 0) lineThickness = 6
 
     let predictInfoStr = ""
@@ -115,7 +117,7 @@ const getChart = async (XLabelSet: string[], YDataSets: YDataSet[], options: Cha
             borderColor: colors[i],
             backgroundColor: colors[i],
             borderWidth: lineThickness,
-            predictAccuracy: set.predict_accuracy
+            predictAccuracy: set.predict_accuracy,
         });
         predictInfoStr += " " + set.predict_accuracy + "%"
         i++
@@ -125,12 +127,12 @@ const getChart = async (XLabelSet: string[], YDataSets: YDataSet[], options: Cha
     Chart.defaults.font.family = fontRegular;
     let configuration: ChartConfiguration
     try {
-        if(options.title.length > 0){
+        if (options.title.length > 0) {
             configuration = getChartConfTitled(datasets, XLabelSet, options);
         } else {
             configuration = getChartConf(datasets, XLabelSet, options);
         }
-    } catch (e: any){
+    } catch (e: any) {
         console.log(e)
     }
     // @ts-ignore
@@ -171,7 +173,7 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
     let axesFontSize = 5 * 2 * 2
     let minRotation = 90
     if (options.tall) {
-         axesFontSize = 8 * 2 * 2
+        axesFontSize = 8 * 2 * 2
     }
 
     const pointRadius = 3 * 2
@@ -185,26 +187,26 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
 
     let dateArrayFormatted: string[]
     dateArrayFormatted = []
-    let legendBoxSize
+    let legendBoxSize: any
     let tickLimit = 100
     if (options.tick_limit != 0) tickLimit = options.tick_limit
     for (let i = 0; i < dateArray.length; i++) {
         dateArrayFormatted.push(formatXLabel(dateArray[i], options.x_step))
 
-        if (!options.legend){
+        if (!options.legend) {
             legendBoxSize = 0
         }
     }
     // If bar chart - making main line with labels invisible
-    if (options.type == "bar"){
+    if (options.type == "bar") {
         minRotation = 0
         datasets.forEach(ds => {
             ds.borderColor = 'rgba(255,255,255,0)'
         })
     }
     let colors: string[] = []
-    if (options.labels && options.type === "line"){
-        colors = [orange, green,'#BE7F85']
+    if (options.labels && options.type === "line") {
+        colors = [orange, green, '#BE7F85']
         let i = 0
         datasets.forEach(ds => {
             ds.pointStyle = 'round'
@@ -225,13 +227,13 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
     })
 
     if (options.type === 'bar') {
-        if (maxVal <= 20 ) {
+        if (maxVal <= 20) {
             barChartBottomBorder = 0
         } else {
             barChartBottomBorder = Math.floor(minVal * 0.95 / 10) * 10;
         }
     }
-
+    console.log(datasets)
 
     const conf: ChartConfiguration = {
         type: 'line',
@@ -253,7 +255,7 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
                     type: "category",
 
                     ticks: {
-                        font: function(context) {
+                        font: function (context) {
                             // Check if it's the third-from-the-end label
                             if (
                                 (context.index === dateArray.length - 4 && options.predict) ||
@@ -262,8 +264,7 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
                                 (!options.predict && options.type != "bar" && context.tick.label.includes("Янв"))
                             ) {
                                 return {family: fontExtrabold, size: axesFontSize}
-                            }
-                            else {
+                            } else {
                                 return {family: fontRegular, size: axesFontSize}
                             }
                         },
@@ -288,10 +289,9 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
                                     return thickLine;
                                 }
                                 return transpLine;
-                            } else if (options.type == "bar"){
+                            } else if (options.type == "bar") {
                                 return line;
-                            }
-                            else if (options.labels) {
+                            } else if (options.labels) {
                                 const value = context.tick.value;
                                 // @ts-ignore
                                 const label = context.chart.data.labels[value];
@@ -339,24 +339,26 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
             },
 
             plugins: {
-                // annotation: {
-                //     annotations: {
-                //         label: {
-                //             type: 'label',
-                //             xValue: 3,
-                //             yValue: maxVal,
-                //             backgroundColor: 'rgba(245,245,245)',
-                //             content: ['This is my text', 'This is my text, second line'],
-                //             font: {
-                //                 size: 18
-                //             }
-                //         }
-                //     }
-                // },
+                annotation: {
+                    annotations: {
+                        label: {
+                            type: 'label',
+                            xValue: 3,
+                            yValue: maxVal,
+                            borderCapStyle: 'round',
+                            backgroundColor: 'rgba(245,245,0)',
+                            content: ['This is my text', 'This is my text, second line'],
+                            font: {
+                                size: 18
+                            }
+                        }
+                    }
+                },
                 legend: {
                     display: options.legend,
                     position: "top",
                     align: "start",
+
                     labels: {
                         font: {
                             size: legendFontSize,
@@ -367,13 +369,33 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
                         color: textColor,
                         usePointStyle: true,
                         pointStyle: 'circle',
-                        padding: 20
+                        padding: 20,
+                        generateLabels: function (chart) {
+                            let data = chart.data;
+                            if (data.datasets.length) {
+                                let labels: LegendItem[] | { text: string; fillStyle: string}[] = [];
+                                // @ts-ignore
+                                data.datasets.forEach(function(ds: Dataset) {
+                                    labels.push({
+                                        text: ds.label,
+                                        fillStyle: ds.backgroundColor
+                                    });
+                                    if (options.predict) {
+                                        labels.push({
+                                            text: `точность прогноза - ${ds.predictAccuracy}%`,
+                                            fillStyle: 'white',
+                                        });
+                                    }
+                                });
+                                return labels;
+                            }
+                            return [];
+                        }
                     }
                 }
             },
         },
     }
-
     let tickCounter = 0
     if (options.predict) {
         // @ts-ignore
