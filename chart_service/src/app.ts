@@ -1,6 +1,5 @@
-import {Chart, ChartConfiguration, LegendItem} from "chart.js";
+import {Chart, ChartConfiguration, LegendItem, ChartTypeRegistry, ScatterDataPoint, BubbleDataPoint} from "chart.js";
 import ChartDataLabels from 'chartjs-plugin-datalabels';
-import ChartAnnotations from 'chartjs-plugin-annotation';
 import {Request} from "express";
 import {Response} from 'express';
 import {LabelOptions} from "chartjs-plugin-datalabels/types/options";
@@ -10,8 +9,6 @@ const path = require('path');
 
 const express = require('express')
 const {ChartJSNodeCanvas} = require('chartjs-node-canvas');
-const {registerFont, createCanvas} = require('canvas');
-import annotationPlugin from "chartjs-plugin-annotation";
 
 let app = express()
 dotenv.config({path: path.join(__dirname, '../../.env')})
@@ -73,6 +70,7 @@ function getPercentChangesArr(prices: number[]): string[] {
 const line = 'rgba(0, 0, 0, 0.2)'
 const thickLine = 'rgba(0, 0, 0, 0.6)'
 const transpLine = 'rgba(0, 0, 0, 0)'
+let confPrev: ChartConfiguration
 
 const getChart = async (XLabelSet: string[], YDataSets: YDataSet[], options: ChartOptions): Promise<Buffer> => {
     let width = 1900; //px
@@ -108,7 +106,6 @@ const getChart = async (XLabelSet: string[], YDataSets: YDataSet[], options: Cha
     let predictInfoStr = ""
     // Creating dataset lines: material - price feed
     YDataSets.forEach(set => {
-        console.log("Pushing ", set.label)
         datasets.push({
             label: `${set.label}`,
             data: set.data,
@@ -123,22 +120,20 @@ const getChart = async (XLabelSet: string[], YDataSets: YDataSet[], options: Cha
         i++
     })
     options.predictInfoStr = predictInfoStr
-    Chart.defaults.font.size = 25;
-    Chart.defaults.font.family = fontRegular;
     let configuration: ChartConfiguration
+    let chartBuffer: any
     try {
         if (options.title.length > 0) {
             configuration = getChartConfTitled(datasets, XLabelSet, options);
         } else {
             configuration = getChartConf(datasets, XLabelSet, options);
         }
+        chartBuffer =  await canvasRenderService.renderToBuffer(configuration);
     } catch (e: any) {
         console.log(e)
     }
     // @ts-ignore
-    return await canvasRenderService.renderToBuffer(configuration);
-
-
+    return chartBuffer;
 }
 
 type ChartOptions = {
@@ -233,7 +228,6 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
             barChartBottomBorder = Math.floor(minVal * 0.95 / 10) * 10;
         }
     }
-    console.log(datasets)
 
     const conf: ChartConfiguration = {
         type: 'line',
@@ -339,21 +333,6 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
             },
 
             plugins: {
-                annotation: {
-                    annotations: {
-                        label: {
-                            type: 'label',
-                            xValue: 3,
-                            yValue: maxVal,
-                            borderCapStyle: 'round',
-                            backgroundColor: 'rgba(245,245,0)',
-                            content: ['This is my text', 'This is my text, second line'],
-                            font: {
-                                size: 18
-                            }
-                        }
-                    }
-                },
                 legend: {
                     display: options.legend,
                     position: "top",
@@ -426,8 +405,6 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
             }
         }
     }
-    // @ts-ignore
-    conf.plugins.push(ChartAnnotations)
     if (options.labels) {
         let toFixed: number
         if (options.to_fixed != -1){
