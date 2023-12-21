@@ -277,3 +277,18 @@ func addSpacesToNumber(number float64) string {
 
 	return sign + result.String() + decimalPart
 }
+
+func removeDuplicateLabels(input []string) []string {
+	output := make([]string, len(input))
+
+	prev := ""
+	for i, v := range input {
+		if i > 0 && v == prev {
+			output[i] = ""
+		} else {
+			output[i] = v
+		}
+		prev = v
+	}
+	return output
+}
