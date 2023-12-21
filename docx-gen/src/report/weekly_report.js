@@ -294,6 +294,7 @@ module.exports = class WeeklyReport {
                         }),
                         await singleTableMinimax(10, GetMonthRange(date, true), 0, 1), //арматура FOB
 
+                        pageBreak(),
                         paragraph({ //арматура A1 EXW
                             children: [await oneChartText(FormChartUrl(new ChartUrl([14], MedPriceId, GetMonthRange(date), 1, "line", "day", "day", 1, -1)), ["Цена на арматуру А1", "₽/т EXW Россия"])]
                         }),
