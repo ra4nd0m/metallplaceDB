@@ -349,27 +349,27 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
                         usePointStyle: true,
                         pointStyle: 'circle',
                         padding: 20,
-                        generateLabels: function (chart) {
-                            let data = chart.data;
-                            if (data.datasets.length) {
-                                let labels: LegendItem[] | { text: string; fillStyle: string}[] = [];
-                                // @ts-ignore
-                                data.datasets.forEach(function(ds: Dataset) {
-                                    labels.push({
-                                        text: ds.label,
-                                        fillStyle: ds.backgroundColor
-                                    });
-                                    if (options.predict) {
-                                        labels.push({
-                                            text: `точность прогноза - ${ds.predictAccuracy}%`,
-                                            fillStyle: 'white',
-                                        });
-                                    }
-                                });
-                                return labels;
-                            }
-                            return [];
-                        }
+                        // generateLabels: function (chart) {
+                        //     let data = chart.data;
+                        //     if (data.datasets.length) {
+                        //         let labels: LegendItem[] | { text: string; fillStyle: string}[] = [];
+                        //         // @ts-ignore
+                        //         data.datasets.forEach(function(ds: Dataset) {
+                        //             labels.push({
+                        //                 text: ds.label,
+                        //                 fillStyle: ds.backgroundColor
+                        //             });
+                        //             if (options.predict) {
+                        //                 labels.push({
+                        //                     text: `точность прогноза - ${ds.predictAccuracy}%`,
+                        //                     fillStyle: 'white',
+                        //                 });
+                        //             }
+                        //         });
+                        //         return labels;
+                        //     }
+                        //     return [];
+                        // }
                     }
                 }
             },
