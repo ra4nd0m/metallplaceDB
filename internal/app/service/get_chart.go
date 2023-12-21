@@ -38,7 +38,6 @@ func (s *Service) GetChart(ctx context.Context, chartPack model.ChartPack) ([]by
 				return nil, fmt.Errorf("cant get material_value: %w", err)
 			}
 			if chartPack.Predict {
-				//lastPrice := feed[len(feed)-1]
 				predictStartTime := chartPack.Finish.AddDate(0, 1, 0)
 				predictStart := time.Date(predictStartTime.Year(), predictStartTime.Month(), 1, 0, 0, 0, 0, predictStartTime.Location()).Format("2006-01-02")
 				predictFinish := chartPack.Finish.AddDate(0, 3, 0).Format("2006-01-02")
@@ -51,8 +50,9 @@ func (s *Service) GetChart(ctx context.Context, chartPack model.ChartPack) ([]by
 					return nil, fmt.Errorf("cant get predict_feed: %w", err)
 				}
 				feed = append(feed, predictFeed...)
-				//lastPricePredict, _, err := s.GetMaterialValueForPeriod(ctx, id, predictPropertyId, finish, finish)
-				//dataset.PredictAccuracy = math.Round(100 - (math.Abs(lastPrice.Value-lastPricePredict[0].Value)/lastPrice.Value)*100)
+				lastPrice := feed[len(feed)-1]
+				lastPricePredict, _, err := s.GetMaterialValueForPeriod(ctx, id, predictPropertyId, finish, finish)
+				dataset.PredictAccuracy = math.Round(100 - (math.Abs(lastPrice.Value-lastPricePredict[0].Value)/lastPrice.Value)*100)
 			}
 		case "week":
 			feed, _, err = s.GetWeeklyAvgFeed(ctx, id, chartPack.PropertyId, start, finish)
@@ -85,7 +85,6 @@ func (s *Service) GetChart(ctx context.Context, chartPack model.ChartPack) ([]by
 				req.XLabelSet = append(req.XLabelSet, item.Date.Format("2006-01-02"))
 			}
 		}
-
 		req.YDataSet = append(req.YDataSet, dataset)
 		req.Options.NeedLabels = chartPack.NeedLabels
 		req.Options.Type = chartPack.Type
