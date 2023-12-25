@@ -141,7 +141,7 @@ const getChart = async (XLabelSet: string[], YDataSets: YDataSet[], options: Cha
         console.log(e)
     }
     if (options.predict) {
-        let date = XLabelSet[XLabelSet.length - 3]
+        let date = XLabelSet[XLabelSet.length - 4]
         let labels: PredictLabelInfo[] = [];
         YDataSets.forEach(set => {
             let label = <PredictLabelInfo>{}
