@@ -4,6 +4,8 @@ import {Request} from "express";
 import {Response} from 'express';
 import {LabelOptions} from "chartjs-plugin-datalabels/types/options";
 import * as dotenv from 'dotenv'
+import { createCanvas, loadImage } from 'canvas';
+import {getFullRuMonth} from "./dateOperations";
 
 const path = require('path');
 
@@ -54,6 +56,11 @@ type YDataSet = {
     predict_accuracy: number
 }
 
+type PredictLabelInfo = {
+    material: string,
+    accuracy: number
+}
+
 function getPercentChangesArr(prices: number[]): string[] {
     let changes: string[] = []
     let change
@@ -86,6 +93,7 @@ const getChart = async (XLabelSet: string[], YDataSets: YDataSet[], options: Cha
         canvasRenderService = new ChartJSNodeCanvas({width, height, chartJsFactory});
         canvasRenderService.registerFont(process.cwd() + '/assets/Montserrat-Medium.ttf', {family: 'Montserrat Medium'});
         canvasRenderService.registerFont(process.cwd() + '/assets/Montserrat-ExtraBold.ttf', {family: 'Montserrat Extrabold'});
+        canvasRenderService.registerFont(process.cwd() + '/assets/Montserrat-SemiBold.ttf', {family: 'Montserrat Semibold'});
     } catch (e: unknown) {
         console.log(e)
     }
@@ -132,9 +140,75 @@ const getChart = async (XLabelSet: string[], YDataSets: YDataSet[], options: Cha
     } catch (e: any) {
         console.log(e)
     }
+    if (options.predict) {
+        let date = XLabelSet[XLabelSet.length - 3]
+        let labels: PredictLabelInfo[] = [];
+        YDataSets.forEach(set => {
+            let label = <PredictLabelInfo>{}
+            label.material = set.label
+            label.accuracy = set.predict_accuracy
+            labels.push(label)
+        })
+        chartBuffer = await drawTextOverImage(chartBuffer, date, labels);
+    }
     // @ts-ignore
-    return chartBuffer;
+    return chartBuffer
 }
+
+async function drawTextOverImage(imageBuffer: Buffer, dateStr: string, labels: PredictLabelInfo[]): Promise<Buffer> {
+    const image = await loadImage(imageBuffer);
+    const canvas = createCanvas(image.width, image.height);
+    const ctx = canvas.getContext('2d');
+
+    ctx.drawImage(image, 0, 0, image.width, image.height);
+
+    ctx.globalAlpha = 0.4;
+    // Draw text centered by the line width
+    ctx.font = '35px Montserrat Semibold';
+    let textWidth = ctx.measureText("Прогноз").width;
+    let textX = (image.width - (image.width / 7)) - (textWidth / 2);
+    let textY = image.height * 0.20;
+    ctx.fillText("Прогноз", textX, textY);
+
+
+    // Add a line under the text
+    const lineHeight = 5;
+    const linePadding = 130; // Adjust the padding as needed
+    const lineLength = textWidth + 2 * linePadding; // Adjust the length of the line as needed
+    const lineX = textX - linePadding; // Adjust the position of the line as needed
+    const lineY = textY + 10; // Adjust the position of the line as needed
+    ctx.fillRect(lineX, lineY, lineLength, lineHeight);
+
+    // Add small vertical notches at the ends of the line
+    const notchHeight = 10;
+    const notchWidth = 3;
+    ctx.fillRect(lineX, lineY - notchHeight, notchWidth, notchHeight); // Top notch
+    ctx.fillRect(lineX, lineY + lineHeight, notchWidth, notchHeight); // Bottom notch
+    ctx.fillRect(lineX + lineLength - notchWidth, lineY - notchHeight, notchWidth, notchHeight); // Top notch
+    ctx.fillRect(lineX + lineLength - notchWidth, lineY + lineHeight, notchWidth, notchHeight); // Bottom notch
+
+    let newText = `Точность прогноза за ${getFullRuMonth(dateStr)}:`
+    ctx.font = '25px Montserrat Semibold';
+    textWidth = ctx.measureText(newText).width;
+    textX = (image.width - (image.width / 7)) - (textWidth / 2);
+    textY = image.height * 0.06;
+    ctx.fillText(newText, textX, textY);
+    let predictLabelsCnt = 1
+    ctx.font = '20px Montserrat Semibold';
+    labels.forEach(label => {
+        let text = `${label.material} - ${label.accuracy}%`
+        let textHeight = ctx.measureText(text).actualBoundingBoxAscent +  ctx.measureText(text).actualBoundingBoxDescent
+        let labelY = textY + (textHeight + 5) * predictLabelsCnt
+        let labelX = textX
+        ctx.fillText(text, labelX, labelY);
+        predictLabelsCnt++
+    })
+
+
+    // Convert the canvas to a buffer
+    return canvas.toBuffer();
+}
+
 
 type ChartOptions = {
     labels?: Partial<LabelOptions>,
@@ -172,7 +246,7 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
     }
 
     const pointRadius = 3 * 2
-    const labelOffset = 10 * 2
+    const labelOffset = 15 * 2
     let xAxisLabelsOffset = -10
     if (options.tall) xAxisLabelsOffset *= 2.5
     const labelOffsetDelta = -70
@@ -486,7 +560,7 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
     // @ts-ignore
     conf.options?.scales.y.min = Math.ceil(minVal - 1)
     // @ts-ignore
-    conf.options?.scales.y.max = Math.floor(maxVal + 1)
+    conf.options?.scales.y.max = Math.floor(maxVal + 1 + maxVal * 0.1)
     if (options.type == 'bar') {
         // @ts-ignore
         conf.options?.scales.y.min = barChartBottomBorder
