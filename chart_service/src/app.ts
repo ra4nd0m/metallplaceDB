@@ -1,16 +1,18 @@
-import {Chart, ChartConfiguration, LegendItem, ChartTypeRegistry, ScatterDataPoint, BubbleDataPoint} from "chart.js";
+import {ChartConfiguration} from "chart.js";
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import {Request} from "express";
 import {Response} from 'express';
 import {LabelOptions} from "chartjs-plugin-datalabels/types/options";
 import * as dotenv from 'dotenv'
-import { createCanvas, loadImage } from 'canvas';
-import {getFullRuMonth} from "./dateOperations";
+import {countSameWeekDates, getWeekNumber, getRuMonth} from "./dateOperations";
+import {ChartOptions, Dataset, PredictLabelInfo, YDataSet} from "./model";
+import {drawPredictInfo} from "./drawPredictInfo";
 
 const path = require('path');
 
 const express = require('express')
 const {ChartJSNodeCanvas} = require('chartjs-node-canvas');
+
 
 let app = express()
 dotenv.config({path: path.join(__dirname, '../../.env')})
@@ -35,31 +37,6 @@ const chartJsFactory = () => {
     return Chart;
 }
 
-type Dataset = {
-    label: string,
-    data: number[],
-    lineTension: number,
-    fill: boolean,
-    borderColor: string
-    backgroundColor: string
-    pointStyle?: string
-    pointRadius?: any
-    pointBackgroundColor?: string
-    borderWidth?: number
-    predictAccuracy?: number
-
-}
-
-type YDataSet = {
-    label: string,
-    data: number[]
-    predict_accuracy: number
-}
-
-type PredictLabelInfo = {
-    material: string,
-    accuracy: number
-}
 
 function getPercentChangesArr(prices: number[]): string[] {
     let changes: string[] = []
@@ -77,7 +54,6 @@ function getPercentChangesArr(prices: number[]): string[] {
 const line = 'rgba(0, 0, 0, 0.2)'
 const thickLine = 'rgba(0, 0, 0, 0.6)'
 const transpLine = 'rgba(0, 0, 0, 0)'
-let confPrev: ChartConfiguration
 
 const getChart = async (XLabelSet: string[], YDataSets: YDataSet[], options: ChartOptions): Promise<Buffer> => {
     let width = 1900; //px
@@ -149,80 +125,11 @@ const getChart = async (XLabelSet: string[], YDataSets: YDataSet[], options: Cha
             label.accuracy = set.predict_accuracy
             labels.push(label)
         })
-        chartBuffer = await drawTextOverImage(chartBuffer, date, labels);
+        chartBuffer = await drawPredictInfo(chartBuffer, date, labels);
     }
     // @ts-ignore
     return chartBuffer
 }
-
-async function drawTextOverImage(imageBuffer: Buffer, dateStr: string, labels: PredictLabelInfo[]): Promise<Buffer> {
-    const image = await loadImage(imageBuffer);
-    const canvas = createCanvas(image.width, image.height);
-    const ctx = canvas.getContext('2d');
-
-    ctx.drawImage(image, 0, 0, image.width, image.height);
-
-    ctx.globalAlpha = 0.4;
-    // Draw text centered by the line width
-    ctx.font = '35px Montserrat Semibold';
-    let textWidth = ctx.measureText("Прогноз").width;
-    let textX = (image.width - (image.width / 7)) - (textWidth / 2);
-    let textY = image.height * 0.20;
-    ctx.fillText("Прогноз", textX, textY);
-
-
-    // Add a line under the text
-    const lineHeight = 5;
-    const linePadding = 130; // Adjust the padding as needed
-    const lineLength = textWidth + 2 * linePadding; // Adjust the length of the line as needed
-    const lineX = textX - linePadding; // Adjust the position of the line as needed
-    const lineY = textY + 10; // Adjust the position of the line as needed
-    ctx.fillRect(lineX, lineY, lineLength, lineHeight);
-
-    // Add small vertical notches at the ends of the line
-    const notchHeight = 10;
-    const notchWidth = 3;
-    ctx.fillRect(lineX, lineY - notchHeight, notchWidth, notchHeight); // Top notch
-    ctx.fillRect(lineX, lineY + lineHeight, notchWidth, notchHeight); // Bottom notch
-    ctx.fillRect(lineX + lineLength - notchWidth, lineY - notchHeight, notchWidth, notchHeight); // Top notch
-    ctx.fillRect(lineX + lineLength - notchWidth, lineY + lineHeight, notchWidth, notchHeight); // Bottom notch
-
-    let newText = `Точность прогноза за ${getFullRuMonth(dateStr)}:`
-    ctx.font = '25px Montserrat Semibold';
-    textWidth = ctx.measureText(newText).width;
-    textX = (image.width - (image.width / 7)) - (textWidth / 2);
-    textY = image.height * 0.06;
-    ctx.fillText(newText, textX, textY);
-    let predictLabelsCnt = 1
-    ctx.font = '20px Montserrat Semibold';
-    labels.forEach(label => {
-        let text = `${label.material} - ${label.accuracy}%`
-        let textHeight = ctx.measureText(text).actualBoundingBoxAscent +  ctx.measureText(text).actualBoundingBoxDescent
-        let labelY = textY + (textHeight + 5) * predictLabelsCnt
-        let labelX = textX
-        ctx.fillText(text, labelX, labelY);
-        predictLabelsCnt++
-    })
-
-
-    // Convert the canvas to a buffer
-    return canvas.toBuffer();
-}
-
-
-type ChartOptions = {
-    labels?: Partial<LabelOptions>,
-    type?: string,
-    x_step: string,
-    tick_limit: number,
-    legend: boolean,
-    to_fixed: number,
-    title: string,
-    predict: boolean,
-    tall: boolean,
-    predictInfoStr: string
-}
-
 
 function getToFixed(datasets: Dataset[]): number {
     let max = 0
@@ -329,7 +236,10 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
                                 (context.index === dateArray.length - 4 && options.predict) ||
                                 (context.index === dateArray.length - 1 && options.type === "bar") ||
                                 // @ts-ignore
-                                (!options.predict && options.type != "bar" && context.tick.label.includes("Янв"))
+                                (!options.predict && options.type != "bar" && (context.tick.label.includes("Янв") ||
+                                    // @ts-ignore
+                                        (context.index >= dateArray.length - countSameWeekDates(dateArray) && /^\d{2}.\d{2}.\d{2}$/.test(context.tick.label))
+                                ))
                             ) {
                                 return {family: fontExtrabold, size: axesFontSize}
                             } else {
@@ -423,27 +333,6 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
                         usePointStyle: true,
                         pointStyle: 'circle',
                         padding: 20,
-                        // generateLabels: function (chart) {
-                        //     let data = chart.data;
-                        //     if (data.datasets.length) {
-                        //         let labels: LegendItem[] | { text: string; fillStyle: string}[] = [];
-                        //         // @ts-ignore
-                        //         data.datasets.forEach(function(ds: Dataset) {
-                        //             labels.push({
-                        //                 text: ds.label,
-                        //                 fillStyle: ds.backgroundColor
-                        //             });
-                        //             if (options.predict) {
-                        //                 labels.push({
-                        //                     text: `точность прогноза - ${ds.predictAccuracy}%`,
-                        //                     fillStyle: 'white',
-                        //                 });
-                        //             }
-                        //         });
-                        //         return labels;
-                        //     }
-                        //     return [];
-                        // }
                     }
                 }
             },
@@ -682,45 +571,6 @@ function formatXLabel(dateStr: string, xStep: string): string {
 
 }
 
-function getWeekNumber(date: Date): number {
-    const firstDayOfYear = new Date(date.getFullYear(), 0, 1);
-    const dayOfYear = ((date.getTime() - firstDayOfYear.getTime()) / 86400000) + 1;
-    return Math.ceil(dayOfYear / 7);
-}
-
-// @ts-ignore
-function getRuMonth(dateStr: string): string {
-    const date = new Date(Date.parse(dateStr));
-    const month = date.getMonth();
-    const year = date.getFullYear().toString().slice(-2);
-    switch (month) {
-        case 0:
-            return 'Янв\'' + year;
-        case 1:
-            return 'Фев\'' + year;
-        case 2:
-            return 'Мар\'' + year;
-        case 3:
-            return 'Апр\'' + year;
-        case 4:
-            return 'Май\'' + year;
-        case 5:
-            return 'Июн\'' + year;
-        case 6:
-            return 'Июл\'' + year;
-        case 7:
-            return 'Авг\'' + year;
-        case 8:
-            return 'Сен\'' + year;
-        case 9:
-            return 'Окт\'' + year;
-        case 10:
-            return 'Ноя\'' + year;
-        case 11:
-            return 'Дек\'' + year;
-    }
-}
-
 function formatYLabel(num: number) {
     let numStr = num.toString()
     if (num >= 1000) {
@@ -742,13 +592,6 @@ function formatYLabel(num: number) {
     }
     return numStr.replace(".", ",")
 }
-
-function removeDups<T>(arr: T[]): T[] {
-    return arr.filter((item, index) => {
-        return arr.indexOf(item) === index;
-    });
-}
-
 
 app.post('/gen', (req: Request, res: Response) => {
     getChart(req.body.x_label_set, req.body.y_data_set, req.body.chart_options)
