@@ -56,7 +56,10 @@ module.exports = async function tableMaterialMinimax(materialIds, dates, unitCha
 
     for (const materialId of materialIds) {
         const resMat = await axios.post(ApiEndpoint + `/getMaterialInfo`, {id: materialId})
-        const materialType = resMat.data.info.Name.match(/\((.*?)\)/)[1].trim();
+        let materialType = resMat.data.info.Name.match(/\((.*?)\)/)[1].trim();
+        if(materialType.indexOf("(") !== -1) {
+            materialType += ")"
+        }
         const period1Min = await axios.post(ApiEndpoint + endpoint, { material_source_id: materialId, property_id: MinPriceId, start: first, finish: first})
         const period1Max = await axios.post(ApiEndpoint + endpoint, { material_source_id: materialId, property_id: MaxPriceId, start: first, finish: first})
         const period1Med = await axios.post(ApiEndpoint + endpoint, { material_source_id: materialId, property_id: MedPriceId, start: first, finish: first})
