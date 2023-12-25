@@ -561,6 +561,10 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
     conf.options?.scales.y.min = Math.ceil(minVal - 1)
     // @ts-ignore
     conf.options?.scales.y.max = Math.floor(maxVal + 1 + maxVal * 0.1)
+    if (!options.predict) {
+        // @ts-ignore
+        conf.options?.scales.y.max = Math.floor(maxVal + 1 )
+    }
     if (options.type == 'bar') {
         // @ts-ignore
         conf.options?.scales.y.min = barChartBottomBorder
