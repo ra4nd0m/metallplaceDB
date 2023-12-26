@@ -1,10 +1,8 @@
 import {ChartConfiguration} from "chart.js";
 import ChartDataLabels from 'chartjs-plugin-datalabels';
-import {Request} from "express";
-import {Response} from 'express';
-import {LabelOptions} from "chartjs-plugin-datalabels/types/options";
+import {Request, Response} from "express";
 import * as dotenv from 'dotenv'
-import {countSameWeekDates, getWeekNumber, getRuMonth} from "./dateOperations";
+import {countSameWeekDates, getRuMonth, getWeekNumber} from "./dateOperations";
 import {ChartOptions, Dataset, PredictLabelInfo, YDataSet} from "./model";
 import {drawPredictInfo} from "./drawPredictInfo";
 
@@ -387,6 +385,10 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
                 anchor: 'end',
                 display: 'auto',
                 formatter: function (value, context) {
+                    function roundFloatFromString(input: string, decimalPlaces: number): number {
+                        const floatValue: number = parseFloat(input);
+                        return Math.round(floatValue * Math.pow(10, decimalPlaces)) / Math.pow(10, decimalPlaces);
+                    }
                     let label = ""
                     if (toFixed > 0) {
                         label = formatYLabel(value)
@@ -394,7 +396,11 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
                             return `${label},${"0".repeat(toFixed)}`
                         }
                         let cur = label.substring(label.indexOf(",")).length - 1
-                        return label + "0".repeat(toFixed - cur);
+                        let zeroCount = toFixed - cur
+                        if (zeroCount > 0){
+                            return label + "0".repeat(zeroCount);
+                        }
+                        return formatYLabel(roundFloatFromString(value, toFixed))
                     } else if (toFixed == 0){
                         return formatYLabel(Math.round(+value))
                     }

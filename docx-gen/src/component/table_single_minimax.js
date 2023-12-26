@@ -15,7 +15,7 @@ const cellCenter = require("../atom/cell_centred");
 const margins = require("../atom/margins");
 
 
-module.exports = async function singleTableMinimax(materialId, dates, unitChangeRound, percentChangeRound, type) {
+module.exports = async function singleTableMinimax(materialId, dates, unitChangeRound, percentChangeRound, type, priceRound) {
     const first = new Date(dates[0])
     const last = new Date(dates[1])
     if (type === undefined) type = "day"
@@ -105,7 +105,7 @@ module.exports = async function singleTableMinimax(materialId, dates, unitChange
             type: docx.WidthType.PERCENTAGE,
         },
         columnWidths: [3, 1, 1, 1, 1.5, 1.5],
-        rows: tableBody(minBody.data, maxBody.data, medBody.data, unitChangeRound, percentChangeRound, type),
+        rows: tableBody(minBody.data, maxBody.data, medBody.data, unitChangeRound, percentChangeRound, type, priceRound),
     })
 
     return margins([paragraph({children: [header, body]})])

@@ -7,13 +7,14 @@ const getToFixed = require("../utils/get_to_fixed")
 const {FontFamilyExtraBold, FontFamily} = require("../const");
 const defineFont = require("../utils/define_font");
 
-module.exports = function (min, max, med, unitChangeRound, percentChangeRound, type) {
+module.exports = function (min, max, med, unitChangeRound, percentChangeRound, type, priceRound) {
     let rows = [];
     const pfMin = min.price_feed
     const pfMax = max.price_feed
     const pfMed = med.price_feed
 
-    const fixed = getToFixed([pfMin, pfMed, pfMax])
+    let fixed = getToFixed([pfMin, pfMed, pfMax])
+    if (priceRound !== undefined) {fixed = priceRound}
 
     for (let i = 0; i < pfMed.length; i++) {
         const changeUnits = getChange(pfMed, i, med.prev_price, false, unitChangeRound);

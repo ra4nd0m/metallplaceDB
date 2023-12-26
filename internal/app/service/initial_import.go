@@ -502,12 +502,10 @@ func (s *Service) InitImportMaterialsVertical(ctx context.Context, book *exceliz
 
 				if valueCellValue == "" && valueCalc == "" {
 					break
-				} else if valueCellValue != "" {
-					value = valueCellValue
 				} else if valueCalc != "" {
 					value = valueCalc
-				} else {
-					value = "-1000000000"
+				} else if valueCellValue != "" {
+					value = valueCellValue
 				}
 
 				// Calculating date cell, and formatting it

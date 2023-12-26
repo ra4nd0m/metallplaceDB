@@ -24,7 +24,10 @@ module.exports = function (num, fixed){
         if (numStr.indexOf(",") === -1){
             numStr += "," + "0".repeat(fixed)
         } else {
-            numStr += "0".repeat(fixed - numStr.substring(numStr.indexOf(",") + 1).length)
+            let zeroCount = fixed - numStr.substring(numStr.indexOf(",") + 1).length
+            if (zeroCount >= 0){
+                numStr += "0".repeat(fixed - numStr.substring(numStr.indexOf(",") + 1).length)
+            }
         }
     }
     return numStr
