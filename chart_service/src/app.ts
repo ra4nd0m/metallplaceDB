@@ -201,10 +201,10 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
     })
 
     if (options.type === 'bar') {
-        if (maxVal <= 20) {
-            barChartBottomBorder = 0
+        if (maxVal <= 10) {
+            barChartBottomBorder = 1
         } else {
-            barChartBottomBorder = Math.floor(minVal * 0.95 / 10) * 10;
+            barChartBottomBorder = Math.floor(minVal * 0.95 / 10) * 10
         }
     }
 

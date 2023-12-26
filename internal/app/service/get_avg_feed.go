@@ -37,7 +37,7 @@ func (s *Service) GetMonthlyAvgFeed(ctx context.Context, uid, propertyId int, st
 		if err != nil {
 			return nil, 0, fmt.Errorf("cant get month feed: %w", err)
 		}
-		avgFeed = append(avgFeed, getPriceArrAvg(curFeed))
+		avgFeed = append(avgFeed, getPriceArrAvg(curFeed, "month"))
 		cur = cur.AddDate(0, 1, 0)
 	}
 	prevPrice := avgFeed[0].Value
@@ -69,7 +69,7 @@ func (s *Service) GetWeeklyAvgFeed(ctx context.Context, uid, propertyId int, sta
 		if err != nil {
 			return nil, 0, fmt.Errorf("cant get month feed: %w", err)
 		}
-		avgFeed = append(avgFeed, getPriceArrAvg(curFeed))
+		avgFeed = append(avgFeed, getPriceArrAvg(curFeed, "week"))
 		cur = cur.AddDate(0, 0, 7)
 	}
 	prevPrice := avgFeed[0].Value
@@ -77,11 +77,27 @@ func (s *Service) GetWeeklyAvgFeed(ctx context.Context, uid, propertyId int, sta
 	return avgFeed, prevPrice, nil
 }
 
-func getPriceArrAvg(feed []model.Price) model.Price {
+func getPriceArrAvg(feed []model.Price, period string) model.Price {
 	var sum float64
 	for _, p := range feed {
 		sum += p.Value
 	}
-	date := time.Date(feed[0].Date.Year(), feed[0].Date.Month(), 1, 0, 0, 0, 0, time.Local)
+	var date time.Time
+	if period == "week" {
+		date = getMondayOfWeek(feed[0].Date)
+	} else {
+		date = time.Date(feed[0].Date.Year(), feed[0].Date.Month(), 1, 0, 0, 0, 0, time.Local)
+	}
+
 	return model.Price{Date: date, Value: math.Round(sum/float64(len(feed))*100) / 100}
+}
+
+func getMondayOfWeek(date time.Time) time.Time {
+	weekday := date.Weekday()
+	daysAgo := int(weekday - time.Monday)
+	if daysAgo < 0 {
+		daysAgo += 7
+	}
+	monday := date.AddDate(0, 0, -daysAgo)
+	return monday
 }
