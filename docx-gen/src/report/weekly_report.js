@@ -244,7 +244,7 @@ module.exports = class WeeklyReport {
                         h3("Уголь и кокс"),
 
                         paragraph({ // коксующийся уголь россия австралия
-                            children: [await oneChartText(FormChartUrl(new ChartUrl([6, 7], MedPriceId, Get2WeekRange(date), 1, "line", "day", "day", 1, 1)), ["Цены на коксующийся уголь", "$/т CRF Китай"])]
+                            children: [await oneChartText(FormChartUrl(new ChartUrl([6, 7], MedPriceId, Get2WeekRange(date), 1, "line", "day", "day", 1, 0)), ["Цены на коксующийся уголь", "$/т CRF Китай"])]
                         }),
                         await tableDoubleAvg(6, 7, MedPriceId, Get2WeekRange(date, true), 0, 1, 0, "week"), // коксующийся уголь россия австралия
                         paragraph({ // мет кокс
@@ -356,11 +356,11 @@ module.exports = class WeeklyReport {
                             children: [await oneChartText(FormChartUrl(new ChartUrl([26], StockId, GetMonthRange(date), 1, "bar", "day", "day", 0, 3)), ["Запасы марганцевой руды в китайских портах", "млн тонн"])]
                         }),
                         paragraph({ //mn руда цена
-                            children: [await oneChartText(FormChartUrl(new ChartUrl([22], MedPriceId, GetMonthRange(date), 1, "line", "day", "day", 1, -1)), ["Цена на марганцевую руду", "$/1% Mn смт CIF Китай"])]
+                            children: [await oneChartText(FormChartUrl(new ChartUrl([22], MedPriceId, GetMonthRange(date), 1, "line", "day", "day", 1, 3)), ["Цена на марганцевую руду", "$/1% Mn смт CIF Китай"])]
                         }),
                         pageBreak(),
                         separator(),
-                        await singleTableMinimax(22, GetMonthRange(date, true), 2, 1, undefined, -1),
+                        await singleTableMinimax(22, GetMonthRange(date, true), 2, 1, undefined, 2),
 
 
                         h3("Хромовая руда"),

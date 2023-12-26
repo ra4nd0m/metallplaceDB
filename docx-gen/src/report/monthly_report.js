@@ -367,7 +367,7 @@ module.exports = class MonthlyReport {
                             children: [await oneChartText(FormChartUrl(new ChartUrl([26], StockId, GetNMonthRange(date, 5), 1, "bar", "month", "month", 0, 3)), ["Запасы марганцевой руды в китайских портах", "млн тонн"])]
                         }),
                         paragraph({ // mn руда
-                            children: [await oneChartText(FormChartUrl(new ChartUrl([22], MedPriceId, GetNMonthRange(date, 9), 1, "line", "month", "month", 1, 2, 1)), ["Цена на марганцевую руду", "$/1% Mn смт CIF Китай"])]
+                            children: [await oneChartText(FormChartUrl(new ChartUrl([22], MedPriceId, GetNMonthRange(date, 9), 1, "line", "month", "month", 1, 3, 1)), ["Цена на марганцевую руду", "$/1% Mn смт CIF Китай"])]
                         }),
                         pageBreak(),
                         separator(),
