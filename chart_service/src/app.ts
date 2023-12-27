@@ -366,6 +366,18 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
             }
         }
     }
+    if (options.x_step == "day") {
+        for (let dsIdx = 0; dsIdx < datasets.length; dsIdx++) {
+            const length: number = dateArrayFormatted.length;
+            const newArray: number[] = Array(length).fill(datasets[dsIdx].pointRadius);
+            const newRadius: number = datasets[dsIdx].pointRadius * 2.5;
+            for (let i = dateArray.length - countSameWeekDates(dateArray); i < length; i ++) {
+                newArray[i] = newRadius
+            }
+            // @ts-ignore
+            datasets[dsIdx].pointRadius = newArray
+        }
+    }
     if (options.labels) {
         let toFixed: number
         if (options.to_fixed != -1){
@@ -439,7 +451,8 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
                     // Check if it's the third-from-the-end label
                     if (
                         (context.dataIndex === context.dataset.data.length - 4 && options.predict && options.type != "bar") ||
-                        (context.dataIndex === context.dataset.data.length - 1 &&  options.type === "bar")
+                        (context.dataIndex === context.dataset.data.length - 1 &&  options.type === "bar") ||
+                        (options.x_step === "day" && context.dataIndex >= context.dataset.data.length - countSameWeekDates(dateArray)  )
                     ) {
                         return {
                             family: fontExtrabold,

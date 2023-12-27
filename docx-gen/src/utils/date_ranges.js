@@ -2,14 +2,32 @@ const {GetWeekDates, FormatDayMonth} = require("./date_operations");
 
 
 module.exports.GetMonthRange = function (date, isRaw){
-    const last = new Date(date)
+    let last = new Date(date)
     let first = new Date(date)
-    first.setDate(first.getDate() - 28)
+    first.setMonth(first.getMonth() - 1)
+    first.setDate(first.getDate() )
     last.setDate(last.getDate() + 1)
+    first = getFridayOfWeek(first)
+    last = getFridayOfWeek(last)
     if(isRaw) return [new Date(first), new Date(last)]
 
     return `${FormatDayMonth(first.getMonth()+1)}-${FormatDayMonth(first.getDate())}-${first.getFullYear()}_`+
         `${FormatDayMonth(last.getMonth()+1)}-${FormatDayMonth(last.getDate())}-${last.getFullYear()}`
+}
+function getFridayOfWeek(givenDate) {
+    let date = new Date(givenDate);
+    let day = date.getDay();
+    let diff = 5 - day; // 5 represents Friday (0 is Sunday, 1 is Monday, and so on)
+    date.setDate(date.getDate() + diff);
+    return date;
+}
+
+function getMondayOfWeek(givenDate) {
+    let date = new Date(givenDate);
+    let day = date.getDay();
+    let diff = 1 - day; // 5 represents Friday (0 is Sunday, 1 is Monday, and so on)
+    date.setDate(date.getDate() + diff);
+    return date;
 }
 module.exports.GetHalfYearRange = function (date, isRaw){
     const last = new Date(date)

@@ -9,6 +9,7 @@ const defineFont = require("../utils/define_font");
 
 module.exports = function (min1, max1, med1, min2, max2, med2, unitChangeRound, percentChangeRound, priceRound, type) {
     let rows = [];
+
     const pfMin1 = min1.price_feed
     const pfMax1 = max1.price_feed
     const pfMed1 = med1.price_feed
