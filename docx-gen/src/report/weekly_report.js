@@ -220,9 +220,11 @@ module.exports = class WeeklyReport {
                         paragraph({
                             children: [
                                 await twoChart( // mn cr руда
-                                    FormChartUrl(new ChartUrl([22], MedPriceId, GetYearRange(date), 0, "line", "day", "week", 0, -1, 0, 1)),
-                                    FormChartUrl(new ChartUrl([23], MedPriceId, GetYearRange(date), 0, "line", "day", "week", 0, -1, 0, 1)),
-                                    [2, 2]
+                                    FormChartUrl(new ChartUrl([22], MedPriceId, GetYearRange(date), 0, "line", "day", "week", 0, 2, 0, 1)),
+                                    FormChartUrl(new ChartUrl([23], MedPriceId, GetYearRange(date), 0, "line", "day", "week", 0, 1, 0, 1)),
+                                    [2, 2],
+                                    undefined,
+                                    [2, 1]
                                 )
                             ]
                         }),

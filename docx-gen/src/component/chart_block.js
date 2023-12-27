@@ -9,9 +9,9 @@ const {TableCellMarginNil, Green, Red, ColorDefault, FontFamily, FontFamilySemiB
 const numFormat = require("../utils/numbers_format")
 const axios = require("axios");
 
-module.exports = async function chartBlock(url, isBig, avgGroup, comparePeriod) {
+module.exports = async function chartBlock(url, isBig, avgGroup, comparePeriod, fixed) {
     const image = await chart(url, isBig);
-    const infoRow = await getInfo(isBig, url, avgGroup, comparePeriod)
+    const infoRow = await getInfo(isBig, url, avgGroup, comparePeriod, fixed)
 
     return new docx.Table({
         width: {
@@ -39,7 +39,7 @@ module.exports = async function chartBlock(url, isBig, avgGroup, comparePeriod) 
 }
 
 
-async function getInfo(isBig, url, group, comparePeriod) {
+async function getInfo(isBig, url, group, comparePeriod, fixed) {
     if (isBig) return []
     if (comparePeriod === undefined) comparePeriod = "н/н"
     const nValues = 2 * group
@@ -158,7 +158,7 @@ async function getInfo(isBig, url, group, comparePeriod) {
                         spacing: {before: 0},
                         children: [
                             text({
-                                text: numFormat(lastPrice),
+                                text: numFormat(lastPrice, fixed),
                                 font: FontFamilyExtraBold,
                                 color: '#000000',
                                 size: 12 * 2,
