@@ -6,12 +6,15 @@ const textTdItalic = require("../atom/text_td_small_cursive")
 const textTh = require("../atom/text_th")
 const {FontFamily, FontFamilyThin, FontFamilyExtraBold, FontSizeThSecondary, FontSizeTdMicro, FatBorder} = require("../const");
 
-module.exports = function (body, titlesIndexes, titles, priceRounds){
+module.exports = function (body, titlesIndexes, titles, priceRounds, unitChangeRounds){
     let rows = [];
     let tableRowCnt = 0
     let titleRowCnt = 0
     body.forEach(m =>{
-        const changeUnits = getChange(m.Week2Med.price_feed, 0, m.Week1Med.price_feed[0].value, false);
+        let unitChangeRound = 0
+        if (unitChangeRounds[tableRowCnt]) unitChangeRound = unitChangeRounds[tableRowCnt]
+
+        const changeUnits = getChange(m.Week2Med.price_feed, 0, m.Week1Med.price_feed[0].value, false, unitChangeRound);
         const changePercents = getChange(m.Week2Med.price_feed, 0, m.Week1Med.price_feed[0].value, true);
         let names = [m.Name, ""]
         if (m.Name.indexOf(";") !== -1) {
