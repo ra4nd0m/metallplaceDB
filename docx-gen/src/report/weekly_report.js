@@ -358,7 +358,7 @@ module.exports = class WeeklyReport {
                             children: [await oneChartText(FormChartUrl(new ChartUrl([26], StockId, GetMonthRange(date), 1, "bar", "day", "day", 0, 3)), ["Запасы марганцевой руды в китайских портах", "млн тонн"])]
                         }),
                         paragraph({ //mn руда цена
-                            children: [await oneChartText(FormChartUrl(new ChartUrl([22], MedPriceId, GetMonthRange(date), 1, "line", "day", "day", 1, 3)), ["Цены на марганцевую руду", "$/1% Mn смт CIF Китай"])]
+                            children: [await oneChartText(FormChartUrl(new ChartUrl([22], MedPriceId, GetMonthRange(date), 1, "line", "day", "day", 1, 2)), ["Цены на марганцевую руду", "$/1% Mn смт CIF Китай"])]
                         }),
                         pageBreak(),
                         separator(),
@@ -367,14 +367,14 @@ module.exports = class WeeklyReport {
 
                         h3("Хромовая руда"),
                         paragraph({ //хром руда запасы в китае
-                            children: [await oneChartText(FormChartUrl(new ChartUrl([27], StockId, GetMonthRange(date), 1, "bar", "day", "day", 0, 2)), ["Запасы хромовой руды в китайских портах", "млн тонн"])]
+                            children: [await oneChartText(FormChartUrl(new ChartUrl([27], StockId, GetMonthRange(date), 1, "bar", "day", "day", 0, 3)), ["Запасы хромовой руды в китайских портах", "млн тонн"])]
                         }),
                         paragraph({ //cr руда цена
-                            children: [await oneChartText(FormChartUrl(new ChartUrl([23], MedPriceId, GetMonthRange(date), 1, "line", "day", "day", 1, 0)), ["Цены на хромовую руду", "$/т CIF Китай"])]
+                            children: [await oneChartText(FormChartUrl(new ChartUrl([23], MedPriceId, GetMonthRange(date), 1, "line", "day", "day", 1, 1)), ["Цены на хромовую руду", "$/т CIF Китай"])]
                         }),
                         pageBreak(),
                         separator(),
-                        await singleTableMinimax(23, GetMonthRange(date, true), 1, 1, undefined, 0),
+                        await singleTableMinimax(23, GetMonthRange(date, true), 1, 1, undefined, 1),
 
                         h2("Рынок графитированых электродов"),
                         paragraph({ //гэ 450 600 мм

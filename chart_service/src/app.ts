@@ -385,9 +385,8 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
                 anchor: 'end',
                 display: 'auto',
                 formatter: function (value, context) {
-                    function roundFloatFromString(input: string, decimalPlaces: number): number {
-                        const floatValue: number = parseFloat(input);
-                        return Math.round(floatValue * Math.pow(10, decimalPlaces)) / Math.pow(10, decimalPlaces);
+                    function roundFloatFromString(input: number, decimalPlaces: number): number {
+                        return Math.round(input * Math.pow(10, decimalPlaces)) / Math.pow(10, decimalPlaces);
                     }
                     let label = ""
                     if (toFixed > 0) {
@@ -398,11 +397,18 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
                         let cur = label.substring(label.indexOf(",")).length - 1
                         let zeroCount = toFixed - cur
                         if (zeroCount > 0){
-                            return label + "0".repeat(zeroCount);
+                            return label + "0".repeat(zeroCount)
+                        } else {
+                            let rounded = String(roundFloatFromString(value, toFixed)).replace(".", ",")
+                            let cur = rounded.substring(rounded.indexOf(",")).length - 1
+                            let zeroCount = toFixed - cur
+                            if (zeroCount > 0){
+                                return rounded + "0".repeat(zeroCount)
+                            }
                         }
                         return formatYLabel(roundFloatFromString(value, toFixed))
                     } else if (toFixed == 0){
-                        return formatYLabel(Math.round(+value))
+                        return formatYLabel(Math.round(value))
                     }
                     return formatYLabel(value)
                 },

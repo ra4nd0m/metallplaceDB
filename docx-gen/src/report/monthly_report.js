@@ -377,14 +377,14 @@ module.exports = class MonthlyReport {
 
                         h3("Хромовая руда"),
                         paragraph({ // cr руда запасы в китае
-                            children: [await oneChartText(FormChartUrl(new ChartUrl([27], StockId, GetNMonthRange(date, 5), 1, "bar", "month", "month", 0, 2)), ["Запасы хромой руды в китайских портах", "млн тонн"])]
+                            children: [await oneChartText(FormChartUrl(new ChartUrl([27], StockId, GetNMonthRange(date, 5), 1, "bar", "month", "month", 0, 3)), ["Запасы хромой руды в китайских портах", "млн тонн"])]
                         }),
                         paragraph({ // cr руда
-                            children: [await oneChartText(FormChartUrl(new ChartUrl([23], MedPriceId, GetNMonthRange(date, 9), 1, "line", "month", "month", 1, 0, 1)), ["Цены на хромовую руду", "$/т CIF Китай"])]
+                            children: [await oneChartText(FormChartUrl(new ChartUrl([23], MedPriceId, GetNMonthRange(date, 9), 1, "line", "month", "month", 1, 1, 1)), ["Цены на хромовую руду", "$/т CIF Китай"])]
                         }),
                         pageBreak(),
                         separator(),
-                        await singleTable(23, MedPriceId, GetNMonthRange(date, 9, true), 0, 1, "month", 0, 0), //
+                        await singleTable(23, MedPriceId, GetNMonthRange(date, 9, true), 0, 1, "month", 0, 1),
 
                         pageBreak(),
                         h2("Рынок графитированых электродов"),

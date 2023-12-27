@@ -21,7 +21,7 @@ module.exports = function (num, fixed){
                 if(num >= 1000){
                     numStr = addSpaces(numStr)
                 }
-
+                numStr += "0".repeat(fixed - numStr.substring(numStr.indexOf(",") + 1).length)
             }
         }
     }
