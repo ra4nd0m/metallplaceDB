@@ -250,7 +250,7 @@ module.exports = class WeeklyReport {
                         }),
                         await tableDoubleAvg(6, 7, MedPriceId, Get2WeekRange(date, true), 0, 1, 0, "week"), // коксующийся уголь россия австралия
                         paragraph({ // мет кокс
-                            children: [await oneChartText(FormChartUrl(new ChartUrl([8], MedPriceId, GetMonthRange(date), 1, "line", "day", "day", 1, 0)), ["Цена на металлический кокс", "$/т FOB Китай"])]
+                            children: [await oneChartText(FormChartUrl(new ChartUrl([8], MedPriceId, GetMonthRange(date), 1, "line", "day", "day", 1, 0)), ["Цена на металлургический кокс", "$/т FOB Китай"])]
                         }),
                         pageBreak(),
                         separator(),
