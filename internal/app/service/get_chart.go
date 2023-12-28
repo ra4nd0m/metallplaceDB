@@ -50,9 +50,12 @@ func (s *Service) GetChart(ctx context.Context, chartPack model.ChartPack) ([]by
 					return nil, fmt.Errorf("cant get predict_feed: %w", err)
 				}
 				feed = append(feed, predictFeed...)
-				lastPrice := feed[len(feed)-1]
+				lastPrice, _, err := s.GetMonthlyAvgFeed(ctx, id, chartPack.PropertyId, finish, finish)
+				if err != nil || len(lastPrice) == 0 {
+					return nil, fmt.Errorf("cannot get last price of period for calculatin predict accuracy: %w", err)
+				}
 				lastPricePredict, _, err := s.GetMaterialValueForPeriod(ctx, id, predictPropertyId, finish, finish)
-				dataset.PredictAccuracy = math.Round(100 - (math.Abs(lastPrice.Value-lastPricePredict[0].Value)/lastPrice.Value)*100)
+				dataset.PredictAccuracy = math.Round(100 - (math.Abs(lastPrice[0].Value-lastPricePredict[0].Value)/lastPrice[0].Value)*100)
 			}
 		case "week":
 			feed, _, err = s.GetWeeklyAvgFeed(ctx, id, chartPack.PropertyId, start, finish)
@@ -60,7 +63,10 @@ func (s *Service) GetChart(ctx context.Context, chartPack model.ChartPack) ([]by
 				return nil, fmt.Errorf("cant get material_value: %w", err)
 			}
 			if chartPack.Predict {
-				lastPrice := feed[len(feed)-1]
+				lastPrice, _, err := s.GetWeeklyAvgFeed(ctx, id, chartPack.PropertyId, finish, finish)
+				if err != nil || len(lastPrice) == 0 {
+					return nil, fmt.Errorf("cannot get last price of period for calculatin predict accuracy: %w", err)
+				}
 				predictStart := chartPack.Finish.AddDate(0, 0, 7).Format("2006-01-02")
 				predictFinish := chartPack.Finish.AddDate(0, 3, 21).Format("2006-01-02")
 				predictPropertyId, err := s.GetPropertyId(ctx, "Прогноз неделя")
@@ -73,10 +79,10 @@ func (s *Service) GetChart(ctx context.Context, chartPack model.ChartPack) ([]by
 				}
 				feed = append(feed, predictFeed...)
 				lastPricePredict, _, err := s.GetMaterialValueForPeriod(ctx, id, predictPropertyId, finish, finish)
-				dataset.PredictAccuracy = math.Round(float64(100) - (math.Abs(lastPrice.Value-lastPricePredict[0].Value)/lastPrice.Value)*float64(100))
+				dataset.PredictAccuracy = math.Round(float64(100) - (math.Abs(lastPrice[0].Value-lastPricePredict[0].Value)/lastPrice[0].Value)*float64(100))
 			}
 		default:
-			return nil, fmt.Errorf("wrong Scale type: %w", err)
+			return nil, fmt.Errorf("wrong data averaging scale type: %w", err)
 		}
 
 		for _, item := range feed {
