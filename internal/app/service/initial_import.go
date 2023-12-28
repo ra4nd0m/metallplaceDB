@@ -576,6 +576,7 @@ func (s *Service) InitImportMaterialsVertical(ctx context.Context, book *exceliz
 }
 
 func (s *Service) InitImportMaterialsHorizontalWeekly(ctx context.Context, book *excelize.File) error {
+
 	for _, material := range model.InitMaterialsHorizontalWeekly {
 		id, err := s.AddUniqueMaterial(ctx, material.UId, material.Name, material.Group, material.Source, material.Market, material.Unit, material.DeliveryType)
 		if err != nil {
@@ -645,7 +646,6 @@ func (s *Service) InitImportMaterialsHorizontalWeekly(ctx context.Context, book 
 				var valueDecimal float64
 				if property.Kind == "decimal" {
 					valueDecimal, err = strconv.ParseFloat(value, 64)
-					valueDecimal = math.Round(valueDecimal)
 					if err != nil {
 						return err
 					}
