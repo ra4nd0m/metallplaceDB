@@ -5,6 +5,7 @@ import * as dotenv from 'dotenv'
 import {countSameWeekDates, getRuMonth, getWeekNumber} from "./dateOperations";
 import {ChartOptions, Dataset, PredictLabelInfo, YDataSet} from "./model";
 import {drawPredictInfo} from "./drawPredictInfo";
+import {getPercentChangesArr} from "./getPercentChangeArr";
 
 const path = require('path');
 
@@ -36,18 +37,6 @@ const chartJsFactory = () => {
 }
 
 
-function getPercentChangesArr(prices: number[]): string[] {
-    let changes: string[] = []
-    let change
-    for (let i = 1; i < prices.length; i++) {
-        change = Math.round((prices[i] - prices[i - 1]) * 1000) / 1000
-        if (change > 0) changes.push(`+${change.toString().replace(".", ",")}`)
-        if (change < 0) changes.push(`${change.toString().replace(".", ",")}`)
-        if (change === 0) changes.push(`-`)
-    }
-    changes.unshift("-")
-    return changes
-}
 
 const line = 'rgba(0, 0, 0, 0.2)'
 const thickLine = 'rgba(0, 0, 0, 0.6)'
@@ -481,8 +470,9 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
     }
     if (options.type == 'bar') {
         // @ts-ignore
+
         conf.options?.scales.y.min = barChartBottomBorder
-        let changes = getPercentChangesArr(datasets[0].data)
+        let changes = getPercentChangesArr(datasets[0].data, options.to_fixed)
 
         let labelCnt = 0
         let barColors = []
