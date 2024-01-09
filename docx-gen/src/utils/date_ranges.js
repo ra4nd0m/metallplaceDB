@@ -1,13 +1,16 @@
 const {GetWeekDates, FormatDayMonth} = require("./date_operations");
 
 
-module.exports.GetMonthRange = function (date, isRaw){
+module.exports.GetMonthRange = function (date, isRaw, isShortened){
     let last = new Date(date)
     let first = new Date(date)
     first.setMonth(first.getMonth() - 1)
-    first.setDate(first.getDate() )
     last.setDate(last.getDate() + 1)
-    first = getFridayOfWeek(first)
+    if (isShortened) {
+        first = getMondayOfWeek(first.setDate(first.getDate() + 7))
+    } else {
+        first = getFridayOfWeek(first)
+    }
     last = getFridayOfWeek(last)
     if(isRaw) return [new Date(first), new Date(last)]
 

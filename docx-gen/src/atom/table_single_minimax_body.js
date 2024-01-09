@@ -20,7 +20,6 @@ module.exports = function (min, max, med, unitChangeRound, percentChangeRound, t
         const changeUnits = getChange(pfMed, i, med.prev_price, false, unitChangeRound);
         const changePercents = getChange(pfMed, i, med.prev_price, true, percentChangeRound);
         let font = defineFont(i, pfMed, type)
-
         rows.push(
             new docx.TableRow({
                 children: [
