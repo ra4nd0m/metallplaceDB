@@ -238,7 +238,7 @@ module.exports = class WeeklyReport {
                             children: [await oneChartText(FormChartUrl(new ChartUrl([28], StockId, GetMonthRange(date), 1, "bar", "day", "day", 0, 2)),  ["Запасы железной руды в китайских портах","млн тонн"])]
                         }),
                         paragraph({ //жрс 62 и 65
-                            children: [await oneChartText(FormChartUrl(new ChartUrl([2, 3], MedPriceId, Get2WeekRange(date), 1, "line", "day", "day", 1, 0)), ["Цены на ЖРС", "$/т CNF Китай"])]
+                            children: [await oneChartText(FormChartUrl(new ChartUrl([2, 3], MedPriceId, Get2WeekRange(date), 1, "line", "day", "day", 1, 2 )), ["Цены на ЖРС", "$/т CNF Китай"])]
                         }),
                         await tableDoubleAvg(2, 3, MedPriceId, Get2WeekRange(date, true), 2, 1, 1, "week"), //жрс 62 и 65
 
@@ -377,7 +377,7 @@ module.exports = class WeeklyReport {
                         separator(),
                         await singleTableMinimax(23, GetMonthRange(date, true, true), 1, 1, undefined, 1),
 
-                        h2("Рынок графитированых электродов"),
+                        h2("Рынок графитированных электродов"),
                         paragraph({ //гэ 450 600 мм
                             children: [await oneChartText(FormChartUrl(new ChartUrl([24, 25], MedPriceId, GetMonthRange(date, false, false), 1, "line", "day", "day", 1, 0)), ["Цены на графитировыные электроды", "$/т EXW Китай"])]
                         }),

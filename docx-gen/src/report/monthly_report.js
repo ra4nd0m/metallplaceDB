@@ -391,7 +391,7 @@ module.exports = class MonthlyReport {
                         await singleTable(23, MedPriceId, GetNMonthRange(date, 9, true), 0, 1, "month", 0, 1),
 
                         pageBreak(),
-                        h2("Рынок графитированых электродов"),
+                        h2("Рынок графитированных электродов"),
                         paragraph({ // гэ 450 600 мм
                             children: [await oneChartText(FormChartUrl(new ChartUrl([24, 25], MedPriceId, GetNMonthRange(date, 9), 1, "line", "month", "month", 1, 0, 1)), ["Цены на графитировыные электроды", "$/т EXW Китай"])]
                         }),
