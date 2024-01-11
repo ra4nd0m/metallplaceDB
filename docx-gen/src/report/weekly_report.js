@@ -347,11 +347,11 @@ module.exports = class WeeklyReport {
 
                         h3("Феррохром"),
                         paragraph({ // HC LC FeCr
-                            children: [await oneChartText(FormChartUrl(new ChartUrl([20, 21], MedPriceId, GetMonthRange(date, false, true), 1, "line", "day", "day", 1, 0)), ["Цены на феррохром", "¢/фунт Cr DDP ЕС"])]
+                            children: [await oneChartText(FormChartUrl(new ChartUrl([20, 21], MedPriceId, GetMonthRange(date, false, true), 1, "line", "day", "day", 1, 1)), ["Цены на феррохром", "¢/фунт Cr DDP ЕС"])]
                         }),
                         pageBreak(),
                         separator(),
-                        await doubleTableMinimax(20, 21, GetMonthRange(date, true, true), 0, 1, "week"), // HC LC FeCr
+                        await doubleTableMinimax(20, 21, GetMonthRange(date, true, true), 1, 1, "week", 1), // HC LC FeCr
 
 
                         h3("Марганцевая руда"),
