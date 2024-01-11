@@ -9,9 +9,9 @@ const {TableCellMarginNil, Green, Red, ColorDefault, FontFamily, FontFamilySemiB
 const numFormat = require("../utils/numbers_format")
 const axios = require("axios");
 
-module.exports = async function chartBlock(url, isBig, avgGroup, comparePeriod, fixed) {
+module.exports = async function chartBlock(url, isBig, avgGroup, comparePeriod, fixed, fixedChange) {
     const image = await chart(url, isBig);
-    const infoRow = await getInfo(isBig, url, avgGroup, comparePeriod, fixed)
+    const infoRow = await getInfo(isBig, url, avgGroup, comparePeriod, fixed, fixedChange)
 
     return new docx.Table({
         width: {
@@ -39,7 +39,7 @@ module.exports = async function chartBlock(url, isBig, avgGroup, comparePeriod, 
 }
 
 
-async function getInfo(isBig, url, group, comparePeriod, fixed) {
+async function getInfo(isBig, url, group, comparePeriod, fixed, fixedChange) {
     if (isBig) return []
     if (comparePeriod === undefined) comparePeriod = "н/н"
     const nValues = 2 * group
@@ -88,7 +88,7 @@ async function getInfo(isBig, url, group, comparePeriod, fixed) {
     if (percent > 0) {
         percentBlock =
                 text({
-                    text: `+${numFormat(percent)}% `,
+                    text: `+${numFormat(percent, fixedChange)}% `,
                     font: FontFamilyExtraBold,
                     color: Green,
                     size: percentFontSize,
@@ -97,7 +97,7 @@ async function getInfo(isBig, url, group, comparePeriod, fixed) {
         if (percent < 0) {
             percentBlock =
                     text({
-                        text: `${numFormat(percent)}% `,
+                        text: `${numFormat(percent, fixedChange)}% `,
                         font: FontFamilyExtraBold,
                         color: Red,
                         size: percentFontSize,
@@ -113,9 +113,7 @@ async function getInfo(isBig, url, group, comparePeriod, fixed) {
                     })
         }
     }
-    if (lastPrice > 30) {
-        lastPrice = Math.round(lastPrice)
-    }
+
 
     let materialType
     let materialName

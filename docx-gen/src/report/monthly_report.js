@@ -225,7 +225,9 @@ module.exports = class MonthlyReport {
                                     FormChartUrl(new ChartUrl([20], MedPriceId, GetNMonthRange(date, 23), 0, "line", "month", "month", 0, undefined, 0,1)),
                                     FormChartUrl(new ChartUrl([21], MedPriceId, GetNMonthRange(date, 23), 0, "line", "month", "month", 0, undefined, 0,1)),
                                     undefined,
-                                    "м/м"
+                                    "м/м",
+                                    undefined,
+                                    [1, 1]
                                 )
                             ]
                         }),
@@ -237,7 +239,7 @@ module.exports = class MonthlyReport {
                                     FormChartUrl(new ChartUrl([23], MedPriceId, GetNMonthRange(date, 23), 0, "line", "month", "month", 0, undefined, 0,1)),
                                     undefined,
                                     "м/м",
-                                    [2, 1]
+                                    [2, 0]
                                 )
                             ]
                         }),
