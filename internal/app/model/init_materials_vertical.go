@@ -364,7 +364,7 @@ var InitMaterialsVertical = []Material{
 
 	{
 		23,
-		"Cr руда (кусоквая; 42% Cr)",
+		"Cr руда (кусковая; 42% Cr)",
 		"Ферросплавы и руды",
 		"crugroup.com",
 		"Таншань (Китай)",

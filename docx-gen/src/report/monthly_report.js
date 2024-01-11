@@ -388,7 +388,7 @@ module.exports = class MonthlyReport {
                         }),
                         pageBreak(),
                         separator(),
-                        await singleTable(23, MedPriceId, GetNMonthRange(date, 9, true), 0, 1, "month", 0, 1),
+                        await singleTable(23, MedPriceId, GetNMonthRange(date, 9, true), 0, 1, "month", 0, 0),
 
                         pageBreak(),
                         h2("Рынок графитированных электродов"),
