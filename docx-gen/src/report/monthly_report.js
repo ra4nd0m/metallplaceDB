@@ -167,7 +167,7 @@ module.exports = class MonthlyReport {
                             children: [
                                 await twoChart( // арматуры
                                     FormChartUrl(new ChartUrl([10], MedPriceId, GetNMonthRange(date, 23), 0, "line", "month", "month", 0, undefined, 0,1)),
-                                    FormChartUrl(new ChartUrl([14], MedPriceId, GetNMonthRange(date, 20), 0, "line", "month", "month", 0, undefined, 0,1)),
+                                    FormChartUrl(new ChartUrl([14], MedPriceId, GetNMonthRange(date, 23), 0, "line", "month", "month", 0, undefined, 0,1)),
                                     undefined,
                                     "м/м"
                                 )
@@ -178,7 +178,7 @@ module.exports = class MonthlyReport {
                             children: [
                                 await twoChart( // рулоны гк
                                     FormChartUrl(new ChartUrl([12], MedPriceId, GetNMonthRange(date, 23), 0, "line", "month", "month", 0, undefined, 0,1)),
-                                    FormChartUrl(new ChartUrl([15], MedPriceId, GetNMonthRange(date, 20), 0, "line", "month", "month", 0, undefined, 0,1)),
+                                    FormChartUrl(new ChartUrl([15], MedPriceId, GetNMonthRange(date, 23), 0, "line", "month", "month", 0, undefined, 0,1)),
                                     undefined,
                                     "м/м"
                                 )
@@ -190,7 +190,7 @@ module.exports = class MonthlyReport {
                             children: [
                                 await twoChart( // рулоны хк
                                     FormChartUrl(new ChartUrl([13], MedPriceId, GetNMonthRange(date, 23), 0, "line", "month", "month", 0, undefined, 0,1)),
-                                    FormChartUrl(new ChartUrl([16], MedPriceId, GetNMonthRange(date, 20), 0, "line", "month", "month", 0, undefined, 0,1)),
+                                    FormChartUrl(new ChartUrl([16], MedPriceId, GetNMonthRange(date, 23), 0, "line", "month", "month", 0, undefined, 0,1)),
                                     undefined,
                                     "м/м"
                                 )
