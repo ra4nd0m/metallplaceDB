@@ -6,20 +6,19 @@ function round(v) {
 
 module.exports = function (feed, i, prevPrice, getPercent, symbolsAfterDot) {
     let change
-   // i === 0 ? change = feed[i].value - prevPrice : change = feed[i].value - feed[i - 1].value
     if (i === 0){
         change = feed[i].value - prevPrice
-    }else {
+    } else {
         change = feed[i].value - feed[i - 1].value
         prevPrice = feed[i - 1].value
     }
+
     if (getPercent) {
         let percent = round(change / prevPrice * 1000) / 10
         if (percent > 0) return {Text:`+${formatNum(percent, symbolsAfterDot)}`, Color: Green};
         if (percent < 0) return {Text:`${formatNum(percent, symbolsAfterDot)}`, Color: Red};
         return {Text:"-", Color: ColorDefault};
     } else {
-        change = round(change * 100) / 100
         if (symbolsAfterDot !== undefined){
             const n =  Math.pow(10, symbolsAfterDot)
             change = round(change * n) / n

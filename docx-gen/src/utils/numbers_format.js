@@ -4,10 +4,7 @@ module.exports = function (num, fixed){
     if (numStr.split(".").length - 1 > 1 || numStr.indexOf("'") !== -1){
         return numStr
     }
-    numStr = numStr.replace(".", ",")
-    if(num >= 1000){
-        numStr = addSpaces(numStr)
-    }
+    numStr = addSpaces(numStr.replace(".", ","))
 
     if (fixed !== 0 && fixed !== undefined && fixed !== -1 && typeof fixed === 'number'){
         if (numStr.indexOf(",") === -1){
@@ -35,18 +32,7 @@ function roundFloatFromString(input, decimalPlaces) {
 }
 
 function addSpaces(numStr) {
-    let afterComma = ""
-    let beforeComma = numStr
-    if(numStr.indexOf(",") !== -1){
-        const numArr = numStr.split(",")
-        beforeComma = numArr[0]
-        afterComma = numArr[1]
-    }
-    const after = beforeComma.toString().slice(-3)
-    const before = beforeComma.toString().slice(0, beforeComma.toString().length - 3)
-    numStr = before + " " + after
-    if(afterComma !== ""){
-        numStr += "," + afterComma
-    }
-    return numStr
+    let parts = numStr.split(',');
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+    return parts.join(',');
 }
