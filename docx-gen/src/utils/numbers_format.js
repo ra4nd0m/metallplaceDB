@@ -15,9 +15,6 @@ module.exports = function (num, fixed){
                 numStr += "0".repeat(fixed - numStr.substring(numStr.indexOf(",") + 1).length)
             } else {
                 numStr = roundFloatFromString(numStr, fixed)
-                if(num >= 1000){
-                    numStr = addSpaces(numStr)
-                }
                 numStr += "0".repeat(fixed - numStr.substring(numStr.indexOf(",") + 1).length)
             }
         }

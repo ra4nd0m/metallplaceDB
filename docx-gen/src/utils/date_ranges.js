@@ -46,6 +46,10 @@ module.exports.GetYearRange = function (date, isRaw){
     const last = new Date(date)
     let first = new Date(date)
     first.setDate(first.getDate() - 365)
+    // snap to next monday
+    let daysUntilNextMonday = 8 - date.getDay() + 1;
+    first.setDate(first.getDate() + daysUntilNextMonday);
+
     if (isRaw){
         return [new Date(first), new Date(last)]
     }
