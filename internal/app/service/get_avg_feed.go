@@ -89,7 +89,7 @@ func getPriceArrAvg(feed []model.Price, period string) model.Price {
 		date = time.Date(feed[0].Date.Year(), feed[0].Date.Month(), 1, 0, 0, 0, 0, time.Local)
 	}
 
-	return model.Price{Date: date, Value: math.Round(sum/float64(len(feed))*100) / 100}
+	return model.Price{Date: date, Value: math.Round(sum/float64(len(feed))*1000) / 1000}
 }
 
 func getMondayOfWeek(date time.Time) time.Time {
