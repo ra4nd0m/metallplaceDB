@@ -224,7 +224,7 @@ module.exports = class WeeklyReport {
                                     FormChartUrl(new ChartUrl([23], MedPriceId, GetYearRange(date), 0, "line", "day", "week", 0, 1, 0, 1)),
                                     [2, 2],
                                     undefined,
-                                    [2, 0]
+                                    [2, 1]
                                 )
                             ]
                         }),

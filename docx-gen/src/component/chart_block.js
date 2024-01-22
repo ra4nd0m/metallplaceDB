@@ -119,7 +119,7 @@ async function getInfo(isBig, url, group, comparePeriod, fixed, fixedChange) {
     let materialName
     let materialCountry
     try {
-         materialType = materialInfo.data.info.Name.match(/\((.*?)\)/)[1].trim();
+         materialType = getMaterialType(materialInfo.data.info.Name);
          materialName = materialInfo.data.info.Name.match(/^(.*?)\s*\(/)[1].trim();
          materialCountry =  materialInfo.data.info.Market.match(/\((.*?)\)/)?.[1].trim();
     } catch (e) {
@@ -212,4 +212,12 @@ function subtractMonth(dateString) {
     var date = new Date(dateString);
     date.setDate(date.getDate() - 31);
     return date.toISOString().split('T')[0];
+}
+
+function getMaterialType(str)  {
+    let firstParenIndex = str.indexOf('(');
+    let lastParenIndex = str.lastIndexOf(')');
+    if (firstParenIndex !== -1 && lastParenIndex !== -1 && lastParenIndex > firstParenIndex) {
+        return str.substring(firstParenIndex + 1, lastParenIndex);
+    }
 }

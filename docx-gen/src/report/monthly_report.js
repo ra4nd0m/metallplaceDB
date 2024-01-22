@@ -155,7 +155,7 @@ module.exports = class MonthlyReport {
                         paragraph({
                             children: [
                                 await oneChart( // заготовка
-                                    FormChartUrl(new ChartUrl([9], MedPriceId, GetNMonthRange(date, 23), 0, "line", "month", "month", 0, undefined, 0,1)),
+                                    FormChartUrl(new ChartUrl([9], MedPriceId, GetNMonthRange(date, 23), 0, "line", "month", "month", 0, 0, 0,1)),
                                     undefined,
                                 "м/м"
                                 )
@@ -213,7 +213,7 @@ module.exports = class MonthlyReport {
 
                         paragraph({
                             children: [await oneChart( // ферросицилий
-                                FormChartUrl(new ChartUrl([18], MedPriceId, GetNMonthRange(date, 23), 0, "line", "month", "month", 0, undefined, 0,1)),
+                                FormChartUrl(new ChartUrl([18], MedPriceId, GetNMonthRange(date, 23), 0, "line", "month", "month", 0, 0, 0,1)),
                                 undefined,
                                 "м/м"
                             )]
@@ -384,7 +384,7 @@ module.exports = class MonthlyReport {
                             children: [await oneChartText(FormChartUrl(new ChartUrl([27], StockId, GetNMonthRange(date, 5), 1, "bar", "month", "month", 0, 3)), ["Запасы хромой руды в китайских портах", "млн тонн"])]
                         }),
                         paragraph({ // cr руда
-                            children: [await oneChartText(FormChartUrl(new ChartUrl([23], MedPriceId, GetNMonthRange(date, 9), 1, "line", "month", "month", 1, 1, 1)), ["Цены на хромовую руду", "$/т CIF Китай"])]
+                            children: [await oneChartText(FormChartUrl(new ChartUrl([23], MedPriceId, GetNMonthRange(date, 9), 1, "line", "month", "month", 1, 0, 1)), ["Цены на хромовую руду", "$/т CIF Китай"])]
                         }),
                         pageBreak(),
                         separator(),

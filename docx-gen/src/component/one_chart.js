@@ -3,9 +3,15 @@ const chartBlock = require("./chart_block")
 
 const {TableCellMarginNil} = require("../const");
 const margins = require("../atom/margins");
-module.exports = async function oneChart(url, avgGroup, comparePeriod){
+module.exports = async function oneChart(url, avgGroup, comparePeriod, fixed, fixedChange){
+    if (fixed === undefined) {
+        fixed = 0
+    }
+    if (fixedChange === undefined) {
+        fixedChange = 1
+    }
     if(avgGroup === undefined) avgGroup = 1
-    const block = await chartBlock(url, false, avgGroup, comparePeriod)
+    const block = await chartBlock(url, false, avgGroup, comparePeriod, fixed, fixedChange)
     return margins([new docx.Table({
             width: {
                 size: 100,
