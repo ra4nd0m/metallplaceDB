@@ -196,7 +196,7 @@ func formatMonth(input string) string {
 		return "Окт" + year
 	case contains([]string{"xi", "ноя", "ноябрь", "нояб", "nov"}, arr[0]):
 		return "Ноя" + year
-	case contains([]string{"xii", "дек", "декабрь", ""}, arr[0]):
+	case contains([]string{"xii", "дек", "декабрь", "dec"}, arr[0]):
 		return "Дек" + year
 	default:
 		return "undefined"
