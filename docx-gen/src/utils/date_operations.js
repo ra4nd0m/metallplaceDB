@@ -40,9 +40,17 @@ module.exports.GetLastDayOfWeek = function (date){
 }
 
 module.exports.GetWeekNumber = function (date){
-    const startDate = new Date(date.getFullYear(), 0, 1);
-    const days = Math.floor((date - startDate) / (24 * 60 * 60 * 1000));
-    return Math.ceil(days / 7);
+        var tdt = new Date(date.valueOf());
+        var dayn = (date.getDay() + 6) % 7;
+        tdt.setDate(tdt.getDate() - dayn + 3);
+        var firstThursday = tdt.valueOf();
+        tdt.setMonth(0, 1);
+        if (tdt.getDay() !== 4)
+        {
+            tdt.setMonth(0, 1 + ((4 - tdt.getDay()) + 7) % 7);
+        }
+        return 1 + Math.ceil((firstThursday - tdt) / 604800000);
+
 }
 
 module.exports.Get2LastMondays = function (date){
