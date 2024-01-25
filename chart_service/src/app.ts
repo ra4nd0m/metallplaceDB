@@ -460,17 +460,27 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
             }
         }
     }
+    let yDelta = (maxVal - minVal) * 0.1
+    if (yDelta < 1 ) yDelta = 1
     // @ts-ignore
-    conf.options?.scales.y.min = Math.ceil(minVal - 1)
+    conf.options?.scales.y.max = Math.floor(maxVal + yDelta)
     // @ts-ignore
-    conf.options?.scales.y.max = Math.floor(maxVal + 1 + maxVal * 0.1)
-    if (!options.predict) {
+    conf.options?.scales.y.min = Math.ceil(minVal - yDelta)
+
+    if (options.predict) {
         // @ts-ignore
-        conf.options?.scales.y.max = Math.floor(maxVal + 1 )
+        conf.options?.scales.y.max = Math.floor(maxVal + yDelta * 4)
+
     }
+    if (options.tall) {
+        // @ts-ignore
+        conf.options?.scales.y.max = Math.floor(maxVal)
+    }
+
     if (options.type == 'bar') {
         // @ts-ignore
-
+        conf.options?.scales.y.max = Math.floor(maxVal + yDelta * 3)
+        // @ts-ignore
         conf.options?.scales.y.min = barChartBottomBorder
         let changes = getPercentChangesArr(datasets[0].data, options.to_fixed)
 
@@ -515,7 +525,7 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
                     formatter: function () {
                         return changes[labelCnt]
                     },
-                    offset: labelOffset * 3.57,
+                    offset: labelOffset * 3,
                     font: {
                         size: labelFontSize * 0.6,
                         family: fontRegular
@@ -533,6 +543,8 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
             }
         )
     }
+    // @ts-ignore
+    console.log(datasets[0].label + ": " + conf.options?.scales.y.max)
     return conf
 }
 
