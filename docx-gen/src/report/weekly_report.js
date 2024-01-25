@@ -379,7 +379,7 @@ module.exports = class WeeklyReport {
 
                         h2("Рынок графитированных электродов"),
                         paragraph({ //гэ 450 600 мм
-                            children: [await oneChartText(FormChartUrl(new ChartUrl([24, 25], MedPriceId, GetMonthRange(date, false, false), 1, "line", "day", "day", 1, 0)), ["Цены на графитировыные электроды", "$/т EXW Китай"])]
+                            children: [await oneChartText(FormChartUrl(new ChartUrl([24, 25], MedPriceId, GetMonthRange(date, false, false), 1, "line", "day", "day", 1, 0)), ["Цены на графитированные электроды", "$/т EXW Китай"])]
                         }),
                         await tableDouble(24, 25, MedPriceId, GetMonthRange(date, true))
                     ],
