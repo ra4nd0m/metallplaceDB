@@ -127,7 +127,7 @@ func (s *Service) ParseXlsxForChart(byte []byte) (chartclient.Request, error) {
 				}
 			} else {
 				wereAnyValues = true
-				valueFloat, err = strconv.ParseFloat(value, 64)
+				valueFloat, err = strconv.ParseFloat(strings.Join(strings.Fields(value), ""), 64)
 				if err != nil {
 					return chartclient.Request{}, fmt.Errorf("cant convert string to float: %w", err)
 				}
@@ -383,7 +383,7 @@ func (s *Service) InitImportDailyMaterials(ctx context.Context, book *excelize.F
 				var valueStr string
 				var valueDecimal float64
 				if property.Kind == "decimal" {
-					valueDecimal, err = strconv.ParseFloat(value, 64)
+					valueDecimal, err = strconv.ParseFloat(strings.Join(strings.Fields(value), ""), 64)
 					if err != nil {
 						return fmt.Errorf("cant parce float price at %s %s%d: %v", property.Sheet, property.Column, row, err)
 					}
@@ -408,11 +408,11 @@ func (s *Service) InitImportDailyMaterials(ctx context.Context, book *excelize.F
 					regex := regexp.MustCompile(`\((\d+)\+(\d+)\)/2`)
 					if regex.MatchString(formula) {
 						matches := regex.FindStringSubmatch(formula)
-						minPrice, err := strconv.ParseFloat(matches[1], 64)
+						minPrice, err := strconv.ParseFloat(strings.Join(strings.Fields(matches[1]), ""), 64)
 						if err != nil {
 							return fmt.Errorf("failed to parce from formula: %v (uid; %d, property: %s, row: %d)", err, material.UId, property.Name, row)
 						}
-						maxPrice, err := strconv.ParseFloat(matches[2], 64)
+						maxPrice, err := strconv.ParseFloat(strings.Join(strings.Fields(matches[2]), ""), 64)
 						if err != nil {
 							return fmt.Errorf("failed to parce from formula: %v (uid; %d, property: %s, row: %d)", err, id, property.Name, row)
 						}
@@ -551,7 +551,7 @@ func (s *Service) InitImportMaterialsVertical(ctx context.Context, book *exceliz
 				var valueStr string
 				var valueDecimal float64
 				if property.Kind == "decimal" {
-					valueDecimal, err = strconv.ParseFloat(value, 64)
+					valueDecimal, err = strconv.ParseFloat(strings.Join(strings.Fields(value), ""), 64)
 					if err != nil {
 						return err
 					}
@@ -645,7 +645,7 @@ func (s *Service) InitImportMaterialsHorizontalWeekly(ctx context.Context, book 
 				var valueStr string
 				var valueDecimal float64
 				if property.Kind == "decimal" {
-					valueDecimal, err = strconv.ParseFloat(value, 64)
+					valueDecimal, err = strconv.ParseFloat(strings.ReplaceAll(value, " ", ""), 64)
 					if err != nil {
 						return err
 					}
