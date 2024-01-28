@@ -1,4 +1,5 @@
 const docx = require("docx");
+const textArea = require("../atom/text_area");
 const pageBreak = require("../atom/page_break");
 const separator = require("../atom/separator");
 const footer = require("../component/footer");
@@ -117,6 +118,7 @@ module.exports = class WeeklyReport {
                         disclaimer(),
 
                         h2("Краткая сводка новостей"),
+                        textArea(),
                         pageBreak(),
 
                         h2("Краткая сводка цен по мировому рынку"),
@@ -232,35 +234,41 @@ module.exports = class WeeklyReport {
                         pageBreak(),
                         h2("Рынок сырьевых материалов"),
                         h3("Железорудное сырье"),
-
+                        textArea(),
 
                         paragraph({ // запасы жел руды в китай портах
                             children: [await oneChartText(FormChartUrl(new ChartUrl([28], StockId, GetMonthRange(date), 1, "bar", "day", "day", 0, 2)),  ["Запасы железной руды в китайских портах","млн тонн"])]
                         }),
+                        textArea(),
                         paragraph({ //жрс 62 и 65
                             children: [await oneChartText(FormChartUrl(new ChartUrl([2, 3], MedPriceId, Get2WeekRange(date), 1, "line", "day", "day", 1, 2 )), ["Цены на ЖРС", "$/т CNF Китай"])]
                         }),
+                        pageBreak(),
+                        separator(),
                         await tableDoubleAvg(2, 3, MedPriceId, Get2WeekRange(date, true), 2, 1, 1, "week"), //жрс 62 и 65
 
-                        pageBreak(),
                         h3("Уголь и кокс"),
+                        textArea(),
 
                         paragraph({ // коксующийся уголь россия австралия
                             children: [await oneChartText(FormChartUrl(new ChartUrl([6, 7], MedPriceId, Get2WeekRange(date), 1, "line", "day", "day", 1, 0)), ["Цены на коксующийся уголь", "$/т CRF Китай"])]
                         }),
                         await tableDoubleAvg(6, 7, MedPriceId, Get2WeekRange(date, true), 0, 1, 0, "week"), // коксующийся уголь россия австралия
+                        pageBreak(),
+                        separator(),
+                        textArea(),
                         paragraph({ // мет кокс
                             children: [await oneChartText(FormChartUrl(new ChartUrl([8], MedPriceId, GetMonthRange(date), 1, "line", "day", "day", 1, 0)), ["Цены на металлургический кокс", "$/т FOB Китай"])]
                         }),
-                        pageBreak(),
-                        separator(),
                         await singleTable(8, MedPriceId, GetMonthRange(date, true)), // мет кокс
-
+                        pageBreak(),
 
                         h3("Лом черных металлов"),
+                        textArea(),
                         await tableMaterialMinimax([4,29,30,31,32,33,34,35,36,37,38,39,40,41,42], Get2LastMondays(date), 0, 1, "week", 0),
                         pageBreak(),
                         separator(),
+                        textArea(),
                         paragraph({ // лом 3А
                             children: [await oneChartText(FormChartUrl(new ChartUrl([1], MedPriceId, GetMonthRange(date), 1, "line", "day", "day", 1, 0)), ["Цены на лом 3А", "₽/т CPT Россия"])]
                         }),
@@ -271,17 +279,21 @@ module.exports = class WeeklyReport {
 
 
                         h3("Чугун"),
+                        textArea(),
                         paragraph({ // чугун фоб
                             children: [await oneChartText(FormChartUrl(new ChartUrl([5], MedPriceId, GetMonthRange(date), 1, "line", "day", "day", 1, 0)), ["Цены на чугун", "$/т FOB Россия"])]
                         }),
                         await singleTableMinimax(5, GetMonthRange(date, true), 0, 1, undefined, 0, 0), // чугун фоб
+                        textArea(),
                         await tableMaterialMinimax([66, 67, 68], Get2LastMondays(date), 0, 1, "week", 0),
                         pageBreak(),
                         separator(),
 
                         h2("Рынок стали"),
                         h3("Полуфабрикаты"),
+                        textArea(),
                         await tableMaterialMinimax([43, 44, 45, 46, 47, 48, 49], Get2LastMondays(date), 0, 1, "week", 0),
+                        textArea(),
                         paragraph({ //заготовка, сляб
                             children: [await oneChartText(FormChartUrl(new ChartUrl([9, 11], MedPriceId, GetMonthRange(date), 1, "line", "day", "day", 1, 0)), ["Цены на стальные полуфабрикаты", "$/т FOB Россия"])]
                         }),
@@ -292,13 +304,16 @@ module.exports = class WeeklyReport {
 
 
                         h3("Сортовой прокат"),
+                        textArea(),
                         await tableMaterialMinimax([50, 51, 52], Get2LastMondays(date), 0, 1, "week", 0),
+                        textArea(),
                         paragraph({ //арматура FOB
                             children: [await oneChartText(FormChartUrl(new ChartUrl([10], MedPriceId, GetMonthRange(date), 1, "line", "day", "day", 1, 0)), ["Цены на арматуру", "$/т FOB Россия"])]
                         }),
-                        await singleTableMinimax(10, GetMonthRange(date, true), 0, 1), //арматура FOB
-
                         pageBreak(),
+                        textArea(),
+
+                        await singleTableMinimax(10, GetMonthRange(date, true), 0, 1), //арматура FOB
                         paragraph({ //арматура A1 EXW
                             children: [await oneChartText(FormChartUrl(new ChartUrl([14], MedPriceId, GetMonthRange(date), 1, "line", "day", "day", 1, 0)), ["Цены на арматуру А1", "₽/т EXW Россия"])]
                         }),
@@ -306,6 +321,7 @@ module.exports = class WeeklyReport {
                         pageBreak(),
 
                         h3("Плоский прокат"),
+                        textArea(),
                         await tableMaterialMinimax(getRangeArr(53, 65), Get2LastMondays(date), 0, 1, "week", 0),
                         paragraph({ // рулон гк рулон хк FOB
                             children: [await oneChartText(FormChartUrl(new ChartUrl([12, 13], MedPriceId, GetMonthRange(date), 1, "line", "day", "day", 1, 0)), ["Цены на плоский прокат", "$/т FOB Россия"])]
@@ -315,6 +331,7 @@ module.exports = class WeeklyReport {
 
                         separator(),
                         await doubleTableMinimax(12, 13, GetMonthRange(date, true), 0, 1, "week", 0), // рулон гк рулон хк FOB
+                        textArea(),
                         paragraph({ // рулон гк рулон хк EXW
                             children: [await oneChartText(FormChartUrl(new ChartUrl([15, 16], MedPriceId, GetMonthRange(date), 1, "line", "day", "day", 1, 0)), ["Цены на плоский прокат", "₽/т EXW Россия"])]
                         }),
@@ -323,6 +340,7 @@ module.exports = class WeeklyReport {
 
 
                         h2("Рынок ферросплавов и руд"),
+                        textArea(),
                         await tableMaterialGrouped(
                             getRangeArr(17, 23),
                             Get2LastThursdays(date),
@@ -333,6 +351,7 @@ module.exports = class WeeklyReport {
                             [0,0,0,1,1,1,1]
                         ),
                         h3("Ферромарганец и силиконмарганец"),
+                        textArea(),
                         paragraph({ // FeMn76, SiMn65
                             children: [await oneChartText(FormChartUrl(new ChartUrl([17, 19], MedPriceId, GetMonthRange(date, false, true), 1, "line", "day", "day", 1, 0)), ["Цены на марганцевые сплавы", "$/т DDP ЕС"])]
                         }),
@@ -340,12 +359,14 @@ module.exports = class WeeklyReport {
                         pageBreak(),
 
                         h3("Ферросилиций"),
+                        textArea(),
                         paragraph({ // FeSi
                             children: [await oneChartText(FormChartUrl(new ChartUrl([18], MedPriceId, GetMonthRange(date, false, true), 1, "line", "day", "day", 1, 0)), ["Цены на ферросилиций", "$/т DDP ЕС"])]
                         }),
                         await singleTableMinimax(18, GetMonthRange(date, true, true), 0, 1, undefined, 0),// FeSi
 
                         h3("Феррохром"),
+                        textArea(),
                         paragraph({ // HC LC FeCr
                             children: [await oneChartText(FormChartUrl(new ChartUrl([20, 21], MedPriceId, GetMonthRange(date, false, true), 1, "line", "day", "day", 1, 1)), ["Цены на феррохром", "¢/фунт Cr DDP ЕС"])]
                         }),
@@ -355,29 +376,31 @@ module.exports = class WeeklyReport {
 
 
                         h3("Марганцевая руда"),
+                        textArea(),
                         paragraph({ //mn руда запасы в китае
                             children: [await oneChartText(FormChartUrl(new ChartUrl([26], StockId, GetMonthRange(date), 1, "bar", "day", "day", 0, 3)), ["Запасы марганцевой руды в китайских портах", "млн тонн"])]
                         }),
+                        textArea(),
                         paragraph({ //mn руда цена
                             children: [await oneChartText(FormChartUrl(new ChartUrl([22], MedPriceId, GetMonthRange(date, false, true), 1, "line", "day", "day", 1, 2)), ["Цены на марганцевую руду", "$/1% Mn смт CIF Китай"])]
                         }),
-                        pageBreak(),
-                        separator(),
                         await singleTableMinimax(22, GetMonthRange(date, true, true), 2, 1, undefined, 2),
 
 
                         h3("Хромовая руда"),
+                        textArea(),
                         paragraph({ //хром руда запасы в китае
                             children: [await oneChartText(FormChartUrl(new ChartUrl([27], StockId, GetMonthRange(date), 1, "bar", "day", "day", 0, 3)), ["Запасы хромовой руды в китайских портах", "млн тонн"])]
                         }),
+                        textArea(),
                         paragraph({ //cr руда цена
                             children: [await oneChartText(FormChartUrl(new ChartUrl([23], MedPriceId, GetMonthRange(date, false, true), 1, "line", "day", "day", 1, 1)), ["Цены на хромовую руду", "$/т CIF Китай"])]
                         }),
-                        pageBreak(),
-                        separator(),
+
                         await singleTableMinimax(23, GetMonthRange(date, true, true), 1, 1, undefined, 1),
 
                         h2("Рынок графитированных электродов"),
+                        textArea(),
                         paragraph({ //гэ 450 600 мм
                             children: [await oneChartText(FormChartUrl(new ChartUrl([24, 25], MedPriceId, GetMonthRange(date, false, false), 1, "line", "day", "day", 1, 0)), ["Цены на графитированные электроды", "$/т EXW Китай"])]
                         }),
