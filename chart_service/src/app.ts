@@ -151,7 +151,7 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
     let dateArrayFormatted: string[]
     dateArrayFormatted = []
     let legendBoxSize: any
-    let tickLimit = 100
+    let tickLimit = 1000
     if (options.tick_limit != 0) tickLimit = options.tick_limit
     for (let i = 0; i < dateArray.length; i++) {
         dateArrayFormatted.push(formatXLabel(dateArray[i], options.x_step))
