@@ -321,6 +321,7 @@ module.exports = class MonthlyReport {
                         }),
 
                         await singleTable(10, MedPriceId, GetNMonthRange(date, 9, true), 0, 1, "month", 0, 0), // арматура FOB
+                        textArea(),
                         paragraph({ // арматура A1
                             children: [await oneChartText(FormChartUrl(new ChartUrl([14], MedPriceId, GetNMonthRange(date, 9), 1, "line", "month", "month", 1, 0, 1)), ["Цены на арматуру А1", "₽/т EXW Россия"])]
                         }),
@@ -337,7 +338,7 @@ module.exports = class MonthlyReport {
                             children: [await oneChartText(FormChartUrl(new ChartUrl([12, 13], MedPriceId, GetNMonthRange(date, 9), 1, "line", "month", "month", 1, 0, 1)), ["Цены на плоский прокат", "$/т FOB Россия"])]
                         }),
                         await tableDouble(12, 13, MedPriceId, GetNMonthRange(date, 9, true), 0, 1, "month", 0, 0), // гк хк FOB
-
+                        textArea(),
                         paragraph({ // гк хк EXW
                             children: [await oneChartText(FormChartUrl(new ChartUrl([15, 16], MedPriceId, GetNMonthRange(date, 9), 1, "line", "month", "month", 1, 0, 1)), ["Цены на плоский прокат", "₽/т EXW Россия"])]
                         }),
@@ -391,6 +392,7 @@ module.exports = class MonthlyReport {
                         paragraph({ // mn руда запасы в китае
                             children: [await oneChartText(FormChartUrl(new ChartUrl([26], StockId, GetNMonthRange(date, 5), 1, "bar", "month", "month", 0, 3)), ["Запасы марганцевой руды в китайских портах", "млн тонн"])]
                         }),
+                        textArea(),
                         paragraph({ // mn руда
                             children: [await oneChartText(FormChartUrl(new ChartUrl([22], MedPriceId, GetNMonthRange(date, 9), 1, "line", "month", "month", 1, 2, 1)), ["Цены на марганцевую руду", "$/1% Mn смт CIF Китай"])]
                         }),
@@ -404,6 +406,7 @@ module.exports = class MonthlyReport {
                         paragraph({ // cr руда запасы в китае
                             children: [await oneChartText(FormChartUrl(new ChartUrl([27], StockId, GetNMonthRange(date, 5), 1, "bar", "month", "month", 0, 3)), ["Запасы хромой руды в китайских портах", "млн тонн"])]
                         }),
+                        textArea(),
                         paragraph({ // cr руда
                             children: [await oneChartText(FormChartUrl(new ChartUrl([23], MedPriceId, GetNMonthRange(date, 9), 1, "line", "month", "month", 1, 0, 1)), ["Цены на хромовую руду", "$/т CIF Китай"])]
                         }),

@@ -314,6 +314,7 @@ module.exports = class WeeklyReport {
                         textArea(),
 
                         await singleTableMinimax(10, GetMonthRange(date, true), 0, 1), //арматура FOB
+                        textArea(),
                         paragraph({ //арматура A1 EXW
                             children: [await oneChartText(FormChartUrl(new ChartUrl([14], MedPriceId, GetMonthRange(date), 1, "line", "day", "day", 1, 0)), ["Цены на арматуру А1", "₽/т EXW Россия"])]
                         }),
@@ -323,6 +324,7 @@ module.exports = class WeeklyReport {
                         h3("Плоский прокат"),
                         textArea(),
                         await tableMaterialMinimax(getRangeArr(53, 65), Get2LastMondays(date), 0, 1, "week", 0),
+                        textArea(),
                         paragraph({ // рулон гк рулон хк FOB
                             children: [await oneChartText(FormChartUrl(new ChartUrl([12, 13], MedPriceId, GetMonthRange(date), 1, "line", "day", "day", 1, 0)), ["Цены на плоский прокат", "$/т FOB Россия"])]
                         }),
