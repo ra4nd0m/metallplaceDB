@@ -7,6 +7,7 @@ import (
 	"metallplace/pkg/gopkg-db"
 )
 
+// GetNLastValues Get n values prior to some date
 func (r *Repository) GetNLastValues(ctx context.Context, uid, propertyId int, nValues int, finish string) ([]model.Price, error) {
 	var priceFeed []model.Price
 	var price model.Price

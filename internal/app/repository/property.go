@@ -8,6 +8,7 @@ import (
 	"metallplace/pkg/gopkg-db"
 )
 
+// AddPropertyIfNotExists Create a new property
 func (r *Repository) AddPropertyIfNotExists(ctx context.Context, property model.PropertyShortInfo) (int, error) {
 	id, err := r.GetPropertyId(ctx, property.Name)
 	if err != nil {
@@ -30,7 +31,7 @@ func (r *Repository) AddPropertyIfNotExists(ctx context.Context, property model.
 	return id, nil
 }
 
-// TBA
+// GetPropertyName Gets property name by given id
 func (r *Repository) GetPropertyName(ctx context.Context, id int) (string, error) {
 	var name string
 	row := db.FromContext(ctx).QueryRow(ctx, `SELECT name FROM property WHERE id=$1`, id)

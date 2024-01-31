@@ -7,6 +7,7 @@ import (
 	"metallplace/pkg/gopkg-db"
 )
 
+// AddSource Add new source
 func (r *Repository) AddSource(ctx context.Context, materialSource string) error {
 	id, err := r.GetSourceId(ctx, materialSource)
 	if err != nil {

@@ -55,6 +55,7 @@ func (r *Repository) GetUnitName(ctx context.Context, unitId int) (string, error
 	return name, nil
 }
 
+// GetUnitList Get all existing units
 func (r *Repository) GetUnitList(ctx context.Context) ([]model.UnitInfo, error) {
 	var list []model.UnitInfo
 

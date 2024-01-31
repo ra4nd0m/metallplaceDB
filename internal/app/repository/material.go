@@ -8,7 +8,7 @@ import (
 	"metallplace/pkg/gopkg-db"
 )
 
-// AddMaterial and get its id back
+// AddMaterial Add new material name/type and return its id
 func (r *Repository) AddMaterial(ctx context.Context, materialName string) (int, error) {
 	id, err := r.GetMaterialId(ctx, materialName)
 	if err != nil {

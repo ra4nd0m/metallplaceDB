@@ -52,9 +52,10 @@ var conn db.IClient
 // @externalDocs.description	OpenAPI
 // @externalDocs.url			https://swagger.io/resources/open-api/
 func main() {
-	// Loading config
+	// Creating logger instance
 	log.Logger = log.Output(zerolog.ConsoleWriter{Out: os.Stderr})
 	logger := zerolog.New(os.Stderr).With().Timestamp().Logger()
+	// Loading config
 	cfg, err := config.LoadConfig()
 	if err != nil {
 		logger.Fatal().Err(err).Msg("cannot load cfg")
@@ -78,11 +79,14 @@ func main() {
 	srv := service.New(cfg, repo, chart, docxgen, lastRequestTime, modifier)
 	hdl := handler.New(srv)
 
+	// Creating error group for internal and external servers
 	eg, egCtx := errgroup.WithContext(context.Background())
 
+	// Running external sever (with auth)
 	eg.Go(externalServerFn(egCtx, cfg, hdl, srv))
 	log.Printf("External Server started on port %s \n", cfg.HttpPort)
 
+	// Running internal server (no auth)
 	eg.Go(internalServerFn(egCtx, cfg, hdl))
 	log.Printf("Internal Server started on port %s \n", cfg.InternalHttpPort)
 
@@ -174,7 +178,6 @@ func externalServerFn(ctx context.Context, cfg config.Config, hdl *handler.Handl
 		}
 		externalRouter.HandleFunc(rec.route, sentryHandler.HandleFunc(mw.LoggerMiddleware(DbMiddleware(h))))
 	}
-	fmt.Println(os.Getwd())
 	return func() error {
 		errCh := make(chan error)
 		go func() {

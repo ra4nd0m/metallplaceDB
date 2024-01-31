@@ -37,7 +37,9 @@ func (s *Service) GetChart(ctx context.Context, chartPack model.ChartPack) ([]by
 			if err != nil {
 				return nil, fmt.Errorf("cant get material_value: %w", err)
 			}
+			// Appending 3 predict values to the feed
 			if chartPack.Predict {
+				// Calculating predict values dates
 				predictStartTime := chartPack.Finish.AddDate(0, 1, 0)
 				predictStart := time.Date(predictStartTime.Year(), predictStartTime.Month(), 1, 0, 0, 0, 0, predictStartTime.Location()).Format("2006-01-02")
 				predictFinish := chartPack.Finish.AddDate(0, 3, 0).Format("2006-01-02")
@@ -45,11 +47,13 @@ func (s *Service) GetChart(ctx context.Context, chartPack model.ChartPack) ([]by
 				if err != nil {
 					return nil, fmt.Errorf("cant get property_id: %w", err)
 				}
+				// Getting predict values
 				predictFeed, _, err := s.GetMaterialValueForPeriod(ctx, id, predictPropertyId, predictStart, predictFinish)
 				if err != nil {
 					return nil, fmt.Errorf("cant get predict_feed: %w", err)
 				}
 				feed = append(feed, predictFeed...)
+				// Calculating predict accuracy
 				lastPrice, _, err := s.GetMonthlyAvgFeed(ctx, id, chartPack.PropertyId, finish, finish)
 				if err != nil || len(lastPrice) == 0 {
 					return nil, fmt.Errorf("cannot get last price of period for calculatin predict accuracy: %w", err)
@@ -62,6 +66,8 @@ func (s *Service) GetChart(ctx context.Context, chartPack model.ChartPack) ([]by
 			if err != nil {
 				return nil, fmt.Errorf("cant get material_value: %w", err)
 			}
+			// Apparently not used in any charts in reports yet? Still thought it would be good to implement
+			// Same logic as in month
 			if chartPack.Predict {
 				lastPrice, _, err := s.GetWeeklyAvgFeed(ctx, id, chartPack.PropertyId, finish, finish)
 				if err != nil || len(lastPrice) == 0 {
@@ -111,6 +117,7 @@ func (s *Service) GetChart(ctx context.Context, chartPack model.ChartPack) ([]by
 	return bytes, nil
 }
 
+// GetChartRaw For custom report charts
 func (s *Service) GetChartRaw(book []byte, tickLimit int) ([]byte, error) {
 	req, err := s.ParseXlsxForChart(book)
 	if err != nil {

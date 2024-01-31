@@ -15,14 +15,14 @@ type ChartPack struct {
 	PropertyId     int
 	Start          time.Time
 	Finish         time.Time
-	NeedLabels     bool
-	Type           string
-	Scale          string
-	XStep          string
-	NeedLegend     bool
-	ToFixed        int
-	Predict        bool
-	Tall           bool
+	NeedLabels     bool   // labels with prise near points on chart
+	Type           string // line or bar chart
+	Scale          string //averaging values day, month or week
+	XStep          string // what we write on X axis - date, week number or month
+	NeedLegend     bool   // is legend needed on chart image
+	ToFixed        int    // getting to fixed amount of numbers after dot, in other words rounding
+	Predict        bool   // do we need predict values on chart
+	Tall           bool   // can manipulate chart resolution
 }
 
 func (c ChartPack) ToUrl() string {

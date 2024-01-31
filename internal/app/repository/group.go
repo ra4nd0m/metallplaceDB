@@ -7,6 +7,7 @@ import (
 	db "metallplace/pkg/gopkg-db"
 )
 
+// AddGroupIfNotExists Add new material group if not exists returning its id
 func (r *Repository) AddGroupIfNotExists(ctx context.Context, groupName string) (int, error) {
 	id, err := r.GetGroupId(ctx, groupName)
 	if err != nil {
@@ -29,6 +30,7 @@ func (r *Repository) AddGroupIfNotExists(ctx context.Context, groupName string) 
 	return id, nil
 }
 
+// GetGroupId Get group id by given name
 func (r *Repository) GetGroupId(ctx context.Context, groupName string) (int, error) {
 	var id int
 	row := db.FromContext(ctx).QueryRow(ctx, `SELECT id FROM material_group WHERE name=$1`, groupName)
@@ -44,6 +46,7 @@ func (r *Repository) GetGroupId(ctx context.Context, groupName string) (int, err
 	return id, nil
 }
 
+// GetGroupName Get group name by given id
 func (r *Repository) GetGroupName(ctx context.Context, groupId int) (string, error) {
 	var name string
 	row := db.FromContext(ctx).QueryRow(ctx, `SELECT name FROM material_group WHERE id=$1`, groupId)

@@ -8,6 +8,7 @@ import (
 	"time"
 )
 
+// GetMonthlyAvgFeed Get calendar month averaged price feed (first day of month as a date)
 func (s *Service) GetMonthlyAvgFeed(ctx context.Context, uid, propertyId int, start string, finish string) ([]model.Price, float64, error) {
 	layout := "2006-01-02"
 	var avgFeed []model.Price
@@ -41,10 +42,12 @@ func (s *Service) GetMonthlyAvgFeed(ctx context.Context, uid, propertyId int, st
 		cur = cur.AddDate(0, 1, 0)
 	}
 	prevPrice := avgFeed[0].Value
+	// Cutting out prev price
 	avgFeed = avgFeed[1:]
 	return avgFeed, prevPrice, nil
 }
 
+// GetWeeklyAvgFeed Get calendar week averaged price feed (friday as a date of week)
 func (s *Service) GetWeeklyAvgFeed(ctx context.Context, uid, propertyId int, start string, finish string) ([]model.Price, float64, error) {
 	layout := "2006-01-02"
 	var avgFeed []model.Price
@@ -73,6 +76,7 @@ func (s *Service) GetWeeklyAvgFeed(ctx context.Context, uid, propertyId int, sta
 		cur = cur.AddDate(0, 0, 7)
 	}
 	prevPrice := avgFeed[0].Value
+	// Cutting out prev price
 	avgFeed = avgFeed[1:]
 	return avgFeed, prevPrice, nil
 }

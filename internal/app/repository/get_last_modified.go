@@ -8,6 +8,7 @@ import (
 	"time"
 )
 
+// GetLastModified Get datetime of last modification of db
 func (r *Repository) GetLastModified(ctx context.Context, table string) (time.Time, error) {
 	var lastModified time.Time
 	var dest sql.NullTime

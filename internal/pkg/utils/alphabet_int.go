@@ -9,6 +9,7 @@ import (
 var ErrEmptyString = errors.New("empty string")
 var ErrWrongNumber = errors.New("wrong number")
 
+// AlphabetToInt Translate excel column name to its number (A = 1, B = 2)
 func AlphabetToInt(str string) (int, error) {
 	if len(str) == 0 {
 		return 0, ErrEmptyString
@@ -26,6 +27,7 @@ func AlphabetToInt(str string) (int, error) {
 	return num, nil
 }
 
+// IntToAlphabet Translate int to alphabetic name of excel column (2 = B, 3 = C)
 func IntToAlphabet(number int32) (string, error) {
 	if number <= 0 {
 		return "", ErrWrongNumber

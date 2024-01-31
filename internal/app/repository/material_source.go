@@ -11,15 +11,15 @@ import (
 
 // AddMaterialSource Adding material - source - market - unit combo
 func (r *Repository) AddMaterialSource(ctx context.Context, uid int, materialName, groupName, sourceName, market, unitName, deliveryTypeName string) (int, error) {
-	materialId, err := r.GetMaterialId(ctx, materialName)
 	var id int
+	materialId, err := r.GetMaterialId(ctx, materialName)
 	if err != nil {
-		return 0, fmt.Errorf("Can't get material id %w", err)
+		return 0, fmt.Errorf("can't get material id %w", err)
 	}
 
 	sourceId, err := r.GetSourceId(ctx, sourceName)
 	if err != nil {
-		return 0, fmt.Errorf("Can't get source id %w", err)
+		return 0, fmt.Errorf("can't get source id %w", err)
 	}
 
 	groupId, err := r.GetGroupId(ctx, groupName)
@@ -46,6 +46,7 @@ func (r *Repository) AddMaterialSource(ctx context.Context, uid int, materialNam
 		return id, nil
 	}
 
+	// We usually set uid in parse markdown but if there wasn't any - we calculate it manually
 	var finalUId int
 	if uid == 0 {
 		finalUId, err = r.GetMaxUId(ctx)
@@ -151,6 +152,7 @@ func (r *Repository) GetMaterialSourceId(ctx context.Context, materialName, grou
 	return uid, nil
 }
 
+// GetMaterialSource Get material source by uid
 func (r *Repository) GetMaterialSource(ctx context.Context, uid int) (model.MaterialShortInfo, error) {
 	var materialId int
 	var sourceId int

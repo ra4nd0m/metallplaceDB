@@ -8,6 +8,8 @@ import (
 	"strconv"
 )
 
+// Package to read configuration from environment
+
 type Config struct {
 	DBHost     string
 	DBPort     int

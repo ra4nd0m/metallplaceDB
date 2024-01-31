@@ -7,6 +7,7 @@ import (
 	db "metallplace/pkg/gopkg-db"
 )
 
+// CheckCredentials Check username and password
 func (r *Repository) CheckCredentials(ctx context.Context, user, password string) (bool, error) {
 	var id int
 	row := db.FromContext(ctx).QueryRow(ctx, `SELECT id FROM "user" WHERE username=$1 AND password=crypt($2, password)`, user, password)

@@ -55,6 +55,7 @@ func (r *Repository) GetDeliveryTypeName(ctx context.Context, deliveryTypeId int
 	return name, nil
 }
 
+// GetDeliveryTypeList Get the list of delivery types
 func (r *Repository) GetDeliveryTypeList(ctx context.Context) ([]model.DeliveryTypeInfo, error) {
 	var list []model.DeliveryTypeInfo
 

@@ -25,11 +25,13 @@ func (r *Repository) AddMaterialValue(ctx context.Context, uid int, propertyName
 	return nil
 }
 
+// GetMaterialValueForPeriod Gets all price records ob property of material for given time period
 func (r *Repository) GetMaterialValueForPeriod(ctx context.Context, uid, propertyId int, start string, finish string) ([]model.Price, float64, error) {
 	var priceFeed []model.Price
 	var price model.Price
 	var prevPrice float64
 
+	// Getting main price feed
 	rows, err := db.FromContext(ctx).Query(ctx, `SELECT created_on, value_decimal
 		FROM material_value WHERE uid=$1 AND property_id=$4 AND created_on >= $2 AND
 			created_on <= $3 ORDER BY created_on ASC`, uid, start, finish, propertyId)
@@ -46,6 +48,7 @@ func (r *Repository) GetMaterialValueForPeriod(ctx context.Context, uid, propert
 		priceFeed = append(priceFeed, price)
 	}
 
+	// Getting price prior to main feed (mainly used for calculating changes for earliest record of main feed)
 	row := db.FromContext(ctx).QueryRow(ctx, `SELECT value_decimal
 		FROM material_value WHERE uid=$1 AND property_id=$3 AND created_on < $2 ORDER BY created_on DESC LIMIT 1`, uid, start, propertyId)
 	err = row.Scan(&prevPrice)
