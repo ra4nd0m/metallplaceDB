@@ -1,5 +1,4 @@
-const {mainServerPort, ApiEndpoint} = require("../const")
-const {is} = require("date-fns/locale");
+const {ApiEndpoint} = require("../const")
 module.exports.ChartUrl = function (materialIds, propertyId, timeFrame, needLabels, type, scale, xStep, needLegend, toFixed, predict, isTall){
     this.materialIds = materialIds
     this.propertyId = propertyId

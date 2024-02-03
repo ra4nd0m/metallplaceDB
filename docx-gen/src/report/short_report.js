@@ -8,7 +8,6 @@ const margins = require("../atom/margins")
 const paragraph = require("../atom/paragraph");
 const chart = require("../atom/short_report_chart");
 const cover = require("../atom/cover");
-const pageBreak = require("../atom/page_break");
 const coverDates = require("../atom/cover_dates_short")
 function getFooterTitle(date) {
     const monthDates = GetDates(new Date(date.substring(0, 10)), "month")
