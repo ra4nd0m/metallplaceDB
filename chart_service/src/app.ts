@@ -96,6 +96,8 @@ const getChart = async (XLabelSet: string[], YDataSets: YDataSet[], options: Cha
     try {
         if (options.title.length > 0) {
             configuration = getChartConfTitled(datasets, XLabelSet, options);
+            // @ts-ignore
+            configuration.options?.scales.x.ticks.maxTicksLimit = 1000
         } else {
             configuration = getChartConf(datasets, XLabelSet, options);
         }
@@ -151,7 +153,7 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
     let dateArrayFormatted: string[]
     dateArrayFormatted = []
     let legendBoxSize: any
-    let tickLimit = 1000
+    let tickLimit = 100
     if (options.tick_limit != 0) tickLimit = options.tick_limit
     for (let i = 0; i < dateArray.length; i++) {
         dateArrayFormatted.push(formatXLabel(dateArray[i], options.x_step))
