@@ -114,7 +114,7 @@ module.exports = class WeeklyReport {
                     children: [
                         h3Fake("Содержание"),
                         ...tableOfContents(),
-                        ...marginGen(23),
+                        ...marginGen(20),
                         disclaimer(),
 
                         h2("Краткая сводка новостей"),
@@ -261,7 +261,7 @@ module.exports = class WeeklyReport {
                             children: [await oneChartText(FormChartUrl(new ChartUrl([8], MedPriceId, GetMonthRange(date), 1, "line", "day", "day", 1, 0)), ["Цены на металлургический кокс", "$/т FOB Китай"])]
                         }),
                         await singleTable(8, MedPriceId, GetMonthRange(date, true)), // мет кокс
-                        pageBreak(),
+
 
                         h3("Лом черных металлов"),
                         textArea(),
@@ -273,9 +273,6 @@ module.exports = class WeeklyReport {
                             children: [await oneChartText(FormChartUrl(new ChartUrl([1], MedPriceId, GetMonthRange(date), 1, "line", "day", "day", 1, 0)), ["Цены на лом 3А", "₽/т CPT Россия"])]
                         }),
                         await singleTableMinimax(1, GetMonthRange(date, true), 0, 1),// лом 3А
-
-                        pageBreak(),
-                        separator(),
 
 
                         h3("Чугун"),
@@ -297,8 +294,7 @@ module.exports = class WeeklyReport {
                         paragraph({ //заготовка, сляб
                             children: [await oneChartText(FormChartUrl(new ChartUrl([9, 11], MedPriceId, GetMonthRange(date), 1, "line", "day", "day", 1, 0)), ["Цены на стальные полуфабрикаты", "$/т FOB Россия"])]
                         }),
-                        pageBreak(),
-                        separator(),
+
                         await doubleTableMinimax(9, 11, GetMonthRange(date, true), 0, 1, "week", 0), //заготовка, сляб
 
 
@@ -319,7 +315,6 @@ module.exports = class WeeklyReport {
                             children: [await oneChartText(FormChartUrl(new ChartUrl([14], MedPriceId, GetMonthRange(date), 1, "line", "day", "day", 1, 0)), ["Цены на арматуру А1", "₽/т EXW Россия"])]
                         }),
                         await singleTable(14, MedPriceId, GetMonthRange(date, true), 0, 1, undefined, false, 0), //арматура A1 EXW
-                        pageBreak(),
 
                         h3("Плоский прокат"),
                         textArea(),
@@ -338,11 +333,9 @@ module.exports = class WeeklyReport {
                             children: [await oneChartText(FormChartUrl(new ChartUrl([15, 16], MedPriceId, GetMonthRange(date), 1, "line", "day", "day", 1, 0)), ["Цены на плоский прокат", "₽/т EXW Россия"])]
                         }),
                         await tableDouble(15, 16, MedPriceId, GetMonthRange(date, true), 0, 1, undefined, false, 0), // рулон гк рулон хк EXW
-                        pageBreak(),
 
 
                         h2("Рынок ферросплавов и руд"),
-                        textArea(),
                         await tableMaterialGrouped(
                             getRangeArr(17, 23),
                             Get2LastThursdays(date),
@@ -352,13 +345,13 @@ module.exports = class WeeklyReport {
                             [0,0,0,1,1,2,1],
                             [0,0,0,1,1,1,1]
                         ),
-                        h3("Ферромарганец и силиконмарганец"),
+                        h3("Ферромарганец и силикомарганец"),
                         textArea(),
                         paragraph({ // FeMn76, SiMn65
                             children: [await oneChartText(FormChartUrl(new ChartUrl([17, 19], MedPriceId, GetMonthRange(date, false, true), 1, "line", "day", "day", 1, 0)), ["Цены на марганцевые сплавы", "$/т DDP ЕС"])]
                         }),
                         await doubleTableMinimax(17, 19, GetMonthRange(date, true, true), 0, 1, "week", 0), // FeMn76, SiMn65
-                        pageBreak(),
+
 
                         h3("Ферросилиций"),
                         textArea(),

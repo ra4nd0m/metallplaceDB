@@ -25,12 +25,15 @@ func LoggerMiddleware(next http.HandlerFunc) http.HandlerFunc {
 		// Restore the request body
 		r.Body = ioutil.NopCloser(bytes.NewBuffer(body))
 
+		// Execute the request
 		next.ServeHTTP(rec, r)
+		// Collecting report stats
 		duration := time.Since(startTime)
 		logger := log.Info()
 		if rec.StatusCode != http.StatusOK {
 			logger = log.Error().Bytes("body", rec.Body)
 		}
+
 		// Log the request details along with the request body
 		logger.Str("protocol", "http").
 			Str("method", r.Method).

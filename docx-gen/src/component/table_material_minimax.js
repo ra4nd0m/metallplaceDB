@@ -30,8 +30,8 @@ function headerMaterial(title, unit, font){
             new docx.TableRow({
                 children: [
                     new docx.TableCell({borders:{top:BorderNil, bottom: BorderNil, left: ThinBorder, right: ThinBorder}, margins: TableCellMarginNil, children: [priceBlock(unit, font)], verticalAlign: docx.VerticalAlign.CENTER}),
-                    new docx.TableCell({borders:{top:BorderNil, bottom: BorderNil, left: ThinBorder, right: ThinBorder}, children: [textTh(`Изм`, font, FontSizeThSecondary), textTh(unit, FontFamilyThin, FontSizeThExtraInfo)], verticalAlign: docx.VerticalAlign.CENTER}),
-                    new docx.TableCell({borders:{top:BorderNil, bottom: BorderNil, left: ThinBorder, right: ThinBorder}, children: [textTh(`Изм`, font, FontSizeThSecondary), textTh("%", FontFamilyThin, FontSizeThExtraInfo)], verticalAlign: docx.VerticalAlign.CENTER}),
+                    new docx.TableCell({borders:{top:BorderNil, bottom: BorderNil, left: ThinBorder, right: ThinBorder}, children: [textTh(`Изм.`, font, FontSizeThSecondary), textTh(unit, FontFamilyThin, FontSizeThExtraInfo)], verticalAlign: docx.VerticalAlign.CENTER}),
+                    new docx.TableCell({borders:{top:BorderNil, bottom: BorderNil, left: ThinBorder, right: ThinBorder}, children: [textTh(`Изм.`, font, FontSizeThSecondary), textTh("%", FontFamilyThin, FontSizeThExtraInfo)], verticalAlign: docx.VerticalAlign.CENTER}),
                 ],
             }),
         ]

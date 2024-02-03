@@ -463,9 +463,9 @@ function getChartConf(datasets: Dataset[], dateArray: string[], options: ChartOp
     let yDelta = (maxVal - minVal) * 0.1
     if (yDelta < 1 ) yDelta = 1
     // @ts-ignore
-    conf.options?.scales.y.max = Math.floor(maxVal + yDelta)
+    conf.options?.scales.y.max = Math.ceil(maxVal + yDelta)
     // @ts-ignore
-    conf.options?.scales.y.min = Math.ceil(minVal - yDelta)
+    conf.options?.scales.y.min = Math.floor(minVal - yDelta)
 
     if (options.predict) {
         // @ts-ignore

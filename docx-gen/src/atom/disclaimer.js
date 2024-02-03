@@ -7,6 +7,7 @@ module.exports = function () {
     return margins(
             [
                 new docx.Paragraph({
+                    alignment: docx.AlignmentType.BOTH,
                     children: [
                         new docx.TextRun({
                             text: "Дисклеймер: ",
@@ -32,6 +33,7 @@ module.exports = function () {
                 }),
                 new docx.Paragraph({children: [new docx.TextRun({text: ""})]}),
                 new docx.Paragraph({
+                    alignment: docx.AlignmentType.BOTH,
                     children: [
                         new docx.TextRun({
                             text: "Пользователи/посетители должны принимать собственные решения на основе собственных независимых " +

@@ -78,11 +78,11 @@ module.exports = async function(materialIds, dates, titlesIndexes, titles, type,
                     new docx.TableCell({borders: {top: FatBorder, left: ThinBorder, right: ThinBorder}, margins: TableCellMarginNil, children: [textTh(formatDateTable(new Date(title1)), FontFamilyMedium, FontSizeThMain)], verticalAlign: docx.VerticalAlign.CENTER}),
                     new docx.TableCell({borders: {top: FatBorder, left: ThinBorder, right: ThinBorder}, margins: TableCellMarginNil, children: [textTh(formatDateTable(new Date(title2)), FontFamilyExtraBold, FontSizeThMain)], verticalAlign: docx.VerticalAlign.CENTER}),
                     new docx.TableCell({borders: {top: FatBorder, left: ThinBorder, right: ThinBorder}, margins: TableCellMarginNil, children: [
-                        textTh(`Изм`, FontFamilyMedium, FontSizeThMain),
+                        textTh(`Изм.`, FontFamilyMedium, FontSizeThMain),
                             textTh(`абс.`, FontFamilyThin, FontSizeThSecondary),
                         ], verticalAlign: docx.VerticalAlign.CENTER}),
                     new docx.TableCell({borders: {top: FatBorder, left: ThinBorder, right: ThinBorder}, margins: TableCellMarginNil, children: [
-                        textTh(`Изм`, FontFamilyMedium, FontSizeThMain),
+                        textTh(`Изм.`, FontFamilyMedium, FontSizeThMain),
                             textTh(`%`, FontFamilyThin, FontSizeThSecondary)
                         ], verticalAlign: docx.VerticalAlign.CENTER})
                 ],
