@@ -3,7 +3,7 @@ package docxgenclient
 import "time"
 
 type Request struct {
-	ReportType string `json:"report_type"`
+	ReportType string `json:"report_type"` // weekly or monthly
 	Date       string `json:"date"`
 }
 

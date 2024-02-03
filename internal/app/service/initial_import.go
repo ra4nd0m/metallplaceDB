@@ -52,7 +52,7 @@ func (s *Service) InitialImport(ctx context.Context) error {
 		if err := s.InitImportMaterialsHorizontalWeekly(ctx, book); err != nil {
 			return fmt.Errorf("error initializing weekly horizontal import: %w", err)
 		}
-
+		// Currently disabled
 		//if err := s.ImportRosStat(ctx); err != nil {
 		//	return fmt.Errorf("can't import ros stat: %w", err)
 		//}
@@ -68,6 +68,7 @@ func (s *Service) InitialImport(ctx context.Context) error {
 
 }
 
+// ParseXlsxForChart Used for short reports
 func (s *Service) ParseXlsxForChart(byte []byte) (chartclient.Request, error) {
 	reader := bytes.NewReader(byte)
 	book, err := excelize.OpenReader(reader)
@@ -576,7 +577,6 @@ func (s *Service) InitImportMaterialsVertical(ctx context.Context, book *exceliz
 }
 
 func (s *Service) InitImportMaterialsHorizontalWeekly(ctx context.Context, book *excelize.File) error {
-
 	for _, material := range model.InitMaterialsHorizontalWeekly {
 		id, err := s.AddUniqueMaterial(ctx, material.UId, material.Name, material.Group, material.Source, material.Market, material.Unit, material.DeliveryType)
 		if err != nil {
