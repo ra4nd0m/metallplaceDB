@@ -28,10 +28,10 @@ app.post("/genShort", (req, res) => {
             res.send(buf)
         })
     )
-        .catch(reason =>
+        .catch(reason => {
             console.log(reason);
             res.send(JSON.stringify(reason));
-        )
+        })
 
 })
 
@@ -52,9 +52,10 @@ app.post("/gen", (req, res) => {
                     res.send(buf)
                 })
             )
-                .catch(reason =>
-                    res.send(JSON.stringify(reason))
-                )
+                .catch(reason =>{
+                    console.log(reason);
+                    res.send(JSON.stringify(reason));
+                })
             break
         case "monthly":
             console.log("Generating monthly report...")
@@ -66,9 +67,10 @@ app.post("/gen", (req, res) => {
                     res.send(buf)
                 })
             )
-                .catch(reason =>
-                    res.send(JSON.stringify(reason))
-                )
+                .catch(reason =>{
+                    console.log(reason);
+                    res.send(JSON.stringify(reason));
+                })
             break
         default:
             res.send(JSON.stringify("Invalid report type"))
