@@ -29,7 +29,8 @@ app.post("/genShort", (req, res) => {
         })
     )
         .catch(reason =>
-            res.send(JSON.stringify(reason))
+            console.log(reason);
+            res.send(JSON.stringify(reason));
         )
 
 })
