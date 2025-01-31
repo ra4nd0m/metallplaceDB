@@ -72,7 +72,7 @@ func main() {
 	repo := repository.New()
 	chart := chartclient.New(cfg.ChartHost, cfg.ChartPort)
 	docxgen := docxgenclient.New(cfg.DocxgenHost, cfg.DocxgenPort)
-	modifier, err := api.NewModifier(cfg.ModifierHost, cfg.ModifierPort)
+	modifier, err := api.NewModifier("localhost", cfg.ModifierPort)
 	if err != nil {
 		logger.Fatal().Err(err).Msg("cannot create modifier grpc client")
 	}
