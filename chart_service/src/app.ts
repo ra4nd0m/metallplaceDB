@@ -623,13 +623,30 @@ function formatYLabel(num: number) {
 }
 
 app.post('/gen', (req: Request, res: Response) => {
-    getChart(req.body.x_label_set, req.body.y_data_set, req.body.chart_options)
-        .then(buf =>
-            res.send(buf)
-        )
-        .catch(reason =>
-            res.send(JSON.stringify(reason))
-        )
+    try {
+        // Validate input
+        if (!req.body.x_label_set || !req.body.y_data_set || !req.body.chart_options) {
+            throw new Error('Missing required parameters');
+        }
+
+        const buf = await getChart(
+            req.body.x_label_set, 
+            req.body.y_data_set, 
+            req.body.chart_options
+        );
+        
+        if (!buf) {
+            throw new Error('Failed to generate chart');
+        }
+
+        res.send(buf);
+    } catch (err) {
+        console.error('Chart generation failed:', err);
+        res.status(500).json({
+            error: 'Failed to generate chart',
+            details: err instanceof Error ? err.message : String(err)
+        });
+    }
 })
 
 app.listen(port, host,() => {
