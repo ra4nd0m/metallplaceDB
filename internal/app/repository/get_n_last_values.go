@@ -13,15 +13,14 @@ func (r *Repository) GetNLastValues(ctx context.Context, uid, propertyId int, nV
 	var price model.Price
 
 	rows, err := db.FromContext(ctx).Query(ctx,
-		"SELECT * FROM "+
-			"("+
-			"SELECT created_on, value_decimal "+
-			"FROM material_value "+
-			"WHERE uid=$1 AND property_id=$2 AND created_on <= $4"+
-			"ORDER BY created_on "+
-			"DESC LIMIT $3 "+
-			") AS last_n_values "+
-			"ORDER BY created_on ASC", uid, propertyId, nValues, finish)
+        `SELECT * FROM (
+            SELECT created_on, value_decimal 
+            FROM material_value 
+            WHERE uid=$1 AND property_id=$2 AND created_on <= $3
+            ORDER BY created_on DESC 
+            LIMIT $4
+        ) AS last_n_values 
+        ORDER BY created_on ASC`, uid, propertyId, finish, nValues)
 
 	if err != nil {
 		return nil, fmt.Errorf("Can't get n last material prices %w", err)
