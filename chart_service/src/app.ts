@@ -622,7 +622,7 @@ function formatYLabel(num: number) {
     return numStr.replace(".", ",")
 }
 
-app.post('/gen', (req: Request, res: Response) => {
+app.post('/gen', async (req: Request, res: Response) => {
     try {
         // Validate input
         if (!req.body.x_label_set || !req.body.y_data_set || !req.body.chart_options) {
