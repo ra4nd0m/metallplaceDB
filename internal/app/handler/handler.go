@@ -4,15 +4,17 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"github.com/getsentry/sentry-go"
-	"github.com/go-playground/validator"
-	"github.com/xuri/excelize/v2"
 	"io"
 	"metallplace/internal/app/model"
 	"metallplace/pkg/chartclient"
 	"net/http"
 	"reflect"
 	"time"
+
+	"github.com/getsentry/sentry-go"
+	"github.com/go-playground/validator"
+	"github.com/rs/zerolog/log"
+	"github.com/xuri/excelize/v2"
 )
 
 type IService interface {
@@ -98,6 +100,10 @@ func isNil(i interface{}) bool {
 
 func SentrySend(r *http.Request, err error) {
 	hub := sentry.GetHubFromContext(r.Context())
+	if hub == nil {
+		log.Error().Err(err).Msg("Sentry hub is nil, can't send error")
+		return
+	}
 	hub.CaptureException(err)
 	hub.Flush(2 * time.Second)
 }
