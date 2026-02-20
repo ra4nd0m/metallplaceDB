@@ -21,46 +21,37 @@ function tocBlock(lines)
 
     let block = []
     block.push(
-        new docx.Table({
-            columnWidths: [15, 1],
-            width: {
-                type: docx.WidthType.PERCENTAGE,
-                size: 100
-            },
-            rows: [
-                new docx.TableRow({
+        new docx.TableRow({
+            children: [
+                new docx.TableCell({
+                    borders: {top: TocFatBorder, bottom: TocFatBorder, left: TocFatBorder, right: BorderNil},
                     children: [
-                        new docx.TableCell({
-                            borders: {top: TocFatBorder, bottom: TocFatBorder, left: TocFatBorder, right: BorderNil},
+                        new docx.Paragraph({
                             children: [
-                                new docx.Paragraph({
-                                    children: [
-                                        new docx.TextRun({
-                                            text: lines[0],
-                                            font: FontFamilyExtraBold,
-                                            size: 24
-                                        })
-                                    ]
+                                new docx.TextRun({
+                                    text: lines[0],
+                                    font: FontFamilyExtraBold,
+                                    size: 24
                                 })
                             ]
-                        }),
-                        new docx.TableCell({
-                            borders: {top: TocFatBorder, bottom: TocFatBorder, left: BorderNil, right: TocFatBorder},
-                            children: [
-                                new docx.Paragraph({
-                                    alignment: docx.AlignmentType.RIGHT,
-                                    children: [
-                                        new docx.TextRun({
-                                            text: " ",
-                                            font: FontFamilyExtraBold,
-                                            size: 24
-                                        })
-                                    ]
-                                })
-                            ]
-                        }),
+                        })
                     ]
-                })
+                }),
+                new docx.TableCell({
+                    borders: {top: TocFatBorder, bottom: TocFatBorder, left: BorderNil, right: TocFatBorder},
+                    children: [
+                        new docx.Paragraph({
+                            alignment: docx.AlignmentType.RIGHT,
+                            children: [
+                                new docx.TextRun({
+                                    text: " ",
+                                    font: FontFamilyExtraBold,
+                                    size: 24
+                                })
+                            ]
+                        })
+                    ]
+                }),
             ]
         })
     )
