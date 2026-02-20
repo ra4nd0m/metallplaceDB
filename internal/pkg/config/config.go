@@ -32,8 +32,7 @@ type Config struct {
 
 	SentryDSN string
 
-	ModifierPort int
-	ModifierHost string
+
 }
 
 func LoadConfig() (Config, error) {
@@ -56,10 +55,7 @@ func LoadConfig() (Config, error) {
 	if err != nil {
 		return Config{}, fmt.Errorf("error loading docxgen port: %w", err)
 	}
-	ModifierPort, err := strconv.Atoi(os.Getenv("MPLBASE_MODIFY_DOCX_PORT"))
-	if err != nil {
-		return Config{}, fmt.Errorf("error loading modifier port: %w", err)
-	}
+
 	config := Config{
 		DBHost:           os.Getenv("DB_HOST"),
 		DBPort:           DbPort,
@@ -75,8 +71,6 @@ func LoadConfig() (Config, error) {
 		AuthKey:          []byte(os.Getenv("MPLBASE_AUTH_KEY")),
 		InternalHttpPort: os.Getenv("MPLBASE_INTERNAL_HTTP_PORT"),
 		SentryDSN:        os.Getenv("MPLBASE_SENTRY_DSN"),
-		ModifierHost:     os.Getenv("MPLBASE_MODIFIER_HOST"),
-		ModifierPort:     ModifierPort,
 	}
 
 	log.Printf("config: %#v\n", config)

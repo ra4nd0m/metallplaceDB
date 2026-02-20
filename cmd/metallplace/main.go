@@ -12,7 +12,6 @@ import (
 	_ "github.com/swaggo/http-swagger/example/gorilla/docs"
 	httpSwagger "github.com/swaggo/http-swagger/v2"
 	"golang.org/x/sync/errgroup"
-	"metallplace/internal/app/api"
 	"metallplace/internal/app/handler"
 	"metallplace/internal/app/mw"
 	"metallplace/internal/app/repository"
@@ -72,11 +71,7 @@ func main() {
 	repo := repository.New()
 	chart := chartclient.New(cfg.ChartHost, cfg.ChartPort)
 	docxgen := docxgenclient.New(cfg.DocxgenHost, cfg.DocxgenPort)
-	modifier, err := api.NewModifier("localhost", cfg.ModifierPort)
-	if err != nil {
-		logger.Fatal().Err(err).Msg("cannot create modifier grpc client")
-	}
-	srv := service.New(cfg, repo, chart, docxgen, lastRequestTime, modifier)
+	srv := service.New(cfg, repo, chart, docxgen, lastRequestTime)
 	hdl := handler.New(srv)
 
 	// Creating error group for internal and external servers
