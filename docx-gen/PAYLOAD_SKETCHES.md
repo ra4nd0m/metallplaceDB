@@ -364,6 +364,139 @@ The top-level structure is identical to weekly, so only **differences** are note
 
 ---
 
+---
+
+## 3. Refactoring assessment and plan
+
+### Depth assessment by layer
+
+The codebase has 4 distinct layers. The modification burden is very uneven:
+
+| Layer | Files | What needs to change | Effort |
+|---|---|---|---|
+| `atom/` | body cells, text, table rows | **Nothing.** They already receive structured data from components and are pure layout. | None |
+| `report/` | weekly, monthly, short | Remove date-range calls and chart URL building. Replace material IDs with payload destructuring. Section structure and ordering stay identical. | Low |
+| `component/` | all 10 table/chart components | **This is the bulk of the work.** Every component currently owns its own HTTP fetches. The axios calls get removed and replaced with received data parameters. The docx layout code inside each component is untouched. | Medium–High |
+| `utils/` | `form_chart_url.js`, `date_ranges.js` | Become dead code (chart URLs go away; date range math moves to the caller). Other utils (`get_change`, `numbers_format`, etc.) stay. | Trivial |
+| `client/chart.js` | 1 file | Deleted entirely — chart PNG now arrives in the payload. | Trivial |
+
+The atom layer being zero-touch is the good news: all the complex table layout logic is already
+cleanly separated from data fetching. The components act as a thin glue layer between HTTP and atoms,
+and that glue is exactly what needs replacing.
+
+**The hardest single file is `chart_block.js`.**
+It currently makes 3 outgoing calls per chart: one GET for the PNG, one POST for material info,
+and one or two POSTs to compute the % change for the info row.
+The info row (name, price, % change, compare period label) needs to be flattened into an explicit
+input shape.
+
+---
+
+### Refactoring plan
+
+The strategy is to never break the running server. Each phase leaves the existing routes working.
+
+#### Phase 0 — Preparation (no behaviour change)
+- Move all `axios` / `ApiEndpoint` imports inside each component function body (if they're
+  currently at module scope). This makes the dependency on HTTP visible at a glance and
+  simplifies the per-component extraction work later.
+- Add `fix_rpr_order.js` to `utils/` (it already lives there — confirm it has no axios deps).
+- No functional change, no new routes.
+
+#### Phase 1 — Split chart_block into two functions
+`chart_block.js` is the hardest component and is called by `one_chart.js`, `two_chart.js`,
+and `one_chart_text.js` — so fixing it unblocks all chart components at once.
+
+Split it into:
+```
+chartBlockFromUrl(url, isBig, avgGroup, comparePeriod, fixed, fixedChange)
+  → existing behaviour, no change
+
+chartBlockFromData(pngBytes, isBig, infoRow)
+  → new stateless version
+  infoRow shape:
+  {
+    material_name: string,      // e.g. "ЖРС 62%"
+    material_type: string,      // e.g. "62% Fe"
+    delivery: string,
+    country: string,
+    unit: string,
+    last_price: number,
+    prev_price: number,
+    compare_period: string      // "н/н" | "м/м" | null
+  }
+```
+
+Both functions return the same docx `Table`. The old one stays for backward compat; 
+`one_chart`, `two_chart`, `one_chart_text` get mirror variants that call the new one.
+
+#### Phase 2 — Split each table component
+Do this one component at a time, in order of simplest to most complex:
+
+1. **`table_single.js`** — remove axios, accept `{ material: MaterialInfo, feed: PricePoint[], predict_feed?: PricePoint[] }`
+2. **`table_double.js`** — accept `{ material1, feed1, material2, feed2 }`
+3. **`table_double_avg.js`** — same as double
+4. **`table_single_minimax.js`** — accept `{ material, feeds: { min, max, med } }`
+5. **`table_double_minimax.js`** — accept `{ material1, feeds1, material2, feeds2 }`
+6. **`table_material_minimax.js`** — accept `MaterialMinimaxRow[]` (the current `bodyInfo` array, already roughly this shape inside the function)
+7. **`table_material_grouped.js`** — accept `MaterialGroupedRow[]` (same as current `bodyInfo`)
+
+Pattern for each: the new function is the *default export*, the old fetching logic moves into a
+separate named export `*FromIds(materialId, dates, ...)` that calls the backend and then calls the
+new function. This way the existing report files keep working without any changes during migration.
+
+#### Phase 3 — Add new stateless report handlers in app.js
+Add three new routes alongside the old ones:
+
+```
+POST /v2/gen         → WeeklyReportV2 / MonthlyReportV2
+POST /v2/genShort    → ShortReportV2  (mostly unchanged)
+```
+
+The v2 report classes (weekly/monthly) are thin orchestrators:
+- Receive the full payload
+- Destructure each section's data blob
+- Call the now-stateless component functions directly
+- No date calculations, no chart URLs, no axios anywhere
+
+The v1 routes (`/gen`, `/genShort`) stay alive and untouched.
+
+#### Phase 4 — Migrate the caller (Go backend)
+The Go backend service currently builds a `docxgenclient` request with just a date and type.
+In v2 it needs to:
+1. Call all relevant DB queries (same queries the docx-gen components were making)
+2. Render all charts via the chart service upfront
+3. Assemble the full v2 payload
+4. POST to `/v2/gen`
+
+This is roughly porting the axios calls out of ~10 JS files into Go service methods —
+which is natural since Go already has all the DB access code.
+
+#### Phase 5 — Cleanup
+Once the Go backend is fully on v2:
+- Delete `/gen`, `/genShort` (v1 routes) from `app.js`
+- Delete `client/chart.js`
+- Delete `utils/form_chart_url.js`
+- Delete the `*FromIds` shim exports from each component
+- Remove `ApiEndpoint` from `const.js`
+- Remove `axios` from all component files (and from `package.json` if no longer used anywhere)
+
+---
+
+### Summary
+
+```
+Phase 0  Cosmetic prep                    ~1 hour
+Phase 1  chart_block split                ~2 hours  (trickiest)
+Phase 2  7 table components               ~4 hours  (repetitive, low risk)
+Phase 3  v2 routes + report classes       ~2 hours
+Phase 4  Go backend migration             ~1 day    (larger scope, different codebase)
+Phase 5  Cleanup                          ~1 hour
+```
+
+Phases 0–3 are entirely self-contained inside `docx-gen` and carry no risk to the running system
+since v1 routes are preserved. Phase 4 is the only step that requires coordinated deployment.
+
 ## Summary observations
 
 | | `genShort` | `gen/weekly` | `gen/monthly` |
