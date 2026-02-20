@@ -40,6 +40,10 @@ module.exports = async function fixDocx(buf) {
         const fixedPct = fixPercentageWidths(xml);
         if (fixedPct !== xml) { xml = fixedPct; changed = true; }
 
+        // Fix 3: Scale gridCol values to realistic twip widths
+        const fixedGrid = fixGridColWidths(xml);
+        if (fixedGrid !== xml) { xml = fixedGrid; changed = true; }
+
         if (changed) {
             zip.file(xmlPath, xml);
         }
@@ -112,4 +116,42 @@ function fixPercentageWidths(xml) {
             return '<w:' + tag + ' ' + fixedAttrs + '/>';
         }
     );
+}
+
+// --- gridCol width scaling ---
+
+// Page content width in twips: A4 = 210mm, minus 2 × 18mm side margins = 174mm
+// 174mm × (1440 twips/inch ÷ 25.4 mm/inch) ≈ 9864 twips
+var TARGET_WIDTH_TWIPS = 9864;
+
+function fixGridColWidths(xml) {
+    // The docx v7 library writes columnWidths array values directly as w:w in gridCol.
+    // These are typically small proportions (1,2,3) or mm values (18,120,72),
+    // but OOXML expects twips. Scale them so their sum matches the content width.
+    return xml.replace(/<w:tblGrid>([\s\S]*?)<\/w:tblGrid>/g, function (match, inner) {
+        var cols = [];
+        var colRe = /<w:gridCol w:w="([^"]+)"\s*\/>/g;
+        var m;
+        while ((m = colRe.exec(inner)) !== null) {
+            cols.push(parseFloat(m[1]));
+        }
+        if (cols.length === 0) return match;
+
+        var sum = 0;
+        for (var i = 0; i < cols.length; i++) sum += cols[i];
+        if (sum === 0) return match;
+
+        // If sum is already a reasonable width (> half the target), values are likely
+        // already in twips or otherwise correct — don't scale.
+        if (sum >= TARGET_WIDTH_TWIPS / 2) return match;
+
+        var scale = TARGET_WIDTH_TWIPS / sum;
+        var idx = 0;
+        var result = "<w:tblGrid>" + inner.replace(/<w:gridCol w:w="[^"]+"\s*\/>/g, function () {
+            var newVal = Math.round(cols[idx] * scale);
+            idx++;
+            return '<w:gridCol w:w="' + newVal + '"/>';
+        }) + "</w:tblGrid>";
+        return result;
+    });
 }
