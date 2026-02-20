@@ -49,7 +49,7 @@ Fetches metadata for a single material (name, unit, market, delivery type).
     "DeliveryType": "string"
   }
 }
-
+```
 
 **Called from:**
 
@@ -87,7 +87,7 @@ Returns a daily price feed for a material/property pair over a date range.
     { "date": "string", "value": <number> }
   ]
 }
-
+```
 
 **Called from:**
 
