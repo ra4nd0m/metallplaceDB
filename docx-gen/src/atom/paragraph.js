@@ -11,5 +11,10 @@ module.exports = function (v) {
             ]
         }
     }
+    // A Table passed as the sole child of a Paragraph produces invalid OOXML
+    // (<w:tbl> inside <w:p>). Return the table directly instead.
+    if (v && Array.isArray(v.children) && v.children.length === 1 && v.children[0] instanceof docx.Table) {
+        return v.children[0];
+    }
     return new docx.Paragraph(v);
 }
