@@ -11,6 +11,7 @@ module.exports = async function fetchChart(url, isBig) {
             height = width / 2.5
         }
         return new docx.ImageRun({
+            type: "png",
             data: image,
             transformation: {
                 width: width,

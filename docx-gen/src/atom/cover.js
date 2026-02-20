@@ -14,9 +14,11 @@ module.exports = function (type) {
     if (type === "Мировой рынок металлургического сырья") {
         coverPath = staticDir + "/cover_short_raw_materials.jpg"
     }
+    const imageType = coverPath.endsWith(".jpg") ? "jpg" : "png"
     return paragraph({
         children: [
             new docx.ImageRun({
+                type: imageType,
                 data: fs.readFileSync(coverPath),
                 transformation: {
                     width: 795,
@@ -28,6 +30,9 @@ module.exports = function (type) {
                     },
                     verticalPosition: {
                         align: docx.VerticalPositionAlign.CENTER
+                    },
+                    wrap: {
+                        type: docx.TextWrappingType.NONE,
                     },
                     allowOverLap: true,
                     zIndex: 0,

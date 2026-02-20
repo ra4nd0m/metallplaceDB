@@ -11,6 +11,7 @@ module.exports = function (file, height, width) {
                 verticalAlign: docx.VerticalAlign.CENTER,
                 children: [
                     new docx.ImageRun({
+                        type: "png",
                         data: readFileSync(staticDir + file),
                         transformation: {
                             width: width,
