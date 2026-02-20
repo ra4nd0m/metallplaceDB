@@ -11,6 +11,13 @@ const JSZip = require("jszip");
  *    requires the value in fiftieths of a percent (e.g. 5000 = 100%).
  *    Without this fix, Word falls back to auto-sizing, ignoring the intended width.
  *
+ * 3. gridCol widths: The library writes small proportional values but OOXML expects
+ *    twips. Scales them so their sum matches the page content width.
+ *
+ * 4. Field character runs: The library packs fldChar begin/instrText/separate/end
+ *    into a single <w:r>, but OOXML requires each in its own <w:r> with its own
+ *    <w:rPr>. Without this fix, Word/LibreOffice loses the font on page numbers.
+ *
  * @param {Buffer} buf - The raw docx buffer from Packer.toBuffer()
  * @returns {Promise<Buffer>} - The fixed docx buffer
  */
@@ -43,6 +50,10 @@ module.exports = async function fixDocx(buf) {
         // Fix 3: Scale gridCol values to realistic twip widths
         const fixedGrid = fixGridColWidths(xml);
         if (fixedGrid !== xml) { xml = fixedGrid; changed = true; }
+
+        // Fix 4: Split malformed field-char runs into separate <w:r> elements
+        const fixedFields = splitFieldRuns(xml);
+        if (fixedFields !== xml) { xml = fixedFields; changed = true; }
 
         if (changed) {
             zip.file(xmlPath, xml);
@@ -114,6 +125,49 @@ function fixPercentageWidths(xml) {
             var fiftieths = Math.round(num * 50);
             var fixedAttrs = attrs.replace(/w:w="[^"]+%"/, 'w:w="' + fiftieths + '"');
             return '<w:' + tag + ' ' + fixedAttrs + '/>';
+        }
+    );
+}
+
+// --- Field character run splitting ---
+
+/**
+ * The docx library emits PAGE / NUMPAGES fields as a single <w:r> containing
+ * multiple <w:fldChar> and <w:instrText> children.  OOXML requires each
+ * fldChar/instrText to live in its own <w:r> with a copy of the <w:rPr>.
+ * Without splitting, Word/LibreOffice repairs the field and loses the font.
+ */
+function splitFieldRuns(xml) {
+    // Match <w:r> elements that contain at least one <w:fldChar
+    return xml.replace(/<w:r>(\s*<w:rPr>[\s\S]*?<\/w:rPr>)?([\s\S]*?)<\/w:r>/g,
+        function (match, rprBlock, body) {
+            // Only process runs that contain fldChar elements
+            if (!/<w:fldChar/.test(body)) return match;
+
+            var rpr = rprBlock || "";
+
+            // Tokenise the body into individual child elements
+            // Use alternation: self-closing tags OR open+close tag pairs
+            var children = [];
+            var tokenRe = /<(w:\w+)(?:\s[^>]*)?\/>|<(w:\w+)(?:\s[^>]*)?>[\s\S]*?<\/\2>/g;
+            var m;
+            while ((m = tokenRe.exec(body)) !== null) {
+                children.push(m[0]);
+            }
+            if (children.length <= 1) return match;
+
+            // Group children: each fldChar gets its own run; consecutive
+            // non-fldChar children (e.g. instrText) get their own run too.
+            var runs = [];
+            for (var i = 0; i < children.length; i++) {
+                var child = children[i];
+                if (/<w:fldChar/.test(child)) {
+                    runs.push("<w:r>" + rpr + child + "</w:r>");
+                } else {
+                    runs.push("<w:r>" + rpr + child + "</w:r>");
+                }
+            }
+            return runs.join("");
         }
     );
 }
