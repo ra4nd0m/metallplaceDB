@@ -497,6 +497,502 @@ Phase 5  Cleanup                          ~1 hour
 Phases 0–3 are entirely self-contained inside `docx-gen` and carry no risk to the running system
 since v1 routes are preserved. Phase 4 is the only step that requires coordinated deployment.
 
+---
+
+## 4. Concrete payload examples
+
+> All PNG values are shown as `"<base64>"` — in practice a real base64-encoded PNG string.
+> Feeds are trimmed to a few rows for readability; real reports carry ~5–30 rows depending on the section.
+
+---
+
+### 4a. `POST /getChart` (new body-based chart endpoint)
+
+```json
+{
+  "material_ids": [2, 3],
+  "property_id": 1,
+  "start": "2025-02-10",
+  "finish": "2026-02-10",
+  "type": "line",
+  "scale": "day",
+  "x_step": "week",
+  "labels": true,
+  "legend": true,
+  "to_fixed": 0,
+  "predict": false,
+  "tall": true,
+  "info_row": {
+    "avg_group": 5,
+    "compare_period": "н/н"
+  }
+}
+```
+
+Response: raw PNG bytes (same as today).
+
+---
+
+### 4b. `POST /v2/genShort`
+
+```json
+{
+  "date": "2026-02-01",
+  "report_header": "Мировой рынок металлургического сырья",
+  "blocks": [
+    {
+      "title": "Железная руда",
+      "text": [
+        "Цены на железную руду 62% Fe снизились за месяц на 3.2%.",
+        "Запасы ЖРС в портах Китая стабилизировались на уровне 148 млн тонн."
+      ],
+      "chart": "<base64>"
+    },
+    {
+      "title": "Коксующийся уголь",
+      "text": [
+        "Австралийский уголь Premium Hard Coking Coal вырос до $218/т CFR Китай.",
+        "Российский уголь торгуется с дисконтом около 12% к австралийскому бенчмарку."
+      ],
+      "chart": "<base64>"
+    },
+    {
+      "title": "Ферросилиций",
+      "text": [
+        "Рынок ферросилиция остаётся под давлением: цены FeSi75 DDP ЕС — $1 080/т."
+      ],
+      "chart": null
+    }
+  ]
+}
+```
+
+---
+
+### 4c. `POST /v2/gen` — `"report_type": "weekly"`
+
+Below the **iron ore** and **scrap** sections are shown fully; remaining sections follow the
+identical pattern.
+
+```json
+{
+  "date": "2026-02-14",
+  "report_type": "weekly",
+
+  "overview": {
+    "raw_materials": {
+      "chart_ore_hms":   "<base64>",
+      "chart_pig_scrap": "<base64>",
+      "chart_coal_coke": "<base64>"
+    },
+    "steel": {
+      "chart_billet":    "<base64>",
+      "chart_rebar":     "<base64>",
+      "chart_hrc":       "<base64>",
+      "chart_crc":       "<base64>"
+    },
+    "ferro": {
+      "chart_femn_simn": "<base64>",
+      "chart_fesi":      "<base64>",
+      "chart_fecr":      "<base64>",
+      "chart_mn_cr_ore": "<base64>"
+    }
+  },
+
+  "iron_ore": {
+    "chart_stocks": "<base64>",
+    "chart_prices": "<base64>",
+
+    "table": {
+      "material1": { "name": "ЖРС 62% Fe (62% Fe)", "unit": "$/т", "market": "CNF (Китай)", "delivery": "CNF" },
+      "material2": { "name": "ЖРС 65% Fe (65% Fe)", "unit": "$/т", "market": "CNF (Китай)", "delivery": "CNF" },
+      "feed1": {
+        "prev_price": 99.1,
+        "price_feed": [
+          { "date": "2026-02-03", "value": 100.3 },
+          { "date": "2026-02-04", "value": 101.0 },
+          { "date": "2026-02-05", "value": 100.8 },
+          { "date": "2026-02-06", "value": 101.5 },
+          { "date": "2026-02-07", "value": 102.1 }
+        ]
+      },
+      "feed2": {
+        "prev_price": 105.4,
+        "price_feed": [
+          { "date": "2026-02-03", "value": 106.2 },
+          { "date": "2026-02-04", "value": 106.9 },
+          { "date": "2026-02-05", "value": 107.1 },
+          { "date": "2026-02-06", "value": 107.5 },
+          { "date": "2026-02-07", "value": 108.0 }
+        ]
+      }
+    }
+  },
+
+  "coal_coke": {
+    "chart_coal": "<base64>",
+    "table_coal": {
+      "material1": { "name": "Уголь к/у Россия (HCC)", "unit": "$/т", "market": "CFR (Китай)", "delivery": "CFR" },
+      "material2": { "name": "Уголь к/у Австралия (PHCC)", "unit": "$/т", "market": "CFR (Китай)", "delivery": "CFR" },
+      "feed1": {
+        "prev_price": 188.0,
+        "price_feed": [
+          { "date": "2026-02-03", "value": 190.5 },
+          { "date": "2026-02-07", "value": 191.0 }
+        ]
+      },
+      "feed2": {
+        "prev_price": 213.0,
+        "price_feed": [
+          { "date": "2026-02-03", "value": 215.0 },
+          { "date": "2026-02-07", "value": 218.0 }
+        ]
+      }
+    },
+    "chart_coke": "<base64>",
+    "table_coke": {
+      "material": { "name": "Кокс металлургический (МК)", "unit": "$/т", "market": "FOB (Китай)", "delivery": "FOB" },
+      "feed": {
+        "prev_price": 231.0,
+        "price_feed": [
+          { "date": "2026-02-03", "value": 234.0 },
+          { "date": "2026-02-07", "value": 235.5 }
+        ]
+      }
+    }
+  },
+
+  "scrap": {
+    "table_minimax": [
+      {
+        "material": {
+          "Country": "Россия",
+          "Type": "3А",
+          "DeliveryType": "CPT",
+          "DeliveryLocation": "Череповец"
+        },
+        "period1": {
+          "min": { "prev_price": null, "price_feed": [{ "date": "2026-02-03", "value": 27500 }] },
+          "max": { "prev_price": null, "price_feed": [{ "date": "2026-02-03", "value": 28200 }] },
+          "med": { "prev_price": 27100, "price_feed": [{ "date": "2026-02-03", "value": 27800 }] }
+        },
+        "period2": {
+          "min": { "prev_price": null, "price_feed": [{ "date": "2026-02-10", "value": 27600 }] },
+          "max": { "prev_price": null, "price_feed": [{ "date": "2026-02-10", "value": 28500 }] },
+          "med": { "prev_price": 27800, "price_feed": [{ "date": "2026-02-10", "value": 28100 }] }
+        }
+      },
+      {
+        "material": {
+          "Country": "Турция",
+          "Type": "HMS 1&2",
+          "DeliveryType": "CFR",
+          "DeliveryLocation": "Турция"
+        },
+        "period1": {
+          "min": { "prev_price": null, "price_feed": [{ "date": "2026-02-03", "value": 348 }] },
+          "max": { "prev_price": null, "price_feed": [{ "date": "2026-02-03", "value": 355 }] },
+          "med": { "prev_price": 342, "price_feed": [{ "date": "2026-02-03", "value": 351 }] }
+        },
+        "period2": {
+          "min": { "prev_price": null, "price_feed": [{ "date": "2026-02-10", "value": 350 }] },
+          "max": { "prev_price": null, "price_feed": [{ "date": "2026-02-10", "value": 358 }] },
+          "med": { "prev_price": 351, "price_feed": [{ "date": "2026-02-10", "value": 354 }] }
+        }
+      }
+    ],
+
+    "chart_scrap3a": "<base64>",
+    "table_scrap3a": {
+      "material": { "name": "Лом 3А", "unit": "₽/т", "market": "CPT (Россия)", "delivery": "CPT" },
+      "feeds": {
+        "min": { "prev_price": null, "price_feed": [
+          { "date": "2026-01-13", "value": 27200 }, { "date": "2026-01-20", "value": 27400 },
+          { "date": "2026-01-27", "value": 27500 }, { "date": "2026-02-03", "value": 27800 },
+          { "date": "2026-02-10", "value": 27600 }
+        ]},
+        "max": { "prev_price": null, "price_feed": [
+          { "date": "2026-01-13", "value": 28000 }, { "date": "2026-01-20", "value": 28100 },
+          { "date": "2026-01-27", "value": 28200 }, { "date": "2026-02-03", "value": 28500 },
+          { "date": "2026-02-10", "value": 28500 }
+        ]},
+        "med": { "prev_price": 27100, "price_feed": [
+          { "date": "2026-01-13", "value": 27600 }, { "date": "2026-01-20", "value": 27750 },
+          { "date": "2026-01-27", "value": 27800 }, { "date": "2026-02-03", "value": 28100 },
+          { "date": "2026-02-10", "value": 28100 }
+        ]}
+      }
+    }
+  },
+
+  "pig_iron": {
+    "chart": "<base64>",
+    "table": {
+      "material": { "name": "Чугун передельный", "unit": "$/т", "market": "FOB (Россия)", "delivery": "FOB" },
+      "feeds": {
+        "min": { "prev_price": null, "price_feed": [{ "date": "2026-02-03", "value": 388 }, { "date": "2026-02-10", "value": 390 }] },
+        "max": { "prev_price": null, "price_feed": [{ "date": "2026-02-03", "value": 398 }, { "date": "2026-02-10", "value": 400 }] },
+        "med": { "prev_price": 385, "price_feed": [{ "date": "2026-02-03", "value": 393 }, { "date": "2026-02-10", "value": 395 }] }
+      }
+    },
+    "table_minimax": [ "... 3 MaterialMinimaxRow objects (same shape as scrap.table_minimax) ..." ]
+  },
+
+  "steel_semis": {
+    "table_minimax": [ "... 7 MaterialMinimaxRow objects ..." ],
+    "chart_billet_slab": "<base64>",
+    "table_billet_slab": {
+      "material1": { "name": "Заготовка", "unit": "$/т", "market": "FOB (Россия)", "delivery": "FOB" },
+      "feeds1": {
+        "min": { "prev_price": null, "price_feed": [{ "date": "2026-02-03", "value": 488 }, { "date": "2026-02-10", "value": 490 }] },
+        "max": { "prev_price": null, "price_feed": [{ "date": "2026-02-03", "value": 498 }, { "date": "2026-02-10", "value": 502 }] },
+        "med": { "prev_price": 482, "price_feed": [{ "date": "2026-02-03", "value": 493 }, { "date": "2026-02-10", "value": 496 }] }
+      },
+      "material2": { "name": "Сляб", "unit": "$/т", "market": "FOB (Россия)", "delivery": "FOB" },
+      "feeds2": {
+        "min": { "prev_price": null, "price_feed": [{ "date": "2026-02-03", "value": 472 }, { "date": "2026-02-10", "value": 475 }] },
+        "max": { "prev_price": null, "price_feed": [{ "date": "2026-02-03", "value": 481 }, { "date": "2026-02-10", "value": 484 }] },
+        "med": { "prev_price": 468, "price_feed": [{ "date": "2026-02-03", "value": 476 }, { "date": "2026-02-10", "value": 479 }] }
+      }
+    }
+  },
+
+  "steel_long":  { "... (same pattern) ...": null },
+  "steel_flat":  { "... (same pattern) ...": null },
+
+  "ferro": {
+    "table_grouped": [
+      {
+        "material": { "name": "FeMn76", "unit": "$/т", "market": "DDP ЕС", "delivery": "DDP" },
+        "period1_med": { "prev_price": null, "price_feed": [{ "date": "2026-02-06", "value": 1320 }] },
+        "period2_med": { "prev_price": 1320, "price_feed": [{ "date": "2026-02-13", "value": 1335 }] }
+      },
+      {
+        "material": { "name": "SiMn65", "unit": "$/т", "market": "DDP ЕС", "delivery": "DDP" },
+        "period1_med": { "prev_price": null, "price_feed": [{ "date": "2026-02-06", "value": 1110 }] },
+        "period2_med": { "prev_price": 1110, "price_feed": [{ "date": "2026-02-13", "value": 1125 }] }
+      },
+      "... 5 more rows ..."
+    ],
+    "femn_simn": {
+      "chart": "<base64>",
+      "table": {
+        "material1": { "name": "FeMn76", "unit": "$/т", "market": "DDP (ЕС)", "delivery": "DDP" },
+        "feeds1": {
+          "min": { "prev_price": null, "price_feed": [{ "date": "2026-02-03", "value": 1310 }, { "date": "2026-02-10", "value": 1325 }] },
+          "max": { "prev_price": null, "price_feed": [{ "date": "2026-02-03", "value": 1335 }, { "date": "2026-02-10", "value": 1345 }] },
+          "med": { "prev_price": 1305, "price_feed": [{ "date": "2026-02-03", "value": 1320 }, { "date": "2026-02-10", "value": 1335 }] }
+        },
+        "material2": { "name": "SiMn65", "unit": "$/т", "market": "DDP (ЕС)", "delivery": "DDP" },
+        "feeds2": {
+          "min": { "prev_price": null, "price_feed": [{ "date": "2026-02-03", "value": 1100 }, { "date": "2026-02-10", "value": 1112 }] },
+          "max": { "prev_price": null, "price_feed": [{ "date": "2026-02-03", "value": 1120 }, { "date": "2026-02-10", "value": 1135 }] },
+          "med": { "prev_price": 1095, "price_feed": [{ "date": "2026-02-03", "value": 1110 }, { "date": "2026-02-10", "value": 1125 }] }
+        }
+      }
+    },
+    "fesi":  { "chart": "<base64>", "table": { "... SingleMinimax ...": null } },
+    "fecr":  { "chart": "<base64>", "table": { "... DoubleMinimax ...": null } },
+    "mn_ore": {
+      "chart_stocks": "<base64>",
+      "chart_prices": "<base64>",
+      "table": { "... SingleMinimax ...": null }
+    },
+    "cr_ore": {
+      "chart_stocks": "<base64>",
+      "chart_prices": "<base64>",
+      "table": { "... SingleMinimax ...": null }
+    }
+  },
+
+  "graphite": {
+    "chart": "<base64>",
+    "table": {
+      "material1": { "name": "Графитированный электрод 450 мм", "unit": "$/т", "market": "EXW (Китай)", "delivery": "EXW" },
+      "feed1": {
+        "prev_price": 3800,
+        "price_feed": [
+          { "date": "2026-02-03", "value": 3850 },
+          { "date": "2026-02-10", "value": 3870 }
+        ]
+      },
+      "material2": { "name": "Графитированный электрод 600 мм", "unit": "$/т", "market": "EXW (Китай)", "delivery": "EXW" },
+      "feed2": {
+        "prev_price": 4100,
+        "price_feed": [
+          { "date": "2026-02-03", "value": 4150 },
+          { "date": "2026-02-10", "value": 4165 }
+        ]
+      }
+    }
+  }
+}
+```
+
+---
+
+### 4d. `POST /v2/gen` — `"report_type": "monthly"`
+
+The top-level shape is identical to weekly. Only the feed contents differ (monthly-averaged
+price points instead of daily). Shown here for the sections that change most:
+
+```json
+{
+  "date": "2026-02-01",
+  "report_type": "monthly",
+
+  "overview": {
+    "raw_materials": { "...same chart keys...": null },
+    "steel":         { "...same chart keys...": null },
+    "ferro":         { "...same chart keys...": null }
+  },
+
+  "iron_ore": {
+    "chart_stocks": "<base64>",
+    "chart_prices": "<base64>",
+
+    "table": {
+      "material1": { "name": "ЖРС 62% Fe (62% Fe)", "unit": "$/т", "market": "CNF (Китай)", "delivery": "CNF" },
+      "material2": { "name": "ЖРС 65% Fe (65% Fe)", "unit": "$/т", "market": "CNF (Китай)", "delivery": "CNF" },
+      "feed1": {
+        "prev_price": 96.0,
+        "price_feed": [
+          { "date": "2025-06-01", "value": 96.0 },
+          { "date": "2025-07-01", "value": 98.5 },
+          { "date": "2025-08-01", "value": 97.1 },
+          { "date": "2025-09-01", "value": 95.4 },
+          { "date": "2025-10-01", "value": 99.2 },
+          { "date": "2025-11-01", "value": 101.0 },
+          { "date": "2025-12-01", "value": 103.6 },
+          { "date": "2026-01-01", "value": 102.1 },
+          { "date": "2026-02-01", "value": 100.8 }
+        ]
+      },
+      "feed2": {
+        "prev_price": 102.0,
+        "price_feed": [
+          { "date": "2025-06-01", "value": 102.0 },
+          { "date": "2025-07-01", "value": 104.3 },
+          { "date": "2025-08-01", "value": 103.0 },
+          { "date": "2025-09-01", "value": 101.5 },
+          { "date": "2025-10-01", "value": 105.2 },
+          { "date": "2025-11-01", "value": 107.0 },
+          { "date": "2025-12-01", "value": 109.1 },
+          { "date": "2026-01-01", "value": 107.8 },
+          { "date": "2026-02-01", "value": 107.1 }
+        ]
+      }
+    }
+  },
+
+  "scrap": {
+    "chart_scrap3a": "<base64>",
+    "table_scrap3a": {
+      "material": { "name": "Лом 3А", "unit": "₽/т", "market": "CPT (Россия)", "delivery": "CPT" },
+      "feed": {
+        "prev_price": 25800,
+        "price_feed": [
+          { "date": "2025-06-01", "value": 25800 },
+          { "date": "2025-07-01", "value": 26200 },
+          { "date": "2025-08-01", "value": 26700 },
+          { "date": "2025-09-01", "value": 27000 },
+          { "date": "2025-10-01", "value": 27300 },
+          { "date": "2025-11-01", "value": 27600 },
+          { "date": "2025-12-01", "value": 27900 },
+          { "date": "2026-01-01", "value": 27800 },
+          { "date": "2026-02-01", "value": 28100 }
+        ]
+      }
+    },
+    "table_minimax": [
+      {
+        "material": {
+          "Country": "Россия",
+          "Type": "3А",
+          "DeliveryType": "CPT",
+          "DeliveryLocation": "Череповец"
+        },
+        "period1": {
+          "min": { "prev_price": null, "price_feed": [{ "date": "2026-01-01", "value": 27500 }] },
+          "max": { "prev_price": null, "price_feed": [{ "date": "2026-01-01", "value": 28000 }] },
+          "med": { "prev_price": 27200, "price_feed": [{ "date": "2026-01-01", "value": 27800 }] }
+        },
+        "period2": {
+          "min": { "prev_price": null, "price_feed": [{ "date": "2026-02-01", "value": 27600 }] },
+          "max": { "prev_price": null, "price_feed": [{ "date": "2026-02-01", "value": 28500 }] },
+          "med": { "prev_price": 27800, "price_feed": [{ "date": "2026-02-01", "value": 28100 }] }
+        }
+      }
+    ]
+  },
+
+  "ferro": {
+    "table_grouped": [
+      {
+        "material": { "name": "FeMn76", "unit": "$/т", "market": "DDP ЕС", "delivery": "DDP" },
+        "period1_med": { "prev_price": null, "price_feed": [{ "date": "2026-02-01", "value": 1295 }] },
+        "period2_med": { "prev_price": 1295, "price_feed": [{ "date": "2026-02-28", "value": 1335 }] }
+      }
+    ],
+    "femn_simn": {
+      "chart": "<base64>",
+      "table": {
+        "material1": { "name": "FeMn76", "unit": "$/т", "market": "DDP (ЕС)", "delivery": "DDP" },
+        "feed1": {
+          "prev_price": 1240,
+          "price_feed": [
+            { "date": "2025-06-01", "value": 1240 },
+            { "date": "2025-07-01", "value": 1260 },
+            { "date": "2025-08-01", "value": 1275 },
+            { "date": "2025-09-01", "value": 1290 },
+            { "date": "2025-10-01", "value": 1305 },
+            { "date": "2025-11-01", "value": 1310 },
+            { "date": "2025-12-01", "value": 1315 },
+            { "date": "2026-01-01", "value": 1320 },
+            { "date": "2026-02-01", "value": 1335 }
+          ]
+        },
+        "material2": { "name": "SiMn65", "unit": "$/т", "market": "DDP (ЕС)", "delivery": "DDP" },
+        "feed2": {
+          "prev_price": 1040,
+          "price_feed": [
+            { "date": "2025-06-01", "value": 1040 },
+            { "date": "2025-07-01", "value": 1050 },
+            { "date": "2025-08-01", "value": 1070 },
+            { "date": "2025-09-01", "value": 1085 },
+            { "date": "2025-10-01", "value": 1095 },
+            { "date": "2025-11-01", "value": 1100 },
+            { "date": "2025-12-01", "value": 1108 },
+            { "date": "2026-01-01", "value": 1110 },
+            { "date": "2026-02-01", "value": 1125 }
+          ]
+        }
+      }
+    },
+    "fesi":   { "...": null },
+    "fecr":   { "...": null },
+    "mn_ore": { "...": null },
+    "cr_ore": { "...": null }
+  },
+
+  "pig_iron":    { "...": null },
+  "steel_semis": { "...": null },
+  "steel_long":  { "...": null },
+  "steel_flat":  { "...": null },
+  "graphite":    { "...": null }
+}
+```
+
+### Key differences between weekly and monthly feeds at a glance
+
+| Field | Weekly | Monthly |
+|---|---|---|
+| `price_feed` entry count | 5–30 (daily or weekly-avg) | 9 (9 months) or 2 (two months for minimax) |
+| `price_feed[].date` | `"2026-02-10"` (specific day) | `"2026-02-01"` (first of month) |
+| Minimax `period1/2` date | Monday of each of 2 weeks | First day of each of 2 months |
+| `table_grouped` period dates | Two Thursdays | First + last day of month |
+| `predict_feed` present | Never | On some `singleTable`s in ferro/ore sections |
+
 ## Summary observations
 
 | | `genShort` | `gen/weekly` | `gen/monthly` |
