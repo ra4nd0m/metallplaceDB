@@ -12,7 +12,6 @@ const {
     MonthPredictId, FontSizeTd, ApiEndpoint, FatBorder, ThinBorder, BorderNil, FontFamily, FontFamilyExtraBold
 } = require("../const");
 const cellCenter = require("../atom/cell_centred");
-const paragraph = require("../atom/paragraph");
 const {formatDateTable} = require("../utils/date_format");
 const margins = require("../atom/margins");
 
@@ -200,5 +199,5 @@ module.exports = async function singleTable(materialId, propertyId, dates, unitC
 
     }
 
-    return margins([paragraph({children: tableComponents})])
+    return margins(tableComponents)
 }

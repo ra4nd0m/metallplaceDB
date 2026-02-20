@@ -6,7 +6,6 @@ const textTh = require("../atom/text_th")
 const tableBody = require("../atom/table_material_grouped_body");
 const axios = require("axios");
 const {FormatDayMonth} = require("../utils/date_operations");
-const paragraph = require("../atom/paragraph");
 const cellCenter = require("../atom/cell_centred")
 const {formatDateTable} = require("../utils/date_format")
 const margins = require("../atom/margins");
@@ -99,6 +98,6 @@ module.exports = async function(materialIds, dates, titlesIndexes, titles, type,
         rows: tableBody(bodyInfo, titlesIndexes, titles, priceRounds, unitChangeRounds),
     })
 
-    return margins([paragraph({children: [header, body]})])
+    return margins([header, body])
 }
 

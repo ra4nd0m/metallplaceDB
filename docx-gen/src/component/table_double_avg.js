@@ -1,5 +1,4 @@
 const docx = require("docx");
-const paragraph = require("../atom/paragraph");
 const {TableCellMarginNil, TableNoOuterBorders, FontFamilyMedium, FontSizeThMain, FontFamily, FontFamilySemiBold,
     FontSizeThSecondary, FontSizeThExtraInfo, FontFamilyThin, ApiEndpoint, BordersNil, ThinBorder, BorderNil, FatBorder,
     FontFamilyExtraBold
@@ -139,5 +138,5 @@ module.exports = async function tableDoubleWithWeekAvg(materialId1, materialId2,
         rows: tableBody(resBody1.data, resBody2.data, unitChangeRound, percentChangeRound, avgRound, scale),
     })
 
-    return margins([paragraph({children: [header, body]})])
+    return margins([header, body])
 }

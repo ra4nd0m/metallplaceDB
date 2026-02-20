@@ -1,5 +1,4 @@
 const docx = require("docx");
-const paragraph = require("../atom/paragraph");
 const {TableCellMarginNil, TableNoOuterBorders, FontFamilyMedium, FontSizeThMain, FontFamilyThin, FontSizeThExtraInfo,
     FontSizeThSecondary, MonthPredictId, FontSizeTd, ApiEndpoint, BorderNil, AccentColor, BordersNil, ThinBorder,
     FatBorder, FontFamilyExtraBold
@@ -260,5 +259,5 @@ module.exports = async function tableDouble(materialId1, materialId2, propertyId
         )
 
     }
-    return margins([paragraph({children: tableComponents})])
+    return margins(tableComponents)
 }

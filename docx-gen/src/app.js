@@ -6,6 +6,7 @@ const docx = require("docx");
 const WeeklyReport = require("./report/weekly_report");
 const MonthlyReport = require("./report/monthly_report")
 const ShortReport = require("./report/short_report")
+const fixRprOrder = require("./utils/fix_rpr_order")
 const express = require('express')
 
 let bodyParser = require('body-parser');
@@ -24,7 +25,7 @@ app.post("/genShort", (req, res) => {
     console.log("gen short")
     res.set('Content-Type', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document');
     new ShortReport().generate(req.body).then(doc =>
-        docx.Packer.toBuffer(doc).then(buf => {
+        docx.Packer.toBuffer(doc).then(fixRprOrder).then(buf => {
             res.send(buf)
         })
     )
@@ -48,7 +49,7 @@ app.post("/gen", (req, res) => {
             console.log(req.body.date + " + " + req.body.report_type)
             res.set('Content-Type', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document');
             new WeeklyReport().generate(new Date(Date.UTC(year, month-1, day))).then(doc =>
-                docx.Packer.toBuffer(doc).then(buf => {
+                docx.Packer.toBuffer(doc).then(fixRprOrder).then(buf => {
                     res.send(buf)
                 })
             )
@@ -62,7 +63,7 @@ app.post("/gen", (req, res) => {
             console.log(req.body.date + " + " + req.body.report_type)
 
             new MonthlyReport().generate(new Date(Date.UTC(year, month-1, day))).then(doc =>
-                docx.Packer.toBuffer(doc).then(buf => {
+                docx.Packer.toBuffer(doc).then(fixRprOrder).then(buf => {
                     res.set('Content-Type', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document');
                     res.send(buf)
                 })

@@ -138,5 +138,5 @@ module.exports = async function doubleTableMinimax(materialId1, materialId2, dat
         columnWidths: [2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
         rows: tableBody(minBody1.data, maxBody1.data, medBody1.data, minBody2.data, maxBody2.data, medBody2.data, unitChangeRound, percentChangeRound, priceRound, scale),
     })
-    return margins([paragraph({children: [header, body]})])
+    return margins([header, body])
 }

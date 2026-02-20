@@ -108,5 +108,5 @@ module.exports = async function singleTableMinimax(materialId, dates, unitChange
         rows: tableBody(minBody.data, maxBody.data, medBody.data, unitChangeRound, percentChangeRound, type, priceRound),
     })
 
-    return margins([paragraph({children: [header, body]})])
+    return margins([header, body])
 }
