@@ -9,6 +9,7 @@ const {formatDateDb, formatDateTable} = require("../utils/date_format");
 const cellCenter = require("../atom/cell_centred")
 const textTh = require("../atom/text_th")
 const margins = require("../atom/margins");
+const { assertFeed, assertMaterialInfo } = require("../utils/assert_feed");
 
 const {TableRow} = docx;
 
@@ -90,7 +91,9 @@ module.exports = async function tableDouble(materialId1, materialId2, propertyId
     if (scale === undefined) scale = "day"
 
     const resMat1 = await axios.post(ApiEndpoint + `/getMaterialInfo`, {id: materialId1})
+    assertMaterialInfo(resMat1, materialId1)
     const resMat2 = await axios.post(ApiEndpoint + `/getMaterialInfo`, {id: materialId2})
+    assertMaterialInfo(resMat2, materialId2)
     if(scale === "day"){
         resBody1 = await axios.post(ApiEndpoint + `/getValueForPeriod`, {
             material_source_id: materialId1,
@@ -98,12 +101,14 @@ module.exports = async function tableDouble(materialId1, materialId2, propertyId
             start: from,
             finish: to
         })
+        assertFeed(resBody1, materialId1, propertyId, `${from} to ${to}`)
         resBody2 = await axios.post(ApiEndpoint + `/getValueForPeriod`, {
             material_source_id: materialId2,
             property_id: propertyId,
             start: from,
             finish: to
         })
+        assertFeed(resBody2, materialId2, propertyId, `${from} to ${to}`)
     }
     if(scale === "month"){
         resBody1 = await axios.post(ApiEndpoint + `/getMonthlyAvgFeed`, {
@@ -112,12 +117,14 @@ module.exports = async function tableDouble(materialId1, materialId2, propertyId
             start: from,
             finish: to
         })
+        assertFeed(resBody1, materialId1, propertyId, `${from} to ${to}`)
         resBody2 = await axios.post(ApiEndpoint + `/getMonthlyAvgFeed`, {
             material_source_id: materialId2,
             property_id: propertyId,
             start: from,
             finish: to
         })
+        assertFeed(resBody2, materialId2, propertyId, `${from} to ${to}`)
     }
 
     const header = new docx.Table({

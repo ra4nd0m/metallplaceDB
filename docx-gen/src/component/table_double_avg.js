@@ -10,6 +10,7 @@ const textTh = require("../atom/text_th")
 const tableBody = require("../atom/table_double_avg_body");
 const {formatDateDb, formatDateTable} = require("../utils/date_format");
 const margins = require("../atom/margins");
+const { assertFeed, assertMaterialInfo } = require("../utils/assert_feed");
 const {tr} = require("date-fns/locale");
 
 const {TableRow} = docx;
@@ -83,19 +84,23 @@ module.exports = async function tableDoubleWithWeekAvg(materialId1, materialId2,
     const to = formatDateDb(dates[1])
 
     const resMat1 = await axios.post(ApiEndpoint + `/getMaterialInfo`, {id: materialId1})
+    assertMaterialInfo(resMat1, materialId1)
     const resMat2 = await axios.post(ApiEndpoint + `/getMaterialInfo`, {id: materialId2})
+    assertMaterialInfo(resMat2, materialId2)
     const resBody1 = await axios.post(ApiEndpoint + `/getValueForPeriod`, {
         material_source_id: materialId1,
         property_id: propertyId,
         start: from,
         finish: to
     })
+    assertFeed(resBody1, materialId1, propertyId, `${from} to ${to}`)
     const resBody2 = await axios.post(ApiEndpoint + `/getValueForPeriod`, {
         material_source_id: materialId2,
         property_id: propertyId,
         start: from,
         finish: to
     })
+    assertFeed(resBody2, materialId2, propertyId, `${from} to ${to}`)
 
     const header = new docx.Table({
         width: {

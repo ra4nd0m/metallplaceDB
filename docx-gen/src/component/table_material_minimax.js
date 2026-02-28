@@ -12,6 +12,7 @@ const axios = require("axios");
 const {FormatDayMonth, GetWeekNumber} = require("../utils/date_operations");
 const priceBlock = require("../atom/price_block");
 const margins = require("../atom/margins");
+const { assertFeed, assertMaterialInfo } = require("../utils/assert_feed");
 
 
 function headerMaterial(title, unit, font){
@@ -55,16 +56,23 @@ module.exports = async function tableMaterialMinimax(materialIds, dates, unitCha
 
     for (const materialId of materialIds) {
         const resMat = await axios.post(ApiEndpoint + `/getMaterialInfo`, {id: materialId})
+        assertMaterialInfo(resMat, materialId)
         let materialType = resMat.data.info.Name.match(/\((.*?)\)/)[1].trim();
         if(materialType.indexOf("(") !== -1) {
             materialType += ")"
         }
         const period1Min = await axios.post(ApiEndpoint + endpoint, { material_source_id: materialId, property_id: MinPriceId, start: first, finish: first})
+        assertFeed(period1Min, materialId, MinPriceId, `period1 ${first}`)
         const period1Max = await axios.post(ApiEndpoint + endpoint, { material_source_id: materialId, property_id: MaxPriceId, start: first, finish: first})
+        assertFeed(period1Max, materialId, MaxPriceId, `period1 ${first}`)
         const period1Med = await axios.post(ApiEndpoint + endpoint, { material_source_id: materialId, property_id: MedPriceId, start: first, finish: first})
+        assertFeed(period1Med, materialId, MedPriceId, `period1 ${first}`)
         const period2Min = await axios.post(ApiEndpoint + endpoint, { material_source_id: materialId, property_id: MinPriceId, start: second, finish: second})
+        assertFeed(period2Min, materialId, MinPriceId, `period2 ${second}`)
         const period2Max = await axios.post(ApiEndpoint + endpoint, { material_source_id: materialId, property_id: MaxPriceId, start: second, finish: second})
+        assertFeed(period2Max, materialId, MaxPriceId, `period2 ${second}`)
         const period2Med = await axios.post(ApiEndpoint + endpoint, { material_source_id: materialId, property_id: MedPriceId, start: second, finish: second})
+        assertFeed(period2Med, materialId, MedPriceId, `period2 ${second}`)
 
         const materialCountry =  resMat.data.info.Market.match(/\((.*?)\)/)?.[1].trim();
         const materialFerry=  resMat.data.info.Market.match(/^(.*?)\s*\(/)?.[1].trim();

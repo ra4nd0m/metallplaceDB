@@ -13,50 +13,59 @@ const {formatDateDb} = require("../utils/date_format");
 const priceBlock = require("../atom/price_block")
 const cellCenter = require("../atom/cell_centred")
 const margins = require("../atom/margins");
+const { assertFeed, assertMaterialInfo } = require("../utils/assert_feed");
 
 module.exports = async function doubleTableMinimax(materialId1, materialId2, dates, unitChangeRound, percentChangeRound, scale, priceRound) {
     const from = formatDateDb(dates[0])
     const to = formatDateDb(dates[1])
 
     const resMat1 = await axios.post(ApiEndpoint + `/getMaterialInfo`, {id: materialId1})
+    assertMaterialInfo(resMat1, materialId1)
     const minBody1 = await axios.post(ApiEndpoint +`/getValueForPeriod`, {
         material_source_id: materialId1,
         property_id: MinPriceId,
         start: from,
         finish: to
     })
+    assertFeed(minBody1, materialId1, MinPriceId, `${from} to ${to}`)
     const maxBody1 = await axios.post(ApiEndpoint + `/getValueForPeriod`, {
         material_source_id: materialId1,
         property_id: MaxPriceId,
         start: from,
         finish: to
     })
+    assertFeed(maxBody1, materialId1, MaxPriceId, `${from} to ${to}`)
     const medBody1 = await axios.post(ApiEndpoint + `/getValueForPeriod`, {
         material_source_id: materialId1,
         property_id: MedPriceId,
         start: from,
         finish: to
     })
+    assertFeed(medBody1, materialId1, MedPriceId, `${from} to ${to}`)
 
     const resMat2 = await axios.post(ApiEndpoint + `/getMaterialInfo`, {id: materialId2})
+    assertMaterialInfo(resMat2, materialId2)
     const minBody2 = await axios.post(ApiEndpoint + `/getValueForPeriod`, {
         material_source_id: materialId2,
         property_id: MinPriceId,
         start: from,
         finish: to
     })
+    assertFeed(minBody2, materialId2, MinPriceId, `${from} to ${to}`)
     const maxBody2 = await axios.post(ApiEndpoint + `/getValueForPeriod`, {
         material_source_id: materialId2,
         property_id: MaxPriceId,
         start: from,
         finish: to
     })
+    assertFeed(maxBody2, materialId2, MaxPriceId, `${from} to ${to}`)
     const medBody2 = await axios.post(ApiEndpoint + `/getValueForPeriod`, {
         material_source_id: materialId2,
         property_id: MedPriceId,
         start: from,
         finish: to
     })
+    assertFeed(medBody2, materialId2, MedPriceId, `${from} to ${to}`)
 
     const header = new docx.Table({
         width: {

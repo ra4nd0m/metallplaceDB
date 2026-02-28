@@ -14,6 +14,7 @@ const {
 const cellCenter = require("../atom/cell_centred");
 const {formatDateTable} = require("../utils/date_format");
 const margins = require("../atom/margins");
+const { assertFeed, assertMaterialInfo } = require("../utils/assert_feed");
 
 module.exports = async function singleTable(materialId, propertyId, dates, unitChangeRound, percentChangeRound, scale, predict, priceRound) {
     const first = new Date(dates[0])
@@ -25,6 +26,7 @@ module.exports = async function singleTable(materialId, propertyId, dates, unitC
     const to = `${last.getFullYear()}-${FormatDayMonth(last.getMonth() + 1)}-${FormatDayMonth(last.getDate())}`
 
     const resMat = await axios.post(ApiEndpoint + `/getMaterialInfo`, {id: materialId})
+    assertMaterialInfo(resMat, materialId)
     if (scale === "month") {
         resBody = await axios.post(ApiEndpoint + `/getMonthlyAvgFeed`, {
             material_source_id: materialId,
@@ -32,7 +34,7 @@ module.exports = async function singleTable(materialId, propertyId, dates, unitC
             start: from,
             finish: to
         })
-
+        assertFeed(resBody, materialId, propertyId, `${from} to ${to}`)
     }
     if (scale === "day") {
         resBody = await axios.post(ApiEndpoint + `/getValueForPeriod`, {
@@ -41,6 +43,7 @@ module.exports = async function singleTable(materialId, propertyId, dates, unitC
             start: from,
             finish: to
         })
+        assertFeed(resBody, materialId, propertyId, `${from} to ${to}`)
     }
 
     let tableComponents = []

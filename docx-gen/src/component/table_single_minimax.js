@@ -13,6 +13,7 @@ const textTh = require("../atom/text_th")
 const priceBlock = require("../atom/price_block")
 const cellCenter = require("../atom/cell_centred");
 const margins = require("../atom/margins");
+const { assertFeed, assertMaterialInfo } = require("../utils/assert_feed");
 
 
 module.exports = async function singleTableMinimax(materialId, dates, unitChangeRound, percentChangeRound, type, priceRound) {
@@ -27,16 +28,23 @@ module.exports = async function singleTableMinimax(materialId, dates, unitChange
     const to = `${last.getFullYear()}-${FormatDayMonth(last.getMonth() + 1)}-${FormatDayMonth(last.getDate())}`
 
     const resMat = await axios.post(ApiEndpoint + `/getMaterialInfo`, {id: materialId})
+    assertMaterialInfo(resMat, materialId)
 
     if (type === "day"){
         minBody = await axios.post(ApiEndpoint + `/getValueForPeriod`, { material_source_id: materialId, property_id: MinPriceId, start: from, finish: to})
+        assertFeed(minBody, materialId, MinPriceId, `${from} to ${to}`)
         maxBody = await axios.post(ApiEndpoint + `/getValueForPeriod`, { material_source_id: materialId, property_id: MaxPriceId, start: from, finish: to})
+        assertFeed(maxBody, materialId, MaxPriceId, `${from} to ${to}`)
         medBody = await axios.post(ApiEndpoint + `/getValueForPeriod`, { material_source_id: materialId, property_id: MedPriceId, start: from, finish: to})
+        assertFeed(medBody, materialId, MedPriceId, `${from} to ${to}`)
     }
     if (type === "month"){
         minBody = await axios.post(ApiEndpoint + `/getMonthlyAvgFeed`, { material_source_id: materialId, property_id: MinPriceId, start: from, finish: to})
+        assertFeed(minBody, materialId, MinPriceId, `${from} to ${to}`)
         maxBody = await axios.post(ApiEndpoint + `/getMonthlyAvgFeed`, { material_source_id: materialId, property_id: MaxPriceId, start: from, finish: to})
+        assertFeed(maxBody, materialId, MaxPriceId, `${from} to ${to}`)
         medBody = await axios.post(ApiEndpoint + `/getMonthlyAvgFeed`, { material_source_id: materialId, property_id: MedPriceId, start: from, finish: to})
+        assertFeed(medBody, materialId, MedPriceId, `${from} to ${to}`)
     }
 
 
