@@ -11,7 +11,7 @@ function insertMed(i, feed1, feed2, avgRound){
     let cells = []
     let sum1 = 0
     let sum2 = 0
-    if(i % 5 === 0){
+    if(i % 5 === 0 && i + 5 <= feed1.length){
         for(let p = i; p < i + 5; p++){
             sum1 += feed1[p].value
             sum2 += feed2[p].value
@@ -46,6 +46,9 @@ function insertMed(i, feed1, feed2, avgRound){
         )
 
         return cells
+    }
+    if (i % 5 === 0 && i + 5 > feed1.length) {
+        console.warn(`[table_double_avg_body] skipping weekly average at index ${i}: only ${feed1.length - i} row(s) remain, need 5`)
     }
     return []
 }

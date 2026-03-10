@@ -94,6 +94,9 @@ module.exports = async function tableDoubleWithWeekAvg(materialId1, materialId2,
         finish: to
     })
     assertFeed(resBody1, materialId1, propertyId, `${from} to ${to}`)
+    if (resBody1.data.price_feed.length % 5 !== 0) {
+        console.warn(`[table_double_avg] WARNING: feed length ${resBody1.data.price_feed.length} is not a multiple of 5 for material_source_id=${materialId1}, property_id=${propertyId} (${from} to ${to}); last weekly average column will be missing`)
+    }
     const resBody2 = await axios.post(ApiEndpoint + `/getValueForPeriod`, {
         material_source_id: materialId2,
         property_id: propertyId,
@@ -101,6 +104,9 @@ module.exports = async function tableDoubleWithWeekAvg(materialId1, materialId2,
         finish: to
     })
     assertFeed(resBody2, materialId2, propertyId, `${from} to ${to}`)
+    if (resBody2.data.price_feed.length % 5 !== 0) {
+        console.warn(`[table_double_avg] WARNING: feed length ${resBody2.data.price_feed.length} is not a multiple of 5 for material_source_id=${materialId2}, property_id=${propertyId} (${from} to ${to}); last weekly average column will be missing`)
+    }
 
     const header = new docx.Table({
         width: {
