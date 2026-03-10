@@ -13,6 +13,7 @@ const {FormatDayMonth, GetWeekNumber} = require("../utils/date_operations");
 const priceBlock = require("../atom/price_block");
 const margins = require("../atom/margins");
 const { assertFeed, assertMaterialInfo } = require("../utils/assert_feed");
+const componentError = require("../atom/component_error");
 
 
 function headerMaterial(title, unit, font){
@@ -39,6 +40,7 @@ function headerMaterial(title, unit, font){
 }
 
 module.exports = async function tableMaterialMinimax(materialIds, dates, unitChangeRound, percentChangeRound, type, priceRound) {
+    try {
     const f = new Date(dates[0])
     const s = new Date(dates[1])
     let endpoint
@@ -132,7 +134,12 @@ module.exports = async function tableMaterialMinimax(materialIds, dates, unitCha
         rows: tableBody(bodyInfo, unitChangeRound, percentChangeRound, priceRound),
     })
 
-    return margins([header, body])
+        return margins([header, body])
+    } catch (err) {
+        const msg = `tableMaterialMinimax material_ids=${JSON.stringify(materialIds)} dates=${JSON.stringify(dates)}: ${err.message}`
+        console.error(`[table_material_minimax] ${msg}`)
+        return componentError(msg)
+    }
 }
 
 function createTitle(date){

@@ -10,9 +10,11 @@ const cellCenter = require("../atom/cell_centred")
 const {formatDateTable} = require("../utils/date_format")
 const margins = require("../atom/margins");
 const { assertFeed, assertMaterialInfo } = require("../utils/assert_feed");
+const componentError = require("../atom/component_error");
 const {AddDaysToDate} = require("../utils/date_operations")
 
 module.exports = async function(materialIds, dates, titlesIndexes, titles, type, priceRounds, unitChangeRounds) {
+    try {
     const f = new Date(dates[0])
     const s = new Date(dates[1])
     let title1 = f
@@ -103,6 +105,11 @@ module.exports = async function(materialIds, dates, titlesIndexes, titles, type,
         rows: tableBody(bodyInfo, titlesIndexes, titles, priceRounds, unitChangeRounds),
     })
 
-    return margins([header, body])
+        return margins([header, body])
+    } catch (err) {
+        const msg = `tableMaterialGrouped material_ids=${JSON.stringify(materialIds)} dates=${JSON.stringify(dates)}: ${err.message}`
+        console.error(`[table_material_grouped] ${msg}`)
+        return componentError(msg)
+    }
 }
 

@@ -15,8 +15,10 @@ const cellCenter = require("../atom/cell_centred");
 const {formatDateTable} = require("../utils/date_format");
 const margins = require("../atom/margins");
 const { assertFeed, assertMaterialInfo } = require("../utils/assert_feed");
+const componentError = require("../atom/component_error");
 
 module.exports = async function singleTable(materialId, propertyId, dates, unitChangeRound, percentChangeRound, scale, predict, priceRound) {
+    try {
     const first = new Date(dates[0])
     const last = new Date(dates[1])
     let resBody
@@ -202,5 +204,10 @@ module.exports = async function singleTable(materialId, propertyId, dates, unitC
 
     }
 
-    return margins(tableComponents)
+        return margins(tableComponents)
+    } catch (err) {
+        const msg = `singleTable material_source_id=${materialId} property_id=${propertyId} dates=${JSON.stringify(dates)}: ${err.message}`
+        console.error(`[table_single] ${msg}`)
+        return componentError(msg)
+    }
 }

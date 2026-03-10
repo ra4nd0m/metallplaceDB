@@ -11,6 +11,7 @@ const tableBody = require("../atom/table_double_avg_body");
 const {formatDateDb, formatDateTable} = require("../utils/date_format");
 const margins = require("../atom/margins");
 const { assertFeed, assertMaterialInfo } = require("../utils/assert_feed");
+const componentError = require("../atom/component_error");
 const {tr} = require("date-fns/locale");
 
 const {TableRow} = docx;
@@ -80,6 +81,7 @@ function avgBlock(name1, name2, unit) {
 }
 
 module.exports = async function tableDoubleWithWeekAvg(materialId1, materialId2, propertyId, dates, unitChangeRound, percentChangeRound, avgRound, scale) {
+    try {
     const from = formatDateDb(dates[0])
     const to = formatDateDb(dates[1])
 
@@ -149,5 +151,10 @@ module.exports = async function tableDoubleWithWeekAvg(materialId1, materialId2,
         rows: tableBody(resBody1.data, resBody2.data, unitChangeRound, percentChangeRound, avgRound, scale),
     })
 
-    return margins([header, body])
+        return margins([header, body])
+    } catch (err) {
+        const msg = `tableDoubleWithWeekAvg material_source_id=${materialId1},${materialId2} property_id=${propertyId} dates=${JSON.stringify(dates)}: ${err.message}`
+        console.error(`[table_double_avg] ${msg}`)
+        return componentError(msg)
+    }
 }

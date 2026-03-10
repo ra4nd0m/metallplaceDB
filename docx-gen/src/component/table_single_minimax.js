@@ -14,9 +14,11 @@ const priceBlock = require("../atom/price_block")
 const cellCenter = require("../atom/cell_centred");
 const margins = require("../atom/margins");
 const { assertFeed, assertMaterialInfo } = require("../utils/assert_feed");
+const componentError = require("../atom/component_error");
 
 
 module.exports = async function singleTableMinimax(materialId, dates, unitChangeRound, percentChangeRound, type, priceRound) {
+    try {
     const first = new Date(dates[0])
     const last = new Date(dates[1])
     if (type === undefined) type = "day"
@@ -116,5 +118,10 @@ module.exports = async function singleTableMinimax(materialId, dates, unitChange
         rows: tableBody(minBody.data, maxBody.data, medBody.data, unitChangeRound, percentChangeRound, type, priceRound),
     })
 
-    return margins([header, body])
+        return margins([header, body])
+    } catch (err) {
+        const msg = `singleTableMinimax material_source_id=${materialId} dates=${JSON.stringify(dates)}: ${err.message}`
+        console.error(`[table_single_minimax] ${msg}`)
+        return componentError(msg)
+    }
 }

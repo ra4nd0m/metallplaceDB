@@ -10,6 +10,7 @@ const cellCenter = require("../atom/cell_centred")
 const textTh = require("../atom/text_th")
 const margins = require("../atom/margins");
 const { assertFeed, assertMaterialInfo } = require("../utils/assert_feed");
+const componentError = require("../atom/component_error");
 
 const {TableRow} = docx;
 
@@ -84,6 +85,7 @@ function headerMaterial(name, market, delivery, unit) {
 }
 
 module.exports = async function tableDouble(materialId1, materialId2, propertyId, dates, unitChangeRound, percentChangeRound, scale, predict, priceRound) {
+    try {
     const from = formatDateDb(dates[0])
     const to = formatDateDb(dates[1])
     let resBody1
@@ -266,5 +268,10 @@ module.exports = async function tableDouble(materialId1, materialId2, propertyId
         )
 
     }
-    return margins(tableComponents)
+        return margins(tableComponents)
+    } catch (err) {
+        const msg = `tableDouble material_source_id=${materialId1},${materialId2} property_id=${propertyId} dates=${JSON.stringify(dates)}: ${err.message}`
+        console.error(`[table_double] ${msg}`)
+        return componentError(msg)
+    }
 }

@@ -14,8 +14,10 @@ const priceBlock = require("../atom/price_block")
 const cellCenter = require("../atom/cell_centred")
 const margins = require("../atom/margins");
 const { assertFeed, assertMaterialInfo } = require("../utils/assert_feed");
+const componentError = require("../atom/component_error");
 
 module.exports = async function doubleTableMinimax(materialId1, materialId2, dates, unitChangeRound, percentChangeRound, scale, priceRound) {
+    try {
     const from = formatDateDb(dates[0])
     const to = formatDateDb(dates[1])
 
@@ -147,5 +149,10 @@ module.exports = async function doubleTableMinimax(materialId1, materialId2, dat
         columnWidths: [2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
         rows: tableBody(minBody1.data, maxBody1.data, medBody1.data, minBody2.data, maxBody2.data, medBody2.data, unitChangeRound, percentChangeRound, priceRound, scale),
     })
-    return margins([header, body])
+        return margins([header, body])
+    } catch (err) {
+        const msg = `doubleTableMinimax material_source_id=${materialId1},${materialId2} dates=${JSON.stringify(dates)}: ${err.message}`
+        console.error(`[table_double_minimax] ${msg}`)
+        return componentError(msg)
+    }
 }
